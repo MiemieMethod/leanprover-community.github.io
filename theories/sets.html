@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="stylesheet" href="https://leanprover-community.github.io//css/lean.css" >
+  <link rel="shortcut icon" href="https://leanprover-community.github.io//img/favicon.ico">
+  <link rel="search" type="application/opensearchdescription+xml" title="mathlib docs" href="https://leanprover-community.github.io//opensearch.xml">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather&family=Open+Sans&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+    
+
+	<script>
+                function buildShortcutsForStructures(names) {
+                        const o = {}
+                        names.forEach(name => o[name] = `\\mathbb\{${name}\}`)
+                        return o
+                }
+		MathJax = {
+			  tex: {
+                                  macros: {
+                                          ...buildShortcutsForStructures(["R", "Q", "Z", "N", "C"]),
+                                  },
+				      inlineMath: [['$', '$'], ['\\(', '\\)']]
+				    },
+		};
+	</script>
+	<script type="text/javascript" id="MathJax-script" async
+		  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+	</script>
+
+	<title>Lean 中的数学：集合与类集合对象</title>
+  </head>
+  <body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-gradient-light d-md-none">
+    <div class="d-flex flex-grow-1">
+		<a class="navbar-brand" href="https://leanprover-community.github.io/index.html">Lean Community
+    </a>
+    </div>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="切换导航">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </nav>
+
+<div id="mainbox">
+
+  <main>
+    
+<h1 id="lean-中的数学集合与类集合对象" class="markdown-heading">Lean 中的数学：集合与类集合对象 <a class="hover-link" href="#lean-中的数学集合与类集合对象">#</a></h1>
+<h3 id="列表lists" class="markdown-heading">列表（Lists） <a class="hover-link" href="#列表lists">#</a></h3>
+<h4 id="mathlibdatalistbasic" class="markdown-heading"><code>Mathlib.Data.List.Basic</code> <a class="hover-link" href="#mathlibdatalistbasic">#</a></h4>
+<p><code>List α</code> 是由类型 <code>α</code> 的元素构成的列表的类型。列表是有限且有序的，并且可以包含重复元素。列表只能包含同一类型的元素。列表通过 cons 函数构造，该函数将一个 <code>α</code> 类型的元素追加到列表的顶端。关于列表的更多讨论见 TPIL 第 7.5 章。</p>
+<p><code>[1, 1, 2, 4] ≠ [1, 2, 1, 4]</code></p>
+<p><code>[1, 2, 1, 4] ≠ [1, 2, 4]</code></p>
+<h3 id="多重集multisets" class="markdown-heading">多重集（Multisets） <a class="hover-link" href="#多重集multisets">#</a></h3>
+<h4 id="mathlibdatamultisetbasic" class="markdown-heading"><code>Mathlib.Data.Multiset.Basic</code> <a class="hover-link" href="#mathlibdatamultisetbasic">#</a></h4>
+<p><code>Multiset α</code> 是由类型 <code>α</code> 的元素构成的多重集的类型。多重集是有限的，可以包含重复元素，但不是有序的。它们被定义为列表对 <code>Perm</code> 等价关系的商。多重集只能包含同一类型的元素。</p>
+<p><code>{1, 1, 2, 4} = {1, 2, 1, 4}</code></p>
+<p><code>{1, 1, 2, 4} ≠ {1, 2, 4}</code></p>
+<h3 id="finset有限集" class="markdown-heading">Finset（有限集） <a class="hover-link" href="#finset有限集">#</a></h3>
+<h4 id="mathlibdatafinsetbasic" class="markdown-heading"><code>Mathlib.Data.Finset.Basic</code> <a class="hover-link" href="#mathlibdatafinsetbasic">#</a></h4>
+<p><code>Finset α</code> 是由类型 α 的互不相同的元素构成的无序列表的类型。一个 finset 由一个多重集以及该多重集不含重复元素的证明构造而成。finset 是有限的。finset 只能包含同一类型的元素。</p>
+<p><code>{1, 1, 2, 4} = {1, 2, 1, 4}</code></p>
+<p><code>{1, 1, 2, 4} = {1, 2, 4}</code></p>
+<h3 id="集合与子类型" class="markdown-heading">集合与子类型 <a class="hover-link" href="#集合与子类型">#</a></h3>
+<h4 id="mathlibdatasetbasic" class="markdown-heading"><code>Mathlib.Data.Set.Basic</code> <a class="hover-link" href="#mathlibdatasetbasic">#</a></h4>
+<p><code>Set α</code>。集合被定义为一个谓词，即一个函数 <code>α → Prop</code>。所使用的记号如 <code>{n : ℕ | 4 ≤ n}</code> 表示大于或等于 4 的自然数构成的集合。集合可以是无限的，并且只能包含同一类型的元素。</p>
+<p>子类型与集合类似，也是由一个谓词所定义。所使用的记号如 <code>{n : ℕ // 4 ≤ n}</code> 表示大于或等于 4 的自然数构成的类型。然而，子类型是一个类型而非集合，并且上述子类型的元素并不具有类型 <code>ℕ</code>，而是具有类型 <code>{n : ℕ // 4 ≤ n}</code>。这意味着加法在该类型上没有定义，自然数与该类型之间的相等关系也没有定义。不过，可以将该子类型的元素强制转换回自然数，正如自然数可以强制转换为整数那样，转换之后加法与相等便如常运作（关于强制转换的更多内容见 TPIL 第 6.7 章）。要构造 α 的某个子类型的元素，你需要一个 α 的元素以及它满足该谓词的证明，例如下例中的 <code>4</code> 与 <code>le_refl 4</code>。</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">def</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="o">{</span><span class="n">n</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℕ</span><span class="w"> </span><span class="bp">//</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="bp">≤</span><span class="w"> </span><span class="n">n</span><span class="o">}</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">⟨</span><span class="mi">4</span><span class="o">,</span><span class="w"> </span><span class="n">le_refl</span><span class="w"> </span><span class="mi">4</span><span class="o">⟩</span>
+<span class="kd">example</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="o">(</span><span class="n">x</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℕ</span><span class="o">)</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">rfl</span>
+</code></pre></div>
+</div>
+
+<p>在期望出现类型的地方都可以使用集合，此时集合会被强制转换为对应的子类型。</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">def</span><span class="w"> </span><span class="n">S</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Set</span><span class="w"> </span><span class="n">ℕ</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">{</span><span class="n">n</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℕ</span><span class="w"> </span><span class="bp">|</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="bp">≤</span><span class="w"> </span><span class="n">n</span><span class="o">}</span>
+<span class="kd">example</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="bp">∀</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">S</span><span class="o">,</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="bp">≤</span><span class="w"> </span><span class="o">(</span><span class="n">n</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℕ</span><span class="o">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">fun</span><span class="w"> </span><span class="o">⟨</span><span class="n">n</span><span class="o">,</span><span class="w"> </span><span class="n">hn</span><span class="o">⟩</span><span class="w"> </span><span class="bp">↦</span><span class="w"> </span><span class="n">hn</span>
+</code></pre></div>
+</div>
+
+<p>当你需要在子类型上定义函数，或需要使用子类型的基数时，使用子类型而非集合是有益的。</p>
+<h3 id="有限类型" class="markdown-heading">有限类型 <a class="hover-link" href="#有限类型">#</a></h3>
+<h4 id="mathlibdatafintypebasic" class="markdown-heading"><code>Mathlib.Data.Fintype.Basic</code> <a class="hover-link" href="#mathlibdatafintypebasic">#</a></h4>
+<p><code>Fintype α</code> 表示类型 α 是有限的。它由一个包含某类型全部元素的 finset 构造而成。</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="n">Fintype</span><span class="w"> </span><span class="o">(</span><span class="n">α</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">Type</span><span class="bp">*</span><span class="o">)</span><span class="w"> </span><span class="n">where</span>
+<span class="w">  </span><span class="sd">/-- The `Finset` containing all elements of a `Fintype` -/</span>
+<span class="w">  </span><span class="n">elems</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Finset</span><span class="w"> </span><span class="n">α</span>
+<span class="w">  </span><span class="sd">/-- A proof that `elems` contains every element of the type -/</span>
+<span class="w">  </span><span class="n">complete</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="bp">∀</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">α</span><span class="o">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="bp">∈</span><span class="w"> </span><span class="n">elems</span>
+</code></pre></div>
+</div>
+
+<p><code>Fintype α</code> 不是一个命题，因为它包含数据，但它是一个子单例（subsingleton），意即任意两个 <code>Fintype α</code> 类型的元素都相等。</p>
+<p><code>Finset.univ</code> 是在给定 <code>Fintype α</code> 实例的情况下，包含某类型全部元素的 finset。</p>
+<h3 id="有限集合" class="markdown-heading">有限集合 <a class="hover-link" href="#有限集合">#</a></h3>
+<h4 id="mathlibdatasetfinite" class="markdown-heading"><code>Mathlib.Data.Set.Finite</code> <a class="hover-link" href="#mathlibdatasetfinite">#</a></h4>
+<p>有限集合的定义（不同于 finset）是其对应的类型与某个 <code>n : ℕ</code> 的 <code>Fin n</code> 之间存在双射。
+这意味着当该集合被强制转换为子类型时，类型 <code>Fintype s</code> 是非空的。
+利用 <code>Classical.choose</code>，你可以从 <code>Finite s</code> 的证明中产生一个 <code>Fintype s</code> 类型的对象。有一个函数 <code>Set.Finite.toFinset</code>，它从一个有限集合产生一个 finset。</p>
+<h3 id="基数" class="markdown-heading">基数 <a class="hover-link" href="#基数">#</a></h3>
+<p>有三个函数 <code>Finset.card</code>、<code>Fintype.card</code> 和 <code>Multiset.card</code>，分别表示 finset、有限类型与多重集的大小。对于集合的有限基数，可以在给定该集合有限的证明的前提下使用 <code>Fintype.card</code>。</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">example</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="bp">∀</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℕ</span><span class="o">,</span><span class="w"> </span><span class="n">Fintype.card</span><span class="w"> </span><span class="o">(</span><span class="n">Fin</span><span class="w"> </span><span class="n">n</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">Fintype.card_fin</span>
+<span class="kd">example</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="bp">∀</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℕ</span><span class="o">,</span><span class="w"> </span><span class="n">Finset.card</span><span class="w"> </span><span class="o">(</span><span class="n">Finset.range</span><span class="w"> </span><span class="n">n</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">Finset.card_range</span>
+</code></pre></div>
+</div>
+
+<p>这里，<code>Fin n</code> 是小于 n 的自然数的类型，而 <code>Finset.range n</code> 是小于 <code>n</code> 的自然数构成的 finset。</p>
+<p><code>Mathlib.SetTheory.Cardinal.Basic</code> 包含关于无限基数的理论。</p>
+
+  </main>
+
+    <nav id="navbar" class="d-md-block bg-light sidebar collapse navbar-light pb-4">
+      <div class="d-none d-md-block mt-4"><a class="navbar-brand" href="https://leanprover-community.github.io/index.html">Lean Community</a></div>
+      
+        <h6 class="sidebar-heading mt-4">社区</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover.zulipchat.com/">Zulip 聊天</a></li>
+        
+          <li class="nav-item col-12"><a href="https://github.com/leanprover-community/mathlib4">GitHub</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/blog">博客</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/meet.html">社区信息</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/community_guidelines.html">社区准则</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/teams.html">团队</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/papers.html">关于 Lean 的论文</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/cite.html">引用 mathlib</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/cite.html#Licence">许可证</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/lean_projects.html">使用 Lean 的项目</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/teaching/index.html">使用 Lean 教学</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/events.html">活动</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">使用 Lean</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://live.lean-lang.org/">在线版本（无需安装）</a></li>
+        
+          <li class="nav-item col-12"><a href="https://docs.lean-lang.org/lean4/doc/quickstart.html">安装 Lean</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/get_started.html">更多选项</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">文档</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/learn.html">学习资源（从这里开始）</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/documentation.html">文档概览</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mathlib4_docs">API 文档</a></li>
+        
+          <li class="nav-item col-12"><a href="https://loogle.lean-lang.org/">声明搜索（Loogle）</a></li>
+        
+          <li class="nav-item col-12"><a href="https://lean-lang.org/doc/reference/latest/">语言参考</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mathlib4_docs/tactics.html">策略列表</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/glossary.html">术语表</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/did_you_prove_it.html">你真的证明了它吗？</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mwe.html">关于 MWE</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">库概览</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mathlib-overview.html">库概览</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/undergrad.html">本科数学</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/100.html">Wiedijk 的 100 条定理</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/1000.html">1000+ 条定理</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">理论</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/naturals.html">自然数</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/linear_algebra.html">线性代数</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/sets.html">集合与有限集</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/topology.html">拓扑</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/category_theory.html">范畴论</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">贡献</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/index.html">贡献什么</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/how-to-contribute.html">如何贡献</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/values.html">Mathlib 的价值观</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/queueboard/">Mathlib 审阅与分类看板</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/git.html">Mathlib4 贡献者 Git 指南</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/naming.html">命名约定</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/style.html">代码风格指南</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/doc.html">文档风格</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/commit.html">提交约定</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/pr-review.html">拉取请求审阅指南</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mathlib_stats.html">贡献统计</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/tags_and_branches.html">标签与分支</a></li>
+        </ul>
+      
+    </nav>
+
+</div>
+
+
+  <nav class="footer navbar navbar-expand-lg navbar-light bg-light justify-content-end">
+  <ul class="nav">
+    <li class="nav-item">
+      <a class="nav-link active" href="https://github.com/leanprover-community/leanprover-community.github.io/blob/lean4/templates/theories/sets.md">在 GitHub 上为此页面提出编辑建议</a>
+    </li>
+  </ul>
+  </nav>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+      integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+      crossorigin="anonymous"></script>
+    <script src="https://leanprover-community.github.io//js/bootstrap.min.js"></script>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true });
+    </script>
+    
+  </body>
+</html>

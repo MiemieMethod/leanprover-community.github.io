@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="stylesheet" href="https://leanprover-community.github.io//css/lean.css" >
+  <link rel="shortcut icon" href="https://leanprover-community.github.io//img/favicon.ico">
+  <link rel="search" type="application/opensearchdescription+xml" title="mathlib docs" href="https://leanprover-community.github.io//opensearch.xml">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather&family=Open+Sans&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+    
+
+	<script>
+                function buildShortcutsForStructures(names) {
+                        const o = {}
+                        names.forEach(name => o[name] = `\\mathbb\{${name}\}`)
+                        return o
+                }
+		MathJax = {
+			  tex: {
+                                  macros: {
+                                          ...buildShortcutsForStructures(["R", "Q", "Z", "N", "C"]),
+                                  },
+				      inlineMath: [['$', '$'], ['\\(', '\\)']]
+				    },
+		};
+	</script>
+	<script type="text/javascript" id="MathJax-script" async
+		  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+	</script>
+
+	<title>Lean 术语表</title>
+  </head>
+  <body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-gradient-light d-md-none">
+    <div class="d-flex flex-grow-1">
+		<a class="navbar-brand" href="https://leanprover-community.github.io/index.html">Lean Community
+    </a>
+    </div>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="切换导航">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </nav>
+
+<div id="mainbox">
+
+  <main>
+    
+<h1 id="lean-术语表" class="markdown-heading">Lean 术语表 <a class="hover-link" href="#lean-术语表">#</a></h1>
+<p>本文档收集了在 Lean 社区中可能遇到的术语的简短解释。</p>
+<p>尽管下文中的许多条目都有精确的技术定义，但我们更倾向于解释它们在日常交流中的用法，并附上额外的参考链接以供进一步了解。</p>
+<p>下文中的少数内部链接对应的是尚未添加的条目，因此在它们完成之前，这些链接还不会指向任何条目定义。
+若想请求向本术语表添加新的条目，欢迎<a href="https://github.com/leanprover-community/leanprover-community.github.io/issues/new?title=Add%20a%20glossary%20entry%20for%20">提交一个 issue</a>。</p>
+<p>本页中的条目可以通过锚点链接来引用（例如 <code>https://leanprover-community.github.io/glossary.html#widget</code>）。
+对于某些条目，在条目标题之前还提供了更易于输入的额外锚点——例如 <a href="#heavy-rfl"><code>#heavy-rfl</code></a> 会指向 “heavy <code>rfl</code> / heavy <code>refl</code>” 条目。
+新术语条目的作者如果条目标题较长、含有反引号或者难以输入，应当考虑添加这些额外的锚点。</p>
+<h3 id="attribute属性" class="markdown-heading">attribute（属性） <a class="hover-link" href="#attribute属性">#</a></h3>
+<p>可以应用于某个 Lean <a href="#declaration">声明</a>的一个或多个标签或标记，它可能影响该声明本身的行为，或者影响与之交互的其他 Lean 对象的行为。
+属性既可以在 <a href="#core-lean">core Lean</a> 中定义，也可以在 <a href="#Mathlib">Mathlib</a> 中定义，或在任何 Lean 代码中定义。</p>
+<p>应用一个属性的方式是：在声明命令前加上 <code>@[name-of-attribute]</code> 前缀，或者事后使用 <code>attribute</code> 命令，如 <code>attribute [name-of-attribute] name-of-declaration</code>。</p>
+<p>例如，<code>@[simp]</code> 属性会将一个声明（通常是 <code>lemma</code>、<code>theorem</code> 或 <code>def</code>）标记为一个 <a href="#simp-lemma">simp 引理</a>。</p>
+<h5 id="另见" class="markdown-heading">另见 <a class="hover-link" href="#另见">#</a></h5>
+<ul>
+<li><a href="https://lean-lang.org/doc/reference/latest/Attributes/#attributes"><em>The Lean Reference Manual</em> 第 5.4 节</a>，其中列出了在 <a href="#core-lean">core lean</a> 中定义的属性</li>
+</ul>
+<h3 id="beta-reductionβ-归约" class="markdown-heading">beta reduction（β 归约） <a class="hover-link" href="#beta-reductionβ-归约">#</a></h3>
+<p><a href="#dependent-type-theory">依值类型论</a>（以及 Lean 对它的实现）中的一种特定的化简操作，它可以作为判定两个<a href="#term">项</a>是否<a href="#defeq">定义相等</a>过程的一部分来执行。</p>
+<p>更确切地说，它是将诸如 <code>(λ x, t) a</code> 这样的表达式化简为 <code>t[a/x]</code> 的过程，其中 <code>t</code> 中出现的变量 <code>x</code> 已被替换为 <code>a</code>。</p>
+<h5 id="另见" class="markdown-heading">另见 <a class="hover-link" href="#另见">#</a></h5>
+<ul>
+<li><a href="https://lean-lang.org/theorem_proving_in_lean4/Dependent-Type-Theory/#function-abstraction-and-evaluation">Theorem Proving in Lean 第 2.3 节</a></li>
+</ul>
+<h3 id="big-operators大型运算符" class="markdown-heading">big operators（大型运算符） <a class="hover-link" href="#big-operators大型运算符">#</a></h3>
+<p>这指的是使用 <code>∑</code> 和 <code>∏</code> 字符表示的求和与求积记号，例如 <a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Algebra/BigOperators/Group/Finset/Defs.html#Finset.sum">Finset.sum</a> 和 <a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Algebra/BigOperators/Group/Finset/Defs.html#Finset.prod">Finset.prod</a>。</p>
+<h3 id="binder绑定子" class="markdown-heading">binder（绑定子） <a class="hover-link" href="#binder绑定子">#</a></h3>
+<p>诸如 <code>(a : α)</code>、<code>[a : α]</code> 或 <code>{a : α}</code> 这样的表达式（其中 <code>a</code> 为任意标识符，<code>α</code> 为类型），它们作为各种 Lean 语法元素——<a href="#declaration">声明</a>、<code>fun</code>、量词及其他——的一部分，表示将在该语法元素或声明的主体中被绑定的标识符。</p>
+<p>每种绑定子在标识符是被隐式绑定（无需调用方传入）、显式绑定，还是通过<a href="#typeclass-inference">类型类推断</a>绑定方面都有不同的含义。</p>
+<p>在某些场合，特别是在 <code>def</code> 中，允许定义不带外围括号的“简单”绑定子，例如对某个标识符 <code>a</code> 使用绑定子 <code>a</code>（不带显式类型）。</p>
+<h3 id="bundled-vs-unbundled捆绑式与非捆绑式" class="markdown-heading">bundled vs unbundled（捆绑式与非捆绑式） <a class="hover-link" href="#bundled-vs-unbundled捆绑式与非捆绑式">#</a></h3>
+<p>给定一个具有性质 <code>P</code> 的数学对象 <code>O</code>，捆绑 <code>P</code> 指的是创建一个 Lean <a href="#structure">结构</a>，在其字段中除了结构性地定义 <code>O</code> 所需的字段外，还包含一个 <code>P</code> 的证明作为其字段之一。</p>
+<p>相反，非捆绑式结构只包含 <code>O</code> 的定义，并单独创建一个可应用于 <code>O</code> 的项的 <code>is_P</code> 命题。</p>
+<p>举一个具体的例子，一个<a href="https://en.wikipedia.org/wiki/Group_homomorphism">群同态</a>可以看作群之间的映射 <code>φ: G → H</code>，连同一个证明 <code>h : φ(a * b) = φ(a) * φ(b)</code>。
+一个捆绑式群同态会同时将 <code>φ</code> 和 <code>h</code> 作为字段，而一个非捆绑式群同态则只包含 <code>φ</code>，并配有一个单独的用于证明 <code>h</code> 的 <code>IsGroupHomomorphism</code> <a href="#declaration">声明</a>。</p>
+<p>在选择捆绑或非捆绑时，存在性能、风格或实现方面的考量，此外还有介于两者之间的灰色地带，即部分捆绑结构的某些部分而将其余部分保持非捆绑。
+<a href="#Mathlib">Mathlib</a> 中的<a href="#class">类型类</a>主要是半捆绑式的，通常只将<a href="#carrier">载体</a>类型本身非捆绑。
+Mathlib 中的态射则更常采用完全捆绑式，不过两种方法的痕迹都有所存在，并在下面的资源中有所讨论。</p>
+<h5 id="另见" class="markdown-heading">另见 <a class="hover-link" href="#另见">#</a></h5>
+<ul>
+<li><a href="https://arxiv.org/pdf/1910.09336.pdf">The Lean Mathematical Library</a>（PDF）的第 4.1.1 节（Bundled Type Classes）和第 4.1.2 节（Bundled Morphisms），这是一篇由 Mathlib 社区撰写的论文，描述了 <a href="#Mathlib">Mathlib</a> 的许多架构与设计选择。</li>
+</ul>
+<h3 id="cache缓存" class="markdown-heading">cache（缓存） <a class="hover-link" href="#cache缓存">#</a></h3>
+<p>通常指的是由 <a href="#Mathlib">Mathlib</a> 的<a href="#continuous-integration">持续集成</a>在每次拉取请求被合并或获得新提交时构建的一组共享的、预先构建好的 <a href="#olean-file"><code>olean</code> 文件</a>。</p>
+<p>它的目的是减轻每个 <a href="#Mathlib">Mathlib</a> 用户在本地构建（或重新构建）相同 Lean 文件的需要，因为这样做可能花费大量时间（在一台普通计算机上要数小时）。</p>
+<p>缓存是在上述持续集成中构建的，通常 Mathlib 用户使用 <code>lake exe cache get</code> 来获取其构建好的文件。</p>
+<h3 id="calc-modecalc-模式" class="markdown-heading"><code>calc</code> mode（<code>calc</code> 模式） <a class="hover-link" href="#calc-modecalc-模式">#</a></h3>
+<p>一种<a href="#mode">模式</a>，它由对表达式进行的一系列连续变换组成，这些变换涉及诸如 <code>=</code>、<code>&lt;</code> 等传递关系，或其他被标记了 <code>trans</code> <a href="#attribute">属性</a>的关系。
+它通过 <code>calc</code> 关键字进入。</p>
+<h5 id="另见" class="markdown-heading">另见 <a class="hover-link" href="#另见">#</a></h5>
+<ul>
+<li><a href="https://lean-lang.org/theorem_proving_in_lean4/Quantifiers-and-Equality/#calculational-proofs"><em>Theorem Proving in Lean</em> 第 4.3 节</a></li>
+<li><a href="https://leanprover-community.github.io/extras/calc.html"><code>calc</code> 模式社区文档</a></li>
+</ul>
+<h3 id="carrier载体" class="markdown-heading">carrier（载体） <a class="hover-link" href="#carrier载体">#</a></h3>
+<p>对于一个将类型 <code>T</code> 与某种以附加字段表示的额外数学结构<a href="#bundled-vs-unbundled">捆绑</a>在一起的 Lean <a href="#structure">结构</a>（例如 <a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Algebra/Group/Defs.html#Group"><code>Group</code></a>），载体即底层元素的类型 <code>T</code>。</p>
+<p>对于一个将集合 <code>S</code> 与某种以附加字段表示的额外性质<a href="#bundled-vs-unbundled">捆绑</a>在一起的 Lean <a href="#structure">结构</a>（例如 <a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Algebra/Group/Subgroup/Defs.html#Subgroup"><code>Subgroup</code></a>），载体即底层集合 <code>S</code>。</p>
+<h3 id="class类型类" class="markdown-heading">class（类型类） <a class="hover-link" href="#class类型类">#</a></h3>
+<p>更完整地说，是一个 <em>typeclass</em>（或 <em>type class</em>，类型类）。</p>
+<p>一个 Lean <a href="#structure">结构</a>，其<a href="#instance">实例</a>可以通过<a href="#typeclass-inference">类型类推断</a>来检索。</p>
+<p>它不同于面向对象语言中 <em>class</em> 的用法——这个词在函数式编程语言中的用法源自 <a href="https://en.wikipedia.org/wiki/Type_class">Haskell 的类型类</a>。</p>
+<h3 id="conv-modeconv-模式" class="markdown-heading"><code>conv</code> mode（<code>conv</code> 模式） <a class="hover-link" href="#conv-modeconv-模式">#</a></h3>
+<p><a href="#tactic-mode">策略模式</a>的一个子模式，它便于在假设或<a href="#goal">目标</a>内部进行导航，以便重写或化简它们的目标部分。
+它从策略模式经由 <code>conv</code> 关键字进入。</p>
+<h5 id="另见" class="markdown-heading">另见 <a class="hover-link" href="#另见">#</a></h5>
+<ul>
+<li><a href="https://leanprover-community.github.io/extras/conv.html"><code>conv</code> 模式社区文档</a></li>
+</ul>
+<h3 id="core-lean核心-lean" class="markdown-heading">core Lean（核心 Lean） <a class="hover-link" href="#core-lean核心-lean">#</a></h3>
+<p>与 <a href="#Mathlib">Mathlib</a> 或其他社区编写的 Lean 代码相区别，core Lean（或“核心库”）指的是随 Lean 自身发行版一同提供的那部分 Lean。</p>
+<p>从历史上看，Mathlib 项目本身曾是 core Lean 的一部分，后来为了便于加快开发速度，被拆分为一个单独维护的项目。</p>
+<p>即使在拆分之后，一些基础的<a href="#declarations">声明</a>仍然是 core Lean 的一部分。</p>
+<p>core Lean 当前的各部分内容可以在 <a href="https://github.com/leanprover/lean4/tree/master/src">Lean 4 仓库</a>中找到。</p>
+<h3 id="declaration声明" class="markdown-heading">declaration（声明） <a class="hover-link" href="#declaration声明">#</a></h3>
+<p>Lean 环境中的单个 Lean 运行时对象。</p>
+<p>或者，含糊地说，指可以定义或声明此类对象的若干 Lean 命令中的任意一个。</p>
+<p>此类命令的例子包括 <code>def</code>、<code>lemma</code>、<code>theorem</code>、<code>constant</code> 或 <code>example</code> 命令等。</p>
+<p>更多细节可在 <a href="https://lean-lang.org/lean4/doc/declarations.html#basic-declarations">Lean 文档</a>中找到。</p>
+<h3 id="defeq定义相等" class="markdown-heading">defeq（定义相等） <a class="hover-link" href="#defeq定义相等">#</a></h3>
+<p><em>定义相等（Definitional equality）</em>。两个<a href="#term">项</a> <code>a b : α</code> 是定义相等的，如果内核能够自动证明 <code>rfl : a = b</code>。
+这比<a href="#propeq">命题相等</a>更强，但不如<a href="#syntactical-equality">句法相等</a>那么强。</p>
+<h5 id="另见" class="markdown-heading">另见 <a class="hover-link" href="#另见">#</a></h5>
+<p><a href="https://xenaproject.wordpress.com/2020/07/03/equality-specifications-and-implementations/">Equality, specifications and implementations</a>，来自 Xena Project</p>
+<h3 id="dependent-type-theory依值类型论" class="markdown-heading">dependent type theory（依值类型论） <a class="hover-link" href="#dependent-type-theory依值类型论">#</a></h3>
+<p>一种<a href="#type-theory">类型论</a>，在其中还可以拥有依赖于参数的类型，例如“某个日历月份中的天数”这一类型，其具体取值依赖于具体的月份，因为不同的月份天数不同。
+更多例子可在下面的资源中找到。
+Lean 对依值类型论的实现基于所谓的<em>构造演算（Calculus of Constructions）</em>，使其既可用于复杂的数学推理，也可用于软件验证。</p>
+<h5 id="另见" class="markdown-heading">另见 <a class="hover-link" href="#另见">#</a></h5>
+<ul>
+<li>
+<p><a href="https://lean-lang.org/theorem_proving_in_lean4/Dependent-Type-Theory/"><em>Theorem Proving in Lean</em> 第 2 节</a>，其中讨论了 Lean 特定版本的依值类型论</p>
+</li>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Calculus_of_constructions">构造演算，来自 Wikipedia</a>，对构造演算的进一步概述</p>
+</li>
+<li>
+<p><a href="https://ncatlab.org/nlab/show/dependent+type+theory">Dependent Type Theory，来自 nLab</a>，对依值类型论的一般性论述</p>
+</li>
+<li>
+<p><a href="https://golem.ph.utexas.edu/category/2010/03/in_praise_of_dependent_types.html">Mike Shulman 的 <em>In Praise of Dependent Types</em></a></p>
+</li>
+<li>
+<p><a href="https://mathoverflow.net/a/376973">Andrej Bauer 对“What makes dependent type theory more suitable than set theory for proof assistants?”的回答</a></p>
+</li>
+</ul>
+<h3 id="diamond菱形" class="markdown-heading">diamond（菱形） <a class="hover-link" href="#diamond菱形">#</a></h3>
+<p>在类型类<a href="#instance">实例</a>图中，存在某个<a href="#class">类型类</a>的多个相互冲突的<a href="#term">项</a>。
+菱形很可能在<a href="#typeclass-inference">类型类推断</a>过程中引发问题，因为推断试图构造该类型类的单一项，因而可能无法做到。
+在不加限定时，“菱形”最常指这种不良情形，即菱形中非<a href="#defeq">定义相等</a>的项可能导致错误，导致无法通过 <code>refl</code> 证明的<a href="#goal">目标</a>，甚至可能导致根本无法证明相等的目标。
+在 <a href="#Mathlib">Mathlib</a> 中，由于其众多的<a href="#hierarchy">层级</a>，菱形大量存在。
+修复或缓解菱形通常涉及重构出问题类型类的字段或实例优先级。
+跨库边界的菱形——例如类型类图的一部分位于 Mathlib 中，另一部分位于某个依赖 Mathlib 并添加新实例或类型类的库中——可能特别难以在不进行修改的情况下修复或避免。</p>
+<h5 id="另见" class="markdown-heading">另见 <a class="hover-link" href="#另见">#</a></h5>
+<ul>
+<li>
+<p><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Algebra/Group/Defs.html#Design-note-on-AddMonoid-and-Monoid">Mathlib 关于 <code>AddMonoid</code> 和 <code>Monoid</code> 的设计注记</a>，一个规避菱形的具体例子</p>
+</li>
+<li>
+<p><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Algebra/Group/Defs.html#Mathlib.LibraryNote.%C2%ABforgetful%20inheritance%C2%BB">Forgetful Inheritance</a>，同样来自 Mathlib 文档，讨论了在类型上的“更丰富”与较贫乏结构这一情形下避免菱形的一般模式</p>
+</li>
+</ul>
+<p><a name="dot-notation"></a></p>
+<h3 id="dot-notation--generalized-field-notation--generalized-projections点号记法--广义字段记法--广义投影" class="markdown-heading">dot notation / generalized field notation / generalized projections（点号记法 / 广义字段记法 / 广义投影） <a class="hover-link" href="#dot-notation--generalized-field-notation--generalized-projections点号记法--广义字段记法--广义投影">#</a></h3>
+<p>允许诸如 <code>((foo a b c).bar x.y).baz</code> 这样记号的语法糖。</p>
+<p>Lean 为语法 <code>foo.bar</code> 提供了两种解释：它可以表示 <code>foo</code> 命名空间中的声明 <code>bar</code>，也可以是广义字段记法。我们在此对后者展开说明。</p>
+<p>假设 <code>foo</code> 的类型为 <code>C x1 ... xn</code>，其中 <code>C</code> 是某个常量，<code>x1 ... xn</code> 是任意的，并假设上下文中存在一个名为 <code>C.bar</code> 的声明，它接受一个类型为 <code>C x1 ... xn</code> 的参数。那么 <code>foo.bar</code> 就是 <code>C.bar foo</code> 的语法糖。对于形如 <code>foo.bar _ ... _</code> 的、带有（隐式或显式）参数的调用，Lean 足够智能，能够展开为 <code>C.bar _ ... foo _ ... _</code>，从而使一切都能通过类型检查。在前面这些例子中，<code>foo</code> 也可以是更复杂的表达式，例如 <code>(foo bar baz).quux</code> 中的函数应用。</p>
+<h3 id="environment-linter环境检查器" class="markdown-heading">environment linter（环境检查器） <a class="hover-link" href="#environment-linter环境检查器">#</a></h3>
+<p><em>环境检查器</em>是一种通过分析导入声明与本地声明所构成的整个环境，来寻找 Lean 声明中无意错误的<a href="#lint">检查器</a>。
+此外还有<a href="#syntax-linter">句法检查器</a>（对单个声明运行）和<a href="#style-linter">风格检查器</a>（对字面源文本运行）。
+要对当前文件运行环境检查器，请使用 <code>#lint</code> 命令。
+偶尔会引入新的检查器以检测更多类别的错误。
+Mathlib 的<a href="#continuous-integration">持续集成</a>确保任何此类新代码都能通过既定的检查器。</p>
+<p>可以通过使用 <code>nolint</code> <a href="#attribute">属性</a>对某一段特定代码禁用环境检查。
+一些早于 CI 句法检查器的检查器失败被记录在一个自动生成的 <a href="https://github.com/leanprover-community/mathlib4/blob/master/scripts/nolints.json">nolint 文件</a>中；随着这些错误被修复，该文件的长度应当随时间趋于零。</p>
+<h3 id="equiv等价" class="markdown-heading"><code>equiv</code>（等价） <a class="hover-link" href="#equiv等价">#</a></h3>
+<p>与数学上的相等不同，<a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Logic/Equiv/Defs.html"><code>equiv</code></a> 允许定义类型之间的等价或同余。
+需要注意的一点是，<code>equiv</code> <a href="#bundled-vs-unbundled">携带数据，而不仅仅是一个证明</a>。</p>
+<h3 id="goal目标" class="markdown-heading">goal（目标） <a class="hover-link" href="#goal目标">#</a></h3>
+<p>在 Lean 中交互式地证明定理的语境下，指每个证明正在进行中的目标陈述。</p>
+<p>或者更广泛地，从类型论的角度看，指需要为之给出一个<a href="#term">项</a>的单个类型。
+对于命题而言，给出一个<a href="#term">项</a>等价地归结为前述的证明这一概念。</p>
+<h3 id="golfing代码高尔夫" class="markdown-heading">golfing（代码高尔夫） <a class="hover-link" href="#golfing代码高尔夫">#</a></h3>
+<p>试图或努力使某一段可工作的代码尽可能简短；在 Lean 的语境下，常常是对证明的长度进行高尔夫优化。
+经过高尔夫优化的证明常常使用<a href="#term-mode">项模式</a>，并且总体上将简洁性置于可读性之上。
+这种混淆常被有意或有利地用来向读者表明某个证明是机械性的或平凡的。</p>
+<p><a name="heavy-rfl"></a></p>
+<h3 id="heavy-rfl--heavy-refl重型-rfl--重型-refl" class="markdown-heading">heavy <code>rfl</code> / heavy <code>refl</code>（重型 <code>rfl</code> / 重型 <code>refl</code>） <a class="hover-link" href="#heavy-rfl--heavy-refl重型-rfl--重型-refl">#</a></h3>
+<p>一种由 Lean 求值时运行缓慢的 <code>rfl</code>（或 <code>refl</code>）用法。
+当 <code>rfl</code> 被要求一次性执行许多步定义性归约时，就会出现重型 <code>rfl</code>，其结果是一个很小的证明项，但需要 Lean 进行大量计算才能确保其通过类型检查。</p>
+<p><a href="https://leanprover.zulipchat.com/#narrow/stream/113488-general/topic/refl.20taking.2020.20seconds">这个 Zulip 讨论</a>给出了一个特别慢的例子。</p>
+<h3 id="hierarchy层级" class="markdown-heading">hierarchy（层级） <a class="hover-link" href="#hierarchy层级">#</a></h3>
+<p>数学某个相关领域内一系列约束逐渐增强的<a href="#class">类型类</a>的集合。
+在 <a href="#Mathlib">Mathlib</a> 中，我们有<em>代数层级</em>（<code>semiring</code>、<code>ring</code>、<code>field</code>……）、<em>序层级</em>（<code>preorder</code>、<code>partial_order</code>、<code>linear_order</code>……）、<em>拓扑层级</em>（<code>t1_space</code>、<code>t2_space</code>、<code>normal_space</code>……）、<em>范畴层级</em>（<code>preadditive</code>、<code>abelian</code>、<code>monoidal</code>……），还有<em>标量层级</em>（<code>mul_action</code>、<code>distrib_mul_action</code>、<code>module</code>……）、<em>范数层级</em>，以及前述层级的交集，如<em>序-代数层级</em>、<em>拓扑-代数层级</em>等等。</p>
+<h3 id="hott同伦类型论" class="markdown-heading">HoTT（同伦类型论） <a class="hover-link" href="#hott同伦类型论">#</a></h3>
+<p><em>同伦类型论（Homotopy Type Theory）</em>，一种<a href="#type-theory">类型论</a>，其特点是包含了一条额外的<em>单价公理（univalence axiom）</em>，它使得这样一个概念变得精确：被认为等价的某类型的两个不同实现，在数学意义上也是相等的。</p>
+<p>在 Lean 2 中，Lean <a href="#kernel">内核</a>可以被实例化为标准模式和 HoTT 模式。
+标准库与<a href="https://github.com/leanprover/lean2/blob/8072fdf9a0b31abb9d43ab894d7a858639e20ed7/hott/hott.md">同伦类型论库</a>是并行开发的。这两种实例化彼此并不兼容，因为（标准模式中的）单例消去与 HoTT 的单价公理是不相容的。
+Lean 3 的<a href="#kernel">内核</a>放弃了对 HoTT 模式的支持。因此，从 Lean 3 起，Lean 不再随附 HoTT 库。</p>
+<p>举一个说明性的具体例子，自然数类型有许多<a href="https://en.wikipedia.org/wiki/Natural_number#Formal_definitions">定义</a>，它们都可以看作是在构造等价的数学对象。
+core Lean 拥有一个<a href="https://leanprover-community.github.io/mathlib_docs/init/core.html#nat">皮亚诺式的实现</a>，而 <a href="#Mathlib">Mathlib</a> 还拥有一个<a href="https://leanprover-community.github.io/mathlib_docs/data/num/basic.html#pos_num">基于二进制表示的实现</a>，并证明了它与前者等价。
+鉴于 Lean <em>不</em>具有单价公理，这两个类型是等价的，但它们作为类型并不能被证明<em>相等</em>。
+而一种基于 HoTT 的语言（或库）则会进一步将这些类型称为相等的。</p>
+<p><a name="intervals"></a></p>
+<h3 id="icc-ico-ioc-ioo-ici-ioi-iic-iio" class="markdown-heading"><code>Icc</code>, <code>Ico</code>, <code>Ioc</code>, <code>Ioo</code>, <code>Ici</code>, <code>Ioi</code>, <code>Iic</code>, <code>Iio</code> <a class="hover-link" href="#icc-ico-ioc-ioo-ici-ioi-iic-iio">#</a></h3>
+<p>在 <a href="#Mathlib">Mathlib</a> 中用于指代 8 种数学区间之一的简写记号。
+共有 <code>8</code> 种区间类型，取决于该区间在每一端是<em>闭的（closed）</em>、<em>开的（open）<em>还是延伸至</em>无穷（infinity）</em>。
+这些名称被设计得很紧凑，方法是将每个区间记为 <code>I</code> + 它在左端的端点情况 + 它在右端的端点情况。
+<code>Iii</code>（按命名约定将指代两端皆无穷的区间）并未使用。</p>
+<h5 id="另见" class="markdown-heading">另见 <a class="hover-link" href="#另见">#</a></h5>
+<ul>
+<li><a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Order/Interval/Set/UnorderedInterval.html"><code>Mathlib.Order.Interval.Set.UnorderedInterval</code></a>，它在这些区间之上构建了无序区间（其端点可以按任意顺序给定）。</li>
+</ul>
+<h3 id="infoview信息视图" class="markdown-heading">infoview（信息视图） <a class="hover-link" href="#infoview信息视图">#</a></h3>
+<p>在交互式编辑 Lean 文件的语境下，指一个显示增量<a href="#goal">目标</a>状态、诊断信息、错误以及 Lean <a href="#widget">小部件</a>输出的窗口或界面。</p>
+<h3 id="instance实例" class="markdown-heading">instance（实例） <a class="hover-link" href="#instance实例">#</a></h3>
+<p>两个密切相关概念之一：</p>
+<ul>
+<li>由 <code>def</code>、<code>lemma</code> 或其他<a href="#declaration">声明</a>所接受的、用方括号（<code>[]</code>）括起来的<a href="#class">类型类</a>参数，使其在使用该声明时由<a href="#typeclass-inference">类型类推断</a>系统解析。</li>
+<li>用同名的 <code>instance</code> 命令创建的<a href="#declaration">声明</a>，或等价地用 <code>instance</code> <a href="#attributes">属性</a>标记的声明，二者都会将该声明注册到类型类推断系统中，以供上述用途使用。
+举一个具体的例子，<a href="#Mathlib">Mathlib</a> 为 <code>ℝ</code> 定义了一个 <code>linear_order</code> 实例，使得实数可以用 <code>&lt;</code> 进行比较。</li>
+</ul>
+<h3 id="lean-3" class="markdown-heading">Lean 3 <a class="hover-link" href="#lean-3">#</a></h3>
+<p>Lean 的一个已弃用版本，已被 Lean 4 取代。Mathlib 在 2022—2023 年间完全从 Lean 3 移植到了 Lean 4。</p>
+<h3 id="kernel内核" class="markdown-heading">kernel（内核） <a class="hover-link" href="#kernel内核">#</a></h3>
+<p>在 Lean 的实现（以及<a href="https://en.wikipedia.org/wiki/Proof_assistant#System_comparison">更广泛地</a>的证明助手）的语境下，内核是验证每个证明正确性的核心组件。</p>
+<p>相比于 Lean 的<a href="#tactic">策略</a>实现代码的规模[1^]，更不用说相比于 <a href="#Mathlib">Mathlib</a>，Lean 的内核实现相对较小，从而使我们能够更有信心地确信证明没有错误，而无需依赖庞大或复杂的高层构造。</p>
+<p>[1^]: 这种相对的小巧性，以及由此带来的可独立验证性，被称为证明助手实现的 <em>de Bruijn 判据</em></p>
+<h5 id="另见" class="markdown-heading">另见 <a class="hover-link" href="#另见">#</a></h5>
+<ul>
+<li>
+<p><a href="https://github.com/leanprover/lean4/tree/master/src/kernel">Lean 的内核实现</a></p>
+</li>
+<li>
+<p><a href="https://royalsocietypublishing.org/doi/full/10.1098/rsta.2005.1650">The challenge of computer mathematics，作者 Henk Barendregt 与 Freek Wiedijk (2005)</a></p>
+</li>
+<li>
+<p><a href="https://mathoverflow.net/a/376973">证明助手的组成部分，来自 Andrej Bauer 对“What makes dependent type theory more suitable than set theory for proof assistants?”的回答</a></p>
+</li>
+</ul>
+<h3 id="lean-together" class="markdown-heading">Lean Together <a class="hover-link" href="#lean-together">#</a></h3>
+<p>面向 Lean 用户社区、其 <a href="#Mathlib">Mathlib</a> 库用户以及更广泛的定理证明器社区的<a href="https://leanprover-community.github.io/lt2026/">年度会议</a>。</p>
+<p>往届活动的演讲或报告已<a href="https://www.youtube.com/channel/UCWe5B7Ikr0AI9727doEUxPg">分享在社区 YouTube 频道</a>上。</p>
+<h3 id="lint检查" class="markdown-heading">lint（检查） <a class="hover-link" href="#lint检查">#</a></h3>
+<p>*检查器（linter）*是一种用于查找代码中难以发现的错误的小程序。
+在提交拉取请求时，Mathlib 会在每次 <a href="#continuous-integration">CI 运行</a>中接受检查。</p>
+<p>我们有多种机制来检查代码的不同方面：
+风格与格式、单个声明的句法，以及声明在环境中相互组合的方式。
+对于这几种情形中的每一种，检查器的使用和定义方式都大不相同。</p>
+<ul>
+<li><a href="#style-linter">风格检查器</a>由 <code>lake exe lint-style</code> 运行，它们在 Mathlib 中定义并在 Mathlib 中的某个特定文件中声明，以文件的 <code>String</code> 内容作为输入，并通过在 <code>scripts/nolints-style.txt</code> 中添加例外来将其静默。</li>
+<li><a href="#syntax-linter">句法检查器</a>自动运行，它们在 core Lean 中定义并用 <code>add_linter</code> 命令声明，以声明的 <code>Lean.Syntax</code> 作为输入，并通过 <code>set_option</code> 命令将其静默。</li>
+<li><a href="#environment-linter">环境检查器</a>由 <code>#lint</code> 或 <code>lake exe lintAll</code> 运行，它们在 Batteries 中定义并用 <code>@[env_linter]</code> 属性声明，以文件的 <code>Environment</code> 作为输入，并通过 <code>@[nolint]</code> 属性将其静默。</li>
+</ul>
+<h3 id="mathlib" class="markdown-heading">Mathlib <a class="hover-link" href="#mathlib">#</a></h3>
+<p>一个面向 Lean 4 的<a href="https://github.com/leanprover-community/mathlib4">大型、由社区维护的数学集合</a>。</p>
+<h3 id="mode模式" class="markdown-heading">mode（模式） <a class="hover-link" href="#mode模式">#</a></h3>
+<p>在编写 Lean 代码的语境下，指一组相关的语法元素或关键字，它们使某种特定风格的形式化推理或<a href="#proof-term">证明项</a>的构造变得高效。
+Lean，尤其是限定于 <a href="#Mathlib">Mathlib</a> 范围内的 Lean，拥有少数几种这样的模式——<a href="#tactic-mode">策略模式</a>、<a href="#term-mode">项模式</a>、<a href="#calc-mode">calc 模式</a>和 <a href="#conv-mode">conv 模式</a>。
+某种特定的模式可能使针对特定类型<a href="#goal">目标</a>的推进变得更容易。
+然而，在构造一个<a href="#proof-term">证明项</a>的过程中，一个证明往往会混合使用各种模式。</p>
+<h3 id="module模块" class="markdown-heading">module（模块） <a class="hover-link" href="#module模块">#</a></h3>
+<p>包含 Lean 源代码的单个文件。</p>
+<p>不要将其与数学中的 <code>module</code>（模）混淆，即向量空间的推广。</p>
+<h3 id="module-docstring模块文档字符串" class="markdown-heading">module docstring（模块文档字符串） <a class="hover-link" href="#module-docstring模块文档字符串">#</a></h3>
+<p><a href="#module">模块</a>级别的注释，概述文件中可以找到的内容。
+我们要求每个文件都有一个，但<a href="https://github.com/leanprover-community/mathlib4/blob/master/scripts/style-exceptions.txt">一些旧文件</a>仍然没有。</p>
+<h3 id="mwe最小可工作示例" class="markdown-heading">MWE（最小可工作示例） <a class="hover-link" href="#mwe最小可工作示例">#</a></h3>
+<p><em>最小可工作示例（Minimal Working Example）</em>，一种通过将一段 Lean 代码精简到其本质部分、同时仍可被他人运行，从而更容易就该代码获得帮助的方式。</p>
+<p>更多信息可在 <a href="mwe.html">MWE 页面</a>上找到。</p>
+<h3 id="non-terminal-simp非终结性-simp" class="markdown-heading">non-terminal <code>simp</code>（非终结性 <code>simp</code>） <a class="hover-link" href="#non-terminal-simp非终结性-simp">#</a></h3>
+<p><code>simp</code> 策略的一次调用，它既不是在某个特定<a href="#goal">子目标</a>上调用的最后一个策略，也不使用 <code>simp only</code> 来显式限制它所考虑的 <a href="#simp-lemma">simp 引理</a>。
+应避免使用非终结性 <code>simp</code>，因为它们难以维护，原因在于随着 Mathlib 随时间推移添加或修改 <code>simp</code> 引理集，它们的行为或运行时会发生变化。</p>
+<h5 id="另见" class="markdown-heading">另见 <a class="hover-link" href="#另见">#</a></h5>
+<p><code>simp</code> 文档的<a href="https://leanprover-community.github.io/extras/simp.html#non-terminal-simps">“非终结性 <code>simp</code>”一节</a></p>
+<h3 id="olean-fileolean-文件" class="markdown-heading">olean file（olean 文件） <a class="hover-link" href="#olean-fileolean-文件">#</a></h3>
+<p>Lean 在构建一个 Lean <a href="#module">模块</a>时所产生的一种缓存的、已编译的二进制文件。
+<code>olean</code> 文件与构建它们的特定 Lean 版本绑定，其名称与对应的模块相匹配（因此一个名为 <code>Foo.lean</code> 的文件将在 <code>.lake</code> 文件夹中有一个对应的 <code>Foo.olean</code> 文件）。
+构建一个 <code>olean</code> 文件可以手动完成（例如通过 <code>lake build</code>），但对于像 <a href="#Mathlib">Mathlib</a> 这样的协作项目，它们是通过 <a href="#continuous-integration">CI</a> 构建为一个共享的 <a href="#cache">olean 缓存</a>，然后每个 Mathlib 用户只需检索即可。</p>
+<h3 id="orange-bar-of-hell地狱橙条" class="markdown-heading">orange bar of hell（地狱橙条） <a class="hover-link" href="#orange-bar-of-hell地狱橙条">#</a></h3>
+<p>在 VSCode（或其他编辑器）中交互式编辑 Lean 通常相当流畅。</p>
+<p>然而，<em>地狱橙条</em>指的是偶尔出现的、Lean 文件旁侧边栏中的橙色条不消失或不更新的情形。
+通常这些条指示文件中 Lean 仍在求值的部分，但如果这些条一直存在，则表明进度没有推进。
+修复这些条通常可以通过关闭任何不活动的编辑器标签页，然后打开 VSCode 命令面板（<code>ctrl-shift-p</code> 或 <code>cmd-shift-p</code>）并运行 <code>Lean: Restart</code> 来完成。
+出现这种情况的另一个常见原因是，由于<a href="#cache">缓存的</a> <a href="#olean-file">olean 文件</a>集不匹配，Lean 不得不（重新）编译所有导入的 <a href="#Mathlib">Mathlib</a> 文件。
+在这种情况下，通过 <code>lake exe cache get</code> 确保正确下载 Mathlib 缓存应当能解决该问题。</p>
+<h3 id="propeq命题相等" class="markdown-heading">propeq（命题相等） <a class="hover-link" href="#propeq命题相等">#</a></h3>
+<p><em>命题相等（Propositional equality）</em>。两个<a href="#term">项</a> <code>a b : α</code> 是命题相等的，如果我们能够证明 <code>a = b</code>。
+这比<a href="#defeq">定义相等</a>和<a href="#syntactical-equality">句法相等</a>都更弱。</p>
+<h5 id="另见" class="markdown-heading">另见 <a class="hover-link" href="#另见">#</a></h5>
+<p><a href="https://xenaproject.wordpress.com/2020/07/03/equality-specifications-and-implementations/">Equality, specifications and implementations</a>，来自 Xena Project</p>
+<h3 id="simp-lemmasimp-引理" class="markdown-heading"><code>simp</code> lemma（<code>simp</code> 引理） <a class="hover-link" href="#simp-lemmasimp-引理">#</a></h3>
+<p>一个被标记了某个<a href="#attribute">属性</a>的引理，该属性使其可被 <code>simp</code> 策略使用。</p>
+<p>好的 <code>simp</code> 引理会引导 <code>simp</code> 策略将复杂的表达式归约为更简单的表达式，常常达到 <code>simp</code> 策略本身就能闭合许多目标的程度。</p>
+<h5 id="另见" class="markdown-heading">另见 <a class="hover-link" href="#另见">#</a></h5>
+<ul>
+<li><a href="https://leanprover-community.github.io/extras/simp.html#simp-lemmas">Mathlib 的 <code>simp</code> 文档</a>。</li>
+<li><a href="https://lean-lang.org/theorem_proving_in_lean4/Tactics/#using-the-simplifier"><em>Theorem Proving in Lean</em> 第 5.7 节</a>。</li>
+</ul>
+<h3 id="simp-normal-formsimp-范式" class="markdown-heading"><code>simp</code>-normal form（<code>simp</code> 范式） <a class="hover-link" href="#simp-normal-formsimp-范式">#</a></h3>
+<p><a href="#Mathlib">Mathlib</a> 中的一种约定，用于将具有多种等价形式的命题表达为单一的约定形式。</p>
+<p>例子和更多细节可在 <a href="simp.html#simp-normal-form"><code>simp</code> 页面</a>上找到。</p>
+<h3 id="syntax-linter句法检查器" class="markdown-heading">syntax linter（句法检查器） <a class="hover-link" href="#syntax-linter句法检查器">#</a></h3>
+<p><em>句法检查器</em>是一种试图查找 Lean 声明中无意错误的<a href="#lint">检查器</a>。
+此外还有<a href="#environment-linter">环境检查器</a>（对整个环境运行）和<a href="#style-linter">风格检查器</a>（对字面源文本运行）。
+偶尔会引入新的检查器以检测更多类别的错误。
+Mathlib 的<a href="#continuous-integration">持续集成</a>确保任何此类新代码都能通过既定的检查器。
+可以通过使用 <code>set_option</code> 命令对某一段特定代码禁用句法检查。</p>
+<h3 id="style-linter风格检查器" class="markdown-heading">style linter（风格检查器） <a class="hover-link" href="#style-linter风格检查器">#</a></h3>
+<p><em>风格检查器</em>是一种试图确保 <a href="#Mathlib">Mathlib</a> 内代码外观或风格统一、而不影响其工作行为的<a href="#lint">检查器</a>。
+此外还有<a href="#environment-linter">环境检查器</a>（对整个环境运行）和<a href="#syntax-linter">句法检查器</a>（对单个声明运行）。
+具体而言，Mathlib 包含一些<a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Tactic/Linter/TextBased.html">简短的 Lean 程序</a>，例如检查行末是否不以空白结尾，等等。
+还有一些用 Python 实现的风格检查器，它们正被用 Lean 编写的检查器所取代。
+Mathlib 的<a href="#continuous-integration">持续集成</a>确保新代码都能通过既定的检查器。
+允许的风格检查例外被存储在仓库内的一个<a href="https://github.com/leanprover-community/mathlib4/blob/master/scripts/style-exceptions.txt">风格例外文件</a>中。</p>
+<h3 id="syntactical-equality句法相等" class="markdown-heading">syntactical equality（句法相等） <a class="hover-link" href="#syntactical-equality句法相等">#</a></h3>
+<p>两个<a href="#term">项</a> <code>a b : α</code> 是句法相等的，如果它们字面上是同一个表达式。
+这比<a href="#defeq">定义相等</a>和<a href="#syntactical-equality">句法相等</a>都更强。</p>
+<h5 id="另见" class="markdown-heading">另见 <a class="hover-link" href="#另见">#</a></h5>
+<p><a href="https://xenaproject.wordpress.com/2020/07/03/equality-specifications-and-implementations/">Equality, specifications and implementations</a>，来自 Xena Project</p>
+<h3 id="tactic-mode策略模式" class="markdown-heading">tactic mode（策略模式） <a class="hover-link" href="#tactic-mode策略模式">#</a></h3>
+<p>一种 Lean <a href="#mode">模式</a>，其特点是依赖于一系列<a href="#tactic">策略</a>，这些策略常常便于产生与基于纸笔的推理颇为相似的证明，尽管往往要使用复杂的策略来自动化证明中繁琐的部分。
+有多种<a href="https://lean-lang.org/theorem_proving_in_lean/tactics.html#entering-tactic-mode">进入策略模式</a>的方式。
+可以从<a href="#term-mode">项模式</a>使用 <code>by</code> 关键字进入它。
+其他模式也可以穿插在其中，常常是为了协同产生一个易于理解、高效、简短或可读的整体证明。
+最终，一个策略模式块的结果是一个<a href="#term">项</a>，它是通过其中的策略组装而成的。</p>
+<h5 id="另见" class="markdown-heading">另见 <a class="hover-link" href="#另见">#</a></h5>
+<ul>
+<li>
+<p><a href="https://lean-lang.org/theorem_proving_in_lean4/Tactics/#Theorem-Proving-in-Lean-4--Tactics"><em>Theorem Proving in Lean</em> 第 5 节</a>，其中讨论了策略，以及进出策略模式</p>
+</li>
+<li>
+<p><a href="https://lean-lang.org/doc/reference/latest/Tactic-Proofs/Tactic-Reference/#show_term"><code>show_term</code> 策略</a>，它可以揭示组装而成的<a href="#term">项</a></p>
+</li>
+<li>
+<p><a href="https://leanprover-community.github.io/mathlib-manual/html-multi/Tactics/">Mathlib 策略文档</a>，其中有一份全面的策略列表</p>
+</li>
+</ul>
+<h3 id="term项" class="markdown-heading">term（项） <a class="hover-link" href="#term项">#</a></h3>
+<p><em>项</em>是 Lean <a href="#type-theory">类型论</a>中表示某个（数学）对象的基本组成部分。</p>
+<p><em>项</em>这个词也可以用来与<em>类型</em>形成对照：如果我们写 <code>x : X</code>，那么 <code>x</code> 是项，而 <code>X</code> 是它的类型。
+在像 Lean 这样的<a href="#dependent-type-theory">依值类型论</a>中，类型本身也由项来表示。</p>
+<p><em>证明项</em>是表示一个数学证明的一种方式。
+我们也称这样的证明是用<a href="#term-mode">项模式</a>（与<a href="#tactic-mode">策略模式</a>相对）写成的。</p>
+<h5 id="另见" class="markdown-heading">另见 <a class="hover-link" href="#另见">#</a></h5>
+<ul>
+<li><a href="https://lean-lang.org/doc/reference/latest/The-Type-System/#--tech-term-Terms"><em>Lean Language Reference</em> 第 4 节</a></li>
+</ul>
+<h3 id="term-mode项模式" class="markdown-heading">term mode（项模式） <a class="hover-link" href="#term-mode项模式">#</a></h3>
+<p>一种 Lean <a href="#mode">模式</a>，它通过使用函数式子表达式来组装单个<a href="#term">项</a>。
+与<a href="#tactic-mode">策略模式</a>相比，项模式的证明往往长度较短，尽管对人类来说可能更难阅读。
+有多种进入项模式的方式。
+一个<a href="#declaration">声明</a>的主体以项模式开始，或者在<a href="#tactic-mode">策略模式</a>中常常使用 <code>exact</code> <a href="#tactic">策略</a>进入它。
+高效的项模式证明常常有助于<a href="#golfing">代码高尔夫</a>。</p>
+<p>诸如 <code>have</code>、<code>suffices</code> 和 <code>show</code> 这样的命令可以用来编写结构化的项模式证明，它们比裸的证明项更易于阅读。</p>
+<h3 id="tpil" class="markdown-heading">TPIL <a class="hover-link" href="#tpil">#</a></h3>
+<p>“<a href="https://lean-lang.org/theorem_proving_in_lean4/">Theorem Proving in Lean</a>”，一本由 Jeremy Avigad、Leonardo de Moura、Soonho Kong 和 Sebastian Ullrich 编写、并有 Lean 社区贡献的免费在线教科书，“旨在教你在 Lean 中开发和验证证明”。
+该书从对 Lean 所使用的<a href="https://lean-lang.org/theorem_proving_in_lean4/Dependent-Type-Theory/#dependent-type-theory">类型论</a>的简单介绍开始，进而阐释诸如<a href="https://lean-lang.org/theorem_proving_in_lean4/Tactics/#Theorem-Proving-in-Lean-4--Tactics">策略</a>、<a href="https://lean-lang.org/theorem_proving_in_lean4/Inductive-Types/#inductive-types">归纳类型</a>和<a href="https://lean-lang.org/theorem_proving_in_lean4/Type-Classes/#type-classes">类型类</a>等主题。</p>
+<h3 id="type-theory类型论" class="markdown-heading">type theory（类型论） <a class="hover-link" href="#type-theory类型论">#</a></h3>
+<p>一种带有两类基本对象——<a href="#term">项</a>和类型——的形式系统。
+它也可以指对这类语言的研究领域，因为某种特定的类型论可能包含的各种附加性质或特征之间存在着细微差别。</p>
+<p>Lean 的<a href="#dependent-type-theory">依值</a>类型论是其数学基础系统的根基，与集合论形成对照。
+在集合论的基础上，所有对象在形式意义上都是由单一种类的原始对象——集合——构建出来的。人们推理所构造的集合是否是其他集合的成员。
+这种成员关系的概念可以对任意两个形式集合提出，这可能使一些陈述在形式上有意义，即便它们对人类而言在数学上毫无意义——例如询问数 2 是否是数 37 的成员（数按<a href="https://en.wikipedia.org/wiki/Set-theoretic_definition_of_natural_numbers">集合论方式</a>定义）。
+相比之下，在类型论中，每个项都有一个相关联的类型，陈述或命题本身也是如此。
+例如，人们有自然数类型（在 <a href="#Mathlib">Mathlib</a> 中为 <code>ℕ</code>），或命题类型（<code>Prop</code>），或 <code>2 + 2 = 4</code> 的<em>证明</em>的类型，或从 <code>ℕ</code> 到 <code>Prop</code> 的函数的类型（<code>ℕ → Prop</code>），并且可以构造这些类型的项——分别可能是项 <code>2</code>、<code>2 + 2 = 37</code>、<code>rfl</code> 和 <code>λ n, true</code>。
+然而并非每个项<em>都是</em>一个类型，因此与前述集合论的困难不同，如果询问 37 是否具有<em>类型</em> 2 是没有意义的，那么人们就无法构造出这样的陈述。</p>
+<h3 id="unicode-abbreviationunicode-缩写" class="markdown-heading">unicode abbreviation（Unicode 缩写） <a class="hover-link" href="#unicode-abbreviationunicode-缩写">#</a></h3>
+<p>在编辑 Lean 文件的语境下，缩写是一种使用描述性快捷方式来输入标准键盘布局上通常没有的符号的方法。</p>
+<p>例如，不等号 “≠” 可以用序列 <code>\neq</code> 输入。</p>
+<p>完整的缩写列表（及其替换内容）可在 <a href="https://github.com/leanprover/vscode-lean4/blob/master/lean4-unicode-input/src/abbreviations.json"><code>vscode-lean4</code> 仓库</a>中找到。</p>
+<h3 id="whnf弱头范式" class="markdown-heading">whnf（弱头范式） <a class="hover-link" href="#whnf弱头范式">#</a></h3>
+<p>如果一个 Lean 表达式满足下面所链接资源中提到的若干归约判据，则称它处于<em>弱头范式（weak head normal form）</em>，常缩写为 <code>whnf</code>。
+非正式地说，处于 whnf 的表达式其最外层部分已被求值，尽管内部的子表达式可能尚未被求值。</p>
+<p>它也可以指一个将表达式归约为此形式的命令。</p>
+<h5 id="另见" class="markdown-heading">另见 <a class="hover-link" href="#另见">#</a></h5>
+<ul>
+<li><a href="https://stackoverflow.com/questions/6872898/what-is-weak-head-normal-form">What is weak head normal form? - Stack Overflow</a></li>
+<li><a href="https://wiki.haskell.org/Weak_head_normal_form">Weak head normal form - The Haskell wiki</a></li>
+</ul>
+<h3 id="widget小部件" class="markdown-heading">widget（小部件） <a class="hover-link" href="#widget小部件">#</a></h3>
+<p>一个可扩展的框架，用于通过 Lean 代码定义交互式的、组件化的图形元素，这些元素在交互式定理证明期间渲染于<a href="#infoview">信息视图</a>中。</p>
+<p>小部件也可以指由上述框架渲染的单个图形元素。</p>
+<p>小部件提供了一种机制，用于显示在交互式定理证明过程中会更新的额外上下文或信息。</p>
+<h5 id="另见" class="markdown-heading">另见 <a class="hover-link" href="#另见">#</a></h5>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=8NUBQEZYuis">Lean Together 2021: Widgets, interactive output in VSCode</a>，一场由 Edward Ayers 在 <a href="#lean-together">Lean Together 2021</a> 上所作的报告，展示了小部件所支持的一些功能</li>
+<li><a href="https://leanprover-community.github.io/mathlib4_docs/Lean/Widget/Types.html">core Lean 中的小部件源代码</a></li>
+</ul>
+
+  </main>
+
+    <nav id="navbar" class="d-md-block bg-light sidebar collapse navbar-light pb-4">
+      <div class="d-none d-md-block mt-4"><a class="navbar-brand" href="https://leanprover-community.github.io/index.html">Lean Community</a></div>
+      
+        <h6 class="sidebar-heading mt-4">社区</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover.zulipchat.com/">Zulip 聊天</a></li>
+        
+          <li class="nav-item col-12"><a href="https://github.com/leanprover-community/mathlib4">GitHub</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/blog">博客</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/meet.html">社区信息</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/community_guidelines.html">社区准则</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/teams.html">团队</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/papers.html">关于 Lean 的论文</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/cite.html">引用 mathlib</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/cite.html#Licence">许可证</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/lean_projects.html">使用 Lean 的项目</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/teaching/index.html">使用 Lean 教学</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/events.html">活动</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">使用 Lean</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://live.lean-lang.org/">在线版本（无需安装）</a></li>
+        
+          <li class="nav-item col-12"><a href="https://docs.lean-lang.org/lean4/doc/quickstart.html">安装 Lean</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/get_started.html">更多选项</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">文档</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/learn.html">学习资源（从这里开始）</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/documentation.html">文档概览</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mathlib4_docs">API 文档</a></li>
+        
+          <li class="nav-item col-12"><a href="https://loogle.lean-lang.org/">声明搜索（Loogle）</a></li>
+        
+          <li class="nav-item col-12"><a href="https://lean-lang.org/doc/reference/latest/">语言参考</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mathlib4_docs/tactics.html">策略列表</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/glossary.html">术语表</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/did_you_prove_it.html">你真的证明了它吗？</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mwe.html">关于 MWE</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">库概览</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mathlib-overview.html">库概览</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/undergrad.html">本科数学</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/100.html">Wiedijk 的 100 条定理</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/1000.html">1000+ 条定理</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">理论</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/naturals.html">自然数</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/linear_algebra.html">线性代数</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/sets.html">集合与有限集</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/topology.html">拓扑</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/category_theory.html">范畴论</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">贡献</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/index.html">贡献什么</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/how-to-contribute.html">如何贡献</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/values.html">Mathlib 的价值观</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/queueboard/">Mathlib 审阅与分类看板</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/git.html">Mathlib4 贡献者 Git 指南</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/naming.html">命名约定</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/style.html">代码风格指南</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/doc.html">文档风格</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/commit.html">提交约定</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/pr-review.html">拉取请求审阅指南</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mathlib_stats.html">贡献统计</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/tags_and_branches.html">标签与分支</a></li>
+        </ul>
+      
+    </nav>
+
+</div>
+
+
+  <nav class="footer navbar navbar-expand-lg navbar-light bg-light justify-content-end">
+  <ul class="nav">
+    <li class="nav-item">
+      <a class="nav-link active" href="https://github.com/leanprover-community/leanprover-community.github.io/blob/lean4/templates/glossary.md">在 GitHub 上为此页面提出编辑建议</a>
+    </li>
+  </ul>
+  </nav>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+      integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+      crossorigin="anonymous"></script>
+    <script src="https://leanprover-community.github.io//js/bootstrap.min.js"></script>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true });
+    </script>
+    
+  </body>
+</html>

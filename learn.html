@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="stylesheet" href="https://leanprover-community.github.io//css/lean.css" >
+  <link rel="shortcut icon" href="https://leanprover-community.github.io//img/favicon.ico">
+  <link rel="search" type="application/opensearchdescription+xml" title="mathlib docs" href="https://leanprover-community.github.io//opensearch.xml">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather&family=Open+Sans&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+    
+
+	<script>
+                function buildShortcutsForStructures(names) {
+                        const o = {}
+                        names.forEach(name => o[name] = `\\mathbb\{${name}\}`)
+                        return o
+                }
+		MathJax = {
+			  tex: {
+                                  macros: {
+                                          ...buildShortcutsForStructures(["R", "Q", "Z", "N", "C"]),
+                                  },
+				      inlineMath: [['$', '$'], ['\\(', '\\)']]
+				    },
+		};
+	</script>
+	<script type="text/javascript" id="MathJax-script" async
+		  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+	</script>
+
+	<title>学习 Lean 4</title>
+  </head>
+  <body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-gradient-light d-md-none">
+    <div class="d-flex flex-grow-1">
+		<a class="navbar-brand" href="https://leanprover-community.github.io/index.html">Lean Community
+    </a>
+    </div>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="切换导航">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </nav>
+
+<div id="mainbox">
+
+  <main>
+    
+<h1 id="学习-lean-4" class="markdown-heading">学习 Lean 4 <a class="hover-link" href="#学习-lean-4">#</a></h1>
+<p>学习 Lean 有许多途径，具体取决于你的背景和
+偏好。它们都既有趣又有收获，但同样也颇有难度，
+偶尔还会令人沮丧。证明助手目前仍然不易上手，
+你不能指望通过一个下午的
+学习就变得熟练。</p>
+<p>本页列出的所有资源都关于 Lean 4。
+其中有些有 Lean 3 版本，但现阶段已没有必要学习 Lean 3。</p>
+<h2 id="动手实践" class="markdown-heading">动手实践 <a class="hover-link" href="#动手实践">#</a></h2>
+<ul>
+<li>
+<p>无论你的背景如何，如果你想立刻上手，可以来玩
+<a href="https://adam.math.hhu.de/#/g/hhu-adam/NNG4">Natural Number Game</a>。
+这是一个在线交互式 Lean 教程，
+专注于证明自然数上基本运算的各种性质。
+<a href="https://adam.math.hhu.de/#/">Lean Game Server</a> 托管了多种学习游戏，包括
+集合论、逻辑以及 Robo（一个关于本科数学的故事）。</p>
+</li>
+<li>
+<p>若想更快节奏地入门，你可以获取
+<a href="https://github.com/PatrickMassot/GlimpseOfLean">Glimpse of Lean 教程</a>。
+它包含四个基础文件，涵盖使用 Lean 进行证明的一些
+基本方面，随后是关于初等分析、
+抽象拓扑和数理逻辑的若干独立专题文件。</p>
+</li>
+<li>
+<p>你可以下载 <a href="https://leanprover-community.github.io/papers/lean-tactics.pdf">策略速查表（PDF）</a>，作为最常用策略的参考。</p>
+</li>
+<li>
+<p>如果你希望直接从源代码学习，
+<a href="https://leanprover-community.github.io/mathlib4_docs/">Lean API 文档</a>
+不仅包含 <code>Mathlib</code>，还涵盖 <code>Std</code>、<code>Batteries</code>、<code>Lake</code> 以及核心编译器。
+由于 Lean 的许多部分都是以语法扩展的形式定义的，这是现存最接近
+完整参考手册的资料。</p>
+</li>
+<li>
+<p>如果你想亲自动手并为 mathlib 做贡献，但不知道有什么合适的项目可以
+入手，那么在 <a href="https://github.com/leanprover-community/mathlib4/issues?q=sort%3Aupdated-desc%20is%3Aissue%20is%3Aopen%20label%3A%22good%20first%20issue%22">GitHub Issues</a> 上有一长串容易上手的 issue。
+如果你正在处理某个 issue，请在该 GitHub issue 下回复，说明你正在
+处理它，以尽量减少重复劳动。</p>
+</li>
+</ul>
+<h2 id="书籍" class="markdown-heading">书籍 <a class="hover-link" href="#书籍">#</a></h2>
+<p>如果你更喜欢阅读书籍（带练习），有许多免费可得的 Lean 书籍
+已被证明对初学者很有帮助。
+它们以 HTML 或 PDF 形式提供，但通常意在 VSCode 中交互式阅读，
+随读随做 Lean 练习：</p>
+<ul>
+<li>
+<p>面向数学的标准参考是
+<a href="https://leanprover-community.github.io/mathematics_in_lean/">Mathematics in Lean</a>。
+你可以<a href="https://leanprover-community.github.io/mathematics_in_lean/mathematics_in_lean.pdf">将其下载为 PDF</a>，
+但也请参阅
+<a href="https://leanprover-community.github.io/mathematics_in_lean/C01_Introduction.html#getting-started">VSCode 使用说明</a>。</p>
+</li>
+<li>
+<p><a href="https://hrmacbeth.github.io/math2001/">The Mechanics of Proof</a> 同样面向数学。
+它的节奏比 <em>Mathematics in Lean</em> 更平缓，面向数学经验较少的
+读者。</p>
+</li>
+<li>
+<p>如果你更偏好关于类型论基础的内容，标准参考是
+<a href="https://lean-lang.org/theorem_proving_in_lean4/">Theorem Proving in Lean</a>。</p>
+</li>
+<li>
+<p>一本面向计算机科学/编程的书籍是
+<a href="https://raw.githubusercontent.com/blanchette/logical_verification_2023/main/hitchhikers_guide.pdf">The Hitchhiker's Guide to Logical Verification</a>。
+它也包含关于 Lean 类型论的有用信息，并配有一个带练习的 VSCode 项目。</p>
+</li>
+</ul>
+<p>如果你想要更专注于 Lean 本身而非如何使用 Lean 的内容，那么你
+可以阅读<a href="https://lean-lang.org/doc/reference/latest/">参考手册</a>（<a href="https://lean-lang.org/lean4/doc/">旧版手册</a>）。</p>
+<h2 id="元编程与策略编写" class="markdown-heading">（元）编程与策略编写 <a class="hover-link" href="#元编程与策略编写">#</a></h2>
+<ul>
+<li>如果你对 Lean 作为一门编程语言感兴趣，那么你应该阅读
+<a href="https://lean-lang.org/functional_programming_in_lean/">Functional programming in Lean</a>。</li>
+<li>如果你特别想实现自定义策略，那么你可以从对初学者友好的
+<a href="https://github.com/mirefek/lean-tactic-programming-guide">Tactic Programming Guide</a> 开始。</li>
+<li>若要更深入地学习策略和元编程，我们推荐
+<a href="https://github.com/arthurpaulino/lean4-metaprogramming-book">Metaprogramming in Lean 4</a>
+（至少在确认你已掌握 Functional programming in Lean 中关于单子的章节之后）。</li>
+</ul>
+<h2 id="关于基础的更多内容" class="markdown-heading">关于基础的更多内容 <a class="hover-link" href="#关于基础的更多内容">#</a></h2>
+<p>如果你对 Lean 的基础感兴趣，可以先阅读
+<a href="https://leanprover-community.github.io/lean-perfectoid-spaces/type_theory.html">这里</a>
+一份非常粗略的概述。
+如果你想要更多细节，可以阅读 Rijke 的 <a href="https://arxiv.org/pdf/2212.11082">Introduction to Homotopy Type Theory</a> 的第一部分，或
+<a href="https://homotopytypetheory.org/book/">HoTT book</a> 的第一章，并忽略
+其中任何提到一价性（univalence）的内容。</p>
+<p>如果你对 Lean 内核的具体细节感兴趣，想为 Lean 编写自己的外部类型检查器，或导出证明，你可以在 <a href="https://ammkrn.github.io/type_checking_in_lean4/">Type Checking in Lean 4</a> 中阅读更多内容。</p>
+<p>另一个可能有用的资源是
+Coq 文档中的<a href="https://coq.github.io/doc/master/refman/language/cic.html">这个页面</a>。
+Coq 的基础与 Lean 的基础极为接近。
+需要牢记的最相关的差异是：</p>
+<ul>
+<li>Lean 的 <code>Prop</code> 是证明无关的（proof-irrelevant），因此它更接近于上述页面中的
+<code>SProp</code>。</li>
+<li>Lean 中的宇宙<em>不是</em>累积的（cumulative）。然而，任何类型都可以被提升
+到更高的宇宙。</li>
+<li>Lean 原生支持商类型及其相关的约简
+规则（参见 <em>Theorem proving in Lean</em> 的<a href="https://lean-lang.org/theorem_proving_in_lean4/axioms_and_computation.html#quotients">这一
+节</a>）。</li>
+</ul>
+<p>如果你能读懂上述 Coq 文档，那么你就已经准备好阅读
+Mario Carneiro 的<a href="https://github.com/digama0/lean-type-theory/releases">这篇论文</a>，
+它精确地描述了 Lean 的类型论。</p>
+<p>请注意，理解类型论基础对于使用 Lean 而言完全不是必需的。</p>
+<h2 id="聚会" class="markdown-heading">聚会 <a class="hover-link" href="#聚会">#</a></h2>
+<p>许多聚会曾帮助欢迎新人加入 Lean 社区。
+以下这些附有在线讲座的链接及其他可能感兴趣的材料。
+请注意，2022 年以前的所有项目都使用 Lean 3，但它们可能仍包含相关信息。</p>
+<ul>
+<li><a href="https://lftcm2023.github.io/tutorial/index.html">Lean for the Curious Mathematician 2023</a></li>
+<li><a href="https://www.msri.org/summer_schools/1021">Formalization of mathematics 2023</a></li>
+<li><a href="https://icerm.brown.edu/topical_workshops/tw-22-lean/">Lean for the Curious Mathematician 2022</a></li>
+<li><a href="https://leanprover-community.github.io/lftcm2020/">Lean for the Curious Mathematician 2020</a></li>
+</ul>
+<p>更多活动可在<a href="events.html">活动</a>页面找到。
+我们还有一个 <a href="https://www.youtube.com/channel/UCWe5B7Ikr0AI9727doEUxPg/playlists">YouTube 频道</a>，
+其中包含来自上述会议的视频播放列表，以及其他包含 Lean 相关内容的会议。</p>
+
+  </main>
+
+    <nav id="navbar" class="d-md-block bg-light sidebar collapse navbar-light pb-4">
+      <div class="d-none d-md-block mt-4"><a class="navbar-brand" href="https://leanprover-community.github.io/index.html">Lean Community</a></div>
+      
+        <h6 class="sidebar-heading mt-4">社区</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover.zulipchat.com/">Zulip 聊天</a></li>
+        
+          <li class="nav-item col-12"><a href="https://github.com/leanprover-community/mathlib4">GitHub</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/blog">博客</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/meet.html">社区信息</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/community_guidelines.html">社区准则</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/teams.html">团队</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/papers.html">关于 Lean 的论文</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/cite.html">引用 mathlib</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/cite.html#Licence">许可证</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/lean_projects.html">使用 Lean 的项目</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/teaching/index.html">使用 Lean 教学</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/events.html">活动</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">使用 Lean</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://live.lean-lang.org/">在线版本（无需安装）</a></li>
+        
+          <li class="nav-item col-12"><a href="https://docs.lean-lang.org/lean4/doc/quickstart.html">安装 Lean</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/get_started.html">更多选项</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">文档</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/learn.html">学习资源（从这里开始）</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/documentation.html">文档概览</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mathlib4_docs">API 文档</a></li>
+        
+          <li class="nav-item col-12"><a href="https://loogle.lean-lang.org/">声明搜索（Loogle）</a></li>
+        
+          <li class="nav-item col-12"><a href="https://lean-lang.org/doc/reference/latest/">语言参考</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mathlib4_docs/tactics.html">策略列表</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/glossary.html">术语表</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/did_you_prove_it.html">你真的证明了它吗？</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mwe.html">关于 MWE</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">库概览</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mathlib-overview.html">库概览</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/undergrad.html">本科数学</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/100.html">Wiedijk 的 100 条定理</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/1000.html">1000+ 条定理</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">理论</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/naturals.html">自然数</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/linear_algebra.html">线性代数</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/sets.html">集合与有限集</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/topology.html">拓扑</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/category_theory.html">范畴论</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">贡献</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/index.html">贡献什么</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/how-to-contribute.html">如何贡献</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/values.html">Mathlib 的价值观</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/queueboard/">Mathlib 审阅与分类看板</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/git.html">Mathlib4 贡献者 Git 指南</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/naming.html">命名约定</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/style.html">代码风格指南</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/doc.html">文档风格</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/commit.html">提交约定</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/pr-review.html">拉取请求审阅指南</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mathlib_stats.html">贡献统计</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/tags_and_branches.html">标签与分支</a></li>
+        </ul>
+      
+    </nav>
+
+</div>
+
+
+  <nav class="footer navbar navbar-expand-lg navbar-light bg-light justify-content-end">
+  <ul class="nav">
+    <li class="nav-item">
+      <a class="nav-link active" href="https://github.com/leanprover-community/leanprover-community.github.io/blob/lean4/templates/learn.md">在 GitHub 上为此页面提出编辑建议</a>
+    </li>
+  </ul>
+  </nav>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+      integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+      crossorigin="anonymous"></script>
+    <script src="https://leanprover-community.github.io//js/bootstrap.min.js"></script>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true });
+    </script>
+    
+  </body>
+</html>

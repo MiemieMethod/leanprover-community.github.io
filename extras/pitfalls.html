@@ -1,0 +1,1168 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="stylesheet" href="https://leanprover-community.github.io//css/lean.css" >
+  <link rel="shortcut icon" href="https://leanprover-community.github.io//img/favicon.ico">
+  <link rel="search" type="application/opensearchdescription+xml" title="mathlib docs" href="https://leanprover-community.github.io//opensearch.xml">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather&family=Open+Sans&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+    
+
+	<script>
+                function buildShortcutsForStructures(names) {
+                        const o = {}
+                        names.forEach(name => o[name] = `\\mathbb\{${name}\}`)
+                        return o
+                }
+		MathJax = {
+			  tex: {
+                                  macros: {
+                                          ...buildShortcutsForStructures(["R", "Q", "Z", "N", "C"]),
+                                  },
+				      inlineMath: [['$', '$'], ['\\(', '\\)']]
+				    },
+		};
+	</script>
+	<script type="text/javascript" id="MathJax-script" async
+		  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+	</script>
+
+	<title>常见的 Lean 陷阱</title>
+  </head>
+  <body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-gradient-light d-md-none">
+    <div class="d-flex flex-grow-1">
+		<a class="navbar-brand" href="https://leanprover-community.github.io/index.html">Lean Community
+    </a>
+    </div>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="切换导航">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </nav>
+
+<div id="mainbox">
+
+  <main>
+    
+<h1 id="常见的-lean-陷阱" class="markdown-heading">常见的 Lean 陷阱 <a class="hover-link" href="#常见的-lean-陷阱">#</a></h1>
+<p>本文档列举了 Lean 用户经常犯的一些错误，以及 Lean 中可能导致错误的一些反直觉特性。</p>
+<p>如果你在本文档中发现了错误，或者希望补充某些内容，请在 Zulip 上提出，或者在<a href="https://github.com/leanprover-community/leanprover-community.github.io">本网站的代码仓库</a>中提交 issue 或拉取请求。</p>
+<h2 id="目录" class="markdown-heading">目录 <a class="hover-link" href="#目录">#</a></h2>
+<ul>
+<li><a href="#automatic-implicit-parameters">自动隐式参数</a></li>
+<li><a href="#forgetting-the-mathlib-cache">忘记 Mathlib 缓存</a></li>
+<li><a href="#using-have-for-data">用 <code>have</code> 来表示数据</a></li>
+<li><a href="#rewriting-under-binders">在绑定子下进行改写</a></li>
+<li><a href="#trusting-tactics-to-unfold-definitions">指望策略展开定义</a></li>
+<li><a href="#using-b-gt-a-instead-of-a-lt-b">使用 <code>b &gt; a</code> 而非 <code>a &lt; b</code></a></li>
+<li><a href="#confusing-prop-and-bool">混淆 <code>Prop</code> 与 <code>Bool</code></a></li>
+<li><a href="#not-checking-for-distinctness">未检查相异性</a></li>
+<li><a href="#not-accounting-for-0">未考虑 0 的情形</a></li>
+<li><a href="#division-by-0">除以 0</a></li>
+<li><a href="#integer-division">整数除法</a></li>
+<li><a href="#natural-number-subtraction">自然数减法</a></li>
+<li><a href="#other-partial-functions">其他偏函数</a></li>
+<li><a href="#wrapping-arithmetic-in-fin"><code>Fin</code> 中算术的回绕</a></li>
+<li><a href="#real-power">实数幂</a></li>
+<li><a href="#distance-in-fin-n--%E2%84%9D"><code>Fin n → ℝ</code> 中的距离</a></li>
+<li><a href="#accidental-double-iinf-or-isup">意外的双重 <code>iInf</code> 或 <code>iSup</code></a></li>
+<li><a href="#trying-to-extract-data-from-proofs-of-propositions">试图从命题的证明中提取数据</a></li>
+<li><a href="#working-with-equality-of-types">处理类型的相等</a></li>
+<li><a href="#parameters-for-instances-that-already-exist">为已存在的实例引入参数</a></li>
+<li><a href="#using-sets-as-types">把 <code>Set</code> 当作类型使用</a></li>
+<li><a href="#sort-_">Sort _</a></li>
+<li><a href="#trying-to-prove-properties-about-float">试图证明关于 Float 的性质</a></li>
+<li><a href="#native_decide"><code>native_decide</code></a></li>
+<li><a href="#panic-does-not-abort">Panic 不会中止程序</a></li>
+<li><a href="#lean-3-code">Lean 3 代码</a></li>
+<li><a href="#non-terminal-simp">非终结性 simp</a></li>
+<li><a href="#ignoring-warnings">忽略警告</a></li>
+<li><a href="#ambiguous-unicode-characters">易混淆的 Unicode 字符</a></li>
+<li><a href="#default-values-in-structure-fields">结构字段中的默认值</a></li>
+</ul>
+<h2 id="自动隐式参数" class="markdown-heading">自动隐式参数 <a class="hover-link" href="#自动隐式参数">#</a></h2>
+<p>默认情况下，Lean 的<a href="https://lean-lang.org/doc/reference/latest///Definitions/Headers-and-Signatures/#automatic-implicit-parameters">自动隐式参数</a>特性（简称 <code>autoImplicit</code>）会将未绑定的变量转换为隐式参数。例如，当启用该特性时，</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">theorem</span><span class="w"> </span><span class="n">my_theorem</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span><span class="w"> </span><span class="n">omega</span>
+</code></pre></div>
+</div>
+
+<p>是</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">theorem</span><span class="w"> </span><span class="n">my_theorem</span><span class="w"> </span><span class="o">{</span><span class="n">a</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Nat</span><span class="o">}</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span><span class="w"> </span><span class="n">omega</span>
+</code></pre></div>
+</div>
+
+<p>的简写。</p>
+<p>这个特性可以使你的代码更加简洁，但它也意味着定理陈述中的任何笔误都可能使该定理陈述变得错误。
+例如，下面的陈述</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">theorem</span><span class="w"> </span><span class="n">my_theorem</span><span class="w"> </span><span class="o">(</span><span class="n">n</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Nat</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">h</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">≤</span><span class="w"> </span><span class="n">n</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="gr">sorry</span>
+</code></pre></div>
+</div>
+
+<p>是错误的，因为 <code>m</code> 是一个自动隐式参数。
+自动隐式特性使得人们很难察觉到本该输入 <code>n</code> 时却输入了 <code>m</code>。
+在较新的 Lean 版本中，你应该能在文本编辑器中 <code>my_theorem</code> 旁边看到一个内联的 <code>{m}</code>，这表明 <code>m</code> 正充当一个自动隐式参数；留意这些标注是值得的，因为它们能帮助你发现无意中使用了 <code>autoImplicit</code> 的情况。</p>
+<p>问题也可能以难以预料的方式表现出来。
+例如，如果你尚未导入 <code>Mathlib.Data.Nat.Notation</code>，那么在</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">theorem</span><span class="w"> </span><span class="n">my_theorem</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="bp">∃</span><span class="w"> </span><span class="o">(</span><span class="n">a</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℕ</span><span class="o">),</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="bp">≠</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="gr">sorry</span>
+</code></pre></div>
+</div>
+
+<p>中，<code>ℕ</code> 实际上是一个自动隐式变量，可以是任何类型，因此这个陈述实际上是错误的：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">example</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">False</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">Exists.elim</span><span class="w"> </span><span class="o">(</span><span class="n">my_theorem</span><span class="w"> </span><span class="o">(</span><span class="n">ℕ</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">False</span><span class="o">))</span><span class="w"> </span><span class="o">(</span><span class="k">fun</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="bp">↦</span><span class="w"> </span><span class="n">f</span><span class="o">)</span>
+</code></pre></div>
+</div>
+
+<p>自动隐式参数默认在全局启用，但如果你在 Mathlib 上工作，它们会被禁用。
+如果你是 Lean 新手，我建议你禁用它们，转而使用 <code>variable</code> 命令。
+这可以通过在每个 Lean 文件顶部 <code>import</code> 语句之后添加</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">set_option</span><span class="w"> </span><span class="n">autoImplicit</span><span class="w"> </span><span class="n">false</span>
+</code></pre></div>
+</div>
+
+<p>来实现，或者在你的 <code>lakefile.toml</code> 或 <code>lakefile.lean</code> 中全局禁用它。</p>
+<h2 id="忘记-mathlib-缓存" class="markdown-heading">忘记 Mathlib 缓存 <a class="hover-link" href="#忘记-mathlib-缓存">#</a></h2>
+<p>如果你正在 <code>Mathlib</code> 上工作，或者在一个依赖于 <code>Mathlib</code> 的项目上工作，那么首次打开一个依赖于 <code>Mathlib</code> 的文件，或者在终端中运行 <code>lake build</code>，可能需要一个多小时才能完成。
+当 Lean 文件首次被编译时，Lean 会将编译结果缓存到 <code>.olean</code> 文件中，从而使后续运行更快。</p>
+<p>在终端中运行 <code>lake exe cache get</code>，或者<a href="https://github.com/leanprover/vscode-lean4/blob/master/vscode-lean4/manual/manual.md#project-actions">在 VSCode 中调用 &quot;Project: Fetch Mathlib Build Cache&quot;</a>，会从中央服务器下载 <code>Mathlib</code> 的 <code>.olean</code> 文件，从而使你无需自行编译它们，可以节省一个多小时的计算时间。
+（如果 <code>lake exe cache get</code> 不起作用，你可能想试试 <code>lake exe cache get!</code>。）
+如果你发现你的项目在 VSCode 中编译或启动花费了异常长的时间，可能是因为你忘记运行这个命令了。</p>
+<p>请注意，解压后编译版本的 Mathlib 超过 5 GB，因此在下载缓存之前，请确保你有足够的存储空间，并且连接到了合适的网络（而不是例如有每月流量限制的手机热点）。</p>
+<h2 id="用-have-来表示数据" class="markdown-heading">用 <code>have</code> 来表示数据 <a class="hover-link" href="#用-have-来表示数据">#</a></h2>
+<p>有时在证明中引入一个新变量来表示一个较为复杂的表达式会很方便。
+例如，假设你有一个复杂的谓词 <code>MyPredicate</code>，并希望在证明中设 <code>x := 37 * n + 42 * m + 76</code>。
+如果你用 <code>have</code> 来做这件事，然后证明 <code>h : MyPredicate x</code>，你会发现没有办法用 <code>h</code> 来完成目标。</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">example</span><span class="w"> </span><span class="o">(</span><span class="n">n</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Nat</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">MyPredicate</span><span class="w"> </span><span class="o">(</span><span class="mi">37</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="mi">42</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="mi">76</span><span class="o">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Nat</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">37</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="mi">42</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="mi">76</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">MyPredicate</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="bp">...</span>
+<span class="w">  </span><span class="c">/-</span><span class="cm"> Tactic state is now:</span>
+<span class="cm">  n m x : Nat</span>
+<span class="cm">  h : MyPredicate x</span>
+<span class="cm">  ⊢ MyPredicate (37 * n + 42 * m + 76)</span>
+<span class="cm">  Now what? -/</span>
+</code></pre></div>
+</div>
+
+<p>此外，如果你的证明依赖于 <code>x</code> 的具体取值，你可能根本无法证明 <code>MyPredicate x</code>。</p>
+<p>这里的问题在于，当你用 <code>have</code> 在证明中创建一个新变量时，Lean 会忘记你赋给 <code>have</code> 的值。
+因此，在执行 <code>have x : Nat := 37 * n + 42 * m + 76</code> 之后，命题
+<code>x = 37 * n + 42 * m + 76</code> 现在就无法证明了。</p>
+<p>解决办法是，每当你引入一个并非证明的新变量时，使用 <code>let</code> 而非 <code>have</code>。
+注意在下面的策略状态中，<code>x</code> 是如何附带一个值的。</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">example</span><span class="w"> </span><span class="o">(</span><span class="n">n</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Nat</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">MyPredicate</span><span class="w"> </span><span class="o">(</span><span class="mi">37</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="mi">42</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="mi">76</span><span class="o">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Nat</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">37</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="mi">42</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="mi">76</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">MyPredicate</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="bp">...</span>
+<span class="w">  </span><span class="c">/-</span><span class="cm"> Tactic state is now:</span>
+<span class="cm">  n m : Nat</span>
+<span class="cm">  x : Nat := 37 * n + 42 * m + 76</span>
+<span class="cm">  h : MyPredicate x</span>
+<span class="cm">  ⊢ MyPredicate (37 * n + 42 * m + 76)</span>
+<span class="cm">  -/</span>
+</code></pre></div>
+</div>
+
+<p>这意味着在证明的其余部分中，<code>x</code> 在定义上等于
+<code>37 * n + 42 * m + 76</code>。
+因此，<code>h</code> 的类型在定义上等于目标，所以我们可以用 <code>exact h</code> 完成证明，而无需进行任何手动转换。
+如果你确实想要一个 <code>x = 37 * n + 42 * m + 76</code> 的证明，你可以用 <code>have hx : x = 37 * n + 42 * m + 76 := rfl</code> 来获得它，其中 <code>rfl</code> 之所以是这一事实的有效证明，正是由于定义上的相等。</p>
+<p>你可能还会对 <code>set</code> 策略感兴趣，它类似于 <code>let</code>，但还会自动替换证明状态中该表达式的所有出现之处。</p>
+<h2 id="在绑定子下进行改写" class="markdown-heading">在绑定子下进行改写 <a class="hover-link" href="#在绑定子下进行改写">#</a></h2>
+<p>人们有理由期望 <code>rw</code> 在下面的例子中把 <code>0 + i ^ 2</code> 改写为 <code>i ^ 2</code>，但不幸的是 <code>rw</code> 失败了：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="n">Mathlib.Algebra.BigOperators.Group.Finset.Defs</span>
+
+<span class="kd">example</span><span class="w"> </span><span class="o">(</span><span class="n">s</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Finset</span><span class="w"> </span><span class="n">Nat</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="bp">∑</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="bp">∈</span><span class="w"> </span><span class="n">s</span><span class="o">,</span><span class="w"> </span><span class="o">(</span><span class="mi">0</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="bp">∑</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="bp">∈</span><span class="w"> </span><span class="n">s</span><span class="o">,</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="n">rw</span><span class="w"> </span><span class="o">[</span><span class="n">Nat.zero_add</span><span class="o">]</span>
+<span class="w">  </span><span class="c">/-</span>
+<span class="cm">  tactic &#39;rewrite&#39; failed, did not find instance of the pattern in the target expression</span>
+<span class="cm">    0 + ?n</span>
+<span class="cm">  s : Finset ℕ</span>
+<span class="cm">  ⊢ ∑ i ∈ s, (0 + i ^ 2) = ∑ i ∈ s, i ^ 2</span>
+<span class="cm">  -/</span>
+</code></pre></div>
+</div>
+
+<p>这是因为 <code>∑ i ∈ s, (0 + i ^ 2)</code> 是 <code>Finset.sum s (fun i ↦ 0 + i ^ 2)</code> 的简写，而 <code>rw</code> 有时无法在 <code>fun</code> 表达式内部进行改写，因为它无法改写像 <code>0 + i ^ 2</code> 这样含有绑定变量的子表达式。</p>
+<p>在这种情况下，你可以使用 <code>simp_rw [Nat.zero_add]</code> 来执行改写，但在某些情况下，你可能需要使用<a href="https://leanprover.github.io/theorem_proving_in_lean4/The-Conversion-Tactic-Mode/">转换模式</a>进行精确的改写：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">example</span><span class="w"> </span><span class="o">(</span><span class="n">s</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Finset</span><span class="w"> </span><span class="n">Nat</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="bp">∑</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="bp">∈</span><span class="w"> </span><span class="n">s</span><span class="o">,</span><span class="w"> </span><span class="o">(</span><span class="mi">0</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="bp">∑</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="bp">∈</span><span class="w"> </span><span class="n">s</span><span class="o">,</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="n">conv</span><span class="w"> </span><span class="bp">=&gt;</span>
+<span class="w">    </span><span class="n">lhs</span>
+<span class="w">    </span><span class="n">congr</span>
+<span class="w">    </span><span class="bp">·</span><span class="w"> </span><span class="n">rfl</span>
+<span class="w">    </span><span class="bp">·</span><span class="w"> </span><span class="n">intro</span><span class="w"> </span><span class="n">i</span>
+<span class="w">      </span><span class="n">rw</span><span class="w"> </span><span class="o">[</span><span class="n">Nat.zero_add</span><span class="o">]</span>
+</code></pre></div>
+</div>
+
+<h2 id="指望策略展开定义" class="markdown-heading">指望策略展开定义 <a class="hover-link" href="#指望策略展开定义">#</a></h2>
+<p>Lean 中一个常见的错误是试图使用诸如 <code>rw</code> 和 <code>simp</code> 之类的策略，期望它们能“看穿” <code>def</code> 和 <code>let</code> 语句。
+例如，在下面的例子中，你可能希望 <code>rw</code> 能意识到 <code>x</code> 只不过是 <code>0 + n</code> 的简写，并将其改写为 <code>n</code>，但这并不会发生：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">theorem</span><span class="w"> </span><span class="n">mythm</span><span class="w"> </span><span class="o">(</span><span class="n">n</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Nat</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">True</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">n</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">    </span><span class="n">rw</span><span class="w"> </span><span class="o">[</span><span class="n">Nat.zero_add</span><span class="o">]</span>
+<span class="w">    </span><span class="c">/-</span>
+<span class="cm">    tactic &#39;rewrite&#39; failed, did not find instance of the pattern in the target expression</span>
+<span class="cm">      0 + ?n</span>
+<span class="cm">    n : Nat</span>
+<span class="cm">    x : Nat := 0 + n</span>
+<span class="cm">    ⊢ x = n</span>
+<span class="cm">    -/</span>
+</code></pre></div>
+</div>
+
+<p>类似地，<code>simp</code> 在这里也会失败，并给出错误信息 “simp made no progress”。</p>
+<p>这里的解决办法是，先 <code>unfold x</code> 或使用 <code>change 0 + n = n</code>，然后再调用 <code>rw [Nat.zero_add]</code> 或 <code>simp</code>。
+你也可以用 <code>simp [x]</code> 代替 <code>simp</code>。
+最后，如果 <code>x</code> 是一个 <code>def</code> 而非 <code>let</code>，你可以执行 <code>rw [x]</code>，这等价于 <code>rw [show x = 0 + n from rfl]</code>。
+请注意，对 <code>x</code> 使用 <code>let</code> 而非 <code>have</code> 是很重要的；参见上文关于用 <code>have</code> 来表示数据的章节。</p>
+<p>话虽如此，理解为什么这从一开始就是个问题是值得的。
+回想一下，Lean 中主要有三种相等的概念：命题相等、定义相等和句法相等。
+命题相等是传统数学中通常意义上的相等概念，Lean 中的命题 <code>a = b</code> 指的就是命题相等。
+相比之下，定义相等和句法相等不是你能够证明或否证的东西；两个表达式要么在定义上相等，要么不相等，它们要么在句法上相等，要么不相等。</p>
+<p>一种粗略的思考方式是：如果两个项在 Lean 中以相同的方式书写，那么它们就是句法相等的；如果对两个项调用 <code>#reduce</code> 会得到相同的表达式，那么它们就是定义相等的。
+例如，当 <code>n</code> 是一个未知的自然数时：</p>
+<ul>
+<li><code>n + 0</code> 与 <code>n + 0</code> 既句法相等，又定义相等，也命题相等。</li>
+<li><code>n + 0</code> 与 <code>n</code> 定义相等且命题相等，但不句法相等。这是因为 <code>Nat.add</code> 是按第二个参数递归定义的，所以即便 Lean 不知道 <code>n</code> 是什么，它也能把 <code>n + 0</code> 归约为 <code>n</code>。</li>
+<li><code>0 + n</code> 与 <code>n</code> 命题相等，但既不定义相等也不句法相等。这是因为当 <code>n</code> 未知时，Lean 不知道如何归约 <code>0 + n</code>，所以这个陈述必须用归纳法来证明。</li>
+</ul>
+<p>更多信息，请参见 <a href="https://b-mehta.github.io/formalising-mathematics-notes/Part_1/equality.html">https://b-mehta.github.io/formalising-mathematics-notes/Part_1/equality.html</a></p>
+<p>不幸的是，在 Lean 中，句法相等与定义相等之间的界限往往是模糊的。
+需要记住的重要一点是，某些策略（例如 <code>exact</code>）在定义相等的意义下工作，而另一些策略（例如 <code>rw</code> 和 <code>simp</code>）则在句法相等的意义下工作。
+尽管 Lean 的核心类型检查器只关心定义相等，但策略可以自由地利用关于项的句法的额外信息来辅助其运作。</p>
+<h2 id="使用-b-gt-a-而非-a-lt-b" class="markdown-heading">使用 <code>b &gt; a</code> 而非 <code>a &lt; b</code> <a class="hover-link" href="#使用-b-gt-a-而非-a-lt-b">#</a></h2>
+<p>大多数情况下，<code>a &lt; b</code> 与 <code>b &gt; a</code> 在 Lean 中是定义相等的。
+但鉴于上面关于不要指望策略展开定义的讨论，即便两个项在定义上相等，它们仍然可能并非在所有情形下都可以互换。
+例如，下面这个改写会失败，因为 <code>Nat.mod_eq_iff_lt</code> 的右端是 <code>m &lt; n</code>，而非 <code>n &gt; m</code>：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">example</span><span class="w"> </span><span class="o">{</span><span class="n">n</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Nat</span><span class="o">}</span><span class="w"> </span><span class="o">(</span><span class="n">h₁</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="bp">%</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">m</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">h₂</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="bp">≠</span><span class="w"> </span><span class="mi">0</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="bp">&gt;</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="n">rw</span><span class="w"> </span><span class="o">[</span><span class="bp">←</span><span class="n">Nat.mod_eq_iff_lt</span><span class="w"> </span><span class="n">h₂</span><span class="o">]</span>
+</code></pre></div>
+</div>
+
+<p>在 Mathlib 中，<code>a &lt; b</code> 优先于 <code>b &gt; a</code>。
+事实上，<code>&gt;</code> 在 Mathlib 中几乎从不出现。
+这意味着，如果你想避免一直使用 <code>gt_iff_lt</code>，你应该在代码中处处优先使用 <code>a &lt; b</code> 而非 <code>b &gt; a</code>。
+类似地，你应该优先使用 <code>a ≤ b</code> 而非 <code>b ≥ a</code>。
+除了像 <code>∀ ε &gt; 0, ∃ δ &gt; 0, _</code> 这样 <code>&gt;</code> 与 <code>∀</code> 或 <code>∃</code> 相连的表达式之外，通常最好完全不使用 <code>&gt;</code> 或 <code>≥</code>。</p>
+<h2 id="混淆-prop-与-bool" class="markdown-heading">混淆 <code>Prop</code> 与 <code>Bool</code> <a class="hover-link" href="#混淆-prop-与-bool">#</a></h2>
+<p>类型 <code>Prop</code> 和 <code>Bool</code> 都刻画了某物为真或为假的概念，
+但它们在 Lean 中的行为大相径庭。
+<code>Prop</code> 是<em>命题</em>的全集，命题是具有真值的数学陈述，
+而 <code>Bool</code> 是<em>布尔值</em>的类型；它恰好由两个元素 <code>true</code> 和 <code>false</code> 组成。
+请注意，<code>True</code> 和 <code>False</code> 是<em>命题</em>，而 <code>true</code> 和 <code>false</code> 是<em>布尔值</em>。</p>
+<p>在期望命题的地方使用布尔值，或反之，可能导致一些反直觉的错误。此外，由于布尔值可以被隐式强制转换为命题，由此产生的问题可能并不会立即显现。
+例如，<code>a = b</code> 是一个命题，而 <code>a == b</code> 是一个布尔值（参见 <code>BEq</code> 类型类），混淆它们会引发问题。
+确保你充分掌握了 <code>Prop</code> 与 <code>Bool</code> 之间的区别是值得的。</p>
+<p>在 Lean 中，<code>Prop</code> 和 <code>Bool</code> 都是类型，但 <code>Prop</code> 同时也是一个全集，而 <code>Bool</code> 只是一个包含两个元素的普通类型。
+这意味着，如果 <code>p : Prop</code> 且 <code>q : Bool</code>，那么 <code>h : p</code> 可能是合法的，但 <code>h : q</code> 永远不合法。
+另一方面，你可以在 <code>match</code> 语句中使用 <code>Bool</code> 类型的项，但你不能对 <code>Prop</code> 类型的项进行 <code>match</code>（在 <code>Prop</code> 上的等价操作是 <code>by_cases hp : p</code> 策略，或者“依值”的 if-then-else 语句 <code>if hp : p then ... else ...</code>）。
+<code>Bool</code> 在数学中很少使用，但当 <code>Lean</code> 被用作编程语言时，它的使用要频繁得多。</p>
+<p>直观地说，命题是一个可能被证明或被否证的数学陈述。
+如果 <code>p</code> 是一个命题，那么说 <code>h : p</code> 是有意义的，它意味着 <code>h</code> 是 <code>p</code> 的一个证明。
+另一方面，如果 <code>q</code> 是一个布尔值，那么 <code>q</code> 实实在在地等于 <code>true</code> 或 <code>false</code> 之一；“证明” <code>q</code> 是没有意义的，因为 <code>q</code> 是一个值，而非一个陈述。</p>
+<p>如果你有一个布尔值 <code>q</code>，你可以通过写 <code>q = true</code> 将它转换为一个命题。
+反之，如果 <code>p</code> 是一个命题，并且 Lean 能合成出 <code>Decidable p</code> 的一个实例，那么你可以通过写 <code>decide p</code> 将 <code>p</code> 转换为一个布尔值。
+（这里，项 <code>decide</code> 不应与策略 <code>decide</code> 相混淆。）
+由于公理 <code>Classical.choice</code> 可以为任意命题 <code>p</code> 产生一个 <code>Decidable p</code> 实例，因此任何命题都可以被转换为布尔值，从而 <code>Prop</code> 与 <code>Bool</code> 在<em>经典意义下是等价的</em>。</p>
+<p>尽管如此，在 <code>Prop</code> 与 <code>Bool</code> 之间保持区分仍然是有意义的。
+在 mathlib 中，<code>Prop</code> 与 <code>Bool</code> 在类型类上可能被赋予不同的实例；例如，<code>Prop</code> 被赋予 Sierpiński 空间（以 <code>{True}</code> 为开集）作为其拓扑，而 <code>Bool</code> 被赋予离散拓扑。</p>
+<h2 id="未检查相异性" class="markdown-heading">未检查相异性 <a class="hover-link" href="#未检查相异性">#</a></h2>
+<p>考虑下面这个鸽笼原理的陈述，它说的是：如果 $f : A \to B$ 是有限集之间的一个函数且 $|A| > |B|$，那么在 $A$ 中存在两个相异的元素被 $f$ 映射到 $B$ 中同一个元素：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="n">Mathlib.Data.Fintype.Card</span>
+
+<span class="kd">variable</span><span class="w"> </span><span class="o">{</span><span class="n">A</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">Type</span><span class="bp">*</span><span class="o">}</span><span class="w"> </span><span class="o">[</span><span class="n">Fintype</span><span class="w"> </span><span class="n">A</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">Fintype</span><span class="w"> </span><span class="n">B</span><span class="o">]</span>
+
+<span class="kd">theorem</span><span class="w"> </span><span class="n">pigeonhole_principle</span><span class="w"> </span><span class="o">(</span><span class="n">f</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="n">B</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">h</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Fintype.card</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">Fintype.card</span><span class="w"> </span><span class="n">A</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="bp">∃</span><span class="w"> </span><span class="o">(</span><span class="n">x</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">A</span><span class="o">),</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">Classical.choice</span><span class="w"> </span><span class="bp">&lt;|</span><span class="w"> </span><span class="n">Fintype.card_pos_iff.mp</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">omega</span><span class="o">)</span>
+<span class="w">  </span><span class="n">exact</span><span class="w"> </span><span class="o">⟨</span><span class="n">a</span><span class="o">,</span><span class="w"> </span><span class="n">a</span><span class="o">,</span><span class="w"> </span><span class="n">rfl</span><span class="o">⟩</span>
+</code></pre></div>
+</div>
+
+<p>如果你看一下这个证明，你会注意到它太过简单了。
+注意，该定理的陈述忘记要求 <code>x</code> 与 <code>y</code> 相异，所以我们要做的只是证明存在某个元素 <code>a : α</code>，然后根据定义就有 <code>f(a) = f(a)</code>。
+这并非 Lean 特有的问题，但在 Lean 中它比在非形式化数学中更容易在日后引发麻烦。</p>
+<h2 id="未考虑-0-的情形" class="markdown-heading">未考虑 0 的情形 <a class="hover-link" href="#未考虑-0-的情形">#</a></h2>
+<p>考虑下面这个费马大定理的陈述：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">theorem</span><span class="w"> </span><span class="n">flt</span><span class="w"> </span><span class="o">(</span><span class="n">a</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Nat</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">h</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="bp">≤</span><span class="w"> </span><span class="n">n</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="bp">≠</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="gr">sorry</span>
+</code></pre></div>
+</div>
+
+<p>不幸的是，这个陈述是错误的：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">example</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">False</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">flt</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="n">le_rfl</span><span class="w"> </span><span class="n">rfl</span>
+</code></pre></div>
+</div>
+
+<p>记住，在 Lean 中，<code>0 : ℕ</code>，你应该在你的定理陈述中考虑到这一情形。
+（这也是一个使用 Mathlib 定义本可以提供帮助的例子：
+Mathlib 已经为费马大定理的陈述提供了一个定义 <code>FermatLastTheorem</code>，它包含错误的可能性要小得多。）</p>
+<h2 id="除以-0" class="markdown-heading">除以 0 <a class="hover-link" href="#除以-0">#</a></h2>
+<p>在 Lean 中，<code>n / 0 = 0</code>。这与其他编程语言不同，在那些语言中除以零通常会导致异常。</p>
+<p>这意味着像下面这样的陈述</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="n">Mathlib.Data.Real.Basic</span>
+
+<span class="kd">theorem</span><span class="w"> </span><span class="n">my_theorem</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="bp">∃!</span><span class="w"> </span><span class="o">(</span><span class="n">x</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">),</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">x</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="gr">sorry</span>
+</code></pre></div>
+</div>
+
+<p>实际上是错误的，因为在 Lean 中，方程 <code>x / (1 + x) = 0</code> 在实数上有两个解：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">example</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">False</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="k">suffices</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="o">(</span><span class="mi">0</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="bp">-</span><span class="mi">1</span><span class="w"> </span><span class="kd">by</span><span class="w"> </span><span class="n">aesop</span>
+<span class="w">  </span><span class="n">apply</span><span class="w"> </span><span class="n">my_theorem.unique</span><span class="w"> </span><span class="bp">&lt;;&gt;</span><span class="w"> </span><span class="n">simp</span>
+</code></pre></div>
+</div>
+
+<p>除法之所以这样表现，是因为 Lean 是一门纯函数式语言，所以所有函数都必须是全函数——函数不能抛出异常。
+在 Lean 中，处理偏函数 $f : A \rightharpoonup B$ 的推荐方式是改为定义一个函数 $g : A \to B$，使得只要 $x \in \text{dom}(f)$，就有 $g(x) = f(x)$。
+$g$ 在 $A \setminus \text{dom}(f)$ 上的取值是任意的，通常被选取为能给出最良好的代数性质的值（这些值常被称为“垃圾值”）。</p>
+<p>也可以改为像这样定义除法</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">def</span><span class="w"> </span><span class="n">div</span><span class="w"> </span><span class="o">(</span><span class="n">a</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">h</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="bp">≠</span><span class="w"> </span><span class="mi">0</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="bp">...</span>
+</code></pre></div>
+</div>
+
+<p>但在实践中，每次想要对两个数做除法时都提供分母非零的证明会很快变得繁琐。
+相比之下，涉及除法的<em>定理</em>通常会带有一个表明分母非零的假设。
+建议你为自己的定理添加确保分母非零的假设，除非你已经仔细考虑过分母为零的情形。
+更多信息，请参见<a href="https://xenaproject.wordpress.com/2020/07/05/division-by-zero-in-type-theory-a-faq/">这篇 Xena 项目博文</a>。</p>
+<h2 id="整数除法" class="markdown-heading">整数除法 <a class="hover-link" href="#整数除法">#</a></h2>
+<p>在 Lean 中对两个 <code>Int</code> 或 <code>Nat</code> 做除法时，结果总是向下取整（这与大多数语言略有不同，那些语言是向零取整的）。
+这是为了使用除法不会导致所处理的数的类型发生改变。
+例如，下面的陈述是错误的：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="n">Mathlib.Algebra.Field.Rat</span>
+<span class="kn">import</span><span class="w"> </span><span class="n">Mathlib.Algebra.Order.Ring.Rat</span>
+
+<span class="kd">def</span><span class="w"> </span><span class="n">thm₁</span><span class="w"> </span><span class="o">(</span><span class="n">n</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℤ</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">h</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">n</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="n">n</span><span class="o">)</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="c">/-</span>
+<span class="cm">  ===================</span>
+<span class="cm">  Found a counter-example!</span>
+<span class="cm">  n := 3</span>
+<span class="cm">  guard: 2 &lt; 3</span>
+<span class="cm">  issue: 0 &lt; 0 does not hold</span>
+<span class="cm">  (0 shrinks)</span>
+<span class="cm">  -------------------</span>
+<span class="cm">  -/</span>
+<span class="w">  </span><span class="n">plausible</span>
+</code></pre></div>
+</div>
+
+<p>但与此同时，你可能并不想依赖这种行为。例如，下面这个定理实际上是成立的：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">def</span><span class="w"> </span><span class="n">thm₂</span><span class="w"> </span><span class="o">(</span><span class="n">n</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℚ</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">h</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">n</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="n">n</span><span class="o">)</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="n">simp</span><span class="w"> </span><span class="o">[</span><span class="n">inv_strictAnti₀</span><span class="w"> </span><span class="n">rfl</span><span class="w"> </span><span class="n">h</span><span class="o">]</span>
+</code></pre></div>
+</div>
+
+<p>在这个例子中，<code>&lt;</code> 的左端是一个有理数，所以 Lean 将右端也解释为有理数，于是整数除法就不再适用了。
+这与下面发生的情况类似：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="k">#eval</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="c1">-- 0</span>
+<span class="k">#eval</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="bp">/</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="o">(</span><span class="mi">0</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℚ</span><span class="o">)</span><span class="w"> </span><span class="c1">-- (1 : Rat)/2</span>
+</code></pre></div>
+</div>
+
+<p>如果你习惯了像 Java 这样的语言，你可能会对此感到惊讶——在 Java 中 <code>(1 / 2) + 0.0</code> 求值为 <code>0.0</code>，因为在 Java 中括号外的类型信息通常不会影响括号内的运算。</p>
+<p>一般来说，判断整数除法是否存在是很困难的。
+此外，Lean 在最近这个例子中的行为在未来也有可能改变。</p>
+<p>如果你对此有所顾虑，你可能想考虑在文件顶部附近添加 <code>set_option pp.numericTypes true</code>，这样数值字面量在 infoview 中显示时就会被标注上其相应的类型（例如 <code>ℕ</code>、<code>ℤ</code>、<code>ℚ</code>、<code>ℝ</code>、<code>ℂ</code>）。</p>
+<h2 id="自然数减法" class="markdown-heading">自然数减法 <a class="hover-link" href="#自然数减法">#</a></h2>
+<p>自然数的减法在 <code>0</code> 处截断，因为我们希望自然数减法的返回类型是 <code>Nat</code>。也就是说，我们有</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="k">#eval</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="bp">-</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="c1">-- 2</span>
+<span class="k">#eval</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="bp">-</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="c1">-- 0</span>
+<span class="k">#eval</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="bp">-</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="c1">-- 100</span>
+<span class="k">#eval</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="bp">-</span><span class="w"> </span><span class="mi">13</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="mi">11</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="c1">-- 11</span>
+</code></pre></div>
+</div>
+
+<p>正如上面整数除法一节中所解释的，类型标注会影响所执行的运算：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="k">#eval</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="bp">-</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="o">(</span><span class="mi">100</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Int</span><span class="o">)</span><span class="w"> </span><span class="c1">-- 10</span>
+<span class="k">#eval</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="bp">-</span><span class="w"> </span><span class="mi">13</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="mi">11</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="o">(</span><span class="bp">-</span><span class="mi">0</span><span class="o">)</span><span class="w"> </span><span class="c1">-- 3</span>
+</code></pre></div>
+</div>
+
+<p>截断减法也被称为 <a href="https://en.wikipedia.org/wiki/Monus">monus</a>。</p>
+<p>自然数减法可能出现的一个场合是：如果你有一个谓词 <code>P : Nat → Prop</code>，并想证明对所有 <code>n ≥ 1</code> 都有 <code>P n</code> 成立。
+如果你试图证明</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">theorem</span><span class="w"> </span><span class="n">mythm</span><span class="w"> </span><span class="o">{</span><span class="n">n</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Nat</span><span class="o">}</span><span class="w"> </span><span class="o">(</span><span class="n">hn</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">≤</span><span class="w"> </span><span class="n">n</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">P</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="bp">...</span>
+</code></pre></div>
+</div>
+
+<p>你可能会发现 <code>mythm</code> 的证明需要你频繁地用到 <code>n - 1</code>。
+尽管这里并未发生截断，但这个陈述证明起来仍可能很繁琐，因为自动化往往不能很好地处理自然数减法。
+在许多情况下，改为证明</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">theorem</span><span class="w"> </span><span class="n">mythm</span><span class="w"> </span><span class="o">(</span><span class="n">n</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Nat</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">P</span><span class="w"> </span><span class="o">(</span><span class="n">n</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="mi">1</span><span class="o">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="bp">...</span>
+</code></pre></div>
+</div>
+
+<p>是更明智的，因为这完全避免了自然数减法。
+更一般地，你常常可以把一个涉及自然数减法的陈述重述为一个不涉及它的陈述。
+此外，在很多情况下，<code>mythm</code> 的后一种表述比前一种表述更易于使用。</p>
+<h2 id="其他偏函数" class="markdown-heading">其他偏函数 <a class="hover-link" href="#其他偏函数">#</a></h2>
+<p>你还应该意识到，Mathlib 中许多其他函数也使用了垃圾值。
+例如，</p>
+<ul>
+<li>当 <code>f</code> 在 <code>s</code> 内于 <code>x</code> 处不可微时，<code>deriv f s x = 0</code>。
+类似地，当 <code>f</code> 在给定点处不可微时，Fréchet 导数 <code>fderiv</code> 返回零线性映射。
+你可能需要在定理的假设中加入 <code>HasDerivAt</code> 或 <code>HasFDerivAt</code>。</li>
+<li>“拓扑和” <code>tsum f</code>，也记作 <code>∑' i, f i</code>，计算一个级数的和，或者在该和不收敛时返回 0。
+考虑为涉及 <code>∑' i, f i</code> 的定理加入 <code>Summable f</code> 假设。
+<ul>
+<li>注意，由于 <code>tsum</code> 不假设定义域上有序结构，只有无条件收敛的级数才被视为 <code>Summable</code>。
+直观地说，如果级数求和的次序无关紧要，那么它就是无条件收敛的。
+例如，交错调和级数<em>不是</em> <code>Summable</code> 的，因为它只是条件收敛的。
+（由 <a href="https://en.wikipedia.org/wiki/Riemann_series_theorem">Riemann 级数定理</a>可知，一个实值级数<em>无条件收敛</em>当且仅当它<em>绝对收敛</em>。
+一般而言，无条件收敛比绝对收敛更弱：如果 $(e_n)_{n \in \mathbb{N}}$ 是一个可数无穷维 Hilbert 空间的一组标准正交基，那么 $\sum (e_n)/n$ 无条件收敛，但不绝对收敛。）</li>
+</ul>
+</li>
+<li><code>tprod f</code>（记作 <code>∏' i, f i</code>）与 <code>tsum</code> 类似，但其垃圾值是 <code>1</code> 而非 <code>0</code>。</li>
+<li><code>Nat.sqrt x</code> 取 $\sqrt{x}$ 的下取整。</li>
+<li><code>Real.sqrt x</code> 对负数输入返回 <code>0</code>。</li>
+<li><code>Real.log x</code> 在 $x \ne 0$ 时实际上表示 $\log_e |x|$，并在 $x = 0$ 时为 $0$。
+这比将其对所有负的 $x$ 都设为 $0$ 给出了更好的代数性质。</li>
+<li>当集合为空或无上界时，<code>Real.sSup</code> 和 <code>Real.iSup</code> 为 0；同样地，当集合为空或无下界时，<code>Real.sInf</code> 和 <code>Real.iInf</code> 为 0。
+这与 <code>Real.sqrt</code> 配合得很好：它意味着对所有 $x \in \mathbb{R}$ 都有 $\sqrt{x} = \sup \{y \mid y^2 < x\}$，因为当 $x \le 0$ 时两端都为 $0$。</li>
+</ul>
+<h2 id="fin-中算术的回绕" class="markdown-heading"><code>Fin</code> 中算术的回绕 <a class="hover-link" href="#fin-中算术的回绕">#</a></h2>
+<p><code>Fin</code> 中的算术在上溢或下溢时会回绕：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="k">#eval</span><span class="w"> </span><span class="o">(</span><span class="mi">7</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Fin</span><span class="w"> </span><span class="mi">10</span><span class="o">)</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="c1">-- 3</span>
+<span class="k">#eval</span><span class="w"> </span><span class="o">(</span><span class="mi">7</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Fin</span><span class="w"> </span><span class="mi">10</span><span class="o">)</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="c1">-- 2</span>
+<span class="k">#eval</span><span class="w"> </span><span class="o">(</span><span class="mi">2</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Fin</span><span class="w"> </span><span class="mi">10</span><span class="o">)</span><span class="w"> </span><span class="bp">-</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="c1">-- 4</span>
+</code></pre></div>
+</div>
+
+<p>这对字面量也适用：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="k">#eval</span><span class="w"> </span><span class="o">(</span><span class="mi">15</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Fin</span><span class="w"> </span><span class="mi">10</span><span class="o">)</span><span class="w"> </span><span class="c1">-- 5</span>
+<span class="k">#eval</span><span class="w"> </span><span class="o">(</span><span class="mi">10</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Fin</span><span class="w"> </span><span class="mi">10</span><span class="o">)</span><span class="w"> </span><span class="c1">-- 0</span>
+</code></pre></div>
+</div>
+
+<p>请注意，尽管对于正的 <code>n</code>，<code>Fin n</code> 使用与 <code>ZMod n</code> 相同的加法、减法和乘法概念，但它们并不完全相同，因为 <code>Fin n</code> 是有序的而 <code>ZMod n</code> 是无序的，并且 <code>Fin n</code> 使用截断的整数除法，而 <code>ZMod n</code> 在 $n$ 为素数时使用 $\mathbb{Z}/n\mathbb{Z}$ 上“数学上正确”的除法概念。
+此外，<code>Fin 0</code> 是空的，而 <code>ZMod 0 = Int</code>（这是为了使 <code>ZMod n</code> 始终是一个特征为 <code>n</code> 的环，因为空类型不能成为环）。</p>
+<p><code>Fin</code> 之所以使用回绕算术而非诸如饱和算术之类的东西，原因之一是它被用来表示像 <code>UInt32</code> 这样的原生定宽整数类型，而 <code>Fin</code> 上的运算需要与机器原生算术的上溢和下溢相一致。</p>
+<h2 id="实数幂" class="markdown-heading">实数幂 <a class="hover-link" href="#实数幂">#</a></h2>
+<p><code>Real.rpow x y</code> 对负的 <code>x</code> 的定义有些任意。
+具体来说，它被定义为复指数函数的实部，而复指数函数本身也有些任意，因为它依赖于复对数。
+这赋予了该函数良好的解析性质，但也意味着对负数取根会有些反直觉。
+例如，<code>(-125 : ℝ) ^ (1/3 : ℝ)</code> 的值是 $5\cos(\pi/3)$，而非你可能预期的 $-5$。</p>
+<h2 id="fin-n--ℝ-中的距离" class="markdown-heading"><code>Fin n → ℝ</code> 中的距离 <a class="hover-link" href="#fin-n--ℝ-中的距离">#</a></h2>
+<p>在许多情况下，<code>Fin n → ℝ</code> 是在 Lean 中表示 $\mathbb{R}^n$ 的推荐方式。
+这种类型的向量可以用 <code>![x,y,z,...]</code> 记法书写。
+但请注意，在 Lean 中，如果 $(S_i)_{i \in I}$ 是一族有限多个（伪）度量空间，那么 $\prod_{i \in I}S_i$ 使用 $L^\infty$ 度量：
+$$
+\text{dist}(\textbf{x},\textbf{y}) = \sup\left\{ \text{dist}(x_i,y_i) \mid i \in I\right\}
+$$
+而 <code>Fin n → ℝ</code> 是这种情形的一个特例。</p>
+<p>这意味着 $(1,0)$ 与 $(0,1)$ 之间的距离实际上是 $1$：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="n">Mathlib.Analysis.InnerProductSpace.PiL2</span>
+
+<span class="kd">example</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">dist</span><span class="w"> </span><span class="bp">!</span><span class="o">[(</span><span class="mi">1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">),</span><span class="mi">0</span><span class="o">]</span><span class="w"> </span><span class="bp">!</span><span class="o">[</span><span class="mi">0</span><span class="o">,</span><span class="mi">1</span><span class="o">]</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="n">rw</span><span class="w"> </span><span class="o">[</span><span class="n">dist_pi_eq_iff</span><span class="w"> </span><span class="o">(</span><span class="kd">by</span><span class="w"> </span><span class="n">positivity</span><span class="o">)]</span>
+<span class="w">  </span><span class="n">constructor</span>
+<span class="w">  </span><span class="bp">·</span><span class="w"> </span><span class="n">use</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">simp</span>
+<span class="w">  </span><span class="bp">·</span><span class="w"> </span><span class="n">intro</span><span class="w"> </span><span class="n">b</span>
+<span class="w">    </span><span class="n">fin_cases</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="bp">&lt;;&gt;</span><span class="w"> </span><span class="n">simp</span>
+</code></pre></div>
+</div>
+
+<p>要改用标准的欧几里得度量（也称为 $L^2$ 度量），你必须使用 <code>EuclideanSpace ℝ (Fin n)</code>，它是 <code>WithLp 2 (Fin n → ℝ)</code> 的缩写。这种类型的向量可以用 <code>!₂[x,y,z,...]</code> 记法书写。</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">example</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">dist</span><span class="w"> </span><span class="bp">!₂</span><span class="o">[(</span><span class="mi">1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">),</span><span class="mi">0</span><span class="o">]</span><span class="w"> </span><span class="bp">!₂</span><span class="o">[</span><span class="mi">0</span><span class="o">,</span><span class="mi">1</span><span class="o">]</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="bp">√</span><span class="mi">2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="n">norm_num</span><span class="w"> </span><span class="o">[</span><span class="n">EuclideanSpace.dist_eq</span><span class="o">]</span>
+</code></pre></div>
+</div>
+
+<p>这样做的一个后果是，<code>Fin n → ℝ</code> 并未被注册为内积空间，因为与该内积相对应的范数会与已有的 $L^\infty$ 范数相冲突。
+如果你需要把 $\mathbb{R}^n$ 作为内积空间，请使用 <code>EuclideanSpace ℝ (Fin n)</code>。</p>
+<h2 id="意外的双重-iinf-或-isup" class="markdown-heading">意外的双重 <code>iInf</code> 或 <code>iSup</code> <a class="hover-link" href="#意外的双重-iinf-或-isup">#</a></h2>
+<p>你可能期望 <code>⨅ x &gt; 2, (x : ℝ) ^ 2</code> 等于 <code>4</code>，因为 <code>(2,∞)</code> 在 <code>fun x : ℝ ↦ x ^ 2</code> 下的像是 <code>(4,∞)</code>。但在 Lean 中，这个表达式实际上等于 <code>0</code>：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="n">Mathlib.Data.Real.Archimedean</span>
+<span class="kn">import</span><span class="w"> </span><span class="n">Mathlib.Order.ConditionallyCompleteLattice.Indexed</span>
+
+<span class="c1">-- The infimum of x^2 on (2,∞) is ... 0?</span>
+<span class="kd">example</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="bp">⨅</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="bp">&gt;</span><span class="w"> </span><span class="mi">2</span><span class="o">,</span><span class="w"> </span><span class="o">(</span><span class="n">x</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="n">set</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">fun</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="w"> </span><span class="bp">↦</span><span class="w"> </span><span class="bp">⨅</span><span class="w"> </span><span class="o">(</span><span class="n">h</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="bp">&gt;</span><span class="w"> </span><span class="mi">2</span><span class="o">),</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">hf₁</span><span class="w"> </span><span class="o">(</span><span class="n">x</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="bp">&gt;</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="bp">^</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="n">sInf</span><span class="w"> </span><span class="bp">∅</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">ciInf_eq_ite</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">hf₂</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span><span class="w"> </span><span class="n">simp</span><span class="w"> </span><span class="o">[</span><span class="n">hf₁</span><span class="o">]</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">hf₃</span><span class="w"> </span><span class="o">(</span><span class="n">x</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">≤</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">    </span><span class="n">rw</span><span class="w"> </span><span class="o">[</span><span class="n">hf₁</span><span class="o">]</span>
+<span class="w">    </span><span class="n">split_ifs</span><span class="w"> </span><span class="bp">&lt;;&gt;</span><span class="w"> </span><span class="n">simp</span><span class="w"> </span><span class="o">[</span><span class="n">sq_nonneg</span><span class="o">]</span>
+<span class="w">  </span><span class="n">apply</span><span class="w"> </span><span class="n">le_antisymm</span>
+<span class="w">  </span><span class="bp">·</span><span class="w"> </span><span class="n">rw</span><span class="w"> </span><span class="o">[</span><span class="bp">←</span><span class="n">hf₂</span><span class="o">]</span>
+<span class="w">    </span><span class="n">refine</span><span class="w"> </span><span class="n">ciInf_le</span><span class="w"> </span><span class="bp">?</span><span class="n">_</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">rw</span><span class="w"> </span><span class="o">[</span><span class="n">bddBelow_iff_exists_le</span><span class="w"> </span><span class="mi">0</span><span class="o">]</span>
+<span class="w">    </span><span class="n">use</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">simp</span><span class="w"> </span><span class="o">[</span><span class="n">hf₃</span><span class="o">]</span>
+<span class="w">  </span><span class="bp">·</span><span class="w"> </span><span class="n">simp</span><span class="w"> </span><span class="o">[</span><span class="n">le_ciInf</span><span class="o">,</span><span class="w"> </span><span class="n">hf₃</span><span class="o">]</span>
+</code></pre></div>
+</div>
+
+<p>其原因在于，<code>⨅ x &gt; 2, (x : ℝ) ^ 2</code> 是 <code>⨅ (x : ℝ) (h : x &gt; 2), x ^ 2</code> 的简写，而后者又是 <code>⨅ (x : ℝ), ⨅ (h : x &gt; 2), x ^ 2</code> 的简写。
+注意：</p>
+<ul>
+<li>当 <code>x &gt; 2</code> 时，<code>⨅ (h : x &gt; 2), x ^ 2</code> 表示 <code>⨅ (h : True), x ^ 2</code>，它等于 <code>x ^ 2</code>。</li>
+<li>当 <code>x ≤ 2</code> 时，<code>⨅ (h : x &gt; 2), x ^ 2</code> 表示 <code>⨅ (h : False), x ^ 2</code>，它等于
+<code>sInf (∅ : Set ℝ)</code>。
+在传统数学中，实数上的 $\inf \varnothing$ 通常是无定义的，或者被定义为等于 $+\infty$。但在 Lean 中，<code>sInf (∅ : Set ℝ) = 0</code>（解释参见上面关于偏函数的章节）。</li>
+</ul>
+<p>所以，总结来说，<code>⨅ x &gt; 2, (x : ℝ) ^ 2</code> 等于 <code>⨅ (x : ℝ), f x</code>，其中
+$$
+f(x) = \begin{cases} x^2 &\text{ for } x > 2 \\ 0 &\text{ for } x \le 2 \end{cases}
+$$
+而这个函数的下确界是 <code>0</code>。</p>
+<p>集合也会出现类似的情况。<code>⨅ x ∈ s, f x</code> 是 <code>⨅ x, ⨅ (_ : x ∈ s), f x</code> 的简写，它可能与 <code>⨅ x : ↑s, f ↑x</code>（其中索引类型是被强制转换为类型的 <code>s</code>）不同。
+此外，本节中的一切对 <code>iSup</code> 的适用程度与对 <code>iInf</code> 的一样。</p>
+<p><code>⨅</code> 和 <code>⨆</code> 之所以这样表现，是为了与诸如 <code>∀</code> 和 <code>∃</code> 之类的其他绑定子保持一致：
+<code>∀ x ∈ s, p x</code> 是 <code>∀ x, ∀ h : x ∈ s, p x</code> 的简写，<code>∃ x ∈ s, p x</code> 是 <code>∃ x, ∃ h : x ∈ s, p x</code> 的简写。
+然而，关于未来是否可能改变这种行为，已经有过一些讨论：参见 <a href="https://leanprover.zulipchat.com/#narrow/channel/287929-mathlib4/topic/sup.20and.20inf.20over.20sets/with/472565284">Zulip 上的这则讨论</a>。</p>
+<h2 id="试图从命题的证明中提取数据" class="markdown-heading">试图从命题的证明中提取数据 <a class="hover-link" href="#试图从命题的证明中提取数据">#</a></h2>
+<p>给定一个证明 <code>h : ∃ n : Nat, p n</code>，你可能希望提取出使得 <code>p n</code> 成立的那个特定的 <code>n</code>。
+或者给定一个项 <code>q : Nonempty Nat</code>，你可能希望获得用于构造 <code>q</code> 的那个特定的 <code>Nat</code>。
+在上述每种情况下，从 <code>h</code> 或 <code>q</code> 中提取一个<em>任意的</em> <code>n : Nat</code> 都是可能的，但获得 <code>h</code> 或 <code>p</code> 的构造中所用的那个<em>特定的</em> <code>n</code> 则是不可能的。</p>
+<p>要理解其原因，首先回想一下 Lean 有一个单一的全集层级 <code>Sort 0</code>、<code>Sort 1</code>、<code>Sort 2</code>、<code>Sort 3</code>、……，
+并且 <code>Prop</code> 是 <code>Sort 0</code> 的简写，<code>Type</code> 是 <code>Sort 1</code> 的简写，<code>Type 1</code> 是 <code>Sort 2</code> 的简写，如此等等。
+之所以要区分 <code>Prop</code> 和 <code>Type u</code>，是因为 <code>Prop</code> 具有一些特殊行为，有时需要我们把它与其余的全集区别对待。
+<code>Prop</code> 最重要的两个特殊性质是<em>非直谓性</em>和<em>证明无关性</em>。
+在本节中，我将主要讨论证明无关性的后果。</p>
+<p>本质上，证明无关性表明每个命题至多有一个证明；也就是说，同一命题的任意两个证明都相等。
+另一种表述方式是，每个命题都是一个<em>子单元集</em>——一个具有零个或一个元素的类型。
+证明无关性在 Lean 中的实现方式是：如果 <code>P : Prop</code> 且 <code>p : P</code> 且 <code>q : P</code>，那么 <code>p</code> 与 <code>q</code> 在定义上相等，因此 <code>rfl : p = q</code>。
+这是 Lean 类型论中的一条内置规则，不应与 <code>propext</code> 相混淆，后者是一条公理，表明如果 <code>P Q : Prop</code> 且 <code>P ↔ Q</code>，那么 <code>P = Q</code>。</p>
+<p>要明白为什么需要这条规则，回想一下子类型 <code>{x : X // p x}</code> 的一个元素形如 <code>{ val := x, property := h }</code>，其中 <code>x</code> 是 <code>X</code> 的一个元素，<code>h</code> 是 <code>p x</code> 的一个证明。如果我们定义</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">def</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="o">{</span><span class="n">n</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Nat</span><span class="w"> </span><span class="bp">//</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">n</span><span class="o">}</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">8</span><span class="o">,</span><span class="w"> </span><span class="n">property</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">Nat.lt_of_sub_eq_succ</span><span class="w"> </span><span class="n">rfl</span><span class="w"> </span><span class="o">}</span>
+<span class="kd">def</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="o">{</span><span class="n">n</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Nat</span><span class="w"> </span><span class="bp">//</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">n</span><span class="o">}</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">8</span><span class="o">,</span><span class="w"> </span><span class="n">property</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span><span class="w"> </span><span class="n">omega</span><span class="w"> </span><span class="o">}</span>
+</code></pre></div>
+</div>
+
+<p>那么 <code>x</code> 与 <code>y</code> 具有相同的值，但具有不同的证明。
+我们希望 <code>x</code> 与 <code>y</code> 尽管证明不同却仍然相等，而且如果它们甚至定义相等的话就非常方便了，正是证明无关性使这成为可能：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">example</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">rfl</span>
+</code></pre></div>
+</div>
+
+<p>由于证明无关性，当一个证明 <code>h : ∃ n : Nat, p n</code> 被构造出来时，它“遗忘”了用来证明它的是哪个 <code>n</code>。
+如果存在某个函数 <code>f : (∃ n : Nat, p n) → Nat</code> 能提取出 <code>h</code> 的构造中所用的自然数，那么我们就可以构造两个不同的证明 <code>h₁ h₂ : ∃ n : Nat, p n</code>，使得 <code>f h₁ ≠ f h₂</code>，但由证明无关性又有 <code>h₁ = h₂</code>。
+这会产生矛盾，所以不存在这样的 <code>f</code>。</p>
+<p>更一般地，当你定义一个属于 <code>Prop</code> 的归纳类型 <code>T</code> 时，<code>T.rec</code> 的返回类型只被允许属于 <code>Prop</code>。
+实际上，这意味着虽然函数</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">def</span><span class="w"> </span><span class="n">swap</span><span class="w"> </span><span class="o">{</span><span class="n">P</span><span class="w"> </span><span class="n">Q</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">Prop</span><span class="o">}</span><span class="w"> </span><span class="o">(</span><span class="n">h</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">P</span><span class="w"> </span><span class="bp">∨</span><span class="w"> </span><span class="n">Q</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Q</span><span class="w"> </span><span class="bp">∨</span><span class="w"> </span><span class="n">P</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">  </span><span class="k">match</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="k">with</span>
+<span class="w">  </span><span class="bp">|</span><span class="w"> </span><span class="n">Or.inl</span><span class="w"> </span><span class="n">hp</span><span class="w"> </span><span class="bp">=&gt;</span><span class="w"> </span><span class="n">Or.inr</span><span class="w"> </span><span class="n">hp</span>
+<span class="w">  </span><span class="bp">|</span><span class="w"> </span><span class="n">Or.inr</span><span class="w"> </span><span class="n">hq</span><span class="w"> </span><span class="bp">=&gt;</span><span class="w"> </span><span class="n">Or.inl</span><span class="w"> </span><span class="n">hq</span>
+</code></pre></div>
+</div>
+
+<p>是被允许的，因为该 match 表达式的返回类型属于 <code>Prop</code>，但函数</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">def</span><span class="w"> </span><span class="n">bad</span><span class="w"> </span><span class="o">{</span><span class="n">P</span><span class="w"> </span><span class="n">Q</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">Prop</span><span class="o">}</span><span class="w"> </span><span class="o">(</span><span class="n">h</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">P</span><span class="w"> </span><span class="bp">∨</span><span class="w"> </span><span class="n">Q</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Nat</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">  </span><span class="k">match</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="k">with</span>
+<span class="w">  </span><span class="bp">|</span><span class="w"> </span><span class="n">Or.inl</span><span class="w"> </span><span class="n">hp</span><span class="w"> </span><span class="bp">=&gt;</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">  </span><span class="bp">|</span><span class="w"> </span><span class="n">Or.inr</span><span class="w"> </span><span class="n">hq</span><span class="w"> </span><span class="bp">=&gt;</span><span class="w"> </span><span class="mi">2</span>
+</code></pre></div>
+</div>
+
+<p>则是不被允许的，因为该 match 表达式的返回类型属于 <code>Type</code>。
+请注意，某些归纳命题——称为<em>句法子单元集</em>——通过一种称为<em>子单元集消去</em>的机制而豁免于这一限制。</p>
+<p>如果你确实必须从命题中提取数据，有几种方法可供选择：</p>
+<ul>
+<li>如果你是在某个命题的证明过程中提取数据（而不是在一个属于 <code>Type</code> 或更高层级的 <code>def</code> 中），那么诸如 <code>cases</code> 和 <code>obtain</code> 之类的策略会像往常一样工作。你也可以应用诸如 <code>Exists.elim</code> 和 <code>Nonempty.elim</code> 之类的消去子，它们只允许你消去到命题。</li>
+<li>如果你只是需要从一个证明 <code>h : Nonempty α</code> 中提取一个<em>任意的</em> <code>α</code>，你可以使用公理 <code>Classical.choice</code> 来做到这一点。请注意，除了 <code>Classical.choice</code> 的输出属于 <code>α</code> 这一事实之外，关于该输出无法证明任何性质。例如，如果你对一个证明 <code>h : Nonempty Nat</code> 使用 <code>Classical.choice</code> 以产生一个元素 <code>n : Nat</code>，那么诸如 <code>n = 37</code> 之类的陈述在 Lean 中既不可证也不可否。
+此外，如果你编写的代码的行为依赖于 <code>n</code> 的值，那么你将被迫把这样的代码标记为 <code>noncomputable</code>。</li>
+<li>如果你拥有的是一个元素 <code>h : ∃ n : Nat, p n</code>，那么你可以使用 <code>Classical.choose</code> 来获得一个元素 <code>n : Nat</code>，并使用 <code>Classical.choose_spec</code> 来获得 <code>p n</code> 的一个证明。
+<code>Classical.choose</code> 和 <code>Classical.choose_spec</code> 在内部是通过使用 <code>Classical.choice</code> 产生 <code>{n : Nat // p n}</code> 的一个元素来定义的，所以关于可计算性的相同限制也适用。</li>
+<li>如果你需要依赖于 <code>∃ n : Nat, p n</code> 的证明中所用的那个<em>特定的</em>值，你或许应该完全避免使用 <code>Exists</code> 类型，而是给出 <code>{n : Nat // p n}</code> 的一个元素。
+<code>∃ n : Nat, p n</code> 与 <code>{n : Nat // p n}</code> 都由一个 <code>n : Nat</code> 和一个 <code>p n</code> 的证明组成；它们唯一的区别在于该类型属于哪个全集。</li>
+<li>如果你是在 <code>Nat</code> 上工作，并且你有一个 <code>h : ∃ n : Nat, p n</code>，其中 <code>p</code> 是一个 <code>DecidablePred</code>，那么你可以使用 <code>Nat.find</code> 和 <code>Nat.find_spec</code>，其用法类似于 <code>Classical.choose</code> 和 <code>Classical.choose_spec</code>。
+<code>Nat.find</code> 是可计算的，尽管它可能并不特别高效，因为求值 <code>Nat.find h</code> 会从 0 开始按顺序检查每一个自然数，直到找到满足 <code>p</code> 的最小者。</li>
+</ul>
+<h2 id="处理类型的相等" class="markdown-heading">处理类型的相等 <a class="hover-link" href="#处理类型的相等">#</a></h2>
+<p>类型的相等在 Lean 的类型论中表现得很糟糕。
+如果 <code>A</code> 与 <code>B</code> 是 <code>Type u</code> 中两个不同的归纳类型或结构，并且 <code>A</code> 与 <code>B</code> 具有相同的基数，那么陈述 <code>A = B</code> 在 Lean 中既不可证也不可否。
+例如，<code>Int = Nat</code> 既不可证也不可否。
+更多信息，请阅读 Jason Rute 和 Andrej Bauer 对这个问题的回答：<a href="https://proofassistants.stackexchange.com/q/4046">https://proofassistants.stackexchange.com/q/4046</a></p>
+<p>粗略地说，你唯一能够证明两个类型相等的情形，是它们由相同的不可约类型定义而来。例如，当 <code>n = m</code> 时 <code>Fin n = Fin m</code> 是可证的，但 <code>Fin 2 = Bool</code> 则不可证。
+你唯一能够证明两个类型<em>不</em>相等的情形，是它们具有不同的基数。所以，<code>Fin 3 ≠ Bool</code> 是可证的，但 <code>Fin 2 ≠ Bool</code> 则不可证。
+例外是 <code>Prop</code>，对它而言，公理 <code>propext</code> 可以被理解为表明：如果两个 <code>Prop</code> 具有相同的基数，那么它们相等。</p>
+<p>如果你<em>确实</em>能够证明 <code>A = B</code>，那么你可以使用 <code>cast</code> 把 <code>A</code> 的一个元素转换为 <code>B</code> 的一个元素。
+但对 <code>cast</code> 的依赖往往会在日后引发问题，并可能导致表现糟糕的 <code>HEq</code>。
+通常，与其处理类型的相等，处理某种合适的同构类型（如果你不涉及任何代数或拓扑结构，则用 <code>Equiv</code>）要好得多。
+另外，如果你处理的是 <code>α</code> 的若干 <code>Subtype</code> 之间的相等，你或许应该改为处理 <code>Set α</code> 的元素。
+<code>Set α</code> 中的相等表现良好。</p>
+<h2 id="为已存在的实例引入参数" class="markdown-heading">为已存在的实例引入参数 <a class="hover-link" href="#为已存在的实例引入参数">#</a></h2>
+<p>一个常见的错误是为已经存在的实例引入 <code>variable</code> 或参数。
+例如，在下面的定理陈述中，注意 <code>[Ring ℤ]</code> 是多余的，因为 <code>ℤ</code> 已经有一个可用的 <code>Ring</code> 实例。</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="n">Mathlib.Algebra.Equiv.TransferInstance</span>
+<span class="kn">import</span><span class="w"> </span><span class="n">Mathlib.Algebra.Field.ZMod</span>
+<span class="kn">import</span><span class="w"> </span><span class="n">Mathlib.Algebra.Polynomial.Cardinal</span>
+
+<span class="kd">theorem</span><span class="w"> </span><span class="n">my_theorem</span><span class="w"> </span><span class="o">[</span><span class="n">Ring</span><span class="w"> </span><span class="n">ℤ</span><span class="o">]</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">CharZero</span><span class="w"> </span><span class="n">ℤ</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="gr">sorry</span>
+</code></pre></div>
+</div>
+
+<p>事实上，按照所陈述的，这个陈述说的是 $\mathbb{Z}$ 上<em>每一个</em>环的特征都为 0，而这是错误的，因为存在特征非零的可数无穷环（例如 $(\mathbb{Z}/2\mathbb{Z})[X]$）。
+下面的证明由 Bhavik Mehta 给出：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kn">open</span><span class="w"> </span><span class="n">Cardinal</span><span class="w"> </span><span class="k">in</span>
+<span class="kd">theorem</span><span class="w"> </span><span class="n">bad</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">False</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">e1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="bp">#</span><span class="o">(</span><span class="n">Polynomial</span><span class="w"> </span><span class="o">(</span><span class="n">ZMod</span><span class="w"> </span><span class="mi">2</span><span class="o">))</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">ℵ₀</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span><span class="w"> </span><span class="n">simpa</span><span class="w"> </span><span class="n">using</span><span class="w"> </span><span class="o">(</span><span class="n">Cardinal.nat_lt_aleph0</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="bp">.</span><span class="n">le</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="n">e2</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="bp">#</span><span class="n">ℤ</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">ℵ₀</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span><span class="w"> </span><span class="n">simp</span>
+<span class="w">  </span><span class="n">obtain</span><span class="w"> </span><span class="o">⟨</span><span class="n">e</span><span class="o">⟩</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">Cardinal.eq</span><span class="bp">.</span><span class="mi">1</span><span class="w"> </span><span class="o">(</span><span class="n">e2.trans</span><span class="w"> </span><span class="n">e1.symm</span><span class="o">)</span>
+<span class="w">  </span><span class="k">let</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Ring</span><span class="w"> </span><span class="n">ℤ</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">e.ring</span>
+<span class="w">  </span><span class="n">cases</span><span class="w"> </span><span class="bp">@</span><span class="n">Nat.cast_injective</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="n">my_theorem</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="n">rfl</span>
+</code></pre></div>
+</div>
+
+<p>这种情况的一个症状是，你可能会遇到在 infoview 中看起来完全相同但实际上并不相等的表达式，导致诸如 <code>rfl</code>、<code>apply</code> 和 <code>rw</code> 之类的策略带着晦涩的信息失败。
+例如，下面的策略状态显示目标是证明 <code>dist 0 1 = dist 0 1</code>，而你必须深入点击右侧 <code>dist</code> 函数的三层，才能发现它使用了错误的实例。</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="n">Mathlib.Topology.MetricSpace.Basic</span>
+
+<span class="kd">example</span><span class="w"> </span><span class="o">[</span><span class="n">inst</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">MetricSpace</span><span class="w"> </span><span class="n">ℝ</span><span class="o">]</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">dist</span><span class="w"> </span><span class="o">(</span><span class="mi">0</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">inst.dist</span><span class="w"> </span><span class="o">(</span><span class="mi">0</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="o">)</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="c">/-</span>
+<span class="cm">  Tactic state:</span>
+<span class="cm">  1 goal</span>
+<span class="cm">  inst : MetricSpace ℝ</span>
+<span class="cm">  ⊢ dist 0 1 = dist 0 1</span>
+<span class="cm">  -/</span>
+<span class="w">  </span><span class="gr">sorry</span>
+</code></pre></div>
+</div>
+
+<p>在这个特定的例子中，尝试 <code>rfl</code> 会给你如下错误信息</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="n">tactic</span><span class="w"> </span><span class="bp">&#39;</span><span class="n">rfl&#39;</span><span class="w"> </span><span class="n">failed</span><span class="o">,</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">left</span><span class="bp">-</span><span class="n">hand</span><span class="w"> </span><span class="n">side</span>
+<span class="w">  </span><span class="bp">@</span><span class="n">dist</span><span class="w"> </span><span class="n">ℝ</span><span class="w"> </span><span class="o">(</span><span class="bp">@</span><span class="n">PseudoMetricSpace.toDist</span><span class="w"> </span><span class="n">ℝ</span><span class="w"> </span><span class="n">Real.pseudoMetricSpace</span><span class="o">)</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span>
+<span class="n">is</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">definitionally</span><span class="w"> </span><span class="n">equal</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">right</span><span class="bp">-</span><span class="n">hand</span><span class="w"> </span><span class="n">side</span>
+<span class="w">  </span><span class="bp">@</span><span class="n">dist</span><span class="w"> </span><span class="n">ℝ</span><span class="w"> </span><span class="o">(</span><span class="bp">@</span><span class="n">PseudoMetricSpace.toDist</span><span class="w"> </span><span class="n">ℝ</span><span class="w"> </span><span class="n">MetricSpace.toPseudoMetricSpace</span><span class="o">)</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span>
+<span class="n">inst</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">MetricSpace</span><span class="w"> </span><span class="n">ℝ</span>
+<span class="bp">⊢</span><span class="w"> </span><span class="n">dist</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">dist</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span>
+</code></pre></div>
+</div>
+
+<p>由此你可以断定这两个类型类并不匹配。当诸如 <code>congr</code> 或 <code>convert</code> 之类的策略生成子目标时，往往值得在那些目标上运行 <code>rfl</code>，以查看它们是否是由不匹配的类型类实例引起的。</p>
+<p>在实际代码中，你大概不会无意间写出 <code>inst.dist</code>，但在更复杂的例子中，错误的实例可能会以难以察觉的方式表现出来。</p>
+<p>感谢 Edward van de Meent 建议我纳入这个主题并找出了一个误导性的陈述，也感谢 Bhavik Mehta 完成了第一个例子为 <code>False</code> 的证明细节。</p>
+<h2 id="把-set-当作类型使用" class="markdown-heading">把 <code>Set</code> 当作类型使用 <a class="hover-link" href="#把-set-当作类型使用">#</a></h2>
+<p>在 Lean 中，<code>Set X</code> 被定义为 <code>X → Prop</code>，所以集合是谓词，而非类型。然而，存在一个从 <code>Set X</code> 到 <code>Type u</code> 的隐式强制转换，因此如果你有参数 <code>(X : Type) (s : Set X) (a : s)</code>，那么 <code>(a : s)</code> 实际上表示 <code>(a : {x : X // x ∈ s})</code>。
+这里，<code>{x : X // x ∈ s}</code> 是 <code>Subtype (fun x ↦ x ∈ s)</code> 的记法。</p>
+<p>也就是说，<code>a</code> 实际上是一个对 <code>⟨x, hx⟩</code>，其中 <code>x : X</code> 且 <code>hx</code> 是 <code>x ∈ s</code> 的一个证明。
+所以，<code>a</code> 实际上并不是 <code>X</code> 的一个元素，但你可能没意识到这一点，因为还存在另一个从 <code>{x : X // x ∈ s}</code> 到 <code>X</code> 的隐式强制转换，它使得 <code>a</code> 在某些（但并非所有）情形下表现得像 <code>X</code> 的一个元素。</p>
+<p>这会导致各种各样的问题。例如，</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="n">Mathlib.Data.Set.Basic</span>
+
+<span class="kd">example</span><span class="w"> </span><span class="o">(</span><span class="n">s</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Set</span><span class="w"> </span><span class="n">ℕ</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">n</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">s</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="gr">sorry</span>
+</code></pre></div>
+</div>
+
+<p>无法编译，因为 Lean 不知道 <code>0 + n</code> 是什么意思，因为从技术上讲 <code>n</code> 并不是一个自然数。
+你必须写 <code>(n : ℕ)</code> 才能使这个加法成立。</p>
+<p>此外，如果你试图对 <code>n</code> 进行归纳来证明这个，你可能会发现你的策略并没有做你所期望的事。</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="n">Mathlib.Data.Set.Basic</span>
+<span class="kn">import</span><span class="w"> </span><span class="n">Mathlib.Tactic</span>
+
+<span class="kd">example</span><span class="w"> </span><span class="o">(</span><span class="n">s</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Set</span><span class="w"> </span><span class="n">ℕ</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">n</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">s</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="o">(</span><span class="n">n</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℕ</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="c">/-</span><span class="cm"> Tactic state before:</span>
+<span class="cm">  s : Set ℕ</span>
+<span class="cm">  n : ↑s</span>
+<span class="cm">  ⊢ 0 + ↑n = ↑n</span>
+<span class="cm">  -/</span>
+<span class="w">  </span><span class="n">induction&#39;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="n">hd</span>
+<span class="w">  </span><span class="c">/-</span><span class="cm"> Tactic state after:</span>
+<span class="cm">  s : Set ℕ</span>
+<span class="cm">  d : ℕ</span>
+<span class="cm">  hd : d ∈ s</span>
+<span class="cm">  ⊢ 0 + ↑⟨d, hd⟩ = ↑⟨d, hd⟩</span>
+<span class="cm">  -/</span>
+</code></pre></div>
+</div>
+
+<p>这里，该策略并没有把 <code>n</code> 当作自然数来进行归纳；相反，它拆解了 <code>Subtype</code> 的两个分量。
+如果你改用未加撇号的 <code>induction</code> 策略，你会得到一条 “invalid alternative name 'zero', expected 'mk'” 的错误信息。</p>
+<p>注意策略状态中 <code>↑</code> 的出现。它表示一个强制转换，这是 <code>n</code> 的类型可能并非你所想的那样的一条线索。</p>
+<p>由于这些问题以及其他原因，如果你有一个参数 <code>(s : Set X)</code> 并且想假设 <code>a</code> 是 <code>s</code> 的一个元素，那么添加两个参数 <code>(a : X) (ha : a ∈ S)</code> 往往比写 <code>(a : s)</code> 更好。
+类似地，如果你想让 <code>t</code> 成为 <code>s</code> 的一个子集，你应该声明 <code>(t : Set X) (h : t ⊆ s)</code>，而非 <code>(t : Set s)</code>。
+这种从 <code>Set</code> 到类型的强制转换通常应当只保留给那些你需要把一个 <code>Set</code> 传递给另一个要求类型作为输入的函数的情形。</p>
+<p>Mathlib 的代数库正是基于这一考虑设计的。例如，
+<code>Subgroup</code> 是这样定义的</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">structure</span><span class="w"> </span><span class="n">Subgroup</span><span class="w"> </span><span class="o">(</span><span class="n">M</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">Type</span><span class="bp">*</span><span class="o">)</span><span class="w"> </span><span class="o">[</span><span class="n">Group</span><span class="w"> </span><span class="n">M</span><span class="o">]</span><span class="w"> </span><span class="n">where</span>
+<span class="w">  </span><span class="n">carrier</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Set</span><span class="w"> </span><span class="n">M</span>
+<span class="w">  </span><span class="n">mul_mem</span><span class="w"> </span><span class="o">{</span><span class="n">a</span><span class="w"> </span><span class="n">b</span><span class="o">}</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="bp">∈</span><span class="w"> </span><span class="n">carrier</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="bp">∈</span><span class="w"> </span><span class="n">carrier</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="bp">∈</span><span class="w"> </span><span class="n">carrier</span>
+<span class="w">  </span><span class="n">one_mem</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">M</span><span class="o">)</span><span class="w"> </span><span class="bp">∈</span><span class="w"> </span><span class="n">carrier</span>
+<span class="w">  </span><span class="n">inv_mem</span><span class="w"> </span><span class="o">{</span><span class="n">x</span><span class="o">}</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="bp">∈</span><span class="w"> </span><span class="n">carrier</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="n">x</span><span class="bp">⁻¹</span><span class="w"> </span><span class="bp">∈</span><span class="w"> </span><span class="n">carrier</span>
+</code></pre></div>
+</div>
+
+<p>这是为了让你在拥有一个 <code>H : Subgroup G</code> 时，可以通过声明 <code>x : G</code> 和 <code>hx : x ∈ H</code> 来处理 <code>H</code> 的元素，而不必写 <code>x : H</code> 并应对 <code>x</code> 实际上并不具有类型 <code>G</code> 的问题。</p>
+<h2 id="sort-_" class="markdown-heading">Sort _ <a class="hover-link" href="#sort-_">#</a></h2>
+<p>写 <code>Sort _</code> 和 <code>Type _</code> 会让 Lean 自动填入全集层级参数。
+有时，这会导致 Lean 把全集层级特化得比你预期的更窄。
+例如，在</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="n">Mathlib.Data.Countable.Defs</span>
+
+<span class="kd">example</span><span class="w"> </span><span class="o">(</span><span class="n">α</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">Sort</span><span class="w"> </span><span class="n">_</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">x</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">α</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">_</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Countable</span><span class="w"> </span><span class="n">α</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">inferInstance</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="n">rfl</span>
+</code></pre></div>
+</div>
+
+<p>中，<code>inferInstance</code> 默认参数找到了 <code>Prop.countable</code>，这导致 <code>Sort _</code> 被限制为 <code>Prop</code>。
+于是，<code>α : Prop</code>，这意味着由证明无关性，<code>x : α</code> 与 <code>y : α</code> 在定义上相等。</p>
+<p>在较旧的 Lean 版本中，这种行为甚至更容易被触发，因为 <code>:=</code> 之后的代码可能会影响 <code>Sort _</code> 是什么。
+例如，下面的代码可以在 Lean 4.8.0 中编译：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">example</span><span class="w"> </span><span class="o">{</span><span class="n">α</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">Sort</span><span class="w"> </span><span class="n">_</span><span class="o">}</span><span class="w"> </span><span class="o">(</span><span class="n">x</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">α</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">α</span><span class="w"> </span><span class="bp">∧</span><span class="w"> </span><span class="n">α</span><span class="w"> </span><span class="c1">-- Force α to have type Prop</span>
+<span class="w">  </span><span class="n">rfl</span>
+</code></pre></div>
+</div>
+
+<p>由于这种行为，建议你要么使用 <code>Sort*</code> 或 <code>Type*</code>（它们是 <code>Sort _</code> 和 <code>Type _</code> 的更严格版本，会迫使 Lean 每次使用时都生成一个新的全集参数），要么显式地指定全集参数。</p>
+<h2 id="试图证明关于-float-的性质" class="markdown-heading">试图证明关于 Float 的性质 <a class="hover-link" href="#试图证明关于-float-的性质">#</a></h2>
+<p>默认情况下，输入像 <code>5.42</code> 这样的数会创建一个类型为 <code>Float</code> 的项，而非 <code>Rat</code> 或 <code>Real</code>。
+证明关于 <code>Float</code> 的性质是非常困难的。
+这是因为在 Lean 的数学部分中，<code>Float</code> 被定义为一个不透明类型，而 <code>Float = Unit</code> 与 Lean 的核心类型论是相容的（只要不使用 <code>native_decide</code>）。
+但在计算上，<code>Float</code> 遵循 IEEE 754 <em>binary64</em> 格式，这类似于 C 中的 <code>double</code> 或 Rust 中的 <code>f64</code>。
+（关于 32 位浮点数，参见 <code>Float32</code>。）
+这意味着要证明关于 <code>Float</code> 的任何有意义的内容，你都必须使用 <code>native_decide</code>，而这是一个有风险的策略（参见本文档中关于 <code>native_decide</code> 的章节）。</p>
+<p>此外，由于浮点数的行为，<code>0.1 + 0.2 == 0.3</code> 求值为 <code>false</code>。
+（解释参见 <a href="https://0.30000000000000004.com/">https://0.30000000000000004.com/</a>。）</p>
+<p>所以，如果你对把 Lean 用作编程语言不感兴趣，或者想要证明关于你所处理的数的复杂性质，你应该避免使用 <code>Float</code>，转而使用诸如 <code>Rat</code> 或 <code>Real</code> 之类的其他数值类型。</p>
+<h2 id="native_decide" class="markdown-heading"><code>native_decide</code> <a class="hover-link" href="#native_decide">#</a></h2>
+<p><code>native_decide</code>（也写作 <code>decide +native</code>）类似于 <code>decide</code> 策略，区别在于它使用 <code>#eval</code> 来运行判定过程，而非在内核中对其进行归约。
+这有可能比 <code>decide</code> 快得多，而且它是证明关于 <code>Float</code> 及其他一些不透明类型的性质的唯一途径，但它是有风险的，因为它信任 Lean 编译器，而编译器比 Lean 内核复杂得多，也更有可能包含错误。</p>
+<p>具体来说，使用 <code>native_decide</code> 会使你的定理依赖于 <code>Lean.ofReduceBool</code> 公理，该公理表明 Lean 编译器是可信的。
+你可以通过使用 <code>#print axioms</code> 来检查一个证明是否依赖于这条公理。
+除了信任编译器之外，<code>Lean.ofReduceBool</code> 还信任所有的 <code>@[extern]</code> 和 <code>@[implemented_by]</code> 注解以及对编译器的其他扩展。
+由于在 Lean 核心中有数百个这样的注解，目前 <code>native_decide</code> 几乎可以肯定有能力证明 <code>False</code>。
+它还会信任你自己的 <code>@[extern]</code> 和 <code>@[implemented_by]</code> 注解，而不会对它们加以追踪：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">def</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">37</span>
+
+<span class="kd">@[</span><span class="n">implemented_by</span><span class="w"> </span><span class="n">m</span><span class="kd">]</span>
+<span class="kd">def</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">22</span>
+
+<span class="k">#reduce</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="c1">-- 22</span>
+<span class="k">#eval</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="c1">-- 37</span>
+
+<span class="kd">theorem</span><span class="w"> </span><span class="n">bad</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">False</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">22</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span><span class="w"> </span><span class="n">decide</span>
+<span class="w">  </span><span class="k">have</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">37</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span><span class="w"> </span><span class="n">native_decide</span>
+<span class="w">  </span><span class="n">contradiction</span>
+
+<span class="k">#print</span><span class="w"> </span><span class="kd">axioms</span><span class="w"> </span><span class="n">bad</span><span class="w"> </span><span class="c1">-- &#39;bad&#39; depends on axioms: [Lean.ofReduceBool]</span>
+</code></pre></div>
+</div>
+
+<p>贡献给 Mathlib 的代码不允许使用 <code>native_decide</code>。</p>
+<h2 id="panic-不会中止程序" class="markdown-heading">Panic 不会中止程序 <a class="hover-link" href="#panic-不会中止程序">#</a></h2>
+<p>如果你把 Lean 用作编程语言，请注意 <code>panic!</code> 宏默认并不会触发崩溃；相反，它只是打印一条错误信息并让代码继续运行。
+这同样适用于像 <code>Option.get!</code> 这样的函数。<code>panic</code> 之所以这样表现，是因为它是一个安全函数，并且在形式上等价于 <code>default</code>。</p>
+<p>如果你用 panic 来防护潜在危险的 <code>IO</code> 操作或防止数据损坏，这可能会很危险。
+你可能想考虑把环境变量 <code>LEAN_ABORT_ON_PANIC</code> 设为 <code>1</code>，尽管对于环境变量难以控制的面向用户的应用而言，这可能并不足够。</p>
+<h2 id="lean-3-代码" class="markdown-heading">Lean 3 代码 <a class="hover-link" href="#lean-3-代码">#</a></h2>
+<p>互联网上能找到大量的 Lean 3 代码，而 LLM 也经常生成 Lean 3 代码而非 Lean 4 代码。
+如果你在阅读旧的 Lean 代码，或者在使用 LLM，并且你看到诸如以下的细节</p>
+<ul>
+<li>类型名以小写字母开头，例如 <code>nat</code> 和 <code>rat</code></li>
+<li>不以库名开头的小写 import，例如 <code>import data.real.basic</code>（其 Lean 4 等价形式是 <code>import Mathlib.Data.Real.Basic</code>）。</li>
+<li>使用 <code>begin</code> 和 <code>end</code> 来包围策略模式，而非使用 <code>by</code></li>
+<li>在引入 2 个或更多变量或全集时使用复数命令，例如 <code>variables</code> 和 <code>universes</code></li>
+<li>不带方括号的 <code>rw</code> 策略</li>
+<li><code>refl</code> 策略（在 Lean 4 中拼作 <code>rfl</code>）</li>
+</ul>
+<p>那么你所阅读的代码很可能是 Lean 3 代码（或者，如果你在使用 LLM，它可能是 Lean 3 与 Lean 4 不连贯的混合体）。
+Lean 3 和 Lean 4 是非常不同的语言，所以 Lean 3 代码在 Lean 4 中无法工作。</p>
+<h2 id="非终结性-simp" class="markdown-heading">非终结性 simp <a class="hover-link" href="#非终结性-simp">#</a></h2>
+<p>这是你初次编写证明时无需担心的事情，但如果你想整理一个证明，或许是为了能将其添加到像 mathlib 这样的库中，那么请注意，在策略块的中间使用 <code>simp</code> 被认为是不良实践。
+在下面的例子中</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">example</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="bp">...</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="bp">...</span>
+<span class="w">  </span><span class="n">simp</span>
+<span class="w">  </span><span class="n">rw</span><span class="w"> </span><span class="o">[</span><span class="bp">...</span><span class="o">]</span>
+<span class="w">  </span><span class="n">exact</span><span class="w"> </span><span class="n">h</span>
+</code></pre></div>
+</div>
+
+<p>对 <code>simp</code> 的使用被认为是<em>非终结性的</em>。</p>
+<p>非终结性 <code>simp</code> 会带来可维护性问题。
+一般来说，随着越来越多的引理被添加到 mathlib，<code>simp</code> 会随时间变得越来越强大，这意味着当库中其他部分的代码发生改变时，<code>simp</code> 之后的目标状态可能随之改变，从而有可能破坏 <code>simp</code> 之后的任何策略，例如本例中的 <code>rw</code>。
+在较少见的从 mathlib 中移除引理的情况下，终结性 <code>simp</code> 和非终结性 <code>simp</code> 都可能被破坏，但修复一个终结性 <code>simp</code> 调用通常要容易得多。</p>
+<p>为避免非终结性 <code>simp</code>，你可以使用诸如 <code>simpa</code> 或 <code>simp_rw</code> 之类的 simp 变体，把 <code>simp</code> 与其后的策略合并起来；或者你可以通过使用 <code>simp?</code> 来“压缩”你的 simp 调用。
+请注意，只要 <code>simp</code> 能完整地关闭一个目标，它出现在证明中间是没有问题的。
+例如，尽管下面例子中的 <code>simp</code></p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="w">  </span><span class="n">induction</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="k">with</span>
+<span class="w">  </span><span class="bp">|</span><span class="w"> </span><span class="n">zero</span><span class="w"> </span><span class="bp">=&gt;</span>
+<span class="w">    </span><span class="n">simp</span>
+<span class="w">  </span><span class="bp">|</span><span class="w"> </span><span class="n">succ</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="n">hd</span><span class="w"> </span><span class="bp">=&gt;</span>
+<span class="w">    </span><span class="bp">...</span>
+</code></pre></div>
+</div>
+
+<p>位于证明中间，但它不被视为非终结性 simp，因为它完整地关闭了一个目标。</p>
+<p>更多信息，请参见<a href="simp.html#non-terminal-simps">这些关于非终结性 simp 的笔记</a>。</p>
+<h2 id="忽略警告" class="markdown-heading">忽略警告 <a class="hover-link" href="#忽略警告">#</a></h2>
+<p>请密切关注你的 Lean 文件中的警告。
+一个已完成的定理中出现的未使用变量警告，可能意味着并非所有假设都被用到了，而这通常表明该定理陈述是错误的。
+类似地，如果你自己并没有输入 <code>sorry</code>，却出现一条声明使用了 sorry 的警告，这可能表明某个策略失败了，并悄悄地用一个合成的 sorry 关闭了证明。</p>
+<p>如果你确信某条警告不适用，你可以通过适当地使用 <code>set_option</code> 来禁用它。
+这比忽略警告、把判断哪些警告是预期的、哪些是你应当关注的留给他人（或未来的你自己！）去猜测，是更好的编程实践。</p>
+<p>请注意，<code>#lint</code> 命令（定义于 <code>Batteries</code> 中）能检测一些常见问题，例如句法上的恒真式。
+它只会检查 <code>#lint</code> 命令之上的文件部分，因此应当在文件末尾运行它。</p>
+<h2 id="易混淆的-unicode-字符" class="markdown-heading">易混淆的 Unicode 字符 <a class="hover-link" href="#易混淆的-unicode-字符">#</a></h2>
+<p>Lean 大量使用非 ASCII 的 Unicode 字符，但这样做的一个副作用是，许多字符看起来相似，但在 Lean 中却具有非常不同的功能。
+如果你使用带有 Lean 4 扩展的 VSCode，你可以将鼠标悬停在不熟悉的字符上，以查看如何输入它们的说明。</p>
+<p>一些经常被混淆的字符包括：</p>
+<table>
+<thead>
+<tr>
+<th align="left">字符</th>
+<th align="left">Unicode 名称</th>
+<th align="left">输入方式</th>
+<th align="left">在 Lean 中的用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>|</code></td>
+<td align="left">Vertical Line (U+007C)</td>
+<td align="left">ASCII 字符</td>
+<td align="left">集合构造记法；模式匹配，绝对值</td>
+</tr>
+<tr>
+<td align="left"><code>∣</code></td>
+<td align="left">Divides (U+2223)</td>
+<td align="left"><code>\\|</code>、<code>\dvd</code>、<code>\mid</code>、<code>\shortmid</code></td>
+<td align="left">整除</td>
+</tr>
+<tr>
+<td align="left"><code>Π</code></td>
+<td align="left">Greek Capital Letter Pi (U+03A0)</td>
+<td align="left"><code>\p</code>、<code>\P</code>、<code>\Pi</code></td>
+<td align="left">依值函数类型：<code>Π x : α, β x</code> 是 <code>(x : α) → β x</code> 的另一种写法</td>
+</tr>
+<tr>
+<td align="left"><code>∏</code></td>
+<td align="left">N-Ary Product (U+220F)</td>
+<td align="left"><code>\prod</code></td>
+<td align="left">带索引的乘积：参见 <code>BigOperators.bigprod</code></td>
+</tr>
+<tr>
+<td align="left"><code>⊓</code></td>
+<td align="left">Square Cap (U+2293)</td>
+<td align="left"><code>\inf</code>、<code>\meet</code>、<code>\glb</code>、<code>\sqcap</code></td>
+<td align="left">两个元素的下确界：<code>a ⊓ b</code> 表示 <code>min a b</code>。参见 <code>Min</code> 类型类，即便序不是线性的也会用到它</td>
+</tr>
+<tr>
+<td align="left"><code>⨅</code></td>
+<td align="left">N-Ary Square Intersection Operator (U+2A05)</td>
+<td align="left"><code>\infi</code>、<code>\Glb</code>、<code>\Inf</code>、<code>\Meet</code>、<code>\Sqcap</code>、<code>\bigglb</code>、<code>\biginf</code>、<code>\bigmeet</code>、<code>\bigsqcap</code></td>
+<td align="left">带索引的下确界运算，需要 <code>InfSet</code> 类型类。</td>
+</tr>
+<tr>
+<td align="left"><code>Σ</code></td>
+<td align="left">Greek Capital Letter Sigma (U+03A3)</td>
+<td align="left"><code>\S</code>、<code>\GS</code>、<code>\Sigma</code></td>
+<td align="left"><code>Sigma</code>（即依值对／依值和）类型</td>
+</tr>
+<tr>
+<td align="left"><code>∑</code></td>
+<td align="left">N-Ary Summation (U+2211)</td>
+<td align="left"><code>\sum</code></td>
+<td align="left">带索引的求和：参见 <code>BigOperators.bigsum</code></td>
+</tr>
+<tr>
+<td align="left"><code>×</code></td>
+<td align="left">Multiplication Sign (U+00D7)</td>
+<td align="left"><code>\x</code>、<code>\times</code>、<code>\multiplication</code></td>
+<td align="left">类型的笛卡尔积</td>
+</tr>
+<tr>
+<td align="left"><code>x</code></td>
+<td align="left">Latin Small Letter X (U+0078)</td>
+<td align="left">ASCII 字符</td>
+<td align="left">无特殊功能</td>
+</tr>
+<tr>
+<td align="left"><code>X</code></td>
+<td align="left">Latin Capital Letter X (U+0058)</td>
+<td align="left">ASCII 字符</td>
+<td align="left">通常无特殊功能；当 <code>Polynomial</code> 命名空间打开时，表示多项式变量／不定元</td>
+</tr>
+<tr>
+<td align="left"><code>*</code></td>
+<td align="left">Asterisk (U+002A)</td>
+<td align="left">ASCII 字符</td>
+<td align="left">乘法</td>
+</tr>
+<tr>
+<td align="left"><code>∨</code></td>
+<td align="left">Logical Or (U+2228)</td>
+<td align="left"><code>\v</code>、<code>\or</code>、<code>\vee</code></td>
+<td align="left">或符号：<code>a ∨ b</code> 表示 <code>Or a b</code></td>
+</tr>
+<tr>
+<td align="left"><code>\/</code></td>
+<td align="left"></td>
+<td align="left">ASCII 字符</td>
+<td align="left">或符号 <code>∨</code> 的 ASCII 替代写法</td>
+</tr>
+<tr>
+<td align="left"><code>v</code></td>
+<td align="left">Latin Small Letter V (U+0076)</td>
+<td align="left">ASCII 字符</td>
+<td align="left">无特殊功能</td>
+</tr>
+<tr>
+<td align="left"><code>·</code></td>
+<td align="left">Middle Dot (U+00B7)</td>
+<td align="left"><code>\.</code>、<code>\centerdot</code></td>
+<td align="left">在策略模式中缩进并聚焦于子目标；匿名函数语法，例如 <code>(· + 2)</code>，它是 <code>fun x ↦ x + 2</code> 的简写</td>
+</tr>
+<tr>
+<td align="left"><code>•</code></td>
+<td align="left">Bullet (U+2022)</td>
+<td align="left"><code>\smul</code>、<code>\bub</code>、<code>\bu</code></td>
+<td align="left">标量乘法或左作用（参见 <code>HSMul</code> 和 <code>SMul</code> 类型类）</td>
+</tr>
+<tr>
+<td align="left"><code>⬝</code></td>
+<td align="left">Black Very Small Square (U+2B1D)</td>
+<td align="left"><code>\cdot</code>、<code>\dot</code>、<code>\tr</code>、<code>\con</code></td>
+<td align="left">仅用于 <code>u ⬝ᵥ w = dotProduct u w</code>（用 <code>\_v</code> 输入 <code>ᵥ</code>）</td>
+</tr>
+<tr>
+<td align="left"><code>→</code></td>
+<td align="left">Rightwards Arrow (U+2192)</td>
+<td align="left"><code>\r</code>、<code>\imp</code>、<code>\-&gt;</code>、<code>\to</code>、<code>\r-</code>、<code>\rightarrow</code></td>
+<td align="left">函数类型 <code>A → B</code></td>
+</tr>
+<tr>
+<td align="left"><code>-&gt;</code></td>
+<td align="left"></td>
+<td align="left">ASCII 字符</td>
+<td align="left">函数类型中 <code>→</code> 的 ASCII 替代写法</td>
+</tr>
+<tr>
+<td align="left"><code>↦</code></td>
+<td align="left">Rightwards Arrow From Bar (U+21A6)</td>
+<td align="left"><code>\mapsto</code>、<code>\\|-&gt;</code>、<code>\r-|</code></td>
+<td align="left">用于 Lambda 绑定子，例如 <code>fun x : Nat ↦ x + 2</code></td>
+</tr>
+<tr>
+<td align="left"><code>=&gt;</code></td>
+<td align="left"></td>
+<td align="left">ASCII 字符</td>
+<td align="left">模式匹配；<code>↦</code> 的 ASCII 替代写法</td>
+</tr>
+<tr>
+<td align="left"><code>⟶</code></td>
+<td align="left">Long Rightwards Arrow (U+27F6)</td>
+<td align="left"><code>\hom</code>、<code>\--&gt;</code>、<code>\longrightarrow</code>、<code>\r--</code></td>
+<td align="left"><code>a ⟶ b</code> 是范畴或箭图中从 <code>a</code> 到 <code>b</code> 的态射的类型：参见 <code>Quiver.Hom</code>。</td>
+</tr>
+<tr>
+<td align="left"><code>↪</code></td>
+<td align="left">Rightwards Arrow With Hook (U+21AA)</td>
+<td align="left"><code>\hookrightarrow</code></td>
+<td align="left"><code>α ↪ β</code> 是从 <code>α</code> 到 <code>β</code> 的单射函数的类型：参见 <code>Function.Embedding</code></td>
+</tr>
+<tr>
+<td align="left"><code>=</code></td>
+<td align="left">Equals Sign (U+003D)</td>
+<td align="left">ASCII 字符</td>
+<td align="left">对象之间的相等：参见 <code>Eq</code></td>
+</tr>
+<tr>
+<td align="left"><code>==</code></td>
+<td align="left"></td>
+<td align="left">ASCII 字符</td>
+<td align="left">布尔相等：参见 <code>BEq</code>。布尔相等是类型相关的，但如果存在 <code>LawfulBEq</code> 实例，则 <code>BEq</code> 与 <code>Eq</code> 一致。</td>
+</tr>
+<tr>
+<td align="left"><code>≃</code></td>
+<td align="left">Asymptotically Equal To (U+2243)</td>
+<td align="left"><code>\equiv</code>、<code>\~-</code>、<code>\simeq</code></td>
+<td align="left">双射：<code>α ≃ β = Equiv α β</code> 是配有双侧逆的从 <code>α → β</code> 的函数的类型；<code>≃o</code>、<code>≃r</code> 等则指特定种类的同构。</td>
+</tr>
+<tr>
+<td align="left"><code>≅</code></td>
+<td align="left">Approximately Equal To (U+2245)</td>
+<td align="left"><code>\iso</code>、<code>\~=</code>、<code>\cong</code></td>
+<td align="left">范畴中的同构；当 <code>open scoped Congruent</code> 生效时，转而指 <code>Congruent</code>。</td>
+</tr>
+<tr>
+<td align="left"><code>≈</code></td>
+<td align="left">Almost Equal To (U+2248)</td>
+<td align="left"><code>\~~</code>、<code>\approx</code>、<code>\thickapprox</code></td>
+<td align="left">类型相关的等价记法：参见 <code>HasEquiv</code>。通常指一个由类型类推断出的 <code>Setoid</code> 实例</td>
+</tr>
+<tr>
+<td align="left"><code>~</code></td>
+<td align="left">Tilde (U+007E)</td>
+<td align="left">ASCII 字符</td>
+<td align="left"><code>List</code>、<code>Array</code> 和 <code>Vector</code> 的置换等价关系；对其他类型有某些特殊含义</td>
+</tr>
+<tr>
+<td align="left"><code>≡</code></td>
+<td align="left">Identical To (U+2261)</td>
+<td align="left"><code>\==</code></td>
+<td align="left"><code>a ≡ b [MOD n]</code> 表示 <code>Nat.ModEq n a b</code>，<code>a ≡ b [ZMOD n]</code> 表示 <code>Int.ModEq n a b</code>。对其他类型有某些特殊含义</td>
+</tr>
+</tbody>
+</table>
+<h2 id="结构字段中的默认值" class="markdown-heading">结构字段中的默认值 <a class="hover-link" href="#结构字段中的默认值">#</a></h2>
+<p>用户常常以为结构字段中 <code>:=</code> 的使用意味着“此字段被定义为具有此值”。但事实并非如此！相反，这是为结构字段提供默认值的方式。具体来说，这些值可以被覆盖。</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">structure</span><span class="w"> </span><span class="n">foo</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">Type</span><span class="w"> </span><span class="n">where</span>
+<span class="w">  </span><span class="n">n</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Nat</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">37</span><span class="w"> </span><span class="c1">-- I want n to always be 37...</span>
+
+<span class="kd">def</span><span class="w"> </span><span class="n">X</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">foo</span><span class="w"> </span><span class="n">where</span>
+<span class="w">  </span><span class="n">n</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">42</span><span class="w"> </span><span class="c1">-- ...but that&#39;s not the way to do it</span>
+
+<span class="k">#eval</span><span class="w"> </span><span class="n">X.n</span><span class="w"> </span><span class="c1">-- 42</span>
+
+<span class="kd">def</span><span class="w"> </span><span class="n">Y</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">foo</span><span class="w"> </span><span class="n">where</span><span class="w"> </span><span class="c1">-- only if `n` is not supplied does the default value kick in.</span>
+
+<span class="k">#eval</span><span class="w"> </span><span class="n">Y.n</span><span class="w"> </span><span class="c1">-- 37</span>
+</code></pre></div>
+</div>
+
+<p>如果你确实想要类似这样的效果，请改试下面的做法：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">structure</span><span class="w"> </span><span class="n">foo</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">Type</span><span class="w"> </span><span class="n">where</span>
+
+<span class="kd">def</span><span class="w"> </span><span class="n">foo.n</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Nat</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">37</span>
+
+<span class="kd">def</span><span class="w"> </span><span class="n">X</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">foo</span><span class="w"> </span><span class="n">where</span>
+
+<span class="k">#eval</span><span class="w"> </span><span class="n">X.n</span><span class="w"> </span><span class="c1">-- 37</span>
+</code></pre></div>
+</div>
+
+  </main>
+
+    <nav id="navbar" class="d-md-block bg-light sidebar collapse navbar-light pb-4">
+      <div class="d-none d-md-block mt-4"><a class="navbar-brand" href="https://leanprover-community.github.io/index.html">Lean Community</a></div>
+      
+        <h6 class="sidebar-heading mt-4">社区</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover.zulipchat.com/">Zulip 聊天</a></li>
+        
+          <li class="nav-item col-12"><a href="https://github.com/leanprover-community/mathlib4">GitHub</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/blog">博客</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/meet.html">社区信息</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/community_guidelines.html">社区准则</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/teams.html">团队</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/papers.html">关于 Lean 的论文</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/cite.html">引用 mathlib</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/cite.html#Licence">许可证</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/lean_projects.html">使用 Lean 的项目</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/teaching/index.html">使用 Lean 教学</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/events.html">活动</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">使用 Lean</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://live.lean-lang.org/">在线版本（无需安装）</a></li>
+        
+          <li class="nav-item col-12"><a href="https://docs.lean-lang.org/lean4/doc/quickstart.html">安装 Lean</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/get_started.html">更多选项</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">文档</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/learn.html">学习资源（从这里开始）</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/documentation.html">文档概览</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mathlib4_docs">API 文档</a></li>
+        
+          <li class="nav-item col-12"><a href="https://loogle.lean-lang.org/">声明搜索（Loogle）</a></li>
+        
+          <li class="nav-item col-12"><a href="https://lean-lang.org/doc/reference/latest/">语言参考</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mathlib4_docs/tactics.html">策略列表</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/glossary.html">术语表</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/did_you_prove_it.html">你真的证明了它吗？</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mwe.html">关于 MWE</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">库概览</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mathlib-overview.html">库概览</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/undergrad.html">本科数学</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/100.html">Wiedijk 的 100 条定理</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/1000.html">1000+ 条定理</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">理论</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/naturals.html">自然数</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/linear_algebra.html">线性代数</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/sets.html">集合与有限集</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/topology.html">拓扑</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/category_theory.html">范畴论</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">贡献</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/index.html">贡献什么</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/how-to-contribute.html">如何贡献</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/values.html">Mathlib 的价值观</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/queueboard/">Mathlib 审阅与分类看板</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/git.html">Mathlib4 贡献者 Git 指南</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/naming.html">命名约定</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/style.html">代码风格指南</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/doc.html">文档风格</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/commit.html">提交约定</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/pr-review.html">拉取请求审阅指南</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mathlib_stats.html">贡献统计</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/tags_and_branches.html">标签与分支</a></li>
+        </ul>
+      
+    </nav>
+
+</div>
+
+
+  <nav class="footer navbar navbar-expand-lg navbar-light bg-light justify-content-end">
+  <ul class="nav">
+    <li class="nav-item">
+      <a class="nav-link active" href="https://github.com/leanprover-community/leanprover-community.github.io/blob/lean4/templates/extras/pitfalls.md">在 GitHub 上为此页面提出编辑建议</a>
+    </li>
+  </ul>
+  </nav>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+      integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+      crossorigin="anonymous"></script>
+    <script src="https://leanprover-community.github.io//js/bootstrap.min.js"></script>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true });
+    </script>
+    
+  </body>
+</html>

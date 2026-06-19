@@ -1,0 +1,719 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="stylesheet" href="https://leanprover-community.github.io//css/lean.css" >
+  <link rel="shortcut icon" href="https://leanprover-community.github.io//img/favicon.ico">
+  <link rel="search" type="application/opensearchdescription+xml" title="mathlib docs" href="https://leanprover-community.github.io//opensearch.xml">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather&family=Open+Sans&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+    
+
+	<script>
+                function buildShortcutsForStructures(names) {
+                        const o = {}
+                        names.forEach(name => o[name] = `\\mathbb\{${name}\}`)
+                        return o
+                }
+		MathJax = {
+			  tex: {
+                                  macros: {
+                                          ...buildShortcutsForStructures(["R", "Q", "Z", "N", "C"]),
+                                  },
+				      inlineMath: [['$', '$'], ['\\(', '\\)']]
+				    },
+		};
+	</script>
+	<script type="text/javascript" id="MathJax-script" async
+		  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+	</script>
+
+	<title>Simp</title>
+  </head>
+  <body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-gradient-light d-md-none">
+    <div class="d-flex flex-grow-1">
+		<a class="navbar-brand" href="https://leanprover-community.github.io/index.html">Lean Community
+    </a>
+    </div>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="切换导航">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </nav>
+
+<div id="mainbox">
+
+  <main>
+    
+<h1 id="simp" class="markdown-heading">Simp <a class="hover-link" href="#simp">#</a></h1>
+<h2 id="概述" class="markdown-heading">概述 <a class="hover-link" href="#概述">#</a></h2>
+<p>在本文档中，我们将介绍 Lean 4 中化简器策略 <a href="https://leanprover-community.github.io/mathlib4_docs/Init/Tactics.html#Lean.Parser.Tactic.simp"><code>simp</code></a>
+以及相关策略 <a href="https://leanprover-community.github.io/mathlib4_docs/Init/Tactics.html#Lean.Parser.Tactic.dsimp"><code>dsimp</code></a>
+的基本用法。</p>
+<p>我们将给出一些避免“非终结性 <code>simp</code>”的建议，并简要描述 <code>simp</code>
+和 <code>dsimp</code> 的配置选项。</p>
+<h2 id="引言" class="markdown-heading">引言 <a class="hover-link" href="#引言">#</a></h2>
+<p>Lean 拥有一个称为 <code>simp</code> 的“化简器”，它会查询一个称为 <em><code>simp</code> 引理</em> 的事实数据库，
+以（期望地）化简假设和目标。该化简器是所谓的 <em>条件项重写系统</em>：
+它所做的全部工作就是反复将形如 <code>A</code> 的子项替换（或 <em>重写</em>）为 <code>B</code>，
+对所有适用的形如 <code>A = B</code> 或 <code>A ↔ B</code> 的事实皆如此。
+化简器会机械地不断重写，直到再也无法重写为止。所有
+<code>simp</code> 引理都是有方向的：左端始终被右端替换，而绝不会反过来。</p>
+<p>理想情况下，这个事实数据库应当能将表达式化简
+为某种范式（normal form）。
+在实践中，这往往无法实现（范式可能不存在，或者
+可能不存在一组能产生范式的重写规则），
+但我们仍尽可能地力求逼近这一理想。
+更进一步，我们希望这个事实数据库是 <em>合流的</em>（confluent），
+即化简器考虑重写的顺序并不影响结果。
+同样，我们也尽可能地力求接近合流。</p>
+<p>虽然这套系统能够完全自动地证明许多简单的命题，但证明所有简单命题
+并不在它的职责范围之内，尽管这或许令人失望。</p>
+<p>下面是一个示例（使用了 mathlib）。</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="n">Mathlib.Algebra.Group.Defs</span>
+
+<span class="kd">variable</span><span class="w"> </span><span class="o">(</span><span class="n">G</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">Type</span><span class="o">)</span><span class="w"> </span><span class="o">[</span><span class="n">Group</span><span class="w"> </span><span class="n">G</span><span class="o">]</span><span class="w"> </span><span class="o">(</span><span class="n">a</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">G</span><span class="o">)</span>
+
+<span class="kd">example</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">a</span><span class="bp">⁻¹</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">c</span><span class="bp">⁻¹</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="n">simp</span>
+</code></pre></div>
+</div>
+
+<p>人类会如何求解这个目标呢？他们会注意到 <code>a * a⁻¹ = 1</code>、
+<code>1 * 1 = 1</code>，等等，直到将该示例化简
+为 <code>b = b</code>，而这显然成立。</p>
+<p>化简器所做的也正是如此。事实上，如果你在该示例上方加上
+<code>set_option trace.Meta.Tactic.simp.rewrite true</code>，那么 <code>simp</code> 下方就会出现
+一条蓝色波浪下划线（在 VS Code 中），
+点击它便会显示 <code>simp</code> 所执行的
+重写序列：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="o">[</span><span class="n">Meta.Tactic.simp.rewrite</span><span class="o">]</span><span class="w"> </span><span class="bp">@</span><span class="n">mul_right_inv</span><span class="o">:</span><span class="mi">1000</span><span class="o">,</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">a</span><span class="bp">⁻¹</span><span class="w"> </span><span class="bp">==&gt;</span><span class="w"> </span><span class="mi">1</span>
+
+<span class="o">[</span><span class="n">Meta.Tactic.simp.rewrite</span><span class="o">]</span><span class="w"> </span><span class="bp">@</span><span class="n">mul_one</span><span class="o">:</span><span class="mi">1000</span><span class="o">,</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">==&gt;</span><span class="w"> </span><span class="mi">1</span>
+
+<span class="o">[</span><span class="n">Meta.Tactic.simp.rewrite</span><span class="o">]</span><span class="w"> </span><span class="bp">@</span><span class="n">one_mul</span><span class="o">:</span><span class="mi">1000</span><span class="o">,</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="bp">==&gt;</span><span class="w"> </span><span class="n">b</span>
+
+<span class="o">[</span><span class="n">Meta.Tactic.simp.rewrite</span><span class="o">]</span><span class="w"> </span><span class="bp">@</span><span class="n">mul_inv_cancel_right</span><span class="o">:</span><span class="mi">1000</span><span class="o">,</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">c</span><span class="bp">⁻¹</span><span class="w"> </span><span class="bp">==&gt;</span><span class="w"> </span><span class="n">b</span>
+
+<span class="o">[</span><span class="n">Meta.Tactic.simp.rewrite</span><span class="o">]</span><span class="w"> </span><span class="bp">@</span><span class="n">eq_self</span><span class="o">:</span><span class="mi">1000</span><span class="o">,</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="bp">==&gt;</span><span class="w"> </span><span class="n">True</span>
+</code></pre></div>
+</div>
+
+<p><code>simp?</code> 策略是提取 <code>simp</code> 所应用的引理列表的一种有用方式。
+它会建议</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="n">simp</span><span class="w"> </span><span class="n">only</span><span class="w"> </span><span class="o">[</span><span class="n">mul_right_inv</span><span class="o">,</span><span class="w"> </span><span class="n">mul_one</span><span class="o">,</span><span class="w"> </span><span class="n">one_mul</span><span class="o">,</span><span class="w"> </span><span class="n">mul_inv_cancel_right</span><span class="o">]</span>
+</code></pre></div>
+</div>
+
+<p>这是一次使用了这特定四条引理的 <code>simp</code> 调用。</p>
+<p>若要查看化简过程中那些成功以及失败的重写，
+你可以使用更为详尽的选项 <code>set_option trace.Meta.Tactic.simp true</code>。</p>
+<h2 id="simp-引理" class="markdown-heading">Simp 引理 <a class="hover-link" href="#simp-引理">#</a></h2>
+<p>那么 Lean 的化简器是如何知道 <code>a * a⁻¹ = 1</code> 的呢？这是因为
+在 <code>Mathlib.Algebra.Group.Defs</code> 中有一条被标注了
+<code>simp</code> 属性的引理：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">@[</span><span class="n">simp</span><span class="kd">]</span><span class="w"> </span><span class="kd">lemma</span><span class="w"> </span><span class="n">mul_right_inv</span><span class="w"> </span><span class="o">(</span><span class="n">a</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">G</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">a</span><span class="bp">⁻¹</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="bp">...</span>
+</code></pre></div>
+</div>
+
+<p>我们将标注了 <code>simp</code> 属性的引理称为“<code>simp</code> 引理”。下面
+是 mathlib 中更多 <code>simp</code> 引理的例子：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">@[</span><span class="n">simp</span><span class="kd">]</span><span class="w"> </span><span class="kd">theorem</span><span class="w"> </span><span class="n">Nat.dvd_one</span><span class="w"> </span><span class="o">{</span><span class="n">n</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℕ</span><span class="o">}</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="bp">∣</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">↔</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="bp">...</span>
+<span class="kd">@[</span><span class="n">simp</span><span class="kd">]</span><span class="w"> </span><span class="kd">theorem</span><span class="w"> </span><span class="n">mul_eq_zero</span><span class="w"> </span><span class="o">{</span><span class="n">a</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℕ</span><span class="o">}</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">↔</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">∨</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="bp">...</span>
+<span class="kd">@[</span><span class="n">simp</span><span class="kd">]</span><span class="w"> </span><span class="kd">theorem</span><span class="w"> </span><span class="n">List.mem_singleton</span><span class="w"> </span><span class="o">{</span><span class="n">a</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">α</span><span class="o">}</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="bp">∈</span><span class="w"> </span><span class="o">[</span><span class="n">b</span><span class="o">]</span><span class="w"> </span><span class="bp">↔</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="bp">...</span>
+<span class="kd">@[</span><span class="n">simp</span><span class="kd">]</span><span class="w"> </span><span class="kd">theorem</span><span class="w"> </span><span class="n">Set.setOf_false</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="o">{</span><span class="n">a</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">α</span><span class="w"> </span><span class="bp">|</span><span class="w"> </span><span class="n">False</span><span class="o">}</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="bp">∅</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="bp">...</span>
+</code></pre></div>
+</div>
+
+<p>当化简器试图化简某个项 <code>T</code> 时，它会查阅
+系统在那一时刻已知的 <code>simp</code> 引理；若遇到一条适用的、形如
+<code>A = B</code> 或 <code>A ↔ B</code> 的引理，且 <code>A</code> 作为子表达式出现在 <code>T</code> 中，
+它就会将 <code>T</code> 中 <code>A</code> 的那个实例重写为 <code>B</code>，
+然后再从头开始。注意 <code>simp</code> 从最内层的项开始，向外
+推进：它会先化简函数的参数，
+然后再化简函数本身。此外，<code>simp</code> 内部具有一定的
+机巧，使其能够避免每次都考虑 <em>所有</em> <code>simp</code>
+引理（截至 2026 年 2 月，mathlib 中有四万余条这样的引理）。</p>
+<p>化简器只在一个方向上应用 <code>simp</code> 引理：若 <code>A = B</code> 是一条 <code>simp</code>
+引理，那么 <code>simp</code> 会将 <code>A</code> 替换为 <code>B</code>，但不会将
+<code>B</code> 替换为 <code>A</code>。因此一条 <code>simp</code> 引理应当具有这样的性质：其
+右端比左端更简单。特别地，
+在这种情形下，<code>=</code> 和 <code>↔</code> 不应被视为对称的运算符。下面将是
+一条糟糕透顶的 <code>simp</code> 引理（假如它竟被允许的话）：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">@[</span><span class="n">simp</span><span class="kd">]</span><span class="w"> </span><span class="kd">lemma</span><span class="w"> </span><span class="n">mul_right_inv_bad</span><span class="w"> </span><span class="o">(</span><span class="n">a</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">G</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">a</span><span class="bp">⁻¹</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="bp">...</span>
+</code></pre></div>
+</div>
+
+<p>将 <code>1</code> 替换为 <code>a * a⁻¹</code> 并不是一个合理的默认推进
+方向。更糟糕的是那种会使表达式无限制增长的引理，
+它会导致 <code>simp</code> 永远循环下去：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">@[</span><span class="n">simp</span><span class="kd">]</span><span class="w"> </span><span class="kd">lemma</span><span class="w"> </span><span class="n">even_worse_lemma</span><span class="o">:</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">G</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="mi">1</span><span class="bp">⁻¹</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="bp">...</span>
+</code></pre></div>
+</div>
+
+<p>在做出一个新定义时，通常也会同时引入
+若干 <code>simp</code> 引理，以将涉及该定义的表达式化为
+某种合理的形式。一个例子是 mathlib 中的
+<a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Data/Complex/Basic.lean">Data.Complex.Basic</a>，
+其中有将近 100 条 <code>simp</code> 引理。尽管诸如</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">@[</span><span class="n">simp</span><span class="kd">]</span><span class="w"> </span><span class="kd">lemma</span><span class="w"> </span><span class="n">add_re</span><span class="w"> </span><span class="o">(</span><span class="n">z</span><span class="w"> </span><span class="n">w</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℂ</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="o">(</span><span class="n">z</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">w</span><span class="o">)</span><span class="bp">.</span><span class="n">re</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">z.re</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">w.re</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">rfl</span>
+</code></pre></div>
+</div>
+
+<p>这样的定理依定义为真，它们仍被引入，因为它们赋予 <code>simp</code> 化简表达式并进而利用已有事实的能力。
+例如这一条就把复数加法转化为实数加法。
+如果你允许 <code>simp</code> 使用实数加法的交换律，那么它便能够
+经由 <code>z.re + w.re = w.re + z.re</code> 自动证明 <code>(z + w).re = (w + z).re</code>，
+而这正是复数加法可交换之证明的一半。</p>
+<p>Lean 内核本身就是一个针对 lambda 演算的重写系统，它有着明确的
+推进进展之概念。有鉴于此，一类有用的
+<code>simp</code> 引理是那些在此意义上让 <code>simp</code> 能够部分求值
+表达式的引理。例如，假设你有一个结构类型 <code>Foo</code>，并
+用该类型定义一个结构 <code>myFoo</code>，</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">structure</span><span class="w"> </span><span class="n">Foo</span><span class="w"> </span><span class="n">where</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℕ</span>
+
+<span class="kd">def</span><span class="w"> </span><span class="n">myFoo</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Foo</span><span class="w"> </span><span class="n">where</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">37</span>
+</code></pre></div>
+</div>
+
+<p>那么如果你添加一条 <code>simp</code> 引理 <code>myFoo.n = 37</code>，就赋予了化简器
+对 <code>myFoo</code> 求值 <code>Foo.n</code> 投影的能力，从而省去
+展开 <code>myFoo</code> 定义的麻烦（默认情况下 <code>simp</code> 并不展开大多数定义）。
+创建这类 <code>simp</code> 引理是如此常见，以至于有
+<a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Tactic/Simps/Basic.html#simpsAttr">一个属性</a>
+能自动为你创建它们：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">@[</span><span class="n">simps</span><span class="kd">]</span><span class="w"> </span><span class="kd">def</span><span class="w"> </span><span class="n">myFoo</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Foo</span><span class="w"> </span><span class="n">where</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">37</span>
+</code></pre></div>
+</div>
+
+<p>这会生成引理 <code>@[simp] lemma myFoo_n : myFoo.n = 37</code>。</p>
+<h2 id="基本用法" class="markdown-heading">基本用法 <a class="hover-link" href="#基本用法">#</a></h2>
+<ul>
+<li>
+<p><code>simp</code> 试图利用 Lean 在那一时刻已知的所有 <code>simp</code> 引理来化简目标。</p>
+</li>
+<li>
+<p><code>simp [h1, h2]</code> 使用所有 <code>simp</code> 引理，外加 <code>h1</code> 和 <code>h2</code>（它们既可以是局部假设，也可以是出于某种原因未被标注为 <code>simp</code> 的其他引理）。</p>
+</li>
+<li>
+<p><code>simp [← h]</code> 使用所有 <code>simp</code> 引理，并以反向形式 <code>B = A</code> 使用 <code>h : A = B</code>（即 <code>simp</code> 将 <code>B</code> 重写为 <code>A</code>）。</p>
+</li>
+<li>
+<p><code>simp [-thm]</code> 阻止 <code>simp</code> 使用名为 <code>thm</code> 的 <code>simp</code> 引理。</p>
+</li>
+<li>
+<p><code>simp [*]</code> 使用所有 <code>simp</code> 引理，外加当前所有局部假设，来尝试化简目标。</p>
+</li>
+<li>
+<p><code>simp at h</code> 试图利用所有 <code>simp</code> 引理来化简 <code>h</code>。</p>
+</li>
+<li>
+<p><code>simp [h1] at h2 ⊢</code> 试图利用 <code>h1</code> 和所有 <code>simp</code> 引理来化简 <code>h2</code> 和目标（注意：在 VS Code 中用 <code>\|-</code>、<code>\goal</code> 或 <code>\vdash</code> 输入 <code>⊢</code>）。</p>
+</li>
+<li>
+<p><code>simp [*] at *</code>：试图利用所有假设和所有 <code>simp</code> 引理来化简目标和所有假设。有时值得一试。</p>
+</li>
+<li>
+<p><code>simp only [h1, h2, ..., hn]</code> 告诉 <code>simp</code> 只使用引理 <code>h1</code>、<code>h2</code>、……，而非整套 simp 引理。
+（在证明中途使用 <code>simp only [...]</code> 是可以接受的，因为后续对 <code>simp</code> 集合的改动不会破坏该证明。）</p>
+</li>
+<li>
+<p><code>simp [↓h1]</code> 在进入子项 <em>之前</em> 使用 <code>h1</code>。通常情况下，<code>simp</code> 在进入子项 <em>之后</em> 才使用引理。</p>
+</li>
+<li>
+<p><code>simp [↑h1]</code> 在进入子项 <em>之后</em> 使用 <code>h1</code>。此语法用于标注了 <code>simp↓</code> 的引理。</p>
+</li>
+</ul>
+<p>注意，某些 <code>simp</code> 引理带有必须满足的附加假设。
+例如，一条关于在等式两端消去某因子的定理，
+只在该因子非零这一假设下方才成立。若 <code>h</code>
+是假设 <code>P</code> 的一个证明，且 <code>P → A = B</code> 是一条 <code>simp</code> 引理，那么
+<code>simp [h]</code> 会将目标中的 <code>A</code> 替换为 <code>B</code>。<code>simp</code> 会考虑
+附加假设这一事实，正是它被称为
+<em>条件</em> 项重写系统的原因。</p>
+<h2 id="simp-范式" class="markdown-heading">Simp 范式 <a class="hover-link" href="#simp-范式">#</a></h2>
+<p>有时同一件事有若干种表述方式。例如，
+若 <code>n : ℕ</code>，则假设 <code>n ≠ 0</code>、<code>0 ≠ n</code>、<code>n &gt; 0</code>、<code>0 &lt; n</code>、
+<code>1 ≤ n</code> 和 <code>n ≥ 1</code> 在逻辑上都是等价的。这对于
+化简器这类重写系统可能造成困扰。原因在于
+化简器是通过 <em>语法相等</em>（syntactic equality）来寻找子项的。如果
+化简器正在处理项 <code>T</code>，且 <code>A = B</code> 是一条 <code>simp</code> 引理，
+那么除非 <code>T</code> 的某个子项 <code>A'</code> 与 <code>A</code> 在语法上完全相同
+（大致而言：它们具有字面上相同的文本表示），否则 <code>simp</code> 一般
+不会注意到该规则适用，因而不会
+将其重写为 <code>B</code>。类似地，若某条形如 <code>A = B</code> 的 <code>simp</code> 引理以 <code>n</code> 的非零性（以某一种方式表述）作为前提条件，而 <code>h</code>
+是 <code>n</code> 非零性（以另一种方式表述）的一个证明，那么 <code>simp [h]</code> 可能
+不会将 <code>A</code> 替换为 <code>B</code>。</p>
+<p>mathlib 中处理这个问题的方式，是一劳永逸地为某事物的表达方式
+固定一个 <em><code>simp</code> 范式</em>（例如以 <code>0 &lt; n</code> 表示非零性），
+然后在陈述引理时始终坚持采用这一变体。这样
+就免去了为每一种变体编写重复引理的麻烦。为帮助化简器，
+往往会有一些规范化引理，其唯一目的就是把表达式化为
+<code>simp</code> 范式。</p>
+<p>一般而言，如果你在写一条引理，你应当知道表达引理中各想法的“范式”
+方式。<code>#simp</code> 命令可以帮助你
+了解这一点：对表达式 <code>e</code> 写下 <code>#simp e</code>，便会用
+适用的 <code>simp</code> 引理化简该表达式。
+如果你在写一条关于自己所作定义的引理，
+请思考那些可以用多于一种方式表达的想法的范式。</p>
+<p><code>simp</code> 范式的一个例子，是表达类型的某个子集非空性的方式。
+若 <code>α : Type</code> 且 <code>s : Set α</code>，则
+<code>s</code> 的非空性既可表示为 <code>s.Nonempty</code>，也可表示为 <code>s ≠ ∅</code>。
+在 mathlib 中，人们努力坚持以 <code>s.Nonempty</code> 作为范式
+形式。</p>
+<p>另一个例子：每个有限集 <code>s : Finset α</code> 都可以被强制转换
+为 <code>Set α</code>，因此对 <code>a : α</code> 而言，<code>a ∈ s</code> 和
+<code>a ∈ (s : Set α)</code> 都可表示同一含义。有限集中
+隶属关系的 simp 范式是 <code>a ∈ s</code>，而且还有一条
+规范化 <code>simp</code> 引理</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">@[</span><span class="n">simp</span><span class="kd">]</span><span class="w"> </span><span class="kd">lemma</span><span class="w"> </span><span class="n">mem_coe</span><span class="w"> </span><span class="o">{</span><span class="n">a</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">α</span><span class="o">}</span><span class="w"> </span><span class="o">{</span><span class="n">s</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Finset</span><span class="w"> </span><span class="n">α</span><span class="o">}</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="bp">∈</span><span class="w"> </span><span class="o">(</span><span class="n">s</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Set</span><span class="w"> </span><span class="n">α</span><span class="o">)</span><span class="w"> </span><span class="bp">↔</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="bp">∈</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="bp">...</span>
+</code></pre></div>
+</div>
+
+<p>用于将 <code>a ∈ (s : Set α)</code> 的出现替换为正确的范式。</p>
+<p>由于化简器是从内向外工作的——先化简函数的参数，
+再化简函数本身——因此一条 <code>simp</code>
+引理在其左端，函数的参数应当处于 simp 范式。例如，若 <code>g 0</code> 可被
+化简，那么 <code>@[simp] lemma foo : f (g 0) = 0</code> 将永远不会被使用。
+Batteries 的 <code>simpNF</code> <a href="https://leanprover-community.github.io/mathlib4_docs/Batteries/Tactic/Lint/Frontend.html">linter</a> 会检查这一点
+（你可以通过在文件末尾加上 <code>#lint</code>，自行对某个模块运行 mathlib 的 linter）。</p>
+<h2 id="simpa" class="markdown-heading"><code>simpa</code> <a class="hover-link" href="#simpa">#</a></h2>
+<p><code>simpa</code> 策略是 <code>simp</code> 的一种变体，用于完成证明——作为一个“收尾”策略，若它
+无法关闭目标，就会失败。其基本用法是</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="n">simpa</span><span class="w"> </span><span class="o">[</span><span class="n">h1</span><span class="o">,</span><span class="w"> </span><span class="n">h2</span><span class="o">]</span><span class="w"> </span><span class="n">using</span><span class="w"> </span><span class="n">e</span>
+</code></pre></div>
+</div>
+
+<p>其中 <code>[h1, h2]</code> 指可选的 <code>simp</code> 引理列表（语法与 <code>simp</code> 相同），
+而 <code>e</code> 是一个表达式。<code>e</code> 通常是某个假设的名字。
+<code>e</code> 的类型与目标都会被化简，若两者被化简为同一事物，<code>simpa</code> 即告成功。</p>
+<p>下面是一个简单的 <code>simpa</code> 示例：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">example</span><span class="w"> </span><span class="o">(</span><span class="n">n</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℕ</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">h</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">≠</span><span class="w"> </span><span class="mi">0</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">≠</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="n">simpa</span><span class="w"> </span><span class="n">using</span><span class="w"> </span><span class="n">h</span>
+</code></pre></div>
+</div>
+
+<p>若不用 <code>simpa</code>，我们或许会写 <code>simp at ⊢ h; exact h</code>。
+所谓“非终结性 <code>simp</code>”，即那些不关闭目标的 <code>simp</code> 用法，
+最好加以避免（参见下一节），而 <code>simpa</code> 正是避免它们的一种方式。</p>
+<p>如果没有 <code>using</code> 子句，那么 <code>simpa</code> 转而执行以下三个步骤：</p>
+<ol>
+<li>化简目标。</li>
+<li>如果局部上下文中有一个名为 <code>this</code> 的假设，则化简其类型。</li>
+<li>应用 <code>assumption</code> 策略。</li>
+</ol>
+<p>第 2 步是为了支持这样一种模式：<code>simpa</code> 紧跟在 <code>have : P</code> 或 <code>suffices : P</code> 之后，
+因为这两者都默认以 <code>this</code> 作为它们所引入假设的名字。</p>
+<h2 id="非终结性-simp" class="markdown-heading">非终结性 <code>simp</code> <a class="hover-link" href="#非终结性-simp">#</a></h2>
+<p>随着 <code>simp</code> 引理被添加进库（或从库中移除），<code>simp</code>
+的行为也会随时间变化。这意味着使用
+<code>simp</code> 的证明可能失效，而且，除非你了解 <code>simp</code> 引理集合是如何
+变化的，否则修复一个证明可能颇为困难。</p>
+<p>例如，如果一个证明长这样</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="w">  </span><span class="bp">...</span>
+<span class="w">  </span><span class="n">simp</span>
+<span class="w">  </span><span class="n">rw</span><span class="w"> </span><span class="o">[</span><span class="n">foo_eq_bar</span><span class="o">]</span>
+<span class="w">  </span><span class="bp">...</span>
+</code></pre></div>
+</div>
+
+<p>之后某人给 <code>foo_eq_bar</code> 加上了 <code>@[simp]</code> 属性，
+那么这次重写如今就会失败。</p>
+<p>虽然在初始开发期间，于证明中途使用 <code>simp</code> 是没问题的，
+但经验法则是：当每个 <code>simp</code> 都完整地关闭一个目标时，
+Lean 代码更易于维护。当这样一个 <code>simp</code> 日后
+失效时，这能确保我们知道原本意图的目标是什么。</p>
+<p>有几种在证明中途使用 <code>simp</code> 的“被认可”方式：</p>
+<ol>
+<li>
+<p><code>simp only [h1, h2, ..., hn]</code> 将 <code>simp</code> 约束为只使用给定列表中的
+引理，因而它不受 <code>simp</code> 引理集合
+变化的影响。提示：用 <code>simp?</code> 来
+自动生成一个合适的 <code>simp only</code>。</p>
+</li>
+<li>
+<p>使用形如 <code>have h : P := by ...; simp</code> 的构造来引入一个
+由 <code>simp</code> 证明的假设。<code>have</code> 表达式可能处于
+证明中途，但其中的 <code>simp</code> 关闭的是它所引入的目标。</p>
+</li>
+<li>
+<p>如果 <code>simp</code> 将你的目标变为 <code>P</code>，那么你可以写</p>
+</li>
+</ol>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="w">  </span><span class="k">suffices</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">P</span><span class="w"> </span><span class="kd">by</span><span class="w"> </span><span class="n">simpa</span>
+</code></pre></div>
+</div>
+
+<p>这会在当前目标之后添加一个新目标 <code>P</code>，引入一个新
+假设 <code>this : P</code>，同时化简目标和 <code>this</code>，
+然后试图用 <code>this</code> 关闭目标。<code>simpa</code> 策略 <em>要求</em>
+目标被关闭，这与 <code>simp</code> 不同，从而更容易知道它何时失效。
+源代码中显式写出的 <code>P</code> 有助于找到修复方法。</p>
+<p>非终结性 <code>simp</code> 可能出现的一种情形，是在形如 <code>simp at ⊢ h; exact h</code> 的策略序列中。
+这些可以用 <code>simpa using h</code> 来替代。</p>
+<h2 id="dsimp" class="markdown-heading"><code>dsimp</code> <a class="hover-link" href="#dsimp">#</a></h2>
+<p><code>dsimp</code> 是 <code>simp</code> 的一个变体，它只使用“定义性的”<code>simp</code>
+引理。这些 <code>simp</code> 引理的证明是 <code>rfl</code>，
+也就是说，其两端依定义相等的引理。</p>
+<p>与 <code>simp</code> 一样，建议你不要在证明中途使用它。
+不过，如果 <code>dsimp</code> 将你的目标变为 <code>h</code>，那么 <code>change h</code>
+很可能会做同样的事。<code>dsimp</code> 的另一种常见用法是</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="n">dsimp</span><span class="w"> </span><span class="n">only</span>
+</code></pre></div>
+</div>
+
+<p>它是 <code>dsimp only []</code> 的简写，即一个带空 <code>simp</code> 引理集合的 <code>dsimp</code>。
+这可以安全地在证明中途使用，并且它可以是
+整理目标的一种有用方式：除其他作用外，它会对 lambda 表达式做 beta 归约
+（它会把 <code>(fun x =&gt; f x) 37</code> 变成 <code>f 37</code>），并且会归约结构投影
+（它会把 <code>{ toFun := f, ... }.toFun</code> 变成 <code>f</code>）。</p>
+<h2 id="更高级的特性" class="markdown-heading">更高级的特性 <a class="hover-link" href="#更高级的特性">#</a></h2>
+<h3 id="析消器discharger" class="markdown-heading">析消器（Discharger） <a class="hover-link" href="#析消器discharger">#</a></h3>
+<p>Lean 有以下定理：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">theorem</span><span class="w"> </span><span class="n">Nat.max_eq_left</span><span class="w"> </span><span class="o">{</span><span class="n">a</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℕ</span><span class="o">}</span><span class="w"> </span><span class="o">(</span><span class="n">h</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="bp">≤</span><span class="w"> </span><span class="n">a</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">max</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">a</span>
+</code></pre></div>
+</div>
+
+<p>然而，仅凭此定理，<code>simp</code> 无法证明以下目标。</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">example</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">max</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℕ</span><span class="o">)</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="n">simp</span><span class="w"> </span><span class="n">only</span><span class="w"> </span><span class="o">[</span><span class="n">Nat.max_eq_left</span><span class="o">]</span>
+<span class="c1">-- simp made no progress</span>
+</code></pre></div>
+</div>
+
+<p>这是因为 <code>simp</code> 未能解决附带条件 <code>(0 : ℕ) ≤ 1</code>；这可以通过命令 <code>set_option trace.Meta.Tactic.simp.discharge true</code> 看到。</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="o">[</span><span class="n">Meta.Tactic.simp.discharge</span><span class="o">]</span><span class="w"> </span><span class="bp">@</span><span class="n">Nat.max_eq_left</span><span class="w"> </span><span class="n">discharge</span><span class="w"> </span><span class="bp">❌</span>
+<span class="w">      </span><span class="mi">0</span><span class="w"> </span><span class="bp">≤</span><span class="w"> </span><span class="mi">1</span>
+</code></pre></div>
+</div>
+
+<p>这个附带条件可以简单地用 <code>decide</code> 解决：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">example</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="o">(</span><span class="mi">0</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℕ</span><span class="o">)</span><span class="w"> </span><span class="bp">≤</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="n">decide</span>
+</code></pre></div>
+</div>
+
+<p>如何在 <code>simp</code> 中使用这个策略来解决附带条件呢？答案如下：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">example</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">max</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℕ</span><span class="o">)</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="n">simp</span><span class="w"> </span><span class="o">(</span><span class="n">disch</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">decide</span><span class="o">)</span><span class="w"> </span><span class="n">only</span><span class="w"> </span><span class="o">[</span><span class="n">Nat.max_eq_left</span><span class="o">]</span>
+</code></pre></div>
+</div>
+
+<h3 id="完整语法" class="markdown-heading">完整语法 <a class="hover-link" href="#完整语法">#</a></h3>
+<p>以下是 <code>dsimp</code> 策略的完整语法：</p>
+<blockquote>
+<p><code>dsimp</code> (<code>?</code>)? (<code>!</code>)? (<code>(config :=</code> config <code>)</code>)? (<code>(disch :=</code> discharger <code>)</code>)? (<code>only</code>)? (<code>[</code>引理列表<code>]</code>)? (<code>at</code> locations)?</p>
+</blockquote>
+<p>其中 “( ... )?” 表示表达式中可选的部分。引理列表与 <code>rw</code> 的类似，但
+此外 <code>-lemma_name</code> 表示某条引理被排除在 <code>simp</code> 引理集合之外。
+配置选项将在后续小节中描述。</p>
+<p>如果存在 <code>!</code>，它会向配置选项添加 <code>autoUnfold := true</code>。
+如果存在 <code>?</code>，它会使 <code>simp</code> 建议一组足以完成任务的 <code>simp</code> 引理。</p>
+<p>以下是 <code>simp</code> 策略的完整语法：</p>
+<blockquote>
+<p><code>simp</code> (<code>?</code>)? (<code>!</code>)? (<code>(config :=</code> config <code>)</code>)? (<code>(disch :=</code> discharger <code>)</code>)? (<code>only</code>)? (<code>[</code>由 <code>*</code> 和引理构成的列表<code>]</code>)? (<code>at</code> locations)?</p>
+</blockquote>
+<p>以下是 <code>simpa</code> 策略的完整语法：</p>
+<blockquote>
+<p><code>simpa</code> (<code>?</code>)? (<code>!</code>)? (<code>(config :=</code> config <code>)</code>)? (<code>(disch :=</code> discharger <code>)</code>)? (<code>only</code>)? (<code>[</code>由 <code>*</code> 和引理构成的列表<code>]</code>)? (<code>using</code> expr)?</p>
+</blockquote>
+<p>其含义与 <code>simp</code> 相同，但 <code>using</code> 可以接受任意表达式，而不仅限于 <code>at</code> 所要求的局部常量。</p>
+<h3 id="自定义-simp-属性" class="markdown-heading">自定义 simp 属性 <a class="hover-link" href="#自定义-simp-属性">#</a></h3>
+<p>使用命令 <a href="https://leanprover-community.github.io/mathlib_docs/commands.html#mk_simp_attribute"><code>register_simp_attr</code></a>，
+你可以创建自己的类似 <code>@[simp]</code> 的属性，但有一个关键区别：
+被 <code>@[new_attr]</code> 标注的引理 <em>不</em> 在默认的 <code>simp</code> 引理集合中。
+相反，它们应当被显式纳入：<code>simp [new_attr]</code>。这往往可以替代冗长的
+<code>simp only [...]</code> 调用，并使代码更易读。一些常见用法的例子包括
+<a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Tactic/Attr/Register.html#Parser.Attr.enat_to_nat_top"><code>enat_to_nat_top</code></a> 和
+<a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Tactic/Attr/Register.html#Parser.Attr.coassoc_simps"><code>coassoc_simps</code></a>。</p>
+<h3 id="配置选项" class="markdown-heading">配置选项 <a class="hover-link" href="#配置选项">#</a></h3>
+<p><code>simp</code> 和 <code>dsimp</code> 都可以接受额外的配置选项。
+例如，<code>simp +singlePass</code> 在将 <code>singlePass</code> 配置选项设为 true 的情况下运行 <code>simp</code>；<code>simp -singlePass</code> 则会显式地将该选项设为 false。
+可以用 <code>singlePass</code> 来避免某些原本可能发生的循环。
+对于取值的选项，你可以使用具名参数语法，如 <code>simp (maxSteps := 37)</code>。
+这会将失败前所允许的最大步数设为 37。</p>
+<p>Lean 核心文件 <code>Init/MetaTypes.lean</code> 在
+<a href="https://leanprover-community.github.io/mathlib4_docs/Init/MetaTypes.html#Lean.Meta.DSimp.Config"><code>Lean.Meta.DSimp.Config</code></a> 和 <a href="https://leanprover-community.github.io/mathlib4_docs/Init/MetaTypes.html#Lean.Meta.Simp.Config"><code>Lean.Meta.Simp.Config</code></a> 结构中揭示了其他配置选项。
+它们中的大多数对普通用户而言并不十分相关。下表
+复现了这些选项，其中某个配置选项
+对 <code>simp</code> 或 <code>dsimp</code> 的默认值分别给在
+相应的列中——若没有给出默认值，则表示该选项不可用。
+默认值 “max” 指 <code>Lean.Meta.Simp.defaultMaxSteps</code>，目前为 <code>100000</code>。</p>
+<table>
+<thead>
+<tr>
+<th align="left">选项</th>
+<th align="left"><code>simp</code></th>
+<th align="left"><code>dsimp</code></th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>maxSteps</code></td>
+<td align="left">max</td>
+<td align="left"></td>
+<td align="left">失败前所允许的最大步数</td>
+</tr>
+<tr>
+<td align="left"><code>maxDischargeDepth</code></td>
+<td align="left">2</td>
+<td align="left"></td>
+<td align="left">对附带条件递归应用化简时的最大递归深度</td>
+</tr>
+<tr>
+<td align="left"><code>contextual</code></td>
+<td align="left"><code>false</code></td>
+<td align="left"></td>
+<td align="left">基于当前子表达式的上下文使用额外的 <code>simp</code> 引理（见下面的示例）</td>
+</tr>
+<tr>
+<td align="left"><code>memoize</code></td>
+<td align="left"><code>true</code></td>
+<td align="left"></td>
+<td align="left">对子项的化简进行缓存</td>
+</tr>
+<tr>
+<td align="left"><code>singlePass</code></td>
+<td align="left"><code>false</code></td>
+<td align="left"></td>
+<td align="left">每个子项至多访问一次</td>
+</tr>
+<tr>
+<td align="left"><code>zeta</code></td>
+<td align="left"><code>true</code></td>
+<td align="left"><code>true</code></td>
+<td align="left">进行 zeta 归约：<code>let x := a; b</code> ↝ <code>b[x := a]</code></td>
+</tr>
+<tr>
+<td align="left"><code>beta</code></td>
+<td align="left"><code>true</code></td>
+<td align="left"><code>true</code></td>
+<td align="left">进行 beta 归约：<code>(fun x =&gt; a) y</code> ↝ <code>a[x := y]</code></td>
+</tr>
+<tr>
+<td align="left"><code>eta</code></td>
+<td align="left"><code>true</code></td>
+<td align="left"><code>true</code></td>
+<td align="left">允许 eta 等价：<code>(fun x =&gt; f x)</code> ↝ <code>f</code>（目前尚未实现）</td>
+</tr>
+<tr>
+<td align="left"><code>etaStruct</code></td>
+<td align="left"><code>.all</code></td>
+<td align="left"><code>.all</code></td>
+<td align="left">配置如何判定两个结构实例之间的定义相等性。参见 <a href="https://leanprover-community.github.io/mathlib4_docs/Init/MetaTypes.html#Lean.Meta.EtaStructMode"><code>Lean.Meta.EtaStructMode</code></a> 的文档</td>
+</tr>
+<tr>
+<td align="left"><code>iota</code></td>
+<td align="left"><code>true</code></td>
+<td align="left"><code>true</code></td>
+<td align="left">归约递归子：<code>Nat.recOn (succ n) Z R</code> ↝ <code>R n (Nat.recOn n Z R)</code></td>
+</tr>
+<tr>
+<td align="left"><code>proj</code></td>
+<td align="left"><code>true</code></td>
+<td align="left"><code>true</code></td>
+<td align="left">归约投影：<code>Prod.fst (a, b)</code> ↝ <code>a</code></td>
+</tr>
+<tr>
+<td align="left"><code>decide</code></td>
+<td align="left"><code>false</code></td>
+<td align="left"><code>false</code></td>
+<td align="left">通过推断 <code>Decidable p</code> 实例并将其归约，把命题 <code>p</code> 重写为 <code>True</code> 或 <code>False</code></td>
+</tr>
+<tr>
+<td align="left"><code>arith</code></td>
+<td align="left"><code>false</code></td>
+<td align="left"></td>
+<td align="left">化简简单的算术表达式</td>
+</tr>
+<tr>
+<td align="left"><code>autoUnfold</code></td>
+<td align="left"><code>false</code></td>
+<td align="left"><code>false</code></td>
+<td align="left">使用方程编译器生成的所有方程引理进行归约</td>
+</tr>
+<tr>
+<td align="left"><code>dsimp</code></td>
+<td align="left"><code>true</code></td>
+<td align="left"></td>
+<td align="left">当为 <code>true</code> 时，若不存在能让 <code>simp</code> 访问依值参数的同余定理，则对这些参数切换为 <code>dsimp</code>。当 <code>dsimp</code> 为 <code>false</code> 时，则不访问该参数。</td>
+</tr>
+<tr>
+<td align="left"><code>failIfUnchanged</code></td>
+<td align="left"><code>true</code></td>
+<td align="left"><code>true</code></td>
+<td align="left">若未应用任何化简则失败</td>
+</tr>
+<tr>
+<td align="left"><code>ground</code></td>
+<td align="left"><code>false</code></td>
+<td align="left"></td>
+<td align="left">归约基项（ground term）。当一个项不含自由变量或元变量时，它是基项。</td>
+</tr>
+<tr>
+<td align="left"><code>unfoldPartialApp</code></td>
+<td align="left"><code>false</code></td>
+<td align="left"><code>false</code></td>
+<td align="left">当我们请求展开 <code>f</code> 时，即使是 <code>f</code> 的部分应用也予以展开</td>
+</tr>
+<tr>
+<td align="left"><code>zetaDelta</code></td>
+<td align="left"><code>false</code></td>
+<td align="left"><code>false</code></td>
+<td align="left">展开局部定义。即，给定包含条目 <code>x : t := e</code> 的局部上下文，自由变量 <code>x</code> 归约为 <code>e</code>。</td>
+</tr>
+</tbody>
+</table>
+<p><code>autoUnfold</code> 将方程/模式匹配编译器生成的
+方程引理添加到 <code>simp</code> 引理集合中。</p>
+<p><code>contextual</code> 选项赋予 <code>simp</code> 这样的能力：基于某个子表达式
+所处的上下文，将假设视为额外的 <code>simp</code>
+引理。例如，当它化简某个蕴含式的后件时，
+会临时把前件添加为一条 <code>simp</code> 引理。下面这个示例
+就需要用到这一点：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">example</span><span class="w"> </span><span class="o">{</span><span class="n">x</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℕ</span><span class="o">}</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">by</span>
+<span class="w">  </span><span class="n">simp</span><span class="w"> </span><span class="bp">+</span><span class="n">contextual</span>
+</code></pre></div>
+</div>
+
+  </main>
+
+    <nav id="navbar" class="d-md-block bg-light sidebar collapse navbar-light pb-4">
+      <div class="d-none d-md-block mt-4"><a class="navbar-brand" href="https://leanprover-community.github.io/index.html">Lean Community</a></div>
+      
+        <h6 class="sidebar-heading mt-4">社区</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover.zulipchat.com/">Zulip 聊天</a></li>
+        
+          <li class="nav-item col-12"><a href="https://github.com/leanprover-community/mathlib4">GitHub</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/blog">博客</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/meet.html">社区信息</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/community_guidelines.html">社区准则</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/teams.html">团队</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/papers.html">关于 Lean 的论文</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/cite.html">引用 mathlib</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/cite.html#Licence">许可证</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/lean_projects.html">使用 Lean 的项目</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/teaching/index.html">使用 Lean 教学</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/events.html">活动</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">使用 Lean</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://live.lean-lang.org/">在线版本（无需安装）</a></li>
+        
+          <li class="nav-item col-12"><a href="https://docs.lean-lang.org/lean4/doc/quickstart.html">安装 Lean</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/get_started.html">更多选项</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">文档</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/learn.html">学习资源（从这里开始）</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/documentation.html">文档概览</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mathlib4_docs">API 文档</a></li>
+        
+          <li class="nav-item col-12"><a href="https://loogle.lean-lang.org/">声明搜索（Loogle）</a></li>
+        
+          <li class="nav-item col-12"><a href="https://lean-lang.org/doc/reference/latest/">语言参考</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mathlib4_docs/tactics.html">策略列表</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/glossary.html">术语表</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/did_you_prove_it.html">你真的证明了它吗？</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mwe.html">关于 MWE</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">库概览</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mathlib-overview.html">库概览</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/undergrad.html">本科数学</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/100.html">Wiedijk 的 100 条定理</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/1000.html">1000+ 条定理</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">理论</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/naturals.html">自然数</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/linear_algebra.html">线性代数</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/sets.html">集合与有限集</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/topology.html">拓扑</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/category_theory.html">范畴论</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">贡献</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/index.html">贡献什么</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/how-to-contribute.html">如何贡献</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/values.html">Mathlib 的价值观</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/queueboard/">Mathlib 审阅与分类看板</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/git.html">Mathlib4 贡献者 Git 指南</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/naming.html">命名约定</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/style.html">代码风格指南</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/doc.html">文档风格</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/commit.html">提交约定</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/pr-review.html">拉取请求审阅指南</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mathlib_stats.html">贡献统计</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/tags_and_branches.html">标签与分支</a></li>
+        </ul>
+      
+    </nav>
+
+</div>
+
+
+  <nav class="footer navbar navbar-expand-lg navbar-light bg-light justify-content-end">
+  <ul class="nav">
+    <li class="nav-item">
+      <a class="nav-link active" href="https://github.com/leanprover-community/leanprover-community.github.io/blob/lean4/templates/extras/simp.md">在 GitHub 上为此页面提出编辑建议</a>
+    </li>
+  </ul>
+  </nav>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+      integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+      crossorigin="anonymous"></script>
+    <script src="https://leanprover-community.github.io//js/bootstrap.min.js"></script>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true });
+    </script>
+    
+  </body>
+</html>

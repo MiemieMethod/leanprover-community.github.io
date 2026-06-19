@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="stylesheet" href="https://leanprover-community.github.io//css/lean.css" >
+  <link rel="shortcut icon" href="https://leanprover-community.github.io//img/favicon.ico">
+  <link rel="search" type="application/opensearchdescription+xml" title="mathlib docs" href="https://leanprover-community.github.io//opensearch.xml">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather&family=Open+Sans&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+    
+
+	<script>
+                function buildShortcutsForStructures(names) {
+                        const o = {}
+                        names.forEach(name => o[name] = `\\mathbb\{${name}\}`)
+                        return o
+                }
+		MathJax = {
+			  tex: {
+                                  macros: {
+                                          ...buildShortcutsForStructures(["R", "Q", "Z", "N", "C"]),
+                                  },
+				      inlineMath: [['$', '$'], ['\\(', '\\)']]
+				    },
+		};
+	</script>
+	<script type="text/javascript" id="MathJax-script" async
+		  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+	</script>
+
+	<title>Lean 的 Github 生态系统</title>
+  </head>
+  <body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-gradient-light d-md-none">
+    <div class="d-flex flex-grow-1">
+		<a class="navbar-brand" href="https://leanprover-community.github.io/index.html">Lean Community
+    </a>
+    </div>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="切换导航">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </nav>
+
+<div id="mainbox">
+
+  <main>
+    
+<h1 id="lean-的-github-生态系统" class="markdown-heading">Lean 的 Github 生态系统 <a class="hover-link" href="#lean-的-github-生态系统">#</a></h1>
+<p>关于向 Lean、Batteries 和 Mathlib 提交拉取请求时所涉及的分支、标签与 CI 工作流的说明文档。</p>
+<ul>
+<li><a href="#things-you-need-to-know">你需要了解的事项</a> 对所有人都适用</li>
+<li><a href="#tags-and-branches">标签与分支</a> 仅面向&quot;专家&quot;，即那些在 Lean 中制造或修复破坏性变更的人，
+或希望理解 Mathlib CI 内部工作原理的人。</li>
+</ul>
+<h2 id="你需要了解的事项" class="markdown-heading">你需要了解的事项 <a class="hover-link" href="#你需要了解的事项">#</a></h2>
+<ul>
+<li>
+<p>如果你向 <code>leanprover/lean4</code> 提交一个可能涉及破坏性变更的拉取请求，
+请将你的 PR 变基（rebase）到 <code>nightly-with-mathlib</code> 分支上。这将启用与 Mathlib 的联合 CI。</p>
+</li>
+<li>
+<p>如果你向 <code>leanprover-community/mathlib4</code> 提交拉取请求，
+请从一个 fork 中提交。Mathlib 的 <code>.olean</code> 缓存现在可以与来自 fork 的 PR 一同工作。</p>
+</li>
+</ul>
+<h2 id="标签与分支" class="markdown-heading">标签与分支 <a class="hover-link" href="#标签与分支">#</a></h2>
+<h3 id="leanproverlean4" class="markdown-heading"><code>leanprover/lean4</code> <a class="hover-link" href="#leanproverlean4">#</a></h3>
+<ul>
+<li>开发在 <code>master</code> 分支上进行。</li>
+<li>稳定版本和候选发布版本带有标签，例如 <code>v4.2.0</code> 或 <code>v4.3.0-rc1</code>。
+<ul>
+<li>若要在某个项目中使用这些版本之一，你的 <code>lean-toolchain</code> 文件应包含例如 <code>leanprover/lean4:v4.2.0</code>。</li>
+</ul>
+</li>
+<li>稳定版本在每个月末发布，并且与最后一个候选发布版本完全相同。</li>
+<li>下一个版本的第一个候选发布版本会在稳定版本发布后立即发布。</li>
+<li>每个版本都有一个 <code>releases/v4.X.0</code> 功能分支，它可能包含
+<ul>
+<li>用于发布说明的额外提交</li>
+<li>从 <code>master</code> 精选（cherry pick）而来、通过候选发布版本发布的关键修复提交。</li>
+</ul>
+</li>
+<li>我们会定期从 <code>master</code> 制作每夜构建版本（nightly release），它在 <code>leanprover/lean4-nightly</code>
+仓库上带有诸如 <code>nightly-2023-11-01</code> 这样的标签。
+<ul>
+<li>若要在项目中使用某个每夜构建版本，你的 <code>lean-toolchain</code> 文件应包含例如 <code>leanprover/lean4:nightly-2023-11-01</code>。（注意它不应是 <code>leanprover/lean4-nightly:nightly-2023-11-01</code>，因为 <code>elan</code> 在此处施加了一些神奇的智慧。）</li>
+<li>每夜构建版本可以通过手动触发发布工作流来<em>修订</em>。修订后的每夜构建版本
+在 <code>leanprover/lean4-nightly</code> 上带有形如 <code>nightly-YYYY-MM-DD-revK</code> 的标签（K 从 1 开始）。
+若要在项目中使用某个修订后的每夜构建版本，你的 <code>lean-toolchain</code> 文件应包含例如
+<code>leanprover/lean4:nightly-2023-11-01-rev1</code>。
+修订后的每夜构建版本在基础每夜构建版本之后排序：base &lt; rev1 &lt; rev2 &lt; 次日的每夜构建版本。
+Mathlib 的每夜构建测试基础设施会自动处理修订后的每夜构建版本。</li>
+</ul>
+</li>
+<li>在 <code>leanprover/lean4</code> 上有一个 <code>nightly</code> 分支，它跟随用于构建某个每夜构建版本的最新提交。</li>
+<li>每个 PR 在成功构建后都会自动获得一个工具链。该 PR 随后会带有标签 <code>toolchain-available</code>。
+若要在项目中使用 PR #NNNN，你的 <code>lean-toolchain</code> 文件应包含
+<code>leanprover/lean4-pr-releases:pr-release-NNNN</code>。</li>
+<li>对于任何可能影响 Batteries 或 Mathlib 的 PR，你应将你的 PR 建立在 <code>nightly-with-mathlib</code> 分支的 HEAD 之上。
+在这种情况下，会创建一个 <code>lean-pr-testing-NNNN</code> Mathlib 分支（下文详述），并且来自该分支的结果会
+通过 PR 讨论区中的评论进行报告。</li>
+</ul>
+<h3 id="leanprover-communitybatteries即-batteries" class="markdown-heading"><code>leanprover-community/batteries</code>（即 'Batteries'） <a class="hover-link" href="#leanprover-communitybatteries即-batteries">#</a></h3>
+<ul>
+<li>开发在 <code>main</code> 上进行。</li>
+<li>Batteries 在其 <code>lean-toolchain</code> 中使用最新的稳定版本或候选发布版本。
+<ul>
+<li>由于我们在发布 <code>v4.X.0</code> 之后立即发布 <code>v4.X+1.0-rc1</code>，
+Batteries 仅在极短的时间内处于稳定版本上。</li>
+</ul>
+</li>
+<li><code>main</code> 上使用新工具链的第一个提交会被打上该工具链版本号的标签（例如 <code>v4.2.0</code>）。</li>
+<li>有一个 <code>stable</code> 分支跟随 <code>v4.X.Y</code> 标签。</li>
+<li>Batteries 有一个 <code>bump/v4.X.0</code> 分支，用于 Lean 即将到来的稳定版本，
+<ul>
+<li>它包含已获得维护者批准的、针对破坏性变更的适配</li>
+<li>并且将使用 <code>leanprover-lean4:nightly-YYYY-MM-DD</code> 工具链。</li>
+</ul>
+</li>
+<li>Batteries 有一个 <code>nightly-testing</code> 分支，它
+<ul>
+<li>使用最近的每夜构建版本（这会自动更新）</li>
+<li>自动将 <code>main</code> 的所有提交合并进来</li>
+<li>可以手动将 <code>bump/v4.X.0</code> 的任何变更合并进来</li>
+<li>可以包含任何其他提交，包括未经审查的提交，只要这些提交是使 <code>nightly-testing</code>
+分支能够在最近的每夜构建版本上正常工作所必需的。</li>
+</ul>
+</li>
+<li><code>nightly-testing</code> 分支上的 CI 失败会由一个机器人报告到 zulip 的 <a href="https://leanprover.zulipchat.com/#narrow/channel/595626-nightly-testing-batteries/topic/Batteries.20status.20updates/with/592700605"><code>nightly-testing-batteries</code> 频道</a>。</li>
+<li><code>nightly-testing</code> 分支上的 CI 成功会导致创建一个与该提交相匹配的标签
+<code>nightly-testing-YYYY-MM-DD</code>，如果该标签尚不存在的话。
+<ul>
+<li>因此，如果 <code>nightly-testing-YYYY-MM-DD</code> 存在，我们就知道在它上面：
+<ul>
+<li><code>lean-toolchain</code> 是 <code>leanprover/lean4:nightly-YYYY-MM-DD</code>，并且</li>
+<li>CI 成功。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>当需要修改 Batteries 以适配 Lean 中的破坏性变更时，
+你需要创建一个分支，并随后从该分支开启一个 PR。
+（注意，下面的步骤在 Mathlib 处会自动发生，
+但对于 Batteries 则需要手动完成。）
+<ul>
+<li>如果该变更是在 <code>leanprover/lean4#NNNN</code> 中做出的，
+那么 Batteries 的适配分支应当命名为 <code>lean-pr-testing-NNNN</code>。</li>
+<li>Batteries 的适配分支应基于标签 <code>nightly-testing-YYYY-MM-DD</code>，
+其中 <code>YYYY-MM-DD</code> 是你的 Lean PR 所基于的每夜构建版本的日期。</li>
+<li>如果 <code>nightly-testing-YYYY-MM-DD</code> 标签尚不存在，你需要等待
+（并可能推进到后续的某个每夜构建版本）。
+如有需要，请联系 <code>@kim-em</code> 寻求帮助。</li>
+<li>理想情况下，你会将 <code>lean-pr-testing-NNNN</code> 分支推送到 Batteries 的主仓库；
+如有需要，我们可以提供写入权限。</li>
+<li>此分支上的 <code>lean-toolchain</code> 必须包含 <code>leanprover/lean4-pr-releases:pr-release-NNNN</code>。</li>
+<li>你可以从 <code>lean-pr-testing-NNNN</code> 分支开启一个 PR，无论是在完成所需的适配之前还是之后。</li>
+<li>开启 PR 时，记得将基础分支设置为 <code>nightly-testing</code>。</li>
+<li>请为该 PR 打上 <code>v4.X.0</code> 和 'depends on core changes' 标签。
+（如果你没有写入权限，可请求他人代为完成。）</li>
+<li>一旦 Lean PR 被合并并在某个每夜构建版本中发布，Batteries 的适配 PR
+<ul>
+<li>应将其 <code>lean-toolchain</code> 更新为 <code>leanprover/lean4:nightly-YYYY-MM-DD</code></li>
+<li>其变更可以根据需要手动合并到 <code>nightly-testing</code> 中，以保持 <code>nightly-testing</code>
+正常工作（不要更改基础分支并合并该 PR，我们仍然需要它）。</li>
+</ul>
+</li>
+<li>一旦 Batteries 的适配 PR 获得批准，
+维护者会将其合并到 <code>bump/v4.X.0</code>（而非 <code>nightly-testing-YYYY-MM-DD</code>）。</li>
+</ul>
+</li>
+<li>始终允许将 <code>bump/v4.X.0</code> 合并到 <code>nightly-testing</code> 中，但反之则不行。
+（对 <code>bump/v4.X.0</code> 的变更已经过审查，但对 <code>nightly-testing</code> 的变更可能尚未审查。）</li>
+<li>当需要将 Batteries 更新到 Lean 的新版本时，
+<em>希望</em>所需做的只是创建一个新的 PR，
+其内容为将 <code>bump/v4.X.0</code> 压缩合并（squash merge）到 <code>main</code>。</li>
+</ul>
+<h3 id="leanprover-communitymathlib4即-mathlib" class="markdown-heading"><code>leanprover-community/mathlib4</code>（即 'Mathlib'） <a class="hover-link" href="#leanprover-communitymathlib4即-mathlib">#</a></h3>
+<ul>
+<li>上面关于 Batteries 所说的一切都适用于 Mathlib，但有以下例外：
+<ul>
+<li>开发在 <code>master</code> 上进行。</li>
+<li><code>nightly-testing</code> 状态更新会发布在 <code>#nightly-testing-mathlib</code> 的<a href="https://leanprover.zulipchat.com/#narrow/channel/595625-nightly-testing-mathlib/topic/Mathlib.20status.20updates/with/592729346">此话题</a>中。</li>
+<li>向 Mathlib 提交的 PR 应从 fork 中发起。Mathlib 的 <code>.olean</code> 缓存现在可以与来自 fork 的 PR 一同工作。</li>
+</ul>
+</li>
+<li><code>lean-pr-testing-NNNN</code>、<code>nightly-testing</code>、<code>nightly-testing-*</code> 标签以及 <code>bump/v4*</code> 分支
+全都位于 <code>leanprover-community/mathlib4-nightly-testing</code>，它是 mathlib4 的一个 fork。
+如果你需要经常对这些分支进行写入访问，你可以在 Zulip 上的
+<a href="https://leanprover.zulipchat.com/#narrow/channel/595625-nightly-testing-mathlib"><code>nightly-testing-mathlib</code> 频道</a>
+中请求被添加到 <code>nightly-testing</code> GitHub 团队。</li>
+<li>注意，Mathlib 的 <code>nightly-testing</code> 分支可以根据需要使用 Batteries 的 <code>nightly-testing</code> 分支。</li>
+<li>类似地，Mathlib 的 <code>bump/v4.X.0</code> 分支可以根据需要使用 Batteries 的 <code>bump/v4.X.0</code> 分支。</li>
+<li>对于任何通过 CI 且基于某个每夜构建版本的 Lean PR，都会自动创建 <code>lean-pr-testing-NNNN</code> 分支。
+（与 Batteries 不同，那里必须手动创建。）</li>
+<li><code>lean-pr-testing-NNNN</code> 分支上的 Mathlib 适配 PR 可能需要更改 Batteries 的依赖，
+以使用 Batteries 的 <code>lean-pr-testing-NNNN</code> 分支，如果 Batteries 也遭遇了破坏的话。</li>
+</ul>
+<h3 id="mathlib-的-nightly-与-bump-分支" class="markdown-heading">Mathlib 的 nightly 与 bump 分支 <a class="hover-link" href="#mathlib-的-nightly-与-bump-分支">#</a></h3>
+<p>每个月都有一个新的 Lean 版本发布，
+而 Mathlib 力求尽快迁移到新的 Lean 版本。
+为了使这一过程尽可能顺畅，我们遵循以下流程：</p>
+<ul>
+<li><code>nightly-testing</code> 分支位于 <code>leanprover-community/mathlib4-nightly-testing</code>，并使用 Lean 的每夜构建工具链版本。
+换言之，该分支上的 <code>lean-toolchain</code> 文件包含诸如 <code>leanprover/lean4:nightly-2024-09-26</code> 之类的内容。
+<ul>
+<li>该分支不保证能够无错误地构建。</li>
+<li>对该分支的变更不会经过 Mathlib 维护者团队的审查。</li>
+<li>该分支不受保护：<code>nightly-testing</code> GitHub 团队的成员可以向其推送修复。</li>
+<li>该分支的目的是使 Mathlib 适配 Lean 每夜构建工具链版本中的变更。</li>
+<li>通常，向 Lean 核心提交的 PR <code>#NNNN</code> 会伴随着 Mathlib 在 <code>lean-pr-testing-NNNN</code> 分支中的适配。
+一旦 Lean 核心 PR 进入某个每夜构建工具链，Mathlib 的 <code>lean-pr-testing-NNNN</code> 分支就可以合并到 <code>nightly-testing</code> 中。
+通常需要解决 <code>lean-toolchain</code>、<code>lakefile.lean</code> 和/或 <code>lake-manifest.json</code> 中的合并冲突。</li>
+<li>如果 CI 在该分支上失败，它会在 Zulip 上的 <a href="https://leanprover.zulipchat.com/#narrow/channel/595625-nightly-testing-mathlib/topic/Mathlib.20status.20updates">&quot;nightly-testing-mathlib &gt; Mathlib status updates&quot;</a> 中发布一条消息，指明该失败。</li>
+<li>如果 CI 在该分支上通过，则会在同一话题中发布一条消息，指明成功，并给出创建 PR 以审查这些适配的说明。（见下文。）</li>
+</ul>
+</li>
+<li><code>leanprover-community/mathlib4-nightly-testing</code> 中的 <code>nightly-testing-green</code> 分支跟踪 <code>nightly-testing</code> 最后一个成功构建的提交。
+用于 <code>nightly-testing</code> 构建的工具会从该分支获取。</li>
+<li><code>bump/v4.X.Y</code> 分支同样位于 <code>leanprover-community/mathlib4-nightly-testing</code>，并使用 Lean 的每夜构建工具链版本。
+<ul>
+<li>该分支应始终能够无错误地构建。</li>
+<li>对该分支的变更会经过 Mathlib 维护者团队的审查。</li>
+<li>该分支受保护：只有 Mathlib 维护者和某些机器人才能向其推送。</li>
+<li>该分支的目的是准备一个 Mathlib <code>master</code> 分支的并行版本，使其能在 Lean 的即将到来的版本上构建。
+一旦该版本发布，<code>bump/v4.X.Y</code> 分支就会合并到 <code>master</code>。
+这次合并本质上是原子性的，因为其差异已经通过所有的每日适配 PR 得到审查。（见下文。）</li>
+</ul>
+</li>
+<li>当 <code>nightly-testing</code> 通过 CI 时，一个机器人会向 Zulip 发布消息，说明如何创建一个&quot;适配 PR&quot;，以将 <code>nightly-testing</code> 上的变更合并到 <code>bump/v4.X.Y</code>。
+<ul>
+<li>这个 PR 可以按照 Zulip 消息中的指示，使用 <code>scripts/create-adaptation-pr.sh</code> 来准备。</li>
+<li>这个 PR 应由 Mathlib 维护者团队审查。</li>
+</ul>
+</li>
+<li>在 Lean 发布周期（即一个月）的过程中，<code>bump/v4.X.Y</code> 会累积针对未来 Lean 版本的适配。
+<ul>
+<li>但 <code>master</code> 也会累积数千行的变更。</li>
+<li>因此应当定期将 <code>master</code> 合并到 <code>bump/v4.X.Y</code> 中。</li>
+<li>在撰写本文时，这一步骤已被整合进 <code>scripts/create-adaptation-pr.sh</code> 流程中。</li>
+<li>偶尔会发生合并冲突。这些冲突应当由 Mathlib 维护者团队审查，尽管目前并未做到这一点。</li>
+</ul>
+</li>
+</ul>
+<h3 id="lean-与-mathlib-之间的联合-ci" class="markdown-heading">Lean 与 Mathlib 之间的联合 CI <a class="hover-link" href="#lean-与-mathlib-之间的联合-ci">#</a></h3>
+<ul>
+<li>对于每一个向 Lean 提交的 PR，我们都会尝试针对所产生的工具链运行 Mathlib CI。</li>
+<li>为使其正常工作，你需要将你的 PR 变基到 <code>nightly-with-mathlib</code> 分支上。
+<code>nightly-with-mathlib</code> 分支指向最新的、能通过 Mathlib CI 的每夜 Lean 构建版本，
+并且 Mathlib（可能还有 Batteries）上存在对应的 <code>nightly-testing-YYYY-MM-DD</code> 标签。</li>
+<li>机器人会从 <code>nightly-testing-YYYY-MM-DD</code> 标签在 <code>leanprover-community/mathlib4-nightly-testing</code> 上
+创建一个 <code>lean-pr-testing-NNNN</code> 分支，如果它已存在则向其推送一个空提交。</li>
+<li>来自该 Mathlib 分支的后续 CI 结果会以评论的形式报告回 Lean PR。</li>
+<li>如果你的 PR 不是从一个能成功构建 Mathlib 的每夜构建版本分叉而来，机器人会在你的
+PR 上发表评论。
+每当你向 PR 推送时，它都会重新尝试。</li>
+<li>如果 <code>nightly-with-mathlib</code> 对你的用途而言过于陈旧，你可以基于 <code>nightly</code>，那么一旦该每夜构建版本本身通过 Mathlib CI 并且你向 PR 推送，Mathlib CI
+就会开始运行。</li>
+<li>也有可能那个每夜构建版本永远不会通过 Mathlib CI。在这种情况下，你可能不得不
+等待 <code>nightly-with-mathlib</code> 更新，然后变基到它上面。</li>
+</ul>
+<img src="https://leanprover-community.github.io//img/tags_and_branches.png" alt="Mathlib/Batteries 分支概览" width="80%"/>
+
+  </main>
+
+    <nav id="navbar" class="d-md-block bg-light sidebar collapse navbar-light pb-4">
+      <div class="d-none d-md-block mt-4"><a class="navbar-brand" href="https://leanprover-community.github.io/index.html">Lean Community</a></div>
+      
+        <h6 class="sidebar-heading mt-4">社区</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover.zulipchat.com/">Zulip 聊天</a></li>
+        
+          <li class="nav-item col-12"><a href="https://github.com/leanprover-community/mathlib4">GitHub</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/blog">博客</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/meet.html">社区信息</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/community_guidelines.html">社区准则</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/teams.html">团队</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/papers.html">关于 Lean 的论文</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/cite.html">引用 mathlib</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/cite.html#Licence">许可证</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/lean_projects.html">使用 Lean 的项目</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/teaching/index.html">使用 Lean 教学</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/events.html">活动</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">使用 Lean</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://live.lean-lang.org/">在线版本（无需安装）</a></li>
+        
+          <li class="nav-item col-12"><a href="https://docs.lean-lang.org/lean4/doc/quickstart.html">安装 Lean</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/get_started.html">更多选项</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">文档</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/learn.html">学习资源（从这里开始）</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/documentation.html">文档概览</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mathlib4_docs">API 文档</a></li>
+        
+          <li class="nav-item col-12"><a href="https://loogle.lean-lang.org/">声明搜索（Loogle）</a></li>
+        
+          <li class="nav-item col-12"><a href="https://lean-lang.org/doc/reference/latest/">语言参考</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mathlib4_docs/tactics.html">策略列表</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/glossary.html">术语表</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/did_you_prove_it.html">你真的证明了它吗？</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mwe.html">关于 MWE</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">库概览</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mathlib-overview.html">库概览</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/undergrad.html">本科数学</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/100.html">Wiedijk 的 100 条定理</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/1000.html">1000+ 条定理</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">理论</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/naturals.html">自然数</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/linear_algebra.html">线性代数</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/sets.html">集合与有限集</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/topology.html">拓扑</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/category_theory.html">范畴论</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">贡献</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/index.html">贡献什么</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/how-to-contribute.html">如何贡献</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/values.html">Mathlib 的价值观</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/queueboard/">Mathlib 审阅与分类看板</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/git.html">Mathlib4 贡献者 Git 指南</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/naming.html">命名约定</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/style.html">代码风格指南</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/doc.html">文档风格</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/commit.html">提交约定</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/pr-review.html">拉取请求审阅指南</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mathlib_stats.html">贡献统计</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/tags_and_branches.html">标签与分支</a></li>
+        </ul>
+      
+    </nav>
+
+</div>
+
+
+  <nav class="footer navbar navbar-expand-lg navbar-light bg-light justify-content-end">
+  <ul class="nav">
+    <li class="nav-item">
+      <a class="nav-link active" href="https://github.com/leanprover-community/leanprover-community.github.io/blob/lean4/templates/contribute/tags_and_branches.md">在 GitHub 上为此页面提出编辑建议</a>
+    </li>
+  </ul>
+  </nav>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+      integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+      crossorigin="anonymous"></script>
+    <script src="https://leanprover-community.github.io//js/bootstrap.min.js"></script>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true });
+    </script>
+    
+  </body>
+</html>

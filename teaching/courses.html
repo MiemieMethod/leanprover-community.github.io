@@ -1,0 +1,931 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="stylesheet" href="https://leanprover-community.github.io//css/lean.css" >
+  <link rel="shortcut icon" href="https://leanprover-community.github.io//img/favicon.ico">
+  <link rel="search" type="application/opensearchdescription+xml" title="mathlib docs" href="https://leanprover-community.github.io//opensearch.xml">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather&family=Open+Sans&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+    
+<style>
+.course-details {
+  margin-top: .1rem;
+  list-style-type: none;
+}
+div.dtsp-searchPane div.dataTables_scrollBody {
+  height: 160px !important;
+  max-height: 5rem !important;
+}
+
+.selected-tag {
+  font-weight: bolder
+}
+</style>
+
+
+	<script>
+                function buildShortcutsForStructures(names) {
+                        const o = {}
+                        names.forEach(name => o[name] = `\\mathbb\{${name}\}`)
+                        return o
+                }
+		MathJax = {
+			  tex: {
+                                  macros: {
+                                          ...buildShortcutsForStructures(["R", "Q", "Z", "N", "C"]),
+                                  },
+				      inlineMath: [['$', '$'], ['\\(', '\\)']]
+				    },
+		};
+	</script>
+	<script type="text/javascript" id="MathJax-script" async
+		  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+	</script>
+
+	<title>使用 Lean 的课程</title>
+  </head>
+  <body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-gradient-light d-md-none">
+    <div class="d-flex flex-grow-1">
+		<a class="navbar-brand" href="https://leanprover-community.github.io/index.html">Lean Community
+    </a>
+    </div>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="切换导航">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </nav>
+
+<div id="mainbox">
+
+  <main>
+    
+
+<h1>使用 Lean 的课程</h1>
+
+<p>
+  我们在此维护一份课程列表，涵盖过去与未来的课程，这些课程或是使用 Lean 来讲授数学，
+  或是直接将 Lean 作为交互式定理证明器或编程语言来讲授。
+  欢迎通过提交拉取请求来添加课程，编辑
+  <a
+    href="https://github.com/leanprover-community/leanprover-community.github.io/blob/lean4/data/courses.yaml">courses.yaml</a>。
+</p>
+<p>
+选择标签以开始筛选：
+<br>
+
+<span class="course-tag badge">lean4</span> 
+
+<span class="course-tag badge">lean3</span> 
+
+<span class="course-tag badge">Catalan</span> 
+
+<span class="course-tag badge">Czech</span> 
+
+<span class="course-tag badge">English</span> 
+
+<span class="course-tag badge">French</span> 
+
+<span class="course-tag badge">German</span> 
+
+<span class="course-tag badge">Portuguese</span> 
+
+<span class="course-tag badge">Spanish</span> 
+
+<span class="course-tag badge">advanced</span> 
+
+<span class="course-tag badge">analysis</span> 
+
+<span class="course-tag badge">automated reasoning</span> 
+
+<span class="course-tag badge">beginner</span> 
+
+<span class="course-tag badge">computer science</span> 
+
+<span class="course-tag badge">cryptography</span> 
+
+<span class="course-tag badge">data structures</span> 
+
+<span class="course-tag badge">dependent type theory</span> 
+
+<span class="course-tag badge">formal verification</span> 
+
+<span class="course-tag badge">functional programming</span> 
+
+<span class="course-tag badge">intro to proof</span> 
+
+<span class="course-tag badge">lean4</span> 
+
+<span class="course-tag badge">logic</span> 
+
+<span class="course-tag badge">mathematics</span> 
+
+<span class="course-tag badge">metaprogramming</span> 
+
+<span class="course-tag badge">natural language input</span> 
+
+<span class="course-tag badge">portuguese</span> 
+
+<span class="course-tag badge">theorem proving</span> 
+
+</p>
+
+<table id="courses-table" class="display">
+  <thead>
+    <tr>
+      <th></th>
+      <th>讲师</th>
+      <th>标题</th>
+      <th>地点</th>
+      <th>年份</th>
+      <th>标签</th>
+    </tr>
+  </thead>      
+  <tbody>
+  
+    <tr data-id="1">
+      <td class="dt-control"></td><td>Eric Klavins</td><td>Automated Mathematics</td><td>University of Washington</td><td>2026</td><td>computer science, mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="2">
+      <td class="dt-control"></td><td>Mirek Olšák</td><td>Formal Mathematics and Proof Assistants</td><td>Charles University in Prague</td><td>2026</td><td>computer science, mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="3">
+      <td class="dt-control"></td><td>Filippo A. E. Nuccio</td><td>Formalisation Mathématique (Formalisation of Mathematics)</td><td>Département de Mathématiques et Applications, ENS-Paris, France</td><td>2026</td><td>mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="4">
+      <td class="dt-control"></td><td>Roberto Zunino</td><td>Interactive Theorem Proving</td><td>University of Trento, Italy</td><td>2026</td><td>computer science, mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="5">
+      <td class="dt-control"></td><td>Daniel Dia, Nadim Kobeissi</td><td>Introduction to Formal Verification & Proof Assistants</td><td>American University of Beirut</td><td>2026</td><td>computer science, formal verification, mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="6">
+      <td class="dt-control"></td><td>Nima Rasekh</td><td>Mathematics meets Computer: From formal Proofs to AI</td><td>University of Greifswald</td><td>2026</td><td>beginner, mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="7">
+      <td class="dt-control"></td><td>Filippo A. E. Nuccio</td><td>Preuve assistée par ordinateur dans Lean (Assisted proofs in Lean)</td><td>CS/Math Lyon Graduate School, France</td><td>2026</td><td>mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="8">
+      <td class="dt-control"></td><td>Alex Kontorovich</td><td>An Introduction to (Formal) Real Analysis</td><td>Rutgers University</td><td>2025</td><td>lean4</td>
+    </tr>
+  
+    <tr data-id="9">
+      <td class="dt-control"></td><td>Enric Cosme Llópez, Lü Gong</td><td>An Introduction to Lean 4</td><td>Universitat de València, Nantong University</td><td>2025</td><td>beginner, mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="10">
+      <td class="dt-control"></td><td>Assaf Kfoury</td><td>Combinatoric Structures</td><td>Boston University</td><td>2025</td><td>beginner, computer science, lean4</td>
+    </tr>
+  
+    <tr data-id="11">
+      <td class="dt-control"></td><td>Emily Riehl</td><td>Computer-Verified Proof: A Hands-On Introduction to Interactive Theorem Proving</td><td>Johns Hopkins University</td><td>2025</td><td>lean4</td>
+    </tr>
+  
+    <tr data-id="12">
+      <td class="dt-control"></td><td>Judith Ludwig and Florent Schaffhauser</td><td>Computer-assisted Mathematics</td><td>Heidelberg University, Heidelberg (Germany)</td><td>2025</td><td>beginner, logic, mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="13">
+      <td class="dt-control"></td><td>Assaf Kfoury</td><td>Formal Methods for High-Assurance Software Engineering</td><td>Boston University</td><td>2025</td><td>computer science, mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="14">
+      <td class="dt-control"></td><td>Johan Commelin (UU) and Sander Dahmen (VU)</td><td>Formal Methods in Mathematics</td><td>Mastermath (Dutch universities collaboration)</td><td>2025</td><td>advanced, mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="15">
+      <td class="dt-control"></td><td>Alexandre Rademaker</td><td>Formal Proofs and Software Verification</td><td>Fundação Getulio Vargas</td><td>2025</td><td>computer science, formal verification, functional programming, portuguese, lean4</td>
+    </tr>
+  
+    <tr data-id="16">
+      <td class="dt-control"></td><td>Leni Aniva, Abdalrhman Mohamed</td><td>Functional Programming and Theorem Proving in Lean 4</td><td>Stanford University</td><td>2025</td><td>English, computer science, functional programming, mathematics, metaprogramming, theorem proving, lean4</td>
+    </tr>
+  
+    <tr data-id="17">
+      <td class="dt-control"></td><td>Florent Schaffhauser</td><td>Interactive Theorem Proving in Lean</td><td>Max Planck Institute for Mathematics in the Sciences, Leipzig (Germany)</td><td>2025</td><td>beginner, logic, mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="18">
+      <td class="dt-control"></td><td>Florent Schaffhauser</td><td>Interactive Theorem Proving in Lean</td><td>18th Conference on Intelligent Computer Mathematics, Brasilia, 6-10 October 2025</td><td>2025</td><td>beginner, dependent type theory, mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="19">
+      <td class="dt-control"></td><td>Wuyang Chen</td><td>Introduction to Formal Theorem Proving in Lean</td><td>Simon Fraser University</td><td>2025</td><td>lean4</td>
+    </tr>
+  
+    <tr data-id="20">
+      <td class="dt-control"></td><td>Sina Hazratpour</td><td>Logic II : Computability, Set Theory, and Model Theory</td><td>Stockholm University</td><td>2025</td><td>advanced, logic, mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="21">
+      <td class="dt-control"></td><td>Patrick Massot, Valérie de Clippel, Christine Paulin</td><td>Logique et démonstrations assistées par ordinateur</td><td>Université Paris-Saclay</td><td>2025</td><td>French, intro to proof, natural language input, lean4</td>
+    </tr>
+  
+    <tr data-id="22">
+      <td class="dt-control"></td><td>Antoine Meyer and Marie-Hélène Mourgues</td><td>Logique et preuve assistée (Logic and computer-assisted proof)</td><td>Université Gustave Eiffel, Paris area, France</td><td>2025</td><td>computer science, logic, mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="23">
+      <td class="dt-control"></td><td>Xavier Généreux</td><td>Master Praktikum: Formalization in Lean (FiL)</td><td>Ludwig-Maximilians-Universität München</td><td>2025</td><td>computer science, mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="24">
+      <td class="dt-control"></td><td>Nima Rasekh</td><td>Mathematical Proofs with Computers</td><td>University of Greifswald</td><td>2025</td><td>beginner, mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="25">
+      <td class="dt-control"></td><td>Filippo A. E. Nuccio</td><td>Preuve assistée par ordinateur dans Lean (Assisted proofs in Lean)</td><td>CS/Math Lyon Graduate School, France</td><td>2025</td><td>mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="26">
+      <td class="dt-control"></td><td>Siddhartha Gadgil</td><td>Proofs and Programs</td><td>Indian Institute of Science, Bangalore</td><td>2025</td><td>computer science, mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="27">
+      <td class="dt-control"></td><td>Damiano Testa</td><td>Theorem Proving with Lean</td><td>University of Warwick</td><td>2025</td><td>advanced, mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="28">
+      <td class="dt-control"></td><td>Alexandre Rademaker</td><td>Algorithms and Data Structures</td><td>Fundação Getulio Vargas</td><td>2024</td><td>computer science, data structures, functional programming, portuguese, lean4</td>
+    </tr>
+  
+    <tr data-id="29">
+      <td class="dt-control"></td><td>Floris van Doorn</td><td>Collaborative Formalization in Analysis</td><td>University of Bonn</td><td>2024</td><td>advanced, analysis, mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="30">
+      <td class="dt-control"></td><td>Ralf Gerkmann</td><td>Computergestütztes mathematisches Beweisen</td><td>Ludwig-Maximilians-Universität München</td><td>2024</td><td>German, mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="31">
+      <td class="dt-control"></td><td>Heather Macbeth</td><td>Discrete Mathematics</td><td>Fordham University</td><td>2024</td><td>intro to proof, mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="32">
+      <td class="dt-control"></td><td>Robert Y. Lewis</td><td>Discrete Structures and Probability</td><td>Brown University</td><td>2024</td><td>computer science, intro to proof, lean4</td>
+    </tr>
+  
+    <tr data-id="33">
+      <td class="dt-control"></td><td>Robert Y. Lewis</td><td>Formal Proof and Verification</td><td>Brown University</td><td>2024</td><td>advanced, computer science, logic, lean4</td>
+    </tr>
+  
+    <tr data-id="34">
+      <td class="dt-control"></td><td>Thomas Henzinger, Stefanie Muroya Lei, Martin Dvořák</td><td>Formalisms Every Computer Scientist Should Know</td><td>Institute of Science and Technology, Austria</td><td>2024</td><td>advanced, computer science, formal verification, lean4</td>
+    </tr>
+  
+    <tr data-id="35">
+      <td class="dt-control"></td><td>Stavan Jain, Ricardo Prado Cunha and Anoushka Sinha (supervised by Colleen Robles)</td><td>Formalization of Mathematics: Seminar on the proof assistant Lean</td><td>Duke University</td><td>2024</td><td>beginner, mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="36">
+      <td class="dt-control"></td><td>Floris van Doorn</td><td>Formalized Mathematics in Lean</td><td>University of Bonn</td><td>2024</td><td>advanced, mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="37">
+      <td class="dt-control"></td><td>Kevin Buzzard</td><td>Formalizing Mathematics 2024</td><td>Imperial College London</td><td>2024</td><td>English, beginner, mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="38">
+      <td class="dt-control"></td><td>Jasmin Blanchette</td><td>Interactive Theorem Proving</td><td>Ludwig-Maximilians-Universität München</td><td>2024</td><td>computer science, lean4</td>
+    </tr>
+  
+    <tr data-id="39">
+      <td class="dt-control"></td><td>Matthew Robert Ballard</td><td>Introduction to Cryptography</td><td>University of South Carolina</td><td>2024</td><td>computer science, cryptography, mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="40">
+      <td class="dt-control"></td><td>Sophie Morel, Filippo A. E. Nuccio, Xavier Roblot</td><td>Introduction to Lean and Advanced projects on Lean</td><td>ENS-Lyon, Université Claude Bernard Lyon, Université Jean Monnet Saint-Étienne</td><td>2024</td><td>mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="41">
+      <td class="dt-control"></td><td>Vasily Ilin</td><td>Introduction to Mathematical Formalization</td><td>University of Washington</td><td>2024</td><td>English, beginner, mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="42">
+      <td class="dt-control"></td><td>Tyler R. Josephson</td><td>Lean for Scientists and Engineers</td><td>University of Maryland, Baltimore County</td><td>2024</td><td>beginner, functional programming, intro to proof, lean4</td>
+    </tr>
+  
+    <tr data-id="43">
+      <td class="dt-control"></td><td>Martin Dvorak</td><td>Programování a dokazování v Leanu</td><td>online</td><td>2024</td><td>Czech, functional programming, intro to proof, lean4</td>
+    </tr>
+  
+    <tr data-id="44">
+      <td class="dt-control"></td><td>Thomas Noll</td><td>Semantics and Verification of Software</td><td>RWTH Aachen University</td><td>2024</td><td>beginner, computer science, lean4</td>
+    </tr>
+  
+    <tr data-id="45">
+      <td class="dt-control"></td><td>André Greiner-Petter, Moritz Schubotz, Bela Gipp</td><td>Seminar: Mathematical Information Retrieval (MathIR)</td><td>University of Göttingen, Germany</td><td>2024</td><td>beginner, computer science, mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="46">
+      <td class="dt-control"></td><td>Damiano Testa</td><td>Theorem Proving with Lean</td><td>University of Warwick</td><td>2024</td><td>advanced, mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="47">
+      <td class="dt-control"></td><td>Alexander Bentkamp, Jon Eugster</td><td>Computergestützte Beweisführung</td><td>Heinrich-Heine-Universität Düsseldorf</td><td>2023</td><td>German, beginner, lean4, lean4</td>
+    </tr>
+  
+    <tr data-id="48">
+      <td class="dt-control"></td><td>Riccardo Brasca and Antoine Chambert-Loir</td><td>Démontrer avec un ordinateur</td><td>Université Paris Cité, France</td><td>2023</td><td>French, intro to proof, mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="49">
+      <td class="dt-control"></td><td>Jim Fowler</td><td>Formal Proof</td><td>The Ohio State University</td><td>2023</td><td>advanced, mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="50">
+      <td class="dt-control"></td><td>Matthew Ballard</td><td>Formalization and mathematics</td><td>University of South Carolina</td><td>2023</td><td>advanced, computer science, mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="51">
+      <td class="dt-control"></td><td>Matthew Ballard</td><td>Formalization of mathematics</td><td>University of South Carolina</td><td>2023</td><td>advanced, mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="52">
+      <td class="dt-control"></td><td>Floris van Doorn</td><td>Formalized Mathematics in Lean</td><td>University of Bonn</td><td>2023</td><td>advanced, mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="53">
+      <td class="dt-control"></td><td>Siddhartha Gadgil</td><td>Proofs and Programs</td><td>Indian Institute of Science, Bangalore</td><td>2023</td><td>computer science, intro to proof, lean4</td>
+    </tr>
+  
+    <tr data-id="54">
+      <td class="dt-control"></td><td>Enric Cosme Llópez</td><td>Taller de Lean 4</td><td>Universitat de València</td><td>2023</td><td>Catalan, mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="55">
+      <td class="dt-control"></td><td>Damiano Testa</td><td>Theorem Proving with Lean</td><td>University of Warwick</td><td>2023</td><td>advanced, mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="56">
+      <td class="dt-control"></td><td>Patrick Massot</td><td>Topics in formal mathematics</td><td>Carnegie Mellon University</td><td>2023</td><td>mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="57">
+      <td class="dt-control"></td><td>Jakob von Raumer</td><td>Theorem Prover Lab -- Applications in Programming Languages</td><td>Karlsruhe Institute of Technology</td><td>2022</td><td>German, advanced, computer science, lean4</td>
+    </tr>
+  
+    <tr data-id="58">
+      <td class="dt-control"></td><td>Matthew Ballard</td><td>Transition to Advanced Mathematics</td><td>University of South Carolina</td><td>2022</td><td>intro to proof, mathematics, lean4</td>
+    </tr>
+  
+    <tr data-id="59">
+      <td class="dt-control"></td><td>Jeremy Avigad</td><td>Logic and Mechanized Reasoning</td><td>Carnegie Mellon University</td><td>2021</td><td>advanced, automated reasoning, logic, lean4</td>
+    </tr>
+  
+    <tr data-id="60">
+      <td class="dt-control"></td><td>Frédéric Tran Minh</td><td>Complement to general Analysis/Algebra 1st year undergraduate course</td><td>Esisar, Grenoble Institute of Technology</td><td>2023</td><td>French, intro to proof, mathematics, lean3</td>
+    </tr>
+  
+    <tr data-id="61">
+      <td class="dt-control"></td><td>Kevin Buzzard</td><td>Formalising Mathematics 2023</td><td>Imperial College London</td><td>2023</td><td>advanced, mathematics, lean3</td>
+    </tr>
+  
+    <tr data-id="62">
+      <td class="dt-control"></td><td>Bjørn Kjos-Hanssen</td><td>Graduate Introduction to Logic</td><td>University of Hawaii at Manoa</td><td>2023</td><td>advanced, logic, mathematics, lean3</td>
+    </tr>
+  
+    <tr data-id="63">
+      <td class="dt-control"></td><td>Philip Matchett Wood</td><td>Introduction to formal verification of mathematics</td><td>Harvard University</td><td>2023</td><td>mathematics, lean3</td>
+    </tr>
+  
+    <tr data-id="64">
+      <td class="dt-control"></td><td>Patrick Kinnear</td><td>Lean learning group 2023</td><td>Glasgow-Maxwell School</td><td>2023</td><td>advanced, mathematics, lean3</td>
+    </tr>
+  
+    <tr data-id="65">
+      <td class="dt-control"></td><td>Robert Y. Lewis, Jasmin Blanchette, Anne Baanen</td><td>Logic and Modelling</td><td>Vrije Universiteit Amsterdam</td><td>2023</td><td>computer science, intro to proof, logic, lean3</td>
+    </tr>
+  
+    <tr data-id="66">
+      <td class="dt-control"></td><td>Patrick Massot</td><td>Logique et démonstrations assistées par ordinateur</td><td>Université Paris-Saclay</td><td>2023</td><td>French, intro to proof, natural language input, lean3</td>
+    </tr>
+  
+    <tr data-id="67">
+      <td class="dt-control"></td><td>Marc Masdeu, Roberto Rubio</td><td>Poden els ordinadors entendre les matemàtiques? De la geometria axiomàtica als theorem provers</td><td>Universitat Autònoma de Barcelona</td><td>2023</td><td>Catalan, English, beginner, mathematics, lean3</td>
+    </tr>
+  
+    <tr data-id="68">
+      <td class="dt-control"></td><td>Jun Li</td><td>Set Theory and Logic with Lean</td><td>University of Dayton, USA</td><td>2023</td><td>English, intro to proof, logic, lean3</td>
+    </tr>
+  
+    <tr data-id="69">
+      <td class="dt-control"></td><td>Peter Pfaffelhuber</td><td>Some high-school mathematics in Lean</td><td>University of Freiburg, Germany</td><td>2023</td><td>German, intro to proof, mathematics, lean3</td>
+    </tr>
+  
+    <tr data-id="70">
+      <td class="dt-control"></td><td>Miguel Marco</td><td>Topología general</td><td>Universidad de Zaragoza</td><td>2023</td><td>Spanish, mathematics, lean3</td>
+    </tr>
+  
+    <tr data-id="71">
+      <td class="dt-control"></td><td>Jeremy Avigad</td><td>Interactive Theorem Proving</td><td>Carnegie Mellon University</td><td>2022</td><td>mathematics, lean3</td>
+    </tr>
+  
+    <tr data-id="72">
+      <td class="dt-control"></td><td>Sina Hazratpour</td><td>Introduction to Proofs with Lean Proof Assistant</td><td>Johns Hopkins University</td><td>2022</td><td>intro to proof, mathematics, lean3</td>
+    </tr>
+  
+    <tr data-id="73">
+      <td class="dt-control"></td><td>Gihan Marasingha</td><td>Modern Mathematics with Lean</td><td>University of Exeter</td><td>2022</td><td>intro to proof, logic, mathematics, lean3</td>
+    </tr>
+  
+    <tr data-id="74">
+      <td class="dt-control"></td><td>Sergey Galkin</td><td>Introdução às lógica, provas e suas assistentes</td><td>PUC-Rio</td><td>2021</td><td>Portuguese, intro to proof, logic, lean3</td>
+    </tr>
+  
+    <tr data-id="75">
+      <td class="dt-control"></td><td>Jeremy Avigad</td><td>Logic and Proof</td><td>Carnegie Mellon University</td><td>2017</td><td>intro to proof, logic, lean3</td>
+    </tr>
+  
+  </tbody>
+</table>
+
+
+  </main>
+
+    <nav id="navbar" class="d-md-block bg-light sidebar collapse navbar-light pb-4">
+      <div class="d-none d-md-block mt-4"><a class="navbar-brand" href="https://leanprover-community.github.io/index.html">Lean Community</a></div>
+      
+        <h6 class="sidebar-heading mt-4">社区</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover.zulipchat.com/">Zulip 聊天</a></li>
+        
+          <li class="nav-item col-12"><a href="https://github.com/leanprover-community/mathlib4">GitHub</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/blog">博客</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/meet.html">社区信息</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/community_guidelines.html">社区准则</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/teams.html">团队</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/papers.html">关于 Lean 的论文</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/cite.html">引用 mathlib</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/cite.html#Licence">许可证</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/lean_projects.html">使用 Lean 的项目</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/teaching/index.html">使用 Lean 教学</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/events.html">活动</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">使用 Lean</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://live.lean-lang.org/">在线版本（无需安装）</a></li>
+        
+          <li class="nav-item col-12"><a href="https://docs.lean-lang.org/lean4/doc/quickstart.html">安装 Lean</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/get_started.html">更多选项</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">文档</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/learn.html">学习资源（从这里开始）</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/documentation.html">文档概览</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mathlib4_docs">API 文档</a></li>
+        
+          <li class="nav-item col-12"><a href="https://loogle.lean-lang.org/">声明搜索（Loogle）</a></li>
+        
+          <li class="nav-item col-12"><a href="https://lean-lang.org/doc/reference/latest/">语言参考</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mathlib4_docs/tactics.html">策略列表</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/glossary.html">术语表</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/did_you_prove_it.html">你真的证明了它吗？</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mwe.html">关于 MWE</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">库概览</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mathlib-overview.html">库概览</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/undergrad.html">本科数学</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/100.html">Wiedijk 的 100 条定理</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/1000.html">1000+ 条定理</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">理论</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/naturals.html">自然数</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/linear_algebra.html">线性代数</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/sets.html">集合与有限集</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/topology.html">拓扑</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/category_theory.html">范畴论</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">贡献</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/index.html">贡献什么</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/how-to-contribute.html">如何贡献</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/values.html">Mathlib 的价值观</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/queueboard/">Mathlib 审阅与分类看板</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/git.html">Mathlib4 贡献者 Git 指南</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/naming.html">命名约定</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/style.html">代码风格指南</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/doc.html">文档风格</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/commit.html">提交约定</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/pr-review.html">拉取请求审阅指南</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mathlib_stats.html">贡献统计</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/tags_and_branches.html">标签与分支</a></li>
+        </ul>
+      
+    </nav>
+
+</div>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+      integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+      crossorigin="anonymous"></script>
+    <script src="https://leanprover-community.github.io//js/bootstrap.min.js"></script>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true });
+    </script>
+    
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+
+<script src="https://cdn.datatables.net/select/1.7.0/js/dataTables.select.min.js"></script>
+
+
+<script type="text/javascript">
+var coursesData = {
+  
+        1: { summary: `<p>类型论、Lean 中的编程、项层次的证明、策略层次的证明。</p>
+`, website: "https://klavinslab.org/LeanW26/", material: "None", repository: "https://github.com/klavins/LeanW26", notes: `None`, experiences: `None` },
+  
+        2: { summary: `<p>将 Lean 作为表述数学命题、证明或程序的语言加以介绍。内容涵盖归纳类型与依值类型、证明项、定义相等性与可证相等性、策略与数学概念概览、集合论与宇宙、编程与停机性。</p>
+`, website: "https://www.olsak.net/mirek/lean-at-matfyz.html", material: "None", repository: "https://git.olsak.net/mirek/lean-teaching/src/branch/master", notes: `None`, experiences: `None` },
+  
+        3: { summary: `<p>这是一门关于 Lean 中形式化数学的入门课程，面向法国巴黎高等师范学院（École Normale Supérieure）数学专业本科最后一年的学生。整个课程共 18 小时，分为六次每次 3 小时的讲座，之后由学生主持研讨班。授课语言依据实际在场者而定，使用法语或英语。</p>
+`, website: "https://faenuccio-teaching.github.io/M1_ENS_26/", material: "None", repository: "https://github.com/faenuccio-teaching/M1_ENS_26", notes: `None`, experiences: `None` },
+  
+        4: { summary: `<p>本课程旨在向学生介绍 Lean 4 与形式化数学。 我们主要聚焦于 Lean 的基础及其底层的类型论。 学生将同时练习使用项与策略，以证明简单的命题并解决基础任务。 在课程的最后一部分，我们将从 Mathlib 中选取若干主题，并演示如何使用它们。</p>
+`, website: "https://zunino.maths.unitn.it/teaching/interactiveThProving/", material: "None", repository: "https://github.com/RobertoZunino/ITPCourse", notes: `None`, experiences: `<p>本课程将于 2026 年 2 月起首次向学生开设。</p>
+` },
+  
+        5: { summary: `<p>向工程与数学专业的本科生介绍形式化验证与证明助手。内容涵盖依值类型论、函数式编程、操作语义，并将这些概念应用于高可信密码学、元编程与数学形式化的实际案例。</p>
+`, website: "https://danieldia-dev.github.io/proofs/", material: "None", repository: "https://github.com/danieldia-dev/proof101-problems", notes: `None`, experiences: `None` },
+  
+        6: { summary: `<p>这是一门学士层次的课程，遵循《Mathematics in Lean》一书的结构，介绍通过 Lean 进行形式化的基础知识（定义、策略、结构），以及 Mathlib 中的部分库（集合论、数论、代数）。课程以学生项目作为收尾，学生根据各自的兴趣开展一个形式化项目。本课程还介绍并讨论了各种通过 Lean 进行自动形式化的 AI 工具。</p>
+`, website: "https://github.com/nimarasekh/Formalization-SoSe26/", material: "https://leanprover-community.github.io/mathematics_in_lean/", repository: "None", notes: `None`, experiences: `None` },
+  
+        7: { summary: `<p>这是一门关于 Lean 中形式化数学的入门课程，面向里昂 CS/Math 研究生院的全体学生，不要求任何关于证明助手的预备知识。整个课程共 15 小时，分为五次每次 3 小时的讲座。尽管标题如此，全部内容均以英语讲授。</p>
+`, website: "https://faenuccio-teaching.github.io/GradCourse26/", material: "None", repository: "https://github.com/faenuccio-teaching/GradCourse26", notes: `None`, experiences: `None` },
+  
+        8: { summary: `<p>这是一门实分析的入门课程，包含严格的 ε-δ 微积分以及基础的点集拓扑，借助 Lean 游戏服务器以电子游戏的形式设计。所有讲座均有录像，视频和讲义公开发布于课程网站上。</p>
+`, website: "https://adam.math.hhu.de/#/g/AlexKontorovich/RealAnalysisGame", material: "https://alexkontorovich.github.io/2025F311H/", repository: "https://github.com/AlexKontorovich/RealAnalysisGame", notes: `None`, experiences: `None` },
+  
+        9: { summary: `<p>本手册介绍 Lean 4 的基础知识，涵盖基本语法与类型、定理证明与验证，以及在数学中的实际应用。每一章都包含示例、习题和实践见解，以帮助我们建立对 Lean 4 的信心与熟练度。本手册的内容基于作者在巴伦西亚大学（Universitat de València）开展的非正式研讨班，并曾向南通大学的硕士生讲授。这些课程聚焦于数学中的基础主题，特别是若干关键构造的泛性质。</p>
+`, website: "https://www.uv.es/coslloen/Lean4/", material: "https://doi.org/10.5281/zenodo.17079867", repository: "None", notes: `None`, experiences: `None` },
+  
+        10: { summary: `<p>本课程将于 2025 年春季学期首次开设。它将涵盖入门本科层次（美国的大一和大二）一门标准离散数学课程中的主题。 （因此课程名称有些名不副实，之所以如此选择是为了避免波士顿大学的一些「地盘」问题。） 参考教科书是 Heather Macbeth 的《The Mechanics of Proof》。 大多数选课学生主修计算机科学，其余少数主修数学或计算机工程。 本课程旨在教授数学证明的严格性以及数学科学中常见的各种证明方法。 学生每周被布置家庭作业习题，他们必须以两种方式之一或同时以两种方式解答： (a) 用 Lean 4 以及 (b) 以手写「纸笔」风格。 Lean 4 还将被用作一门函数式编程语言，特别是用于涉及标准算法及其在有限图上若干变体实现的家庭作业习题。</p>
+`, website: "None", material: "https://hrmacbeth.github.io/math2001/", repository: "None", notes: `None`, experiences: `None` },
+  
+        11: { summary: `<p>这是一门面向 12 名自选学生的一年级研讨课，这些学生未必打算主修数学，课程描述如下：千百年来，数学家们发展出一套日益精确的逻辑推理体系，用以判定何为某一数学命题的有效证明。但纸笔证明可能包含难以察觉的微妙错误。这门一年级研讨课将提供对一种全新证明撰写方法的实践入门，其中逻辑论证是借助一种称为计算机证明助手的工具与计算机交互式地展开的，该工具同时检查底层的逻辑。通过一系列游戏，我们将探索计算机证明助手 Lean，同时学习如何陈述、解释并证明日益复杂的定理。本课程还将讨论形式化方法在验证软件与硬件方面的实际应用，以及这种颠覆性的证明撰写方法对数学研究所产生的影响。</p>
+`, website: "https://adam.math.hhu.de/#/g/emilyriehl/ReintroductionToProofs", material: "https://infinitedescent.xyz/", repository: "https://github.com/emilyriehl/ReintroductionToProofs", notes: `None`, experiences: `None` },
+  
+        12: { summary: `<p>在本研讨课中，我们聚焦于在 Lean 中对大学层次的数学进行形式化。我们的目标是让学士学生了解撰写形式化证明并让计算机加以验证（甚至辅助我们完成证明）意味着什么。</p>
+`, website: "https://matematiflo.github.io/CompAssistedMath2025/", material: "None", repository: "None", notes: `None`, experiences: `None` },
+  
+        13: { summary: `<p>本课程将于 2025 年秋季学期开设，是对 2024 年秋季学期同名课程的略微修改。 课程约一半将涵盖数理逻辑的标准材料，侧重于模型论，如在一年级研究生课程中所讲授的那样。 本课程将仅限计算机科学与数学专业的研究生选修。 本课程的材料将结合《Theorem Proving in Lean 4》一书和《The Hitchhiker's Guide to Logical Verification》一书中的章节，外加讲师本人关于模型论的讲义。</p>
+`, website: "https://sites.google.com/bu.edu/cs511-fall-2024/home", material: "https://lean-lang.org/theorem_proving_in_lean4/", repository: "None", notes: `None`, experiences: `None` },
+  
+        14: { summary: `<p>这门硕士层次的课程聚焦于证明助手在数学中的理论与实践，涵盖 Coq、Lean、Agda 等证明助手所依据的 lambda 演算与依值类型论基础。在实践部分，学生学习将 Lean 与 Mathlib 结合使用，并以小组形式就自选数学主题开展形式化项目。客座讲座由 Assia Mahboubi（VU/Inria, Nantes）主讲。</p>
+`, website: "https://elo.mastermath.nl/course/info.php?id=1121", material: "https://leanprover-community.github.io/mathematics_in_lean/", repository: "None", notes: `None`, experiences: `None` },
+  
+        15: { summary: `<p>交互式证明器（即证明助手）是用于验证程序正确性与数学形式化的工具。与模型检查器和 SAT 求解器等工具不同，证明助手具有高度的交互性。经机器检查的形式化证明能够带来可靠且数学上严谨的程序。本课程通过 Lean 向学生介绍证明助手的理论与使用。我们将使用 Lean 来验证函数式程序的性质与数学定理。我们将学习演绎推理的理论以及这些工具所依据的逻辑。我们采用了《The Hitchhiker's Guide to Logical Verification》一书。</p>
+`, website: "https://github.com/emap-20252-fm", material: "https://github.com/emap-20252-fm/syllabus", repository: "None", notes: `None`, experiences: `None` },
+  
+        16: { summary: `<p>本课程系统地介绍 Lean 4，首先将其作为一门函数式 编程语言，然后作为一个定理证明器。我们解释 Lean 的类型论 基础，并展示定理证明与 策略的示例。课程的最后一部分涵盖 Lean 的编译器和 元编程系统。本课程面向数学家和 计算机科学家。所涵盖的内容包括：类型多态、 Monad、CIC、子类型、策略、逻辑、集合、可计算性、停机性、 元编程、宏、繁释（elaboration）、类型合一，以及 其他证明助手中的相关工作。</p>
+`, website: "https://web.stanford.edu/class/cs99/", material: "None", repository: "None", notes: `None`, experiences: `None` },
+  
+        17: { summary: `<p>本工作坊的目标是提供一个 8 小时的、使用 Lean 进行形式化数学的入门介绍。每次 2 小时的课程都将讲座与上机实践相结合。每次课程都提供实践文件，无需预先安装 Lean。</p>
+`, website: "https://matematiflo.github.io/LeanCompactCourse/", material: "None", repository: "None", notes: `None`, experiences: `None` },
+  
+        18: { summary: `<p>本教程的目标是提供一个 3 小时的、使用 Lean 进行形式化的入门介绍。重点在于上机实践。课程提供练习文件，无需预先安装 Lean。</p>
+`, website: "https://matematiflo.github.io/CICM2025LeanTutorial/", material: "None", repository: "None", notes: `None`, experiences: `None` },
+  
+        19: { summary: `<p>这是一门为期五天的教程，面向具有数学与物理混合背景的本科生和研究生。课程涵盖了《Mathematics in Lean》核心章节的精编版本。课程还提供录像以及推荐工具，以加速形式化定理证明（例如 Lean Finder：<a href="https://www.leanfinder.org/">https://www.leanfinder.org/</a>）。</p>
+`, website: "https://docs.google.com/document/d/1j8YRsuqTenN9X14ZTVLx12jOXr_vAtep7LGmL63FlSQ/edit?usp=sharing", material: "https://delta-lab-ai.github.io/lean_intro/", repository: "None", notes: `None`, experiences: `None` },
+  
+        20: { summary: `<p>这是一门高年级本科生/研究生课程，分为两部分：第一部分涵盖可计算性与不完备性，第二部分涵盖集合论与模型论。在课程的第一部分中，Lean 被用作一本数字日记。配套的 Lean 代码包含讲座主要概念的详细定义、一些基本示例与计算，以及可计算性与不完备性若干主要定理的经验证证明。</p>
+`, website: "https://sinhp.github.io/teaching/2025-logic2-stockholm/", material: "None", repository: "https://github.com/sinhp/CompLean/", notes: `None`, experiences: `None` },
+  
+        21: { summary: `<p>本课程的主要数学主题是初等实分析，尤其是收敛序列与连续函数的理论。 自 2021 年起，我在输入时使用一种受控自然语言，以便于将 Lean 证明转写为纸笔证明：即可在 GitHub 上找到的 Verbose Lean 库。</p>
+`, website: "https://www.imo.universite-paris-saclay.fr/~patrick.massot/enseignement/", material: "None", repository: "None", notes: `None`, experiences: `<p>本课程效果确实很好，并很可能会长期持续下去。 使用受控自然语言策略的想法，在确保学生提升纸笔证明能力方面，似乎比原生语法高效得多。</p>
+` },
+  
+        22: { summary: `<p>这是一门面向少数数学与计算机科学双主修一年级学生的两部分课程。第一部分关于纸笔证明，聚焦于逻辑、自然演绎和皮亚诺算术。第二部分是一个 Lean 4 实验，配有关于命题逻辑与谓词逻辑、集合与函数以及自然数的练习单。重点在于以策略模式在「原味」Lean（不使用 Mathlib）中证明初等定理，并尝试与自然演绎建立类比。</p>
+`, website: "None", material: "None", repository: "https://github.com/niotie/logique-preuve-assistee", notes: `None`, experiences: `None` },
+  
+        23: { summary: `<p>这门实践课程的目标是让学生使用 Lean 完成他们的第一个形式化项目。课程专为硕士生设计，分为两部分：第一部分由讲座和家庭作业组成，第二部分则专注于独立的项目工作，并辅以可选的答疑环节。</p>
+`, website: "https://www.tcs.ifi.lmu.de/lehre/ws-2024-25/forma_lean_de.html", material: "None", repository: "None", notes: `None`, experiences: `None` },
+  
+        24: { summary: `<p>这是一门学士层次的课程，遵循《Mathematics in Lean》一书的结构，介绍通过 Lean 进行形式化的基础知识（定义、策略、结构），以及 Mathlib 中的部分库（集合论、数论、代数）。课程以学生项目作为收尾，学生根据各自的兴趣开展一个形式化项目。</p>
+`, website: "https://github.com/nimarasekh/Formalization-SoSe25/", material: "https://leanprover-community.github.io/mathematics_in_lean/", repository: "None", notes: `None`, experiences: `None` },
+  
+        25: { summary: `<p>这是一门关于 Lean 中形式化数学的入门课程，面向里昂 CS/Math 研究生院的全体学生，不要求任何关于证明助手的预备知识。整个课程共 15 小时，分为五次每次 3 小时的讲座。尽管标题如此，全部内容均以英语讲授。</p>
+`, website: "https://faenuccio-teaching.github.io/GradCourse25/", material: "None", repository: "https://github.com/faenuccio-teaching/GradCourse25/tree/master", notes: `None`, experiences: `None` },
+  
+        26: { summary: `<p>这是一门关于在 Lean 中进行证明、编程以及证明程序正确性（与停机性）的入门课程。 课程还讨论了 Lean 的基础，以及诸如类型类、Monad 和带索引归纳类型等更进阶的主题。 学生还接触了元编程的基础知识。</p>
+`, website: "http://math.iisc.ac.in/~gadgil/proofs-and-programs-2025/", material: "https://math.iisc.ac.in/~gadgil/PfsProgs25doc/PfsProgs25.html", repository: "https://github.com/proofs-and-programs/proofs-and-programs-25", notes: `None`, experiences: `<p>本课程效果非常好，尽管这样一门课程要求学生有动力且有能力（所幸我的学生正是如此）。 课程中略多于一半的内容由现场编程组成，以讲解证明、程序、停机性与正确性证明等的各个方面。 最后一部分专注于项目，讲座混合了学生各自项目所需的内容，以及 诸如元编程等进阶主题。</p>
+` },
+  
+        27: { summary: `<p>本课程面向想要学习形式化与 Lean 的数学硕士生。学生以 3-5 人为一组，开展一个自选的形式化项目。讲座和辅导课涵盖与所选项目相关的材料。</p>
+`, website: "https://adomani.github.io/Syllabus/MA4N1/toc", material: "None", repository: "https://github.com/adomani/MA4N1_2023", notes: `None`, experiences: `None` },
+  
+        28: { summary: `<p>本课程涵盖算法设计的原理：分治法、贪心算法、归约、动态规划、穷举搜索等等。这些原理通过 Lean 这一纯函数式语言加以呈现，相比通常用命令式语言所得的程序，它能给出更简单的解释和更短的程序。在 Lean 中，正如在 Haskell 和其他函数式语言中一样，算法开发在适用时采用等式推理；本课程阐明了其适用条件以及正确性的论证。</p>
+`, website: "https://github.com/emap-20242-ed/syllabus", material: "https://github.com/arademaker/fad", repository: "None", notes: `None`, experiences: `None` },
+  
+        29: { summary: `<p>这是一个面向修过前述 Lean 课程并想要继续学习的数学硕士生的小型研讨课。它是一个协作项目，学生形式化分析中的一些新结果，目标是将其作为 PR 提交至 Mathlib，或使其在某种程度上达到可纳入 Mathlib 的状态。主题是傅里叶分析，特别是 Plancherel 定理、插值定理及其应用。</p>
+`, website: "None", material: "None", repository: "https://github.com/fpvandoorn/BonnAnalysis", notes: `None`, experiences: `None` },
+  
+        30: { summary: `<p>本课程作为数学专业二年级本科课程讲授。 它介绍 Lean 4 以及 Mathlib，并演示如何在 诸如实数等基础数学对象，以及诸如 p 进数等更进阶的对象上 构造并完成证明。</p>
+`, website: "https://www.mathematik.uni-muenchen.de/~gerkmann/ank_lean.pdf", material: "None", repository: "None", notes: `None`, experiences: `None` },
+  
+        31: { summary: `<p>本课程在英语与 Lean 之间完全双语， 每个示例都以两种方式呈现（学生也必须以两种方式解答每一道家庭作业题）。 这是美国为一/二年级本科生开设的标准 &quot;intro to proofs&quot;（证明入门）课程大纲， 涵盖 &quot;证明技巧&quot;、证明撰写的良好风格、 初等数论、&quot;充分大&quot;、递推关系、 函数、关系与集合运算。 教科书《The Mechanics of Proof》（链接见上文）正是为本课程而撰写。</p>
+`, website: "None", material: "https://hrmacbeth.github.io/math2001", repository: "https://github.com/hrmacbeth/math2001", notes: `None`, experiences: `<p>本课程自 2023 年起讲授，如今已是第四次开设。 学生喜欢使用 Lean，并能够以所需的进度学会它。 我投入了大量精力编写自定义策略，它们恰好执行我会在纸上允许的一步推理， 并刻意从不提及若干更强大的策略。 若课程明确旨在教授证明撰写的良好风格，这一点非常有用。 它让你在评分时得以解脱——你可以直接说 &quot;细节不够——Lean 不会接受它！&quot;</p>
+` },
+  
+        32: { summary: `<p>这是一门规模较大的入门课程，布朗大学大多数计算机科学专业的学生都会选修。 它讲授逻辑、组合学、数论和概率，聚焦于在计算机科学中重要的概念。 在 2023 年春季，我们为课程引入了一个 Lean 组成部分，以强调证明与演绎的概念。 其目标并非达到 Lean 的熟练程度，而是巩固学生对传统材料的理解。</p>
+`, website: "https://cs22.io/", material: "None", repository: "https://github.com/brown-cs22/CS22-Lean-2024", notes: `None`, experiences: `<p>考虑到课程的规模以及庞大的助教团队的惯性，全面整合 Lean 是一项跨多年的工作。 学生在形式化与非形式化陈述之间转换的能力相比前一年有了显著提升。 我大量依赖了 &quot;上下文&quot;、&quot;假设&quot; 和 &quot;目标&quot; 这些术语（受 Lean infoview 启发），并且 有明确迹象表明这种结构正在影响学生处理非形式化证明的方式。</p>
+` },
+  
+        33: { summary: `<p>这是一门高年级本科生/研究生课程，使用 Lean 讲授证明助手的理论与实践。 所涵盖的主题包括函数式程序的验证、程序语言语义、数学结构、元编程， 以及逻辑基础。本课程基于 Jasmin Blanchette 的课程 Logical Verification，并以 《Hitchhiker's Guide to Logical Verification》作为参考。</p>
+`, website: "https://browncs1951x.github.io/", material: "https://lean-forward.github.io/hitchhikers-guide/2024/", repository: "https://github.com/BrownCS1951x/fpv2024", notes: `None`, experiences: `<p>我在布朗大学讲授本课程四次，事实证明它相当受欢迎，吸引了 对数学/逻辑、程序语言研究和函数式编程感兴趣的混合受众。期末项目包括：一个经验证的 可执行 DPLL SAT 求解器；mathlib 策略 <code>linear_combination</code> 以及朝向 <code>polyrith</code> 的初步工作；对 公理化 ZFC、线性代数及其他数学主题的探索；定义域理论的形式化；等等。</p>
+` },
+  
+        34: { summary: `<p>面向计算机科学博士生的高级课程，其中大多数从事形式化方法的研究。课程主要由纸笔习题组成；只有四节课在 Lean 中进行。 (1) Lean 语法、基础策略、康托尔定理、Schröder-Bernstein 定理 (2) 偏序集、完备格、前不动点/后不动点/不动点、Knaster-Tarski 定理 (3) Kleene 不动点定理、归纳与余归纳 (4) 拼接列表、反转列表、排序列表（形式化验证归并排序）</p>
+`, website: "https://ista.ac.at/en/home/", material: "None", repository: "https://github.com/madvorak/formalisms", notes: `None`, experiences: `None` },
+  
+        35: { summary: `<p>学生学习在 Lean 中形式化数学，包括：实现定义、 编码命题、使用策略，以及形式化地开展数学。本研讨课遵循 MIL 的前六章，并以一个项目作为收尾。</p>
+`, website: "None", material: "https://github.com/leanprover-community/mathematics_in_lean", repository: "None", notes: `None`, experiences: `None` },
+  
+        36: { summary: `<p>与一年前的课程非常相似，两次都大约有 20 名学生参加。使用《Mathematics in Lean》的材料，但大多使用我自己的习题，托管于 GitHub 仓库中。学生将再次选择一个形式化项目，并就该形式化作一场报告。</p>
+`, website: "None", material: "None", repository: "https://github.com/fpvandoorn/LeanCourse24", notes: `None`, experiences: `None` },
+  
+        37: { summary: `<p>一门面向本科最后一年学生的课程，以项目作为考核。课程仓库包含 许多如何开展基础本科数学的示例。请注意， 该课程的 <a href="https://github.com/b-mehta/formalising-mathematics-notes">2025 版本</a> 使用了更为新近的 mathlib 版本！</p>
+`, website: "https://www.ma.imperial.ac.uk/~buzzard/xena/formalising-mathematics-2024/", material: "None", repository: "https://github.com/ImperialCollegeLondon/formalising-mathematics-2024", notes: `None`, experiences: `None` },
+  
+        38: { summary: `<p>本课程介绍证明助手 Lean 4、其类型论基础， 以及它在计算机科学与数学中的应用。课程使用 《The Hitchhiker's Guide to Logical Verification》的 Lean 4 版本进行讲授。</p>
+`, website: "https://www.tcs.ifi.lmu.de/lehre/ss-2024/itp_de.html", material: "None", repository: "None", notes: `None`, experiences: `None` },
+  
+        39: { summary: `<p>自人类交流出现以来，人们就一直希望能够私密地 交流。而另一些人则一直想要窃听那些表面上私密的 交流。我们当今大量互动 在线进行的现状，为这种安全性带来了特殊的需求，也使其成为一个诱人的 攻击目标。
+在本课程中，我们涵盖密码学的基础，从古代 使用的密码一直到现代的加密与签名协议。我们 聚焦于密码学与密码分析二者的数学基础。
+我们采用 Lean 作为本课程的实现语言，并对形式化验证 一窥端倪。</p>
+`, website: "https://587.f24.matthewrobertballard.com", material: "None", repository: "None", notes: `None`, experiences: `None` },
+  
+        40: { summary: `<p>这两门课程（一门在第一学期，另一门也在第一学期）是 <a href="http://mathematiques.ens-lyon.fr/master-2-234092.kjsp">里昂高师 M2 项目</a>中 &quot;Higher Algebra and formalized mathematics&quot;（高等代数与形式化数学）项目的一部分。 课程介绍 Lean 中数学形式化的基础，随后讲授关于 mathlib 具体细节的更进阶主题。</p>
+`, website: "https://faenuccio-teaching.github.io/M2Lyon2425/", material: "None", repository: "https://github.com/faenuccio-teaching/M2Lyon2425/", notes: `None`, experiences: `None` },
+  
+        41: { summary: `<p>面向本科生与低年级研究生的、以项目为导向的课程。本课程的重点纯粹在于使用 Lean 来陈述并证明数学命题的实践层面。预期成果并非对 Lean 工作原理的深入理解，而是掌握诸如拆解问题、调试、以高效方式在 Zulip 上寻求帮助等实践技能。学生在前 3 周做 MiL 中的习题，其余 7 周开展一个项目。</p>
+`, website: "None", material: "None", repository: "None", notes: `None`, experiences: `<p>学生们觉得进度太快。没有人完成超过 MiL 的 4-5 章。项目大多进行得不错。每个小组有两人——一名组长，由其提出项目（研究生或有 Lean 经验的学生）。这种做法很有效，组长推动了项目的进展，但另一方面，另一名组员则难以跟上进度。</p>
+` },
+  
+        42: { summary: `<p>向科学家和工程师介绍 Lean 的证明与编程。先修要求：微积分 II。学生学习基础证明（包括一些微积分示例）和基础编程技巧（输入/输出、函数式编程、列表），以激发并支持在 Lean 中开发与形式化科学推导相关联的科学计算软件。讲座录像见 YouTube：<a href="https://www.youtube.com/playlist?list=PLX21uJ4UfpF43NExUcPcAEgnzV58x_26l">https://www.youtube.com/playlist?list=PLX21uJ4UfpF43NExUcPcAEgnzV58x_26l</a></p>
+`, website: "https://github.com/ATOMSLab/LFSE2024/", material: "None", repository: "None", notes: `None`, experiences: `None` },
+  
+        43: { summary: `<p>我们是一个名为 <a href="https://cs.wikipedia.org/wiki/M%26M_(%C4%8Dasopis)">M&amp;M</a> 的 <a href="https://cs.wikipedia.org/wiki/Koresponden%C4%8Dn%C3%AD_semin%C3%A1%C5%99">korespondenční seminář</a>（字面意思是「函授研讨班」，即通过交换信件和电子邮件来组织的研讨班）， 它有点类似于面向数学奥林匹克高中生的线上课程，隶属于布拉格查理大学数学与物理学院。 Lean 是我们 2023/2024 学年三个主题之一。将有五卷包含 Lean 作业，总共六卷。 大纲：(1) 函数式编程的最基础知识；(2) 列表；(3) 初等代数运算；(4) 逻辑；(5) 归纳法。</p>
+`, website: "https://mam.mff.cuni.cz/", material: "None", repository: "https://github.com/madvorak/lean-mam", notes: `None`, experiences: `<p>我们有 41 名活跃参与者（计入至少解出三道 Lean 习题的学生）。 批改解答花费不了多少时间，制作材料才花时间。</p>
+` },
+  
+        44: { summary: `<p>本课程讲授使用操作语义、指称语义与公理语义对程序进行验证的基础。 其目标群体主要为计算机科学专业的硕士生。 在配套的习题课中，学员将学习在 Lean 4 中形式化验证证明。</p>
+`, website: "https://moves.rwth-aachen.de/teaching/ws-2024-25/savos/", material: "None", repository: "None", notes: `None`, experiences: `None` },
+  
+        45: { summary: `<p>在本研讨课中，学生将为一个解决实际现实问题的开源系统作出贡献。自 2024 年以来，我们提供了与 <a href="https://github.com/leanprover-community/mathlib4">mathlib</a> 相关的项目。 我们建议从 GitHub 上选择一个 <a href="https://github.com/leanprover-community/mathlib4/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22">&quot;good first issues&quot;</a>。</p>
+`, website: "https://gipplab.org/teaching/mathir/", material: "None", repository: "None", notes: `None`, experiences: `None` },
+  
+        46: { summary: `<p>本课程面向想要学习形式化与 Lean 的数学硕士生。学生以 3-5 人为一组，开展一个自选的形式化项目。讲座和辅导课涵盖与所选项目相关的材料。</p>
+`, website: "https://adomani.github.io/Syllabus/MA4N1/toc", material: "None", repository: "https://github.com/adomani/MA4N1_Theorem_proving_with_Lean", notes: `None`, experiences: `None` },
+  
+        47: { summary: `<p>这门关于证明助手的讲座汇聚了计算机科学、数学和计算语言学专业的学生。本课程关于归纳构造演算，配有 Lean 中和纸上的习题。最后，我们考察了证明助手与类型论如何在计算机科学、数学和计算语言学中应用的示例。我们只使用项模式证明（rw/calc 除外）。</p>
+`, website: "https://www.math.uni-duesseldorf.de/~internet/CB-V-W23/", material: "https://www.math.uni-duesseldorf.de/~internet/CB-V-W23/Computergestuetzte-Beweisfuehrung-Skript.pdf", repository: "https://github.com/hhu-adam/cgbf2023", notes: `None`, experiences: `<p>我惊讶于基本上仅用项模式证明能走多远。项模式使得设计一份合理的纸面考试更为容易。将来自三个不同专业的学生汇聚在一起是一项挑战。在整个学期中，我们流失了所有纯计算语言学的学生。数学专业的学生似乎很喜欢这门课，尽管我们涉及的数学内容很少。</p>
+` },
+  
+        48: { summary: `<p>本课程的目标是向数学与计算机科学双主修项目的一年级本科生讲授 Lean 的基础知识。</p>
+`, website: "https://moodle.u-paris.fr/course/view.php?id=41914", material: "None", repository: "None", notes: `None`, experiences: `None` },
+  
+        49: { summary: `<p>本课程提供对数学中形式化证明的入门介绍。它专为 希望全面理解如何使用证明助手、以及如何以一种可对其正确性进行形式化验证的方式 编码数学证明的数学专业学生而设计。</p>
+`, website: "https://github.com/math4345", material: "None", repository: "https://github.com/math4345/lectures", notes: `None`, experiences: `<p>这门 3 学分的课程于 2023 年 8 月首次开设，使用 Lean 4。 讲座时间用于一起现场编程。 学生群体是俄亥俄州立大学的高年级数学专业学生。 考核围绕每周的习题集、一个期中项目和一个期末项目展开。</p>
+` },
+  
+        50: { summary: `<p>2023 年春季。更像是一门数学-计算机科学混合课程，聚焦于培养使用 Lean 的能力，并拓展学生对数学与编程的视野。</p>
+`, website: "https://411.s23.matthewrobertballard.com", material: "None", repository: "None", notes: `None`, experiences: `None` },
+  
+        51: { summary: `<p>2023 年春季。一门研究生课程，我们用了大约 2/3 的课时在 Lean 3 中研读 Kevin 某门课程的习题，然后转而在 Lean 4 中对图的边色数进行界估计。</p>
+`, website: "https://github.com/UofSC-Spring-2023-Math-768-001", material: "None", repository: "None", notes: `None`, experiences: `None` },
+  
+        52: { summary: `<p>本课程面向想要学习形式化与 Lean 的数学专业学士和硕士学生。在课程的前半部分，我将研读《Mathematics in Lean》一书，后半部分则由每位学生选择一个形式化项目开展工作，并就该形式化作一场报告。</p>
+`, website: "None", material: "None", repository: "https://github.com/fpvandoorn/LeanCourse23", notes: `None`, experiences: `None` },
+  
+        53: { summary: `<p>这是一门关于在 Lean 中进行证明、编程和证明程序，以及 Lean 的依值类型论基础的入门课程。 考核主要基于项目，但也包含实验。</p>
+`, website: "http://math.iisc.ac.in/~gadgil/proofs-and-programs-2023/", material: "http://math.iisc.ac.in/~gadgil/proofs-and-programs-2023/doc/PnP2023.html", repository: "https://github.com/siddhartha-gadgil/proofs-and-programs-2023", notes: `None`, experiences: `<p>我的计划是先现场编程，然后清理、补充文档并用 DocGen4 生成讲义。 在头一个月里，这一做法效果非常好，伴有大量提问以及我对解释的随机调整。 一旦项目开始，讲座与考核的脱钩导致出勤率急剧下降。 我作出了调整，将讲座变为项目演示/答疑/现场编程。 进度较快的学生讲解他们已完成的工作，进度较慢的则讲解他们已有的内容、 卡在何处、需要什么等等，而我（以及他们的同学）帮助他们摆脱困境。 这一做法效果良好。下次我讲授时，会更早且更有计划地过渡到这种模式。</p>
+` },
+  
+        54: { summary: `<p>这是一个面向教师和学生的非正式工作坊。其目的是探索 Lean 语言的基础， 特别侧重于介绍在集合论与形式逻辑高级课程中常见的常用结构。</p>
+`, website: "https://www.uv.es/coslloen/Lean4.html", material: "None", repository: "https://github.com/encosllo/TallerLean4", notes: `None`, experiences: `<p>这是我们在数学学院举办的第三个工作坊。与之前使用 Lean 3 的几次不同，这是我们第一次使用 Lean 4。 第一学期侧重于打好基础，第二学期则涉及在某一具体专业方向内形式化结果。 去年，我们集中于基础的拓扑结果，而在本次课程中，我们的目标是形式化范畴论中的基础结果。</p>
+` },
+  
+        55: { summary: `<p>本课程面向想要学习形式化与 Lean 的数学硕士生。学生以 3-5 人为一组，开展一个自选的形式化项目。讲座和辅导课涵盖与所选项目相关的材料。</p>
+`, website: "https://adomani.github.io/Syllabus/MA4N1/toc", material: "None", repository: "https://github.com/adomani/MA4N1_2023", notes: `None`, experiences: `None` },
+  
+        56: { summary: `<p>本课程作为三年级本科课程讲授。 我们用了略多于半个学期的时间，配以每周的家庭作业， 研读了《Mathematics in Lean》的大部分内容。 学生须在学期中点完成一个小型独立项目，并在学期末完成一个更大的项目。</p>
+`, website: "None", material: "https://leanprover-community.github.io/mathematics_in_lean/mathematics_in_lean.pdf", repository: "https://github.com/leanprover-community/mathematics_in_lean", notes: `None`, experiences: `None` },
+  
+        57: { summary: `<p>面向计算机科学专业学生的硕士课程，学期上半部分由 Lean 4 与类型论的上机入门构成， 下半部分则由学生从事一个语义/编译器项目或一个图论问题的形式化构成。</p>
+`, website: "https://pp.ipd.kit.edu/lehre/SS2022/tba/?lang=de", material: "None", repository: "https://github.com/IPDSnelting/tba-2022", notes: `<p>该网站部分内容为德语，包含更多幻灯片以及项目说明。</p>
+`, experiences: `<p>这已是我们使用 Lean 4 的第二年，在前一年因新冠疫情完全在线授课之后，能够再次面对面授课很好。 学生们的学习速度参差不齐，但最终每个人都达到了能够凭直觉使用 Lean 的程度。 一些学生非常热衷于精简（golf）每一个证明。</p>
+` },
+  
+        58: { summary: `<p>我们的证明入门课程。（2020 年秋季）Lean 约占课程的 1/3。（2022 年秋季）使用 Lean 4 的第二次开设。</p>
+`, website: "https://300.f22.matthewrobertballard.com/", material: "None", repository: "None", notes: `None`, experiences: `None` },
+  
+        59: { summary: `<p>本课程向学生介绍命题逻辑与一阶逻辑的理论，展示如何在 Lean 4 中实现基础的逻辑算法，并展示如何使用自动推理工具。</p>
+`, website: "https://www.cs.cmu.edu/~mheule/15217-f21/", material: "https://avigad.github.io/lamr/logic_and_mechanized_reasoning.pdf", repository: "https://github.com/avigad/lamr", notes: `None`, experiences: `None` },
+  
+        60: { summary: `<p>一个使用 Lean 3 向一年级本科生介绍证明的简短模块——以法语进行。 我们在 Lean 中采用了证明项风格。</p>
+`, website: "None", material: "None", repository: "https://github.com/ftranminh/Esisar_MA121_HA_lean_2023", notes: `<p>一年级学生，6 × 1.5 小时</p>
+`, experiences: `<ul>
+<li>这是我们第一次使用证明助手来教数学</li>
+<li>学生总体上很欣赏它（反馈、自主性、趣味性）</li>
+<li>他们中的一些人认为它对学习数学有帮助</li>
+<li>他们中的大多数人觉得 Lean 语法很难（他们也倾向于将自己在数学上的不足归咎于编程上的困难）</li>
+<li>他们中的许多人觉得 Lean 的错误信息毫无帮助</li>
+</ul>
+` },
+  
+        61: { summary: `<p>本课程以项目为导向；学生须就本科数学撰写三个项目。 讲座是我现场的 Lean 编程，解决仓库中的 sorry。 我将在 2024 年再次讲授本课程，届时将使用 Lean 4。</p>
+`, website: "https://www.ma.imperial.ac.uk/~buzzard/xena/formalising-mathematics-2023/index.html", material: "None", repository: "https://github.com/ImperialCollegeLondon/formalising-mathematics-2023", notes: `None`, experiences: `None` },
+  
+        62: { summary: `<p>一门数理逻辑的研究生课程，主要由数学专业的硕士和博士生选修，每隔一年开设一次（2016 年秋季 + 2n，n=0,1,2,3,4）。 模型论、可计算性理论、集合论。特别是一阶逻辑的语法与语义；不完备性、完备性和紧致性定理； Löwenheim-Skolem 定理；可计算集与可计算可枚举集；集合论公理；序数与基数。 自 2020 年起，我加入了 Lean 习题与项目，以及一些关于类型论的讨论。 例如，哥德尔定理一部分的形式化包含在 <a href="https://github.com/bjoernkjoshanssen/math654/blob/main/g%C3%B6del-beta-homework.lean">https://github.com/bjoernkjoshanssen/math654/blob/main/g%C3%B6del-beta-homework.lean</a></p>
+`, website: "https://math.hawaii.edu/wordpress/bjoern/math-654-fall-2022/", material: "None", repository: "https://github.com/bjoernkjoshanssen/math654", notes: `None`, experiences: `<p>学生们愿意且有能力学习 Lean。引入 Lean 展示了逻辑作为一个充满活力而非停滞的研究领域。 作为 2022 年的项目，学生为我的书《Automatic complexity》创建了习题解答的形式化， 其中一些包含在 <a href="https://github.com/bjoernkjoshanssen/diophantine-lemma">https://github.com/bjoernkjoshanssen/diophantine-lemma</a></p>
+` },
+  
+        63: { summary: `<p>本课程面向至少修过 2 门基于证明的数学课程的本科生。 我们研读了 Jeremy Avigad 和 Patrick Massot 所著《Mathematics in Lean》 （当时的）最新版本。本课程紧密参照了 Jeremy Avigad 于 2022 年在 CMU 讲授的一门课程。学生每周完成家庭作业，实现或补全 若干小型示例结果的实现，他们还完成了一个期中项目和一个期末项目， 其中实现了他们自选的任意数学结果。一些期末项目的示例包括：实现 初等群论直至拉格朗日定理的定义与结果，以及黎曼 zeta 函数的 欧拉乘积公式的证明。</p>
+`, website: "None", material: "None", repository: "None", notes: `None`, experiences: `None` },
+  
+        64: { summary: `<p>一门为期一学期的课程，面向爱丁堡、赫瑞-瓦特（Heriot-Watt）和格拉斯哥大学代数及相关主题的研究生。 旨在以数学家和未来形式化者的身份接触 Lean，确立对策略模式的熟练掌握。 在课程的第一部分，我们使用 tutorials 项目学习 Lean 中一阶逻辑的基础， 随后讨论一些类型与类型类的基础知识，以谈论代数的形式化。课程还使用了 lftcm2020 练习单和 MiL。 课程以一场黑客松（hackathon）作结，开展若干小组项目。</p>
+`, website: "https://www.maths.ed.ac.uk/~pkinnear/leancourse/", material: "None", repository: "None", notes: `None`, experiences: `<p>我们尝试避免在早期过多涉及类型论，以让人们快速、自信地与 Lean 交互。 现在回头看，更深入地涵盖这部分内容本会更好（尽管只在课程后期、在确立了与 Lean 交互的信心之后）， 这有助于应对在形式化一段有趣的数学时不可避免会出现的问题。 此外，我们最初将课程成果设定为开展贡献 mathlib 的小组项目， 但现在会说，将目标重新定位为以一种对你作为学习者有用的格式（例如作为一份练习单/教科书的交互部分） 形式化某些新内容，在教学上是一个更好的目标 （并且在此过程中仍可能促成，例如，一项 mathlib 贡献，即便那并非明确目标）。</p>
+` },
+  
+        65: { summary: `<p>本课程向计算机科学专业的学生介绍命题逻辑、谓词逻辑与模态逻辑。 课程使用两套形式化证明系统：自然演绎（考试）与 Lean（家庭作业）。</p>
+`, website: "https://studiegids.vu.nl/en/2022-2023/courses/X_401015", material: "https://lean-lang.org/logic_and_proof/logic_and_proof.pdf", repository: "None", notes: `None`, experiences: `None` },
+  
+        66: { summary: `<p>自 2019 年 1 月起，我一直使用 Lean 向一年级数学/计算机科学双主修本科生讲授如何寻找并撰写数学证明。 我起初独自讲授，后来与 Frédéric Bourgeois 和 Christine Paulin 一起讲授。 本课程的主要数学主题是初等实分析，尤其是收敛序列与连续函数的理论。 自 2021 年起，我在输入时使用一种受控自然语言，以便于将 Lean 证明转写为纸笔证明。</p>
+`, website: "https://www.imo.universite-paris-saclay.fr/~patrick.massot/enseignement/", material: "None", repository: "https://github.com/PatrickMassot/MDD154/", notes: `<ul>
+<li>当然还有一个包含解答的私有仓库，我可以将解答提供给感兴趣的教师</li>
+<li>没有单一的 pdf，但有讲义见 <a href="https://www.imo.universite-paris-saclay.fr/~patrick.massot/mdd154/">https://www.imo.universite-paris-saclay.fr/~patrick.massot/mdd154/</a>,</li>
+<li>策略速查表见 <a href="https://www.imo.universite-paris-saclay.fr/~patrick.massot/mdd154/aide-memoire.pdf">https://www.imo.universite-paris-saclay.fr/~patrick.massot/mdd154/aide-memoire.pdf</a>,</li>
+<li>完整的策略参考见 <a href="https://www.imo.universite-paris-saclay.fr/~patrick.massot/mdd154/reference.pdf">https://www.imo.universite-paris-saclay.fr/~patrick.massot/mdd154/reference.pdf</a></li>
+</ul>
+`, experiences: `<p>本课程效果确实很好，并很可能会长期持续下去。 使用受控自然语言策略的想法，在确保学生提升纸笔证明能力方面，似乎比原生语法高效得多。</p>
+` },
+  
+        67: { summary: `<p>这是一个为期一周（20 小时）的暑期课程，向有志向的高中生介绍形式化数学。一半时间用于在黑板上讲授希尔伯特的平面几何公理， 另一半时间则在计算机实验室中通关一个 Lean 游戏的若干关卡，其最终目标是证明平面分离定理。这是 学生们第一次接触公理化数学与定理证明器。虽然课程以加泰罗尼亚语讲授，但游戏是用英语编写的。</p>
+`, website: "https://mat.uab.cat/~masdeu/argo/", material: "None", repository: "https://github.com/mmasdeu/argo", notes: `None`, experiences: `<p>学生们觉得 Lean 部分是课程中最具挑战性的部分。学生们很乐意听完传统风格的讲座，但当他们必须在 Lean 中编写 之前讨论过的证明时却感到吃力。这一方面是因为 Lean 的不留情面，但我们认为也是由于他们对证明存在一些未曾察觉的 误解，而 Lean 让这些误解浮现了出来。</p>
+` },
+  
+        68: { summary: `<p>本课程的目标是借助 Lean 3 学习一些集合论与逻辑。我们每周见面两次，讨论即将学习的主题，并 开始在课堂上完成习题。课程还包含一个使用 LEAN 完成的项目，以及在 Stander Symposium 上的海报展示环节。</p>
+`, website: "https://lijungeometry.github.io/342.html", material: "None", repository: "None", notes: `None`, experiences: `None` },
+  
+        69: { summary: `<p>本课程的目标是借助简单的数学（例如整除性、\sqrt 2 \notin \Q 和 鸽笼原理）学习一些 Lean 3。本课程以德语讲授，于 2023 年夏季学期讲授，为期一整个学期，配有每周作业。我们每周见面一次，讨论即将学习的主题，并 在课堂上开始完成下一批习题。讲义包含一份扩展版的 Lean 策略速查表。</p>
+`, website: "https://github.com/pfaffelh/schulmathematik_mit_lean/", material: "https://github.com/pfaffelh/schulmathematik_mit_lean/blob/master/Manuskript/skript.pdf", repository: "None", notes: `None`, experiences: `<p>本课程原本面向有意成为教师的数学专业学生，但也有其他数学 学生选修。在我看来，在最初几节课中只使用 Prop 类型是一个好主意。学生们喜欢即便是简单证明所带来的交互感。每周 作业完成得相当稳定，（约 15 名学生中的）退课率很低。</p>
+` },
+  
+        70: { summary: `<p>这是数学学位中一门标准的一般拓扑课程。它以西班牙语讲授，因此仓库中的材料也使用西班牙语。 这并不是一门关于 Lean 的课程：Lean 仅用作补充，以帮助学生把握严格证明的步骤。学生使用 Lean 完全是 自愿的。</p>
+`, website: "https://sia.unizar.es/doa/consultaPublica/look[conpub]MostrarPubGuiaDocAs?entradaPublica=true&idiomaPais=es.ES&_anoAcademico=2023&_codAsignatura=27008", material: "None", repository: "https://github.com/miguelmarco/topologia_general_lean", notes: `None`, experiences: `<p>课程仍在进行中，因此我们尚无成功的证据。我们决定使用 Lean 3 而非 Lean 4，是因为安装 <code>trylean</code> 套件较为容易，但明年会重新考虑这一决定。学生在开始时似乎不感兴趣和/或感到害怕，但当我展示了 如何用它来证明一些示例习题之后，一些人表现出了更大的兴趣。我们计划为想要学习如何使用它的人开设一个入门研讨班。</p>
+` },
+  
+        71: { summary: `<p>本课程作为三年级本科课程讲授。 我们用了略多于半个学期的时间，配以每周的家庭作业，研读了 《Mathematics in Lean》的前 6 章。 学生在学期中点完成了一个小型独立项目，并在学期末完成了一个更大的项目。</p>
+`, website: "None", material: "https://leanprover-community.github.io/mathematics_in_lean/mathematics_in_lean.pdf", repository: "https://github.com/leanprover-community/mathematics_in_lean", notes: `None`, experiences: `None` },
+  
+        72: { summary: `<p>2022 年秋季在约翰斯·霍普金斯大学开设的一门证明入门课程，完全在 Lean 中进行（教学与考核），并以米田引理（Yoneda Lemma）的证明作为收尾。</p>
+`, website: "https://sinhp.github.io/teaching/2022-introduction-to-proofs-with-Lean", material: "None", repository: "https://github.com/sinhp/ProofLab", notes: `None`, experiences: `None` },
+  
+        73: { summary: `<p>这是一门以游戏为基础的本科纯数学入门课程，从方程、自然数、逻辑、 集合、函数、实数和序列开始，并附有关于群的草稿章节。一本配套该游戏的书正在 撰写中。该游戏的下一代将使用 Lean 4。</p>
+`, website: "https://gihanmarasingha.github.io/modern-maths-pages/", material: "None", repository: "None", notes: `None`, experiences: `None` },
+  
+        74: { summary: `<p>我在疫情期间（2021 年 8 月至 12 月） 为巴西里约热内卢天主教大学（PUC-Rio，de Moura 的母校）数学系 一组精选的本科生 在线讲授了本课程（通过 Zoom + Telegram + GitHub）。 课程包含 LEAN 的实践部分，例如 Buzzard 的 'Natural Number Game'
+（学生必须完成所有关卡，然后在 LEAN 本体中学习策略模式），
+以及 Avigad、Lewis 和 van Doorn 所著教科书《Logic and proofs》
+（学生须通过 GitHub 提交所有问题的解答，并学习普通模式），
+课堂上还进行现场编程与屏幕共享，
+以及相当分量的理论/口头部分：命题逻辑、集合、类型、范畴、Curry-Howard-Lambek 对应，外加一些原创材料。</p>
+`, website: "https://github.com/sergunchik/ementas/blob/master/lean-pt.md", material: "None", repository: "None", notes: `None`, experiences: `<p>本课程是对 Vladimir Uspensky 和 Vladimir Voevodsky 的纪念。 我努力让它至少像他们的课程和科普工作那样有趣且发人深省。 各种概念从不同的视角和诠释反复呈现， 因此，有些出乎我意料的是，有时一些学生凭手指就记得某个证明，能够在 LEAN 中解出问题， 但在脑海中却不行，需要额外的时间来消化某个数学抽象。 若要扩大此类课程的规模，则必须合成更多的问题。</p>
+` },
+  
+        75: { summary: `<p>这是一门面向一般受众的逻辑与数学推理入门课程。它曾在 CMU 哲学系讲授过两次。</p>
+`, website: "None", material: "https://lean-lang.org/logic_and_proof/", repository: "None", notes: `None`, experiences: `None` },
+  
+};
+
+var formatExtra = function(idx){
+    var data = coursesData[idx];
+    contents = "<ul class=\"course-details\">";
+
+    if (data.website != "None") {
+            contents += "<li><strong>网站： </strong><a href=\"" + data.website + "\">" + data.website + "</a></li>"
+    };
+    if (data.repository != "None") {
+            contents += "<li><strong>代码仓库： </strong><a href=\"" + data.repository + "\">" + data.repository + "</a></li>"
+    };
+    if (data.material != "None") {
+            contents += "<li><strong>资料： </strong><a href=\"" + data.material + "\">" + data.material + "</a></li>"
+    };
+    if (data.summary != "None") {
+            contents += "<li><strong>简介： </strong>" + data.summary + "</a></li>"
+    };
+    if (data.notes != "None") {
+            contents += "<li><strong>备注： </strong> " + data.notes + "</li>"
+    };
+    if (data.experiences != "None") {
+            contents += "<li><strong>经验： </strong> " + data.experiences + "</li>"
+    };
+    contents += "</ul>";
+
+    return contents;
+};
+
+$(document).ready( function () {
+  var dt = $('#courses-table').DataTable({
+    dom: 'lfrtip',
+    order: [],
+    columnDefs: [
+      { orderable: false,
+          targets: [0],
+      },
+    ]
+  });
+  
+  // Add event listener for opening and closing details
+  dt.on('click', 'tr', function (e) {
+    let tr = e.target.closest('tr');
+    let row = dt.row(tr);
+ 
+    if (row.child.isShown()) {
+        row.child.hide();
+    }
+    else {
+        row.child(formatExtra(row.index()+1)).show();
+    }
+  });
+  
+  var selectedTags = new Array;
+ 
+  // Tag filtering controls
+  $('.course-tag').on('click', function ()  {
+    if (this.classList.contains("selected-tag")) {
+      selectedTags.pop(this.innerHTML);      
+    } else {
+      selectedTags.push(this.innerHTML);
+    };
+    $(this).toggleClass(["selected-tag", "badge-secondary"]);
+    if (selectedTags.length === 0) {
+      dt.search('').draw() 
+    } else {
+      dt.search(selectedTags.join(' ')).draw() 
+    }
+    
+  })
+} );
+</script>
+
+  </body>
+</html>

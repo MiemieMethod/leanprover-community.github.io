@@ -1,0 +1,950 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="stylesheet" href="https://leanprover-community.github.io//css/lean.css" >
+  <link rel="shortcut icon" href="https://leanprover-community.github.io//img/favicon.ico">
+  <link rel="search" type="application/opensearchdescription+xml" title="mathlib docs" href="https://leanprover-community.github.io//opensearch.xml">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather&family=Open+Sans&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+    
+
+	<script>
+                function buildShortcutsForStructures(names) {
+                        const o = {}
+                        names.forEach(name => o[name] = `\\mathbb\{${name}\}`)
+                        return o
+                }
+		MathJax = {
+			  tex: {
+                                  macros: {
+                                          ...buildShortcutsForStructures(["R", "Q", "Z", "N", "C"]),
+                                  },
+				      inlineMath: [['$', '$'], ['\\(', '\\)']]
+				    },
+		};
+	</script>
+	<script type="text/javascript" id="MathJax-script" async
+		  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+	</script>
+
+	<title>Mathlib 命名约定</title>
+  </head>
+  <body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-gradient-light d-md-none">
+    <div class="d-flex flex-grow-1">
+		<a class="navbar-brand" href="https://leanprover-community.github.io/index.html">Lean Community
+    </a>
+    </div>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="切换导航">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </nav>
+
+<div id="mainbox">
+
+  <main>
+    
+<h1 id="mathlib-命名约定" class="markdown-heading">Mathlib 命名约定 <a class="hover-link" href="#mathlib-命名约定">#</a></h1>
+<p>本指南针对 Lean 4 编写。</p>
+<h2 id="文件名" class="markdown-heading">文件名 <a class="hover-link" href="#文件名">#</a></h2>
+<p>mathlib 中的 <code>.lean</code> 文件一般应采用 <code>UpperCamelCased</code> 命名。
+一个（极为罕见的）例外是以某个特定小写对象命名的文件，例如 <code>lp.lean</code> 用于专门讨论空间 $\ell_p$（而非 $L^p$）的文件。
+此类例外应先在 Zulip 上讨论。</p>
+<h2 id="一般约定" class="markdown-heading">一般约定 <a class="hover-link" href="#一般约定">#</a></h2>
+<h3 id="大小写" class="markdown-heading">大小写 <a class="hover-link" href="#大小写">#</a></h3>
+<p>与 Lean 3 不同（在 Lean 3 中约定所有声明都使用 <code>snake_case</code>），
+在 Lean 4 下的 mathlib 中，我们根据以下命名方案，混合使用 <code>snake_case</code>、<code>lowerCamelCase</code> 和
+<code>UpperCamelCase</code>。</p>
+<ol>
+<li><code>Prop</code> 的项（例如证明、定理名）使用 <code>snake_case</code>。</li>
+<li><code>Prop</code> 与 <code>Type</code>（或 <code>Sort</code>）（归纳类型、结构、类）使用 <code>UpperCamelCase</code>。
+存在一些罕见的例外：某些结构的字段目前被错误地小写化了（见下面关于类 <code>LT</code> 的示例）。</li>
+<li>函数的命名方式与其返回值相同（例如，类型为 <code>A → B → C</code> 的函数，其命名方式如同它是类型 <code>C</code> 的一个项）。</li>
+<li>所有其他 <code>Type</code> 的项（基本上就是其余的一切）使用 <code>lowerCamelCase</code>。</li>
+<li>当一个以 <code>UpperCamelCase</code> 命名的事物作为某个以 <code>snake_case</code> 命名的事物的一部分时，它以 <code>lowerCamelCase</code> 引用。</li>
+<li>像 <code>LE</code> 这样的首字母缩写词作为一个整体写成全大写或全小写，取决于其首字符本应是什么。</li>
+<li>规则 1-6 以同样的方式适用于结构的字段或归纳类型的构造子。</li>
+</ol>
+<p>为保持局部命名的对称性，存在一些罕见的例外：例如，我们使用 <code>Ne</code> 而非 <code>NE</code>，以遵循 <code>Eq</code> 的范例；<code>outParam</code> 的输出是 <code>Sort</code> 但并不采用 <code>UpperCamelCase</code>。其他一些例外包括区间（<code>Set.Icc</code>、<code>Set.Iic</code> 等），其中 <code>I</code>
+被大写，尽管按照约定它本应是 <code>lowerCamelCase</code>。任何此类例外都应在 Zulip 上讨论。</p>
+<h4 id="示例" class="markdown-heading">示例 <a class="hover-link" href="#示例">#</a></h4>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="c1">-- follows rule 2</span>
+<span class="kd">structure</span><span class="w"> </span><span class="n">OneHom</span><span class="w"> </span><span class="o">(</span><span class="n">M</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">Type</span><span class="w"> </span><span class="n">_</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">N</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">Type</span><span class="w"> </span><span class="n">_</span><span class="o">)</span><span class="w"> </span><span class="o">[</span><span class="n">One</span><span class="w"> </span><span class="n">M</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">One</span><span class="w"> </span><span class="n">N</span><span class="o">]</span><span class="w"> </span><span class="n">where</span>
+<span class="w">  </span><span class="n">toFun</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">M</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="n">N</span><span class="w"> </span><span class="c1">-- follows rule 4 via rule 3 and rule 7</span>
+<span class="w">  </span><span class="n">map_one&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">toFun</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="c1">-- follows rule 1 via rule 7</span>
+
+<span class="c1">-- follows rule 2 via rule 3</span>
+<span class="kd">class</span><span class="w"> </span><span class="n">CoeIsOneHom</span><span class="w"> </span><span class="o">[</span><span class="n">One</span><span class="w"> </span><span class="n">M</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">One</span><span class="w"> </span><span class="n">N</span><span class="o">]</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">Prop</span><span class="w"> </span><span class="n">where</span>
+<span class="w">  </span><span class="n">coe_one</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="o">(</span><span class="bp">↑</span><span class="o">(</span><span class="mi">1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">M</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">N</span><span class="o">)</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="c1">-- follows rule 1 via rule 6</span>
+
+<span class="c1">-- follows rule 1 via rule 3</span>
+<span class="kd">theorem</span><span class="w"> </span><span class="n">map_one</span><span class="w"> </span><span class="o">[</span><span class="n">OneHomClass</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="n">M</span><span class="w"> </span><span class="n">N</span><span class="o">]</span><span class="w"> </span><span class="o">(</span><span class="n">f</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">F</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="gr">sorry</span>
+
+<span class="c1">-- follows rules 1 and 5</span>
+<span class="kd">theorem</span><span class="w"> </span><span class="n">MonoidHom.toOneHom_injective</span><span class="w"> </span><span class="o">[</span><span class="n">MulOneClass</span><span class="w"> </span><span class="n">M</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">MulOneClass</span><span class="w"> </span><span class="n">N</span><span class="o">]</span><span class="w"> </span><span class="o">:</span>
+<span class="w">  </span><span class="n">Function.Injective</span><span class="w"> </span><span class="o">(</span><span class="n">MonoidHom.toOneHom</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="o">(</span><span class="n">M</span><span class="w"> </span><span class="bp">→*</span><span class="w"> </span><span class="n">N</span><span class="o">)</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="n">OneHom</span><span class="w"> </span><span class="n">M</span><span class="w"> </span><span class="n">N</span><span class="o">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="gr">sorry</span>
+
+<span class="c1">-- follows rule 2</span>
+<span class="kd">class</span><span class="w"> </span><span class="n">HPow</span><span class="w"> </span><span class="o">(</span><span class="n">α</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">Type</span><span class="w"> </span><span class="n">u</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">β</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">Type</span><span class="w"> </span><span class="n">v</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">γ</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">Type</span><span class="w"> </span><span class="n">w</span><span class="o">)</span><span class="w"> </span><span class="n">where</span>
+<span class="w">  </span><span class="n">hPow</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">α</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="n">β</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="n">γ</span><span class="w"> </span><span class="c1">-- follows rule 3 via rule 6; note that rule 5 does not apply</span>
+
+<span class="c1">-- follows rules 2 and 6</span>
+<span class="kd">class</span><span class="w"> </span><span class="n">LT</span><span class="w"> </span><span class="o">(</span><span class="n">α</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">Type</span><span class="w"> </span><span class="n">u</span><span class="o">)</span><span class="w"> </span><span class="n">where</span>
+<span class="w">  </span><span class="n">lt</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">α</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="n">α</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="kt">Prop</span><span class="w"> </span><span class="c1">-- this is an exception to rule 2</span>
+
+<span class="c1">-- follows rules 2 (for `Semifield`) and 4 (for `toIsField`)</span>
+<span class="kd">theorem</span><span class="w"> </span><span class="n">Semifield.toIsField</span><span class="w"> </span><span class="o">(</span><span class="n">R</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">Type</span><span class="w"> </span><span class="n">u</span><span class="o">)</span><span class="w"> </span><span class="o">[</span><span class="n">Semifield</span><span class="w"> </span><span class="n">R</span><span class="o">]</span><span class="w"> </span><span class="o">:</span>
+<span class="w">    </span><span class="n">IsField</span><span class="w"> </span><span class="n">R</span><span class="w"> </span><span class="c1">-- follows rule 2</span>
+
+<span class="c1">-- follows rules 1 and 6</span>
+<span class="kd">theorem</span><span class="w"> </span><span class="n">gt_iff_lt</span><span class="w"> </span><span class="o">[</span><span class="n">LT</span><span class="w"> </span><span class="n">α</span><span class="o">]</span><span class="w"> </span><span class="o">{</span><span class="n">a</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">α</span><span class="o">}</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="bp">&gt;</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="bp">↔</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="gr">sorry</span>
+
+<span class="c1">-- follows rule 2; `Ne` is an exception to rule 6</span>
+<span class="kd">class</span><span class="w"> </span><span class="n">NeZero</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">Prop</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="gr">sorry</span>
+
+<span class="c1">-- follows rules 1 and 5</span>
+<span class="kd">theorem</span><span class="w"> </span><span class="n">neZero_iff</span><span class="w"> </span><span class="o">{</span><span class="n">R</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">Type</span><span class="w"> </span><span class="n">_</span><span class="o">}</span><span class="w"> </span><span class="o">[</span><span class="n">Zero</span><span class="w"> </span><span class="n">R</span><span class="o">]</span><span class="w"> </span><span class="o">{</span><span class="n">n</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">R</span><span class="o">}</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">NeZero</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="bp">↔</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="bp">≠</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="gr">sorry</span>
+</code></pre></div>
+</div>
+
+<h3 id="拼写" class="markdown-heading">拼写 <a class="hover-link" href="#拼写">#</a></h3>
+<p>声明名使用美式英语拼写。因此，例如我们使用
+<code>factorization</code>、<code>Localization</code> 和 <code>FiberBundle</code>，而不使用
+<code>factorisation</code>、<code>Localisation</code> 或 <code>FibreBundle</code>。
+这与<a href="doc.html#language">文档</a>的规则形成对比，文档允许使用其他常见的英语拼写。</p>
+<h3 id="符号的名称" class="markdown-heading">符号的名称 <a class="hover-link" href="#符号的名称">#</a></h3>
+<p>在将定理的陈述翻译成文字时，常使用下面的对照表。</p>
+<h4 id="逻辑" class="markdown-heading">逻辑 <a class="hover-link" href="#逻辑">#</a></h4>
+<table>
+<thead>
+<tr>
+<th align="left">symbol</th>
+<th align="left">shortcut</th>
+<th align="left">name</th>
+<th align="left">notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>∨</code></td>
+<td align="left"><code>\or</code></td>
+<td align="left"><code>or</code></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>∧</code></td>
+<td align="left"><code>\and</code></td>
+<td align="left"><code>and</code></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>→</code></td>
+<td align="left"><code>\r</code></td>
+<td align="left"><code>of</code> / <code>imp</code></td>
+<td align="left">结论先陈述，假设常常省略</td>
+</tr>
+<tr>
+<td align="left"><code>↔</code></td>
+<td align="left"><code>\iff</code></td>
+<td align="left"><code>iff</code></td>
+<td align="left">有时连同 iff 的右侧一并省略</td>
+</tr>
+<tr>
+<td align="left"><code>¬</code></td>
+<td align="left"><code>\n</code></td>
+<td align="left"><code>not</code></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>∃</code></td>
+<td align="left"><code>\ex</code></td>
+<td align="left"><code>exists</code> / <code>bex</code></td>
+<td align="left"><code>bex</code> 表示 &quot;bounded exists&quot;（有界存在）</td>
+</tr>
+<tr>
+<td align="left"><code>∀</code></td>
+<td align="left"><code>\fo</code></td>
+<td align="left"><code>all</code> / <code>forall</code> / <code>ball</code></td>
+<td align="left"><code>ball</code> 表示 &quot;bounded forall&quot;（有界全称）</td>
+</tr>
+<tr>
+<td align="left"><code>=</code></td>
+<td align="left"></td>
+<td align="left"><code>eq</code></td>
+<td align="left">常常省略</td>
+</tr>
+<tr>
+<td align="left"><code>≠</code></td>
+<td align="left"><code>\ne</code></td>
+<td align="left"><code>ne</code></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>∘</code></td>
+<td align="left"><code>\o</code></td>
+<td align="left"><code>comp</code></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<p><code>ball</code> 与 <code>bex</code> 仍在 Lean core 中使用，但不应在 mathlib 中使用。</p>
+<h4 id="集合" class="markdown-heading">集合 <a class="hover-link" href="#集合">#</a></h4>
+<table>
+<thead>
+<tr>
+<th align="left">symbol</th>
+<th align="left">shortcut</th>
+<th align="left">name</th>
+<th align="left">notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>∈</code></td>
+<td align="left"><code>\in</code></td>
+<td align="left"><code>mem</code></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>∉</code></td>
+<td align="left"><code>\notin</code></td>
+<td align="left"><code>notMem</code></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>∪</code></td>
+<td align="left"><code>\cup</code></td>
+<td align="left"><code>union</code></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>∩</code></td>
+<td align="left"><code>\cap</code></td>
+<td align="left"><code>inter</code></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>⋃</code></td>
+<td align="left"><code>\bigcup</code></td>
+<td align="left"><code>iUnion</code> / <code>biUnion</code></td>
+<td align="left"><code>i</code> 表示 &quot;indexed&quot;（带索引），<code>bi</code> 表示 &quot;bounded indexed&quot;（有界带索引）</td>
+</tr>
+<tr>
+<td align="left"><code>⋂</code></td>
+<td align="left"><code>\bigcap</code></td>
+<td align="left"><code>iInter</code> / <code>biInter</code></td>
+<td align="left"><code>i</code> 表示 &quot;indexed&quot;（带索引），<code>bi</code> 表示 &quot;bounded indexed&quot;（有界带索引）</td>
+</tr>
+<tr>
+<td align="left"><code>⋃₀</code></td>
+<td align="left"><code>\bigcup\0</code></td>
+<td align="left"><code>sUnion</code></td>
+<td align="left"><code>s</code> 表示 &quot;set&quot;（集合）</td>
+</tr>
+<tr>
+<td align="left"><code>⋂₀</code></td>
+<td align="left"><code>\bigcap\0</code></td>
+<td align="left"><code>sInter</code></td>
+<td align="left"><code>s</code> 表示 &quot;set&quot;（集合）</td>
+</tr>
+<tr>
+<td align="left"><code>\</code></td>
+<td align="left"><code>\\</code></td>
+<td align="left"><code>sdiff</code></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>ᶜ</code></td>
+<td align="left"><code>\^c</code></td>
+<td align="left"><code>compl</code></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>{x | p x}</code></td>
+<td align="left"></td>
+<td align="left"><code>setOf</code></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>{x}</code></td>
+<td align="left"></td>
+<td align="left"><code>singleton</code></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>{x, y}</code></td>
+<td align="left"></td>
+<td align="left"><code>pair</code></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<h4 id="代数" class="markdown-heading">代数 <a class="hover-link" href="#代数">#</a></h4>
+<table>
+<thead>
+<tr>
+<th align="left">symbol</th>
+<th align="left">shortcut</th>
+<th align="left">name</th>
+<th align="left">notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>0</code></td>
+<td align="left"></td>
+<td align="left"><code>zero</code></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>+</code></td>
+<td align="left"></td>
+<td align="left"><code>add</code></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>-</code></td>
+<td align="left"></td>
+<td align="left"><code>neg</code> / <code>sub</code></td>
+<td align="left"><code>neg</code> 用于一元函数，<code>sub</code> 用于二元函数</td>
+</tr>
+<tr>
+<td align="left"><code>1</code></td>
+<td align="left"></td>
+<td align="left"><code>one</code></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>*</code></td>
+<td align="left"></td>
+<td align="left"><code>mul</code></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>^</code></td>
+<td align="left"></td>
+<td align="left"><code>pow</code></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>/</code></td>
+<td align="left"></td>
+<td align="left"><code>div</code></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>•</code></td>
+<td align="left"><code>\bu</code></td>
+<td align="left"><code>smul</code></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>⁻¹</code></td>
+<td align="left"><code>\-1</code></td>
+<td align="left"><code>inv</code></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>⅟</code></td>
+<td align="left"><code>\frac1</code></td>
+<td align="left"><code>invOf</code></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>∣</code></td>
+<td align="left"><code>\|</code></td>
+<td align="left"><code>dvd</code></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>∑</code></td>
+<td align="left"><code>\sum</code></td>
+<td align="left"><code>sum</code></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>∏</code></td>
+<td align="left"><code>\prod</code></td>
+<td align="left"><code>prod</code></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<h4 id="格" class="markdown-heading">格 <a class="hover-link" href="#格">#</a></h4>
+<table>
+<thead>
+<tr>
+<th align="left">symbol</th>
+<th align="left">shortcut</th>
+<th align="left">name</th>
+<th align="left">notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>&lt;</code></td>
+<td align="left"></td>
+<td align="left"><code>lt</code> / <code>gt</code></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>≤</code></td>
+<td align="left"><code>\le</code></td>
+<td align="left"><code>le</code> / <code>ge</code></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>⊔</code></td>
+<td align="left"><code>\sup</code></td>
+<td align="left"><code>sup</code></td>
+<td align="left">二元运算符</td>
+</tr>
+<tr>
+<td align="left"><code>⊓</code></td>
+<td align="left"><code>\inf</code></td>
+<td align="left"><code>inf</code></td>
+<td align="left">二元运算符</td>
+</tr>
+<tr>
+<td align="left"><code>⨆</code></td>
+<td align="left"><code>\supr</code></td>
+<td align="left"><code>iSup</code> / <code>biSup</code> / <code>ciSup</code></td>
+<td align="left"><code>c</code> 表示 &quot;conditionally complete&quot;（条件完备）</td>
+</tr>
+<tr>
+<td align="left"><code>⨅</code></td>
+<td align="left"><code>\infi</code></td>
+<td align="left"><code>iInf</code> / <code>biInf</code> / <code>ciInf</code></td>
+<td align="left"><code>c</code> 表示 &quot;conditionally complete&quot;（条件完备）</td>
+</tr>
+<tr>
+<td align="left"><code>⊥</code></td>
+<td align="left"><code>\bot</code></td>
+<td align="left"><code>bot</code></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>⊤</code></td>
+<td align="left"><code>\top</code></td>
+<td align="left"><code>top</code></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<p>符号 <code>≤</code> 与 <code>&lt;</code> 有一个特殊的命名约定。
+在 mathlib 中，我们几乎总是使用 <code>≤</code> 与 <code>&lt;</code> 而非 <code>≥</code> 与 <code>&gt;</code>，因此我们可以用 <code>le</code>/<code>lt</code> 和 <code>ge</code>/<code>gt</code> 来为 <code>≤</code> 与 <code>&lt;</code> 命名。
+使用 <code>ge</code>/<code>gt</code> 有几个理由：</p>
+<ol>
+<li>当 <code>≤</code> 或 <code>&lt;</code> 的参数以不同顺序出现时，我们使用 <code>ge</code>/<code>gt</code>。
+对于定理名中第一次出现的 <code>≤</code>/<code>&lt;</code>，我们使用 <code>le</code>/<code>lt</code>，
+随后用 <code>ge</code>/<code>gt</code> 来表示参数被交换了。</li>
+<li>我们使用 <code>ge</code>/<code>gt</code> 以匹配另一个关系（如 <code>=</code> 或 <code>≠</code>）的参数顺序。</li>
+<li>我们使用 <code>ge</code>/<code>gt</code> 来描述参数被交换后的 <code>≤</code> 或 <code>&lt;</code> 关系。</li>
+<li>当 <code>≤</code> 或 <code>&lt;</code> 的第二个参数“更具变动性”时，我们使用 <code>ge</code>/<code>gt</code>。</li>
+</ol>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="c1">-- follows rule 1</span>
+<span class="kd">theorem</span><span class="w"> </span><span class="n">lt_iff_le_not_ge</span><span class="w"> </span><span class="o">[</span><span class="n">Preorder</span><span class="w"> </span><span class="n">α</span><span class="o">]</span><span class="w"> </span><span class="o">{</span><span class="n">a</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">α</span><span class="o">}</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="bp">↔</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="bp">≤</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="bp">∧</span><span class="w"> </span><span class="bp">¬</span><span class="n">b</span><span class="w"> </span><span class="bp">≤</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="gr">sorry</span>
+<span class="kd">theorem</span><span class="w"> </span><span class="n">not_le_of_gt</span><span class="w"> </span><span class="o">[</span><span class="n">Preorder</span><span class="w"> </span><span class="n">α</span><span class="o">]</span><span class="w"> </span><span class="o">{</span><span class="n">a</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">α</span><span class="o">}</span><span class="w"> </span><span class="o">(</span><span class="n">h</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">b</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="bp">¬</span><span class="n">b</span><span class="w"> </span><span class="bp">≤</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="gr">sorry</span>
+<span class="kd">theorem</span><span class="w"> </span><span class="n">LT.lt.not_ge</span><span class="w"> </span><span class="o">[</span><span class="n">Preorder</span><span class="w"> </span><span class="n">α</span><span class="o">]</span><span class="w"> </span><span class="o">{</span><span class="n">a</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">α</span><span class="o">}</span><span class="w"> </span><span class="o">(</span><span class="n">h</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">b</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="bp">¬</span><span class="n">b</span><span class="w"> </span><span class="bp">≤</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="gr">sorry</span>
+
+<span class="c1">-- follows rule 2</span>
+<span class="kd">theorem</span><span class="w"> </span><span class="n">Eq.ge</span><span class="w"> </span><span class="o">[</span><span class="n">Preorder</span><span class="w"> </span><span class="n">α</span><span class="o">]</span><span class="w"> </span><span class="o">{</span><span class="n">a</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">α</span><span class="o">}</span><span class="w"> </span><span class="o">(</span><span class="n">h</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">b</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="bp">≤</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="gr">sorry</span>
+<span class="kd">theorem</span><span class="w"> </span><span class="n">ne_of_gt</span><span class="w"> </span><span class="o">[</span><span class="n">Preorder</span><span class="w"> </span><span class="n">α</span><span class="o">]</span><span class="w"> </span><span class="o">{</span><span class="n">a</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">α</span><span class="o">}</span><span class="w"> </span><span class="o">(</span><span class="n">h</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">a</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="bp">≠</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="gr">sorry</span>
+
+<span class="c1">-- follows rule 3</span>
+<span class="kd">theorem</span><span class="w"> </span><span class="n">ge_trans</span><span class="w"> </span><span class="o">[</span><span class="n">Preorder</span><span class="w"> </span><span class="n">α</span><span class="o">]</span><span class="w"> </span><span class="o">{</span><span class="n">a</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">α</span><span class="o">}</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="bp">≤</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="bp">≤</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="bp">≤</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="gr">sorry</span>
+
+<span class="c1">-- follows rule 4</span>
+<span class="kd">theorem</span><span class="w"> </span><span class="n">le_of_forall_gt</span><span class="w"> </span><span class="o">[</span><span class="n">LinearOrder</span><span class="w"> </span><span class="n">α</span><span class="o">]</span><span class="w"> </span><span class="o">{</span><span class="n">a</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">α</span><span class="o">}</span><span class="w"> </span><span class="o">(</span><span class="n">H</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="bp">∀</span><span class="w"> </span><span class="o">(</span><span class="n">c</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">α</span><span class="o">),</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">c</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="bp">≤</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="gr">sorry</span>
+</code></pre></div>
+</div>
+
+<h3 id="强制转换" class="markdown-heading">强制转换 <a class="hover-link" href="#强制转换">#</a></h3>
+<p>强制转换（coercion）以其底层函数命名。</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="c1">-- Named after `Subtype.val`</span>
+<span class="kd">theorem</span><span class="w"> </span><span class="n">Subtype.val_injective</span><span class="w"> </span><span class="o">{</span><span class="n">p</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">α</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="kt">Prop</span><span class="o">}</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="o">((</span><span class="bp">↑</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="o">{</span><span class="n">a</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">α</span><span class="w"> </span><span class="bp">//</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="n">a</span><span class="o">}</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="n">α</span><span class="o">)</span><span class="bp">.</span><span class="n">Injective</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="gr">sorry</span>
+
+<span class="c1">-- Named after `ENNReal.ofNNReal`</span>
+<span class="kd">theorem</span><span class="w"> </span><span class="n">ENNReal.ofNNReal_injective</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="o">((</span><span class="bp">↑</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℝ</span><span class="bp">≥</span><span class="mi">0</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="n">ℝ</span><span class="bp">≥</span><span class="mi">0</span><span class="bp">∞</span><span class="o">)</span><span class="bp">.</span><span class="n">Injective</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="gr">sorry</span>
+
+<span class="c1">-- Named after `DFunLike.coe`</span>
+<span class="kd">theorem</span><span class="w"> </span><span class="n">DFunLike.coe_injective</span><span class="w"> </span><span class="o">{</span><span class="n">F</span><span class="w"> </span><span class="n">α</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">Sort</span><span class="bp">*</span><span class="o">}</span><span class="w"> </span><span class="o">{</span><span class="n">β</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">α</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="kt">Sort</span><span class="bp">*</span><span class="o">}</span><span class="w"> </span><span class="o">[</span><span class="n">DFunLike</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="n">α</span><span class="w"> </span><span class="n">β</span><span class="o">]</span><span class="w"> </span><span class="o">:</span>
+<span class="w">    </span><span class="o">((</span><span class="bp">↑</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="bp">∀</span><span class="w"> </span><span class="n">a</span><span class="o">,</span><span class="w"> </span><span class="n">β</span><span class="w"> </span><span class="n">a</span><span class="o">)</span><span class="bp">.</span><span class="n">Injective</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="gr">sorry</span>
+
+<span class="c1">-- Named after `SetLike.coe`</span>
+<span class="kd">theorem</span><span class="w"> </span><span class="n">SetLike.coe_injective</span><span class="w"> </span><span class="o">{</span><span class="n">α</span><span class="w"> </span><span class="n">β</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">Type</span><span class="bp">*</span><span class="o">}</span><span class="w"> </span><span class="o">[</span><span class="n">SetLike</span><span class="w"> </span><span class="n">α</span><span class="w"> </span><span class="n">β</span><span class="o">]</span><span class="w"> </span><span class="o">:</span>
+<span class="w">    </span><span class="o">((</span><span class="bp">↑</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">α</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="n">Set</span><span class="w"> </span><span class="n">β</span><span class="o">)</span><span class="bp">.</span><span class="n">Injective</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="gr">sorry</span>
+</code></pre></div>
+</div>
+
+<p>当类型支持多种自然的强制转换时，这有助于消歧义，
+其动机在于强制转换是可约的（reducible）。
+在 Lean 3 中并非如此，因此许多名称仍然是错误的。</p>
+<h3 id="点号" class="markdown-heading">点号 <a class="hover-link" href="#点号">#</a></h3>
+<p>点号用于命名空间，也用于自动生成的名称，
+例如递归子（recursor）、消去子（eliminator）和结构投影。它们也可以
+手动引入，例如在投影记法很有用的场合。因此，它们用于以下所有情形。</p>
+<p>注意：由于 <code>And</code> 是一个（值为 <code>Prop</code> 的二元函数），按照命名约定它采用 <code>UpperCamelCase</code>，
+因此其命名空间为 <code>And.*</code>。
+这看起来似乎与对照表中 <code>∧</code> --&gt; <code>and</code> 相矛盾，但因为
+大驼峰式的类型在定理名中出现时会被转为小驼峰式，
+所以该对照表整体上仍然有效。同样的情形适用于
+<code>Or</code>、<code>Iff</code>、<code>Not</code>、<code>Eq</code>、<code>HEq</code>、<code>Ne</code> 等。</p>
+<p>逻辑联结词的引入（intro）、消去（elim）和析构（destruct）规则，
+无论它们是否自动生成：</p>
+<ul>
+<li><code>And.intro</code></li>
+<li><code>And.elim</code></li>
+<li><code>And.left</code></li>
+<li><code>And.right</code></li>
+<li><code>Or.inl</code></li>
+<li><code>Or.inr</code></li>
+<li><code>Or.intro_left</code></li>
+<li><code>Or.intro_right</code></li>
+<li><code>Iff.intro</code></li>
+<li><code>Iff.elim</code></li>
+<li><code>Iff.mp</code></li>
+<li><code>Iff.mpr</code></li>
+<li><code>Not.intro</code></li>
+<li><code>Not.elim</code></li>
+<li><code>Eq.refl</code></li>
+<li><code>Eq.rec</code></li>
+<li><code>Eq.subst</code></li>
+<li><code>HEq.refl</code></li>
+<li><code>HEq.rec</code></li>
+<li><code>HEq.subst</code></li>
+<li><code>Exists.intro</code></li>
+<li><code>Exists.elim</code></li>
+<li><code>True.intro</code></li>
+<li><code>False.elim</code></li>
+</ul>
+<p>投影记法有用的场合，例如：</p>
+<ul>
+<li><code>And.symm</code></li>
+<li><code>Or.symm</code></li>
+<li><code>Or.resolve_left</code></li>
+<li><code>Or.resolve_right</code></li>
+<li><code>Eq.symm</code></li>
+<li><code>Eq.trans</code></li>
+<li><code>HEq.symm</code></li>
+<li><code>HEq.trans</code></li>
+<li><code>Iff.symm</code></li>
+<li><code>Iff.refl</code></li>
+</ul>
+<p>即使对于并非归纳类型的类型，使用点号记法也是有益的。例如，我们使用：</p>
+<ul>
+<li><code>LE.trans</code></li>
+<li><code>LT.trans_le</code></li>
+<li><code>LE.trans_lt</code></li>
+</ul>
+<h3 id="公理化描述" class="markdown-heading">公理化描述 <a class="hover-link" href="#公理化描述">#</a></h3>
+<p>某些定理使用公理化名称来描述，而非
+描述其结论。</p>
+<ul>
+<li><code>def</code>（用于展开定义）</li>
+<li><code>refl</code></li>
+<li><code>irrefl</code></li>
+<li><code>symm</code></li>
+<li><code>trans</code></li>
+<li><code>antisymm</code></li>
+<li><code>asymm</code></li>
+<li><code>congr</code></li>
+<li><code>comm</code></li>
+<li><code>assoc</code></li>
+<li><code>left_comm</code></li>
+<li><code>right_comm</code></li>
+<li><code>mul_left_cancel</code></li>
+<li><code>mul_right_cancel</code></li>
+<li><code>inj</code>（injective，单射）</li>
+</ul>
+<h3 id="变量约定" class="markdown-heading">变量约定 <a class="hover-link" href="#变量约定">#</a></h3>
+<ul>
+<li><code>u</code>、<code>v</code>、<code>w</code>、…… 用于宇宙</li>
+<li><code>α</code>、<code>β</code>、<code>γ</code>、…… 用于一般类型</li>
+<li><code>a</code>、<code>b</code>、<code>c</code>、…… 用于命题</li>
+<li><code>x</code>、<code>y</code>、<code>z</code>、…… 用于一般类型的元素</li>
+<li><code>h</code>、<code>h₁</code>、…… 用于假设</li>
+<li><code>p</code>、<code>q</code>、<code>r</code>、…… 用于谓词和关系</li>
+<li><code>s</code>、<code>t</code>、…… 用于列表</li>
+<li><code>s</code>、<code>t</code>、…… 用于集合</li>
+<li><code>m</code>、<code>n</code>、<code>k</code>、…… 用于自然数</li>
+<li><code>i</code>、<code>j</code>、<code>k</code>、…… 用于整数</li>
+</ul>
+<p>具有数学内涵的类型用通常的数学记法表示，
+常常使用大写字母
+（<code>G</code> 表示群，<code>R</code> 表示环，<code>K</code> 或 <code>𝕜</code> 表示域，<code>E</code> 表示向量空间，……）。
+在较旧的文件中并未遵循这一约定，那里所有类型都使用希腊字母。
+欢迎提交重命名这些文件中类型变量的拉取请求。</p>
+<h2 id="标识符与定理名" class="markdown-heading">标识符与定理名 <a class="hover-link" href="#标识符与定理名">#</a></h2>
+<p>我们采用以下命名准则，以便用户
+更容易猜出定理的名称，或借助 tab 补全找到它。诸如合取或
+析取这样的运算的常见“公理化”性质，被放在以该
+运算名称开头的命名空间中：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="n">Mathlib.Logic.Basic</span>
+
+<span class="k">#check</span><span class="w"> </span><span class="n">And.comm</span>
+<span class="k">#check</span><span class="w"> </span><span class="n">Or.comm</span>
+</code></pre></div>
+</div>
+
+<p>特别地，这包括逻辑联结词的 <code>intro</code> 和 <code>elim</code> 运算，以及关系的性质：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="n">Mathlib.Logic.Basic</span>
+
+<span class="k">#check</span><span class="w"> </span><span class="n">And.intro</span>
+<span class="k">#check</span><span class="w"> </span><span class="n">And.elim</span>
+<span class="k">#check</span><span class="w"> </span><span class="n">Or.intro_left</span>
+<span class="k">#check</span><span class="w"> </span><span class="n">Or.intro_right</span>
+<span class="k">#check</span><span class="w"> </span><span class="n">Or.elim</span>
+
+<span class="k">#check</span><span class="w"> </span><span class="n">Eq.refl</span>
+<span class="k">#check</span><span class="w"> </span><span class="n">Eq.symm</span>
+<span class="k">#check</span><span class="w"> </span><span class="n">Eq.trans</span>
+</code></pre></div>
+</div>
+
+<p>然而请注意，对于公理化的逻辑和算术运算，我们并不这样做。</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="n">Mathlib.Algebra.Group.Basic</span>
+
+<span class="k">#check</span><span class="w"> </span><span class="n">and_assoc</span>
+<span class="k">#check</span><span class="w"> </span><span class="n">mul_comm</span>
+<span class="k">#check</span><span class="w"> </span><span class="n">mul_assoc</span>
+<span class="k">#check</span><span class="w"> </span><span class="bp">@</span><span class="n">mul_left_cancel</span><span class="w">  </span><span class="c1">-- multiplication is left cancelative</span>
+</code></pre></div>
+</div>
+
+<p>不过在大多数情况下，我们依赖描述性名称。定理的名称
+往往直接描述其结论：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="n">Mathlib.Algebra.Ring.Basic</span>
+<span class="kn">open</span><span class="w"> </span><span class="n">Nat</span>
+<span class="k">#check</span><span class="w"> </span><span class="n">succ_ne_zero</span>
+<span class="k">#check</span><span class="w"> </span><span class="n">mul_zero</span>
+<span class="k">#check</span><span class="w"> </span><span class="n">mul_one</span>
+<span class="k">#check</span><span class="w"> </span><span class="bp">@</span><span class="n">sub_add_eq_add_sub</span>
+<span class="k">#check</span><span class="w"> </span><span class="bp">@</span><span class="n">le_iff_lt_or_eq</span>
+</code></pre></div>
+</div>
+
+<p>如果描述的一个前缀就足以传达含义，
+名称可以变得更短：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="n">Mathlib.Algebra.Ring.Basic</span>
+
+<span class="k">#check</span><span class="w"> </span><span class="bp">@</span><span class="n">neg_neg</span>
+<span class="k">#check</span><span class="w"> </span><span class="n">Nat.pred_succ</span>
+</code></pre></div>
+</div>
+
+<p>当一个运算以中缀形式书写时，定理名也随之而行。例如，
+我们写 <code>neg_mul_neg</code> 而非 <code>mul_neg_neg</code>，
+以描述模式 <code>-a * -b</code>。</p>
+<p>有时，为消除定理名称的歧义或更好地传达
+其意图，有必要描述某些
+假设。词 &quot;of&quot; 用于分隔这些假设：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="n">Mathlib.Algebra.Order.Monoid.Lemmas</span>
+
+<span class="kn">open</span><span class="w"> </span><span class="n">Nat</span>
+
+<span class="k">#check</span><span class="w"> </span><span class="n">lt_of_succ_le</span>
+<span class="k">#check</span><span class="w"> </span><span class="n">lt_of_not_ge</span>
+<span class="k">#check</span><span class="w"> </span><span class="n">lt_of_le_of_ne</span>
+<span class="k">#check</span><span class="w"> </span><span class="n">add_lt_add_of_lt_of_le</span>
+</code></pre></div>
+</div>
+
+<p>这些假设按它们出现的顺序列出，<em>而非</em> 逆序。
+例如，定理 <code>A → B → C</code> 将被命名为
+<code>C_of_A_of_B</code>。</p>
+<p>有时缩写或替代描述更便于使用。例如，我们使用 <code>pos</code>、<code>neg</code>、<code>nonpos</code>、<code>nonneg</code> 而非
+<code>zero_lt</code>、<code>lt_zero</code>、<code>le_zero</code> 和 <code>zero_le</code>。</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="n">Mathlib.Algebra.Order.Monoid.Lemmas</span>
+<span class="kn">import</span><span class="w"> </span><span class="n">Mathlib.Algebra.Order.Ring.Lemmas</span>
+
+<span class="kn">open</span><span class="w"> </span><span class="n">Nat</span>
+
+<span class="k">#check</span><span class="w"> </span><span class="n">mul_pos</span>
+<span class="k">#check</span><span class="w"> </span><span class="n">mul_nonpos_of_nonneg_of_nonpos</span>
+<span class="k">#check</span><span class="w"> </span><span class="n">add_lt_of_lt_of_nonpos</span>
+<span class="k">#check</span><span class="w"> </span><span class="n">add_lt_of_nonpos_of_lt</span>
+</code></pre></div>
+</div>
+
+<p>这些约定并不完美。它们无法区分仅在结合性上不同的
+复合表达式，也无法区分某个模式中重复出现的部分。对此，我们只能尽力而为。例如，<code>a + b - b = a</code>
+既可命名为 <code>add_sub_self</code>，也可命名为 <code>add_sub_cancel</code>。</p>
+<p>有时词 &quot;left&quot; 或 &quot;right&quot; 有助于描述一个定理的
+不同变体。</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="n">Mathlib.Algebra.Order.Monoid.Lemmas</span>
+<span class="kn">import</span><span class="w"> </span><span class="n">Mathlib.Algebra.Order.Ring.Lemmas</span>
+
+<span class="kn">open</span><span class="w"> </span><span class="n">Nat</span>
+
+<span class="k">#check</span><span class="w"> </span><span class="n">add_le_add_left</span>
+<span class="k">#check</span><span class="w"> </span><span class="n">add_le_add_right</span>
+<span class="k">#check</span><span class="w"> </span><span class="n">le_of_mul_le_mul_left</span>
+<span class="k">#check</span><span class="w"> </span><span class="n">le_of_mul_le_mul_right</span>
+</code></pre></div>
+</div>
+
+<p>当在某个引理名中引用一个不在同一命名空间下的、带命名空间的定义时，
+应去掉该定义的命名空间。如果
+去掉命名空间后定义名仍无歧义，则可直接
+使用。否则，将命名空间以
+<code>lowerCamelCase</code> 形式重新加回。这是为了确保引理名中
+由 <code>_</code> 分隔的字符串对应于某个定义名或联结词。</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="n">Mathlib.Data.Int.Cast.Basic</span>
+<span class="kn">import</span><span class="w"> </span><span class="n">Mathlib.Data.Nat.Cast.Basic</span>
+<span class="kn">import</span><span class="w"> </span><span class="n">Mathlib.Topology.Constructions</span>
+
+<span class="k">#check</span><span class="w"> </span><span class="n">Prod.fst</span>
+<span class="k">#check</span><span class="w"> </span><span class="n">continuous_fst</span>
+
+<span class="k">#check</span><span class="w"> </span><span class="n">Nat.cast</span>
+<span class="k">#check</span><span class="w"> </span><span class="n">map_natCast</span>
+<span class="k">#check</span><span class="w"> </span><span class="n">Int.cast_natCast</span>
+</code></pre></div>
+</div>
+
+<h2 id="结构性引理的命名" class="markdown-heading">结构性引理的命名 <a class="hover-link" href="#结构性引理的命名">#</a></h2>
+<p>我们正力图为某些结构性引理标准化特定的命名模式。</p>
+<h3 id="外延性" class="markdown-heading">外延性 <a class="hover-link" href="#外延性">#</a></h3>
+<p>形如 <code>(∀ x, f x = g x) → f = g</code> 的引理应命名为 <code>.ext</code>，
+并标注 <code>@[ext]</code> 属性。
+这类引理常常可以通过在某个结构上标注
+<code>@[ext]</code> 属性来自动生成。
+（不过，自动生成的引理总是以结构投影来表述，
+而往往存在一个更好的陈述，
+例如使用强制转换的陈述，此时应手动书写并标注 <code>@[ext]</code>。）</p>
+<p>形如 <code>f = g ↔ ∀ x, f x = g x</code> 的引理应命名为 <code>.ext_iff</code>。</p>
+<h3 id="单射性" class="markdown-heading">单射性 <a class="hover-link" href="#单射性">#</a></h3>
+<p>在可能的情况下，单射性引理应以
+<code>Function.Injective f</code> 作为结论来表述，并使用完整单词 <code>injective</code>，通常形如 <code>f_injective</code>。
+形式 <code>injective_f</code> 在 mathlib 中仍频繁出现。</p>
+<p>除此之外，通常还应提供一个双向蕴含的变体，
+例如形如 <code>f x = f y ↔ x = y</code>，它可由 <code>Function.Injective.eq_iff</code> 得到。
+此类引理应命名为 <code>f_inj</code>
+（不过若它们位于合适的命名空间中，<code>.inj</code> 也很好）。
+双向单射性引理常常是适合标注 <code>@[simp]</code> 的候选。
+mathlib 中仍有许多名为 <code>inj</code> 的单向蕴含，
+在遇到它们时予以更新和替换是合理的。</p>
+<p>不过请注意，归纳类型的构造子有
+自动生成的单向蕴含，命名为 <code>.inj</code>，
+并且无意更改这一点。
+当这样一个自动生成的引理已经存在，
+而又需要一个双向引理时，可将其命名为 <code>.inj_iff</code>。</p>
+<p>使用 &quot;left&quot; 或 &quot;right&quot; 的单射性引理应指向那个“发生变化”的
+参数。例如，陈述为
+<code>a - b = a - c ↔ b = c</code> 的引理可命名为 <code>sub_right_inj</code>。</p>
+<h3 id="归纳与递归原理" class="markdown-heading">归纳与递归原理 <a class="hover-link" href="#归纳与递归原理">#</a></h3>
+<p>归纳/递归原理是为某个类型 <code>T</code> 的所有元素构造数据或证明的方式，
+其途径是提供在更受约束的特定情形下构造此数据或证明的方法。
+这些原理应被表述为接受一个 <code>motive</code> 参数，
+它声明了我们要对所有 <code>T</code> 证明什么性质或构造什么数据。
+当 motive 消去到 <code>Prop</code> 时，它是一个归纳原理，名称中应包含
+<code>induction</code>。另一方面，当 motive 消去到 <code>Sort u</code> 或 <code>Type u</code> 时，
+它是一个递归原理，名称中应改为包含 <code>rec</code>。</p>
+<p>此外，当且仅当在参数顺序中值先于构造出现时，名称中才应包含 <code>on</code>。</p>
+<p>下表概括了这些命名约定：</p>
+<table>
+<thead>
+<tr>
+<th align="left">motive 消去到：</th>
+<th align="left"><code>Prop</code></th>
+<th align="left"><code>Sort u</code> 或 <code>Type u</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">值在先</td>
+<td align="left"><code>T.induction_on</code></td>
+<td align="left"><code>T.recOn</code></td>
+</tr>
+<tr>
+<td align="left">构造在先</td>
+<td align="left"><code>T.induction</code></td>
+<td align="left"><code>T.rec</code></td>
+</tr>
+</tbody>
+</table>
+<p>必要时（例如为消歧义）可对这些名称做变体。</p>
+<h3 id="作为后缀的谓词" class="markdown-heading">作为后缀的谓词 <a class="hover-link" href="#作为后缀的谓词">#</a></h3>
+<p>大多数谓词应作为前缀添加。例如 <code>IsClosed (Icc a b)</code> 应命名为 <code>isClosed_Icc</code>，而非 <code>Icc_isClosed</code>。</p>
+<p>某些广泛使用的谓词不遵循这一规则。它们是那些与某个已按命名约定加上后缀的原子相类似的谓词。以下是一个非穷尽的列表：</p>
+<ul>
+<li>我们用 <code>_inj</code> 表示 <code>f a = f b ↔ a = b</code>，因此也用 <code>_injective</code> 表示 <code>Injective f</code>、<code>_surjective</code> 表示 <code>Surjective f</code>、<code>_bijective</code> 表示 <code>Bijective f</code>……</li>
+<li>我们用 <code>_mono</code> 表示 <code>a ≤ b → f a ≤ f b</code>、<code>_anti</code> 表示 <code>a ≤ b → f b ≤ f a</code>，因此也用 <code>_monotone</code> 表示 <code>Monotone f</code>、<code>_antitone</code> 表示 <code>Antitone f</code>、<code>_strictMono</code> 表示 <code>StrictMono f</code>、<code>_strictAnti</code> 表示 <code>StrictAnti f</code> 等等……</li>
+</ul>
+<p>作为后缀的谓词之前可以加上 <code>_left</code> 或 <code>_right</code>，以表明
+一个二元运算是左单调或右单调的。
+例如，<code>mul_left_monotone : Monotone (· * a)</code> 证明的是乘法的左单调性，
+而非左乘的单调性。</p>
+<h3 id="取值为-prop-的类" class="markdown-heading">取值为 Prop 的类 <a class="hover-link" href="#取值为-prop-的类">#</a></h3>
+<p>mathlib 有许多取值为 <code>Prop</code> 的类以及其他定义。例如“设 $R$ 为一个
+拓扑环”写作 <code>variable (R : Type*) [Ring R] [TopologicalSpace R] [IsTopologicalRing R]</code>，
+而“设 $G$ 为一个群，$H$ 为一个正规子群”写作
+<code>variable (G : Type*) [Group G] (H : Subgroup G) [Normal H]</code>。这里 <code>IsTopologicalRing R</code>
+与 <code>Normal H</code> 并非额外的数据，而是对我们已有数据所施加的额外假设。</p>
+<p>对于这些取值为 <code>Prop</code> 的类，mathlib 目前力图遵循以下命名约定。如果该类是一个名词，则其名称应以 <code>Is</code> 开头。然而如果它是一个形容词，则其名称无需以 <code>Is</code> 开头。例如，对于“正规子群”类型类，<code>IsNormal</code> 是可接受的，但 <code>Normal</code> 也可以；在非正式语言中我们会说“假设子群
+<code>H</code> 是正规的”。然而对于“拓扑环”类型类，<code>IsTopologicalRing</code> 更
+受青睐，因为我们在非正式语言中不会说“假设环 <code>R</code> 是
+拓扑的”。</p>
+<h3 id="函数的未展开形式与展开形式" class="markdown-heading">函数的未展开形式与展开形式 <a class="hover-link" href="#函数的未展开形式与展开形式">#</a></h3>
+<p>两个函数 <code>f</code> 与 <code>g</code> 的乘法可以等价地记作
+<code>f * g</code> 或 <code>fun x ↦ f x * g x</code>。这两个表达式在定义上相等，但在语法上不相等（且它们在索引树中不共享同一键），这意味着诸如 <code>rw</code>、<code>fun_prop</code> 或 <code>apply?</code>
+之类的工具不会将一种形式的定理用于另一种形式的表达式。因此，
+有时同时提供使用这两种形式的陈述变体是方便的。如果需要
+区分它们，涉及第一种未展开形式的陈述仅用 <code>mul</code> 来书写，
+而使用第二种展开形式的陈述则应改用 <code>fun_mul</code>。如果由于某个引理只以展开形式给出而无需
+消歧义，则前缀 <code>fun_</code> 不是必需的。</p>
+<p>例如，两个连续函数的乘法是连续的这一事实为</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">theorem</span><span class="w"> </span><span class="n">Continuous.fun_mul</span><span class="w"> </span><span class="o">(</span><span class="n">hf</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Continuous</span><span class="w"> </span><span class="n">f</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">hg</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Continuous</span><span class="w"> </span><span class="n">g</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Continuous</span><span class="w"> </span><span class="k">fun</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="bp">↦</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="n">x</span>
+</code></pre></div>
+</div>
+
+<p>以及</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">theorem</span><span class="w"> </span><span class="n">Continuous.mul</span><span class="w"> </span><span class="o">(</span><span class="n">hf</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Continuous</span><span class="w"> </span><span class="n">f</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">hg</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Continuous</span><span class="w"> </span><span class="n">g</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Continuous</span><span class="w"> </span><span class="o">(</span><span class="n">f</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">g</span><span class="o">)</span>
+</code></pre></div>
+</div>
+
+<p>这两个定理都值得标注 <code>fun_prop</code> 属性。</p>
+<p>加法、减法、取负、幂以及函数的复合也是如此。</p>
+
+  </main>
+
+    <nav id="navbar" class="d-md-block bg-light sidebar collapse navbar-light pb-4">
+      <div class="d-none d-md-block mt-4"><a class="navbar-brand" href="https://leanprover-community.github.io/index.html">Lean Community</a></div>
+      
+        <h6 class="sidebar-heading mt-4">社区</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover.zulipchat.com/">Zulip 聊天</a></li>
+        
+          <li class="nav-item col-12"><a href="https://github.com/leanprover-community/mathlib4">GitHub</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/blog">博客</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/meet.html">社区信息</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/community_guidelines.html">社区准则</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/teams.html">团队</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/papers.html">关于 Lean 的论文</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/cite.html">引用 mathlib</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/cite.html#Licence">许可证</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/lean_projects.html">使用 Lean 的项目</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/teaching/index.html">使用 Lean 教学</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/events.html">活动</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">使用 Lean</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://live.lean-lang.org/">在线版本（无需安装）</a></li>
+        
+          <li class="nav-item col-12"><a href="https://docs.lean-lang.org/lean4/doc/quickstart.html">安装 Lean</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/get_started.html">更多选项</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">文档</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/learn.html">学习资源（从这里开始）</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/documentation.html">文档概览</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mathlib4_docs">API 文档</a></li>
+        
+          <li class="nav-item col-12"><a href="https://loogle.lean-lang.org/">声明搜索（Loogle）</a></li>
+        
+          <li class="nav-item col-12"><a href="https://lean-lang.org/doc/reference/latest/">语言参考</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mathlib4_docs/tactics.html">策略列表</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/glossary.html">术语表</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/did_you_prove_it.html">你真的证明了它吗？</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mwe.html">关于 MWE</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">库概览</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mathlib-overview.html">库概览</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/undergrad.html">本科数学</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/100.html">Wiedijk 的 100 条定理</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/1000.html">1000+ 条定理</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">理论</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/naturals.html">自然数</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/linear_algebra.html">线性代数</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/sets.html">集合与有限集</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/topology.html">拓扑</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/category_theory.html">范畴论</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">贡献</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/index.html">贡献什么</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/how-to-contribute.html">如何贡献</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/values.html">Mathlib 的价值观</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/queueboard/">Mathlib 审阅与分类看板</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/git.html">Mathlib4 贡献者 Git 指南</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/naming.html">命名约定</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/style.html">代码风格指南</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/doc.html">文档风格</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/commit.html">提交约定</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/pr-review.html">拉取请求审阅指南</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mathlib_stats.html">贡献统计</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/tags_and_branches.html">标签与分支</a></li>
+        </ul>
+      
+    </nav>
+
+</div>
+
+
+  <nav class="footer navbar navbar-expand-lg navbar-light bg-light justify-content-end">
+  <ul class="nav">
+    <li class="nav-item">
+      <a class="nav-link active" href="https://github.com/leanprover-community/leanprover-community.github.io/blob/lean4/templates/contribute/naming.md">在 GitHub 上为此页面提出编辑建议</a>
+    </li>
+  </ul>
+  </nav>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+      integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+      crossorigin="anonymous"></script>
+    <script src="https://leanprover-community.github.io//js/bootstrap.min.js"></script>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true });
+    </script>
+    
+  </body>
+</html>

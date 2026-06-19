@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="stylesheet" href="https://leanprover-community.github.io//css/lean.css" >
+  <link rel="shortcut icon" href="https://leanprover-community.github.io//img/favicon.ico">
+  <link rel="search" type="application/opensearchdescription+xml" title="mathlib docs" href="https://leanprover-community.github.io//opensearch.xml">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather&family=Open+Sans&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+    
+
+	<script>
+                function buildShortcutsForStructures(names) {
+                        const o = {}
+                        names.forEach(name => o[name] = `\\mathbb\{${name}\}`)
+                        return o
+                }
+		MathJax = {
+			  tex: {
+                                  macros: {
+                                          ...buildShortcutsForStructures(["R", "Q", "Z", "N", "C"]),
+                                  },
+				      inlineMath: [['$', '$'], ['\\(', '\\)']]
+				    },
+		};
+	</script>
+	<script type="text/javascript" id="MathJax-script" async
+		  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+	</script>
+
+	<title>方程编译器与 WellFoundedRelation</title>
+  </head>
+  <body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-gradient-light d-md-none">
+    <div class="d-flex flex-grow-1">
+		<a class="navbar-brand" href="https://leanprover-community.github.io/index.html">Lean Community
+    </a>
+    </div>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="切换导航">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </nav>
+
+<div id="mainbox">
+
+  <main>
+    
+<h1 id="方程编译器与-wellfoundedrelation" class="markdown-heading">方程编译器与 WellFoundedRelation <a class="hover-link" href="#方程编译器与-wellfoundedrelation">#</a></h1>
+<p>要递归地定义函数和证明，你可以使用方程编译器，前提是该类型上存在一个良基关系。</p>
+<p>例如，自然数上 gcd 的定义就使用了良基递归</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">def</span><span class="w"> </span><span class="n">gcd</span><span class="w"> </span><span class="o">(</span><span class="n">m</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Nat</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Nat</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="n">n</span>
+<span class="w">  </span><span class="k">else</span>
+<span class="w">    </span><span class="n">gcd</span><span class="w"> </span><span class="o">(</span><span class="n">n</span><span class="w"> </span><span class="bp">%</span><span class="w"> </span><span class="n">m</span><span class="o">)</span><span class="w"> </span><span class="n">m</span>
+<span class="w">  </span><span class="n">termination_by</span><span class="w"> </span><span class="n">m</span>
+<span class="w">  </span><span class="n">decreasing_by</span><span class="w"> </span><span class="n">simp_wf</span><span class="bp">;</span><span class="w"> </span><span class="n">apply</span><span class="w"> </span><span class="n">mod_lt</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="o">(</span><span class="n">zero_lt_of_ne_zero</span><span class="w"> </span><span class="n">_</span><span class="o">)</span><span class="bp">;</span><span class="w"> </span><span class="n">assumption</span>
+</code></pre></div>
+</div>
+
+<p>由于 &lt; 是自然数上的良基关系，且 <code>¬m = 0 → n % m &lt; m</code>，这个递归函数是良基的。</p>
+<p>每当你使用方程编译器时，被递归的类型上都会存在一个默认的良基关系（由 <code>WellFoundedRelation</code> 实例给出），方程编译器将自动尝试证明该函数在此关系下是良基的。</p>
+<p>当方程编译器失败时，主要有两种原因。</p>
+<ol>
+<li>它找不到一个递减的度量。</li>
+<li>它未能证明所需的不等式。</li>
+</ol>
+<h2 id="证明所需的不等式" class="markdown-heading">证明所需的不等式 <a class="hover-link" href="#证明所需的不等式">#</a></h2>
+<p>如果我们修改上面的 gcd 示例，去掉 <code>termination_by</code> 和 <code>decreasing_by</code>，就会得到一个错误。</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">def</span><span class="w"> </span><span class="n">gcd</span><span class="w"> </span><span class="o">(</span><span class="n">m</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Nat</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Nat</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="n">n</span>
+<span class="w">  </span><span class="k">else</span>
+<span class="w">    </span><span class="n">gcd</span><span class="w"> </span><span class="o">(</span><span class="n">n</span><span class="w"> </span><span class="bp">%</span><span class="w"> </span><span class="n">m</span><span class="o">)</span><span class="w"> </span><span class="n">m</span>
+</code></pre></div>
+</div>
+
+<div class="codehilite"><div class="codehilite"><pre><span></span><code>fail to show termination for
+  Nat.gcd
+with errors
+argument #1 was not used for structural recursion
+  failed to eliminate recursive application
+    (n % m).gcd m
+
+argument #2 was not used for structural recursion
+  failed to eliminate recursive application
+    (n % m).gcd m
+
+structural recursion cannot be used
+
+Could not find a decreasing measure.
+The arguments relate at each recursive call as follows:
+(&lt;, ≤, =: relation proved, ? all proofs failed, _: no proof attempted)
+           m n
+1) 93:4-18 ? ?
+Please use `termination_by` to specify a decreasing measure.
+</code></pre></div>
+</div>
+
+<p>错误信息提示我们使用 <code>termination_by</code> 来指定递减的度量，于是我们用 <code>m</code> 作为递减度量，但又得到了另一个错误。</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">def</span><span class="w"> </span><span class="n">gcd</span><span class="w"> </span><span class="o">(</span><span class="n">m</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Nat</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Nat</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="n">n</span>
+<span class="w">  </span><span class="k">else</span>
+<span class="w">    </span><span class="n">gcd</span><span class="w"> </span><span class="o">(</span><span class="n">n</span><span class="w"> </span><span class="bp">%</span><span class="w"> </span><span class="n">m</span><span class="o">)</span><span class="w"> </span><span class="n">m</span>
+<span class="w">  </span><span class="n">termination_by</span><span class="w"> </span><span class="n">m</span>
+</code></pre></div>
+</div>
+
+<div class="codehilite"><div class="codehilite"><pre><span></span><code>failed to prove termination, possible solutions:
+  - Use `have`-expressions to prove the remaining goals
+  - Use `termination_by` to specify a different well-founded relation
+  - Use `decreasing_by` to specify your own tactic for discharging this kind of goal
+m n : ℕ
+h✝ : ¬m = 0
+⊢ n % m &lt; m
+</code></pre></div>
+</div>
+
+<p>我们指定了正确的递减度量，因此我们的选择是使用 <code>have</code> 表达式或使用 <code>decreasing_by</code>。
+这里，我们使用 <code>decreasing_by tactics</code> 来证明该函数的可终止性。
+首先，我们用 <code>sorry</code> 作占位符以查看目标。</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">def</span><span class="w"> </span><span class="n">gcd</span><span class="w"> </span><span class="o">(</span><span class="n">m</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Nat</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Nat</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="n">n</span>
+<span class="w">  </span><span class="k">else</span>
+<span class="w">    </span><span class="n">gcd</span><span class="w"> </span><span class="o">(</span><span class="n">n</span><span class="w"> </span><span class="bp">%</span><span class="w"> </span><span class="n">m</span><span class="o">)</span><span class="w"> </span><span class="n">m</span>
+<span class="w">  </span><span class="n">termination_by</span><span class="w"> </span><span class="n">m</span>
+<span class="w">  </span><span class="n">decreasing_by</span><span class="w"> </span><span class="gr">sorry</span>
+</code></pre></div>
+</div>
+
+<div class="codehilite"><div class="codehilite"><pre><span></span><code>m n : ℕ
+h✝ : ¬m = 0
+⊢ (invImage (fun x ↦ PSigma.casesOn x fun m n ↦ m) instWellFoundedRelationOfSizeOf).1 ⟨n % m, m⟩ ⟨m, n⟩
+</code></pre></div>
+</div>
+
+<p>这个目标是编译器生成的，因此难以阅读，所以我们用 <code>simp_wf</code> 来化简目标。</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">def</span><span class="w"> </span><span class="n">gcd</span><span class="w"> </span><span class="o">(</span><span class="n">m</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Nat</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Nat</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="n">n</span>
+<span class="w">  </span><span class="k">else</span>
+<span class="w">    </span><span class="n">gcd</span><span class="w"> </span><span class="o">(</span><span class="n">n</span><span class="w"> </span><span class="bp">%</span><span class="w"> </span><span class="n">m</span><span class="o">)</span><span class="w"> </span><span class="n">m</span>
+<span class="w">  </span><span class="n">termination_by</span><span class="w"> </span><span class="n">m</span>
+<span class="w">  </span><span class="n">decreasing_by</span><span class="w"> </span><span class="n">simp_wf</span><span class="bp">;</span><span class="w"> </span><span class="gr">sorry</span>
+</code></pre></div>
+</div>
+
+<div class="codehilite"><div class="codehilite"><pre><span></span><code>m n : ℕ
+h✝ : ¬m = 0
+⊢ n % m &lt; m
+</code></pre></div>
+</div>
+
+<p>顺便一提，假设 <code>h✝ : ¬m = 0</code> 是从哪里来的？实际上，在证明可终止性的过程中，<code>if p then t else f</code> 被重写为 <code>if h : p then t else f</code>，因此假设 <code>p</code> 就变得可用了。</p>
+<p>剩下的任务只是证明这个目标：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">def</span><span class="w"> </span><span class="n">gcd</span><span class="w"> </span><span class="o">(</span><span class="n">m</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Nat</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Nat</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="n">n</span>
+<span class="w">  </span><span class="k">else</span>
+<span class="w">    </span><span class="n">gcd</span><span class="w"> </span><span class="o">(</span><span class="n">n</span><span class="w"> </span><span class="bp">%</span><span class="w"> </span><span class="n">m</span><span class="o">)</span><span class="w"> </span><span class="n">m</span>
+<span class="w">  </span><span class="n">termination_by</span><span class="w"> </span><span class="n">m</span>
+<span class="w">  </span><span class="n">decreasing_by</span><span class="w"> </span><span class="n">simp_wf</span><span class="bp">;</span><span class="w"> </span><span class="n">apply</span><span class="w"> </span><span class="n">mod_lt</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="o">(</span><span class="n">zero_lt_of_ne_zero</span><span class="w"> </span><span class="n">_</span><span class="o">)</span><span class="bp">;</span><span class="w"> </span><span class="n">assumption</span>
+</code></pre></div>
+</div>
+
+<p>供你参考，如果我们选择使用 <code>have</code> 表达式，函数将呈现如下形式：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">def</span><span class="w"> </span><span class="n">gcd</span><span class="w"> </span><span class="o">(</span><span class="n">m</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Nat</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Nat</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="n">n</span>
+<span class="w">  </span><span class="k">else</span>
+<span class="w">    </span><span class="k">have</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">mod_lt</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">(</span><span class="n">zero_lt_of_ne_zero</span><span class="w"> </span><span class="n">h</span><span class="o">)</span>
+<span class="w">    </span><span class="n">gcd</span><span class="w"> </span><span class="o">(</span><span class="n">n</span><span class="w"> </span><span class="bp">%</span><span class="w"> </span><span class="n">m</span><span class="o">)</span><span class="w"> </span><span class="n">m</span>
+</code></pre></div>
+</div>
+
+<p>但当我们使用方程引理时，<code>have</code> 表达式可能会成为障碍。</p>
+<p>另一个例子是 <code>Data.Multiset.Basic</code> 中的如下函数。</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">def</span><span class="w"> </span><span class="n">strongInductionOn</span><span class="w"> </span><span class="o">{</span><span class="n">p</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Multiset</span><span class="w"> </span><span class="n">α</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="kt">Sort</span><span class="bp">*</span><span class="o">}</span><span class="w"> </span><span class="o">(</span><span class="n">s</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Multiset</span><span class="w"> </span><span class="n">α</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">ih</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="bp">∀</span><span class="w"> </span><span class="n">s</span><span class="o">,</span><span class="w"> </span><span class="o">(</span><span class="bp">∀</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">s</span><span class="o">,</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="n">t</span><span class="o">)</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="n">s</span><span class="o">)</span><span class="w"> </span><span class="o">:</span>
+<span class="w">    </span><span class="n">p</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">    </span><span class="o">(</span><span class="n">ih</span><span class="w"> </span><span class="n">s</span><span class="o">)</span><span class="w"> </span><span class="k">fun</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="n">_h</span><span class="w"> </span><span class="bp">=&gt;</span>
+<span class="w">      </span><span class="n">strongInductionOn</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="n">ih</span>
+<span class="n">termination_by</span><span class="w"> </span><span class="n">card</span><span class="w"> </span><span class="n">s</span>
+<span class="n">decreasing_by</span><span class="w"> </span><span class="n">exact</span><span class="w"> </span><span class="n">card_lt_card</span><span class="w"> </span><span class="n">_h</span>
+</code></pre></div>
+</div>
+
+<p>这个例子使用 <code>card s</code> 而非参数本身作为递减度量。</p>
+<h2 id="wellfoundedrelation-实例" class="markdown-heading">WellFoundedRelation 实例 <a class="hover-link" href="#wellfoundedrelation-实例">#</a></h2>
+<p>我们不仅可以指定 <code>Nat</code> 值，还可以指定任何带有 <code>WellFoundedRelation</code> 的类型作为递减度量，正如你在 <code>Data.List.Defs</code> 中所见：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">def</span><span class="w"> </span><span class="n">permutationsAux.rec</span><span class="w"> </span><span class="o">{</span><span class="n">C</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">List</span><span class="w"> </span><span class="n">α</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="n">List</span><span class="w"> </span><span class="n">α</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="kt">Sort</span><span class="w"> </span><span class="n">v</span><span class="o">}</span><span class="w"> </span><span class="o">(</span><span class="n">H0</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="bp">∀</span><span class="w"> </span><span class="n">is</span><span class="o">,</span><span class="w"> </span><span class="n">C</span><span class="w"> </span><span class="o">[]</span><span class="w"> </span><span class="n">is</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="n">H1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="bp">∀</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="n">ts</span><span class="w"> </span><span class="n">is</span><span class="o">,</span><span class="w"> </span><span class="n">C</span><span class="w"> </span><span class="n">ts</span><span class="w"> </span><span class="o">(</span><span class="n">t</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="n">is</span><span class="o">)</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="n">C</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="o">[]</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="n">C</span><span class="w"> </span><span class="o">(</span><span class="n">t</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="n">ts</span><span class="o">)</span><span class="w"> </span><span class="n">is</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="bp">∀</span><span class="w"> </span><span class="n">l₁</span><span class="w"> </span><span class="n">l₂</span><span class="o">,</span><span class="w"> </span><span class="n">C</span><span class="w"> </span><span class="n">l₁</span><span class="w"> </span><span class="n">l₂</span>
+<span class="w">  </span><span class="bp">|</span><span class="w"> </span><span class="o">[],</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="bp">=&gt;</span><span class="w"> </span><span class="n">H0</span><span class="w"> </span><span class="n">is</span>
+<span class="w">  </span><span class="bp">|</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="n">ts</span><span class="o">,</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="bp">=&gt;</span>
+<span class="w">      </span><span class="n">H1</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="n">ts</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="o">(</span><span class="n">permutationsAux.rec</span><span class="w"> </span><span class="n">H0</span><span class="w"> </span><span class="n">H1</span><span class="w"> </span><span class="n">ts</span><span class="w"> </span><span class="o">(</span><span class="n">t</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="n">is</span><span class="o">))</span><span class="w"> </span><span class="o">(</span><span class="n">permutationsAux.rec</span><span class="w"> </span><span class="n">H0</span><span class="w"> </span><span class="n">H1</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="o">[])</span>
+<span class="w">  </span><span class="n">termination_by</span><span class="w"> </span><span class="n">ts</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="bp">=&gt;</span><span class="w"> </span><span class="o">(</span><span class="n">length</span><span class="w"> </span><span class="n">ts</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">length</span><span class="w"> </span><span class="n">is</span><span class="o">,</span><span class="w"> </span><span class="n">length</span><span class="w"> </span><span class="n">ts</span><span class="o">)</span>
+<span class="w">  </span><span class="n">decreasing_by</span><span class="w"> </span><span class="n">all_goals</span><span class="w"> </span><span class="o">(</span><span class="n">simp_wf</span><span class="bp">;</span><span class="w"> </span><span class="n">omega</span><span class="o">)</span>
+</code></pre></div>
+</div>
+
+<p>这个例子使用 <code>Nat × Nat</code> 值作为递减度量。该类型上的 <code>WellFoundedRelation</code> 是自然数上的字典序，由 <code>Init.WF</code> 中的如下实例定义：</p>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">instance</span><span class="w"> </span><span class="o">[</span><span class="n">ha</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">WellFoundedRelation</span><span class="w"> </span><span class="n">α</span><span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="n">hb</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">WellFoundedRelation</span><span class="w"> </span><span class="n">β</span><span class="o">]</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">WellFoundedRelation</span><span class="w"> </span><span class="o">(</span><span class="n">α</span><span class="w"> </span><span class="bp">×</span><span class="w"> </span><span class="n">β</span><span class="o">)</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">  </span><span class="n">lex</span><span class="w"> </span><span class="n">ha</span><span class="w"> </span><span class="n">hb</span>
+</code></pre></div>
+</div>
+
+  </main>
+
+    <nav id="navbar" class="d-md-block bg-light sidebar collapse navbar-light pb-4">
+      <div class="d-none d-md-block mt-4"><a class="navbar-brand" href="https://leanprover-community.github.io/index.html">Lean Community</a></div>
+      
+        <h6 class="sidebar-heading mt-4">社区</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover.zulipchat.com/">Zulip 聊天</a></li>
+        
+          <li class="nav-item col-12"><a href="https://github.com/leanprover-community/mathlib4">GitHub</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/blog">博客</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/meet.html">社区信息</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/community_guidelines.html">社区准则</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/teams.html">团队</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/papers.html">关于 Lean 的论文</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/cite.html">引用 mathlib</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/cite.html#Licence">许可证</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/lean_projects.html">使用 Lean 的项目</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/teaching/index.html">使用 Lean 教学</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/events.html">活动</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">使用 Lean</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://live.lean-lang.org/">在线版本（无需安装）</a></li>
+        
+          <li class="nav-item col-12"><a href="https://docs.lean-lang.org/lean4/doc/quickstart.html">安装 Lean</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/get_started.html">更多选项</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">文档</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/learn.html">学习资源（从这里开始）</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/documentation.html">文档概览</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mathlib4_docs">API 文档</a></li>
+        
+          <li class="nav-item col-12"><a href="https://loogle.lean-lang.org/">声明搜索（Loogle）</a></li>
+        
+          <li class="nav-item col-12"><a href="https://lean-lang.org/doc/reference/latest/">语言参考</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mathlib4_docs/tactics.html">策略列表</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/glossary.html">术语表</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/did_you_prove_it.html">你真的证明了它吗？</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mwe.html">关于 MWE</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">库概览</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mathlib-overview.html">库概览</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/undergrad.html">本科数学</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/100.html">Wiedijk 的 100 条定理</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/1000.html">1000+ 条定理</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">理论</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/naturals.html">自然数</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/linear_algebra.html">线性代数</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/sets.html">集合与有限集</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/topology.html">拓扑</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/theories/category_theory.html">范畴论</a></li>
+        </ul>
+      
+        <h6 class="sidebar-heading mt-4">贡献</h6>
+        <ul class="nav">
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/index.html">贡献什么</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/how-to-contribute.html">如何贡献</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/values.html">Mathlib 的价值观</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/queueboard/">Mathlib 审阅与分类看板</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/git.html">Mathlib4 贡献者 Git 指南</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/naming.html">命名约定</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/style.html">代码风格指南</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/doc.html">文档风格</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/commit.html">提交约定</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/pr-review.html">拉取请求审阅指南</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/mathlib_stats.html">贡献统计</a></li>
+        
+          <li class="nav-item col-12"><a href="https://leanprover-community.github.io/contribute/tags_and_branches.html">标签与分支</a></li>
+        </ul>
+      
+    </nav>
+
+</div>
+
+
+  <nav class="footer navbar navbar-expand-lg navbar-light bg-light justify-content-end">
+  <ul class="nav">
+    <li class="nav-item">
+      <a class="nav-link active" href="https://github.com/leanprover-community/leanprover-community.github.io/blob/lean4/templates/extras/well_founded_recursion.md">在 GitHub 上为此页面提出编辑建议</a>
+    </li>
+  </ul>
+  </nav>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+      integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+      crossorigin="anonymous"></script>
+    <script src="https://leanprover-community.github.io//js/bootstrap.min.js"></script>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true });
+    </script>
+    
+  </body>
+</html>
