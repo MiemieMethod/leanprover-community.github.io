@@ -2,7 +2,7 @@ set -e
 set -x
 
 ./make_site.py
-./build_pdf.py
+python ./build_pdf.py
 cp leanprover-community-zh.pdf build/
 
 if [ "$github_ref" = "refs/heads/lean4" ]; then
