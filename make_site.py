@@ -766,11 +766,12 @@ class User:
     github: Optional[str] = None
     website: Optional[str] = None
 
-if DOWNLOAD and 'ZULIP_KEY' in os.environ:
+zulip_key = os.environ.get('ZULIP_KEY')
+if DOWNLOAD and zulip_key:
     client = zulip.Client(
         email='map-scraper-bot@leanprover.zulipchat.com',
         site='https://leanprover.zulipchat.com',
-        api_key=os.environ.get('ZULIP_KEY'))
+        api_key=zulip_key)
 else:
     client = None
 
@@ -808,7 +809,10 @@ if client is None:
         users = []
 else:
     users = []
-    for user in client.get_members({"include_custom_profile_fields": True})['members']:
+    members_response = client.get_members({"include_custom_profile_fields": True})
+    if 'members' not in members_response:
+        print(f"Warning: could not fetch Zulip members: {members_response}", file=sys.stderr)
+    for user in members_response.get('members', []):
         if user['is_bot'] or not user['is_active']:
             continue
         try:
