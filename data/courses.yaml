@@ -1,22 +1,22 @@
-# Entries in this file should have the following fields:
+# 本文件中的条目应包含以下字段：
 #
-# `name`: the title of the course
-# `instructor`: the name of the person or people who taught the course
-# `institution`: the name of the institution at which the course was taught
-# `year`: the most recent year the course was taught
-# `lean_version`: 3 or 4, the Lean version of the most recent iteration of the course
-# `summary`: a description of what was covered and done in the course
-# `tags`: a list of tags (see below)
-# `website` (optional): the course's home page
-# `material` (optional): a link to a textbook, course notes, etc
-# `repo` (optional): a link to the course's project repository, e.g. on GitHub
-# `experiences` (optional): a reflection about how the course went, things that could be done differently, etc
-# `language` (optional): if the instruction language was not English, what language was it?
+# `name`：课程的标题
+# `instructor`：讲授该课程的个人或团队的姓名
+# `institution`：讲授该课程的机构名称
+# `year`：该课程最近一次讲授的年份
+# `lean_version`：3 或 4，即该课程最近一次开设时所用的 Lean 版本
+# `summary`：对课程所涵盖内容及所做工作的描述
+# `tags`：标签列表（见下文）
+# `website`（可选）：课程主页
+# `material`（可选）：指向教科书、课程讲义等的链接
+# `repo`（可选）：指向课程项目仓库的链接，例如位于 GitHub 上
+# `experiences`（可选）：关于课程开展情况的反思、可以有所改进之处等
+# `language`（可选）：若授课语言不是英语，则注明所用语言
 #
-# Please use tags that are shown on the website. In particular, each entry should have
-# a general subject (`mathematics`, `logic`, `computer science`).
+# 请使用网站上展示的标签。特别地，每个条目都应有一个
+# 总体学科标签（`mathematics`、`logic`、`computer science`）。
 #
-# This list is not ordered. Add new entries wherever you want.
+# 此列表没有特定顺序。可在任意位置添加新条目。
 - name: "Automated Mathematics"
   instructor: Eric Klavins
   institution: University of Washington
@@ -24,7 +24,7 @@
   lean_version: 4
   tags: ['computer science', 'mathematics']
   summary: >
-    Type theory, programming in Lean, term level proofs, tactic level proofs.
+    类型论、Lean 中的编程、项层次的证明、策略层次的证明。
   website: https://klavinslab.org/LeanW26/
   repo: https://github.com/klavins/LeanW26
 
@@ -34,7 +34,7 @@
   lean_version: 4
   tags: ['mathematics']
   summary: >
-    This is an introduction to formalized mathematics in Lean, addressed at students in Mathematics at the École Normale Supérieure in Paris (France), that are in their last year of the undergraduate program. The whole course lasts 18 hours, split in six 3-hours lectures, followed by seminars held by the students. Classes are in French or in English, according to who is actually in the room.
+    这是一门关于 Lean 中形式化数学的入门课程，面向法国巴黎高等师范学院（École Normale Supérieure）数学专业本科最后一年的学生。整个课程共 18 小时，分为六次每次 3 小时的讲座，之后由学生主持研讨班。授课语言依据实际在场者而定，使用法语或英语。
   website: https://faenuccio-teaching.github.io/M1_ENS_26/
   repo : https://github.com/faenuccio-teaching/M1_ENS_26
   year: 2026
@@ -44,7 +44,7 @@
   lean_version: 4
   tags: ['mathematics']
   summary: >
-    This is an introduction to formalized mathematics in Lean, addresses at all students of the CS/Math Graduate School in Lyon, assuming no prior knowledge about proof assistants. The whole course lasts 15 hours, split in five 3-hours lectures. Everything is taught in English, the title notwithstanding.
+    这是一门关于 Lean 中形式化数学的入门课程，面向里昂 CS/Math 研究生院的全体学生，不要求任何关于证明助手的预备知识。整个课程共 15 小时，分为五次每次 3 小时的讲座。尽管标题如此，全部内容均以英语讲授。
   website: https://faenuccio-teaching.github.io/GradCourse26/
   repo : https://github.com/faenuccio-teaching/GradCourse26
   year: 2026
@@ -55,7 +55,7 @@
   lean_version: 4
   tags: ['computer science','mathematics']
   summary: >
-    Introducing Lean as a language for math statements, proofs, or programs. Covers inductive & dependent types, proof terms, definitional / provable equality, overview of tactics & math concepts, set theory & universes, programming & termination. 
+    将 Lean 作为表述数学命题、证明或程序的语言加以介绍。内容涵盖归纳类型与依值类型、证明项、定义相等性与可证相等性、策略与数学概念概览、集合论与宇宙、编程与停机性。
   website: https://www.olsak.net/mirek/lean-at-matfyz.html
   repo: https://git.olsak.net/mirek/lean-teaching/src/branch/master
 - name: "Introduction to Formal Verification & Proof Assistants"
@@ -65,7 +65,7 @@
   lean_version: 4
   tags: ['computer science','mathematics','formal verification']
   summary: >
-    Introducing formal verification and proof assistants to undergraduate engineering and mathematics students. It covers dependent type theory, functional programming, operational semantics, and it applies the concepts to hands-on examples from high-assurance cryptography, metaprogramming, and formalization of mathematics. 
+    向工程与数学专业的本科生介绍形式化验证与证明助手。内容涵盖依值类型论、函数式编程、操作语义，并将这些概念应用于高可信密码学、元编程与数学形式化的实际案例。
   website: https://danieldia-dev.github.io/proofs/
   repo: https://github.com/danieldia-dev/proof101-problems
 - name: "Formal Proofs and Software Verification"
@@ -75,7 +75,7 @@
   lean_version: 4
   tags: ['computer science','portuguese','formal verification','functional programming']
   summary: >
-    Interactive provers (or proof assistants) are tools used to verify the correctness of programs and the formalization of mathematics. Unlike tools such as model checkers and SAT solvers, proof assistants are highly interactive. Machine-checked formal proofs lead to reliable and mathematically sound programs. This course introduces students to the theory and use of proof assistants, using Lean. We will use Lean to verify properties of functional programs and mathematical theorems. We will learn the theory of deductive reasoning and the logic on which these tools are based. We adopted the The Hitchhiker’s Guide to Logical Verification book.
+    交互式证明器（即证明助手）是用于验证程序正确性与数学形式化的工具。与模型检查器和 SAT 求解器等工具不同，证明助手具有高度的交互性。经机器检查的形式化证明能够带来可靠且数学上严谨的程序。本课程通过 Lean 向学生介绍证明助手的理论与使用。我们将使用 Lean 来验证函数式程序的性质与数学定理。我们将学习演绎推理的理论以及这些工具所依据的逻辑。我们采用了《The Hitchhiker's Guide to Logical Verification》一书。
   website: https://github.com/emap-20252-fm
   material: https://github.com/emap-20252-fm/syllabus
 - name: "Algorithms and Data Structures"
@@ -85,7 +85,7 @@
   lean_version: 4
   tags: ['computer science','portuguese','functional programming', 'data structures']
   summary: >
-    This course covers the principles of algorithm design: divide and conquer, greedy algorithms, reduction, dynamic programming, exhaustive search, and more. These principles are presented using Lean, a purely functional language, which allows for simpler explanations and shorter programs than those typically obtained with imperative languages. In Lean, as in Haskell and other functional languages, algorithm development uses equational reasoning when applicable; the course clarifies the conditions under which it applies and the arguments for correctness.
+    本课程涵盖算法设计的原理：分治法、贪心算法、归约、动态规划、穷举搜索等等。这些原理通过 Lean 这一纯函数式语言加以呈现，相比通常用命令式语言所得的程序，它能给出更简单的解释和更短的程序。在 Lean 中，正如在 Haskell 和其他函数式语言中一样，算法开发在适用时采用等式推理；本课程阐明了其适用条件以及正确性的论证。
   website: https://github.com/emap-20242-ed/syllabus
   material: https://github.com/arademaker/fad  
 - name: "An Introduction to (Formal) Real Analysis"
@@ -94,7 +94,7 @@
   year: 2025
   lean_version: 4
   summary: >
-    This is a first course in Real Analysis, rigorous ε-δ Calculus, and basic Point-Set Topology, designed as a video game using the Lean game server. All lectures are recorded, and videos and notes are posted publicly on the course website.
+    这是一门实分析的入门课程，包含严格的 ε-δ 微积分以及基础的点集拓扑，借助 Lean 游戏服务器以电子游戏的形式设计。所有讲座均有录像，视频和讲义公开发布于课程网站上。
   website: https://adam.math.hhu.de/#/g/AlexKontorovich/RealAnalysisGame
   material: https://alexkontorovich.github.io/2025F311H/
   repo: https://github.com/AlexKontorovich/RealAnalysisGame
@@ -104,7 +104,7 @@
   year: 2025
   lean_version: 4
   summary: >
-    This is an upper level undergraduate/graduate course divided into two parts: The first part covers computability and incompleteness, and the second part covers set theory and model theory. Lean is used as a digital diary for the first part of the course. The companion Lean code contains detailed definitions of the main concepts of the lectures, some basic examples and computations, and verified proofs of some of main theorems of computability and incompleteness. 
+    这是一门高年级本科生/研究生课程，分为两部分：第一部分涵盖可计算性与不完备性，第二部分涵盖集合论与模型论。在课程的第一部分中，Lean 被用作一本数字日记。配套的 Lean 代码包含讲座主要概念的详细定义、一些基本示例与计算，以及可计算性与不完备性若干主要定理的经验证证明。
   website: https://sinhp.github.io/teaching/2025-logic2-stockholm/
   repo: https://github.com/sinhp/CompLean/
   tags : ['logic', 'mathematics', 'advanced']
@@ -115,7 +115,7 @@
   year: 2025
   lean_version: 4
   summary: >
-    This is a five-day tutorial for both undergraduate and graduate students with mixed math and physics backgrounds. The course covers an edited version of core chapters from Mathematics in Lean. It also provides recordings and recommended tools to accelerate formal theorem proving (e.g., Lean Finder: https://www.leanfinder.org/).
+    这是一门为期五天的教程，面向具有数学与物理混合背景的本科生和研究生。课程涵盖了《Mathematics in Lean》核心章节的精编版本。课程还提供录像以及推荐工具，以加速形式化定理证明（例如 Lean Finder：https://www.leanfinder.org/）。
   website: https://docs.google.com/document/d/1j8YRsuqTenN9X14ZTVLx12jOXr_vAtep7LGmL63FlSQ/edit?usp=sharing
   material: https://delta-lab-ai.github.io/lean_intro/
 - name: "An Introduction to Lean 4"
@@ -125,7 +125,7 @@
   lean_version: 4
   tags: ['mathematics', 'beginner']
   summary: >
-    This manual introduces the fundamentals of Lean 4, covering basic syntax and types, theorem proving and verification, and practical applications in mathematics. Each chapter includes examples, exercises, and practical insights to help us build confidence and proficiency in Lean 4. The content of this manual is based on informal seminar sessions conducted by the authors at the Universitat de València and taught to master’s students at Nantong University. These sessions focus on foundational topics in mathematics, particularly the universal properties of key constructions.
+    本手册介绍 Lean 4 的基础知识，涵盖基本语法与类型、定理证明与验证，以及在数学中的实际应用。每一章都包含示例、习题和实践见解，以帮助我们建立对 Lean 4 的信心与熟练度。本手册的内容基于作者在巴伦西亚大学（Universitat de València）开展的非正式研讨班，并曾向南通大学的硕士生讲授。这些课程聚焦于数学中的基础主题，特别是若干关键构造的泛性质。
   website: https://www.uv.es/coslloen/Lean4/
   material: https://doi.org/10.5281/zenodo.17079867
 - name: "Computer-Verified Proof: A Hands-On Introduction to Interactive Theorem Proving"
@@ -134,7 +134,7 @@
   year: 2025
   lean_version: 4
   summary: >
-    This is a first-year seminar to a self-selected class of 12 students, who are not necessarily intending to major in mathematics, with the following description: Over millennia, mathematicians have developed an increasingly precise system of logical reasoning which determines what counts as a valid proof of a mathematical statement. But pen-and-paper proofs can contain subtle mistakes that are hard to catch. This First-Year Seminar will provide a hands-on introduction to a new method of proof writing, where a logical argument is developed interactively with a computer tool called a computer proof assistant, which simultaneously checks the underlying logic. Through a series of games, we’ll explore the computer proof assistant Lean while learning how to state, interpret, and prove increasingly sophisticated theorems. The course will also discuss real-world applications of formal methods to verifying software and hardware as well as the effect this paradigm-shifting method of proof-writing is having on mathematical research.
+    这是一门面向 12 名自选学生的一年级研讨课，这些学生未必打算主修数学，课程描述如下：千百年来，数学家们发展出一套日益精确的逻辑推理体系，用以判定何为某一数学命题的有效证明。但纸笔证明可能包含难以察觉的微妙错误。这门一年级研讨课将提供对一种全新证明撰写方法的实践入门，其中逻辑论证是借助一种称为计算机证明助手的工具与计算机交互式地展开的，该工具同时检查底层的逻辑。通过一系列游戏，我们将探索计算机证明助手 Lean，同时学习如何陈述、解释并证明日益复杂的定理。本课程还将讨论形式化方法在验证软件与硬件方面的实际应用，以及这种颠覆性的证明撰写方法对数学研究所产生的影响。
   website: https://adam.math.hhu.de/#/g/emilyriehl/ReintroductionToProofs
   material: https://infinitedescent.xyz/
   repo: https://github.com/emilyriehl/ReintroductionToProofs
@@ -144,7 +144,7 @@
   lean_version: 4
   tags: ['mathematics', 'beginner']
   summary: >
-    This is a bachelor's level course introducing the basics of formalization via Lean (definitions, tactics, structures), as well as some of the libraries in Mathlib (set theory, number theory, algebra), following the structure of the book 'Mathematics in Lean'. The course culminated in a student project, where the students pursued a formalization project based on their individual interests. This course also introduces and discusses various AI tools that auto-formalize via Lean.
+    这是一门学士层次的课程，遵循《Mathematics in Lean》一书的结构，介绍通过 Lean 进行形式化的基础知识（定义、策略、结构），以及 Mathlib 中的部分库（集合论、数论、代数）。课程以学生项目作为收尾，学生根据各自的兴趣开展一个形式化项目。本课程还介绍并讨论了各种通过 Lean 进行自动形式化的 AI 工具。
   website: https://github.com/nimarasekh/Formalization-SoSe26/
   material: https://leanprover-community.github.io/mathematics_in_lean/
   year: 2026
@@ -154,7 +154,7 @@
   lean_version: 4
   tags: ['mathematics', 'beginner']
   summary: >
-    This is a bachelor's level course introducing the basics of formalization via Lean (definitions, tactics, structures), as well as some of the libraries in Mathlib (set theory, number theory, algebra), following the structure of the book 'Mathematics in Lean'. The course culminated in a student project, where the students pursued a formalization project based on their individual interests.
+    这是一门学士层次的课程，遵循《Mathematics in Lean》一书的结构，介绍通过 Lean 进行形式化的基础知识（定义、策略、结构），以及 Mathlib 中的部分库（集合论、数论、代数）。课程以学生项目作为收尾，学生根据各自的兴趣开展一个形式化项目。
   website: https://github.com/nimarasekh/Formalization-SoSe25/
   material: https://leanprover-community.github.io/mathematics_in_lean/
   year: 2025
@@ -164,7 +164,7 @@
   lean_version: 4
   tags: ['mathematics', 'advanced']
   summary: >
-    This master's level course focuses on the theory and practice of proof assistants in mathematics, covering lambda calculus and dependent type theory foundations of proof assistants such as Coq, Lean, and Agda. In the practical part, students learn to use Lean together with Mathlib, and work in small groups on formalization projects on mathematical topics of their choice. Guest lectures are provided by Assia Mahboubi (VU/Inria, Nantes).
+    这门硕士层次的课程聚焦于证明助手在数学中的理论与实践，涵盖 Coq、Lean、Agda 等证明助手所依据的 lambda 演算与依值类型论基础。在实践部分，学生学习将 Lean 与 Mathlib 结合使用，并以小组形式就自选数学主题开展形式化项目。客座讲座由 Assia Mahboubi（VU/Inria, Nantes）主讲。
   website: https://elo.mastermath.nl/course/info.php?id=1121
   material: https://leanprover-community.github.io/mathematics_in_lean/
   year: 2025
@@ -174,7 +174,7 @@
   lean_version: 4
   tags: ['mathematics', 'computer science']
   summary: >
-    The goal of this practical course is for students to complete their first formalization project using Lean. The course is designed for master's students and is divided into two parts: the first part consists of lectures and homework assignments, while the second part is dedicated to independent project work, supported by optional help sessions.
+    这门实践课程的目标是让学生使用 Lean 完成他们的第一个形式化项目。课程专为硕士生设计，分为两部分：第一部分由讲座和家庭作业组成，第二部分则专注于独立的项目工作，并辅以可选的答疑环节。
   website: https://www.tcs.ifi.lmu.de/lehre/ws-2024-25/forma_lean_de.html
   year: 2025
 - name: Logique et preuve assistée (Logic and computer-assisted proof)
@@ -183,7 +183,7 @@
   lean_version: 4
   tags: ['logic', 'mathematics', 'computer science']
   summary: >
-    This is a two-part course for a small group of first-year double-major math & CS students. The first part is about pen-and-paper proof, with a focus on logic, natural deduction and Peano arithmetic. The second part is a Lean 4 lab with worksheets on propositional and predicate logic, sets and functions, and natural numbers. The focus in on elementary theorems proved in tactics-mode in "plain vanilla" Lean (without the Mathlib), attempting to draw parallels with natural deduction.
+    这是一门面向少数数学与计算机科学双主修一年级学生的两部分课程。第一部分关于纸笔证明，聚焦于逻辑、自然演绎和皮亚诺算术。第二部分是一个 Lean 4 实验，配有关于命题逻辑与谓词逻辑、集合与函数以及自然数的练习单。重点在于以策略模式在「原味」Lean（不使用 Mathlib）中证明初等定理，并尝试与自然演绎建立类比。
   website:
   repo : https://github.com/niotie/logique-preuve-assistee
   year: 2025
@@ -193,7 +193,7 @@
   lean_version: 4
   tags: ['mathematics']
   summary: >
-    This is an introduction to formalized mathematics in Lean, addresses at all students of the CS/Math Graduate School in Lyon, assuming no prior knowledge about proof assistants. The whole course lasts 15 hours, split in five 3-hours lectures. Everything is taught in English, the title notwithstanding.
+    这是一门关于 Lean 中形式化数学的入门课程，面向里昂 CS/Math 研究生院的全体学生，不要求任何关于证明助手的预备知识。整个课程共 15 小时，分为五次每次 3 小时的讲座。尽管标题如此，全部内容均以英语讲授。
   website: https://faenuccio-teaching.github.io/GradCourse25/
   repo : https://github.com/faenuccio-teaching/GradCourse25/tree/master
   year: 2025
@@ -203,7 +203,7 @@
   lean_version: 4
   tags: ['mathematics', 'logic', 'beginner']
   summary: >
-    The goal of this workshop is to provide an 8h introduction to formal mathematics using Lean. Each 2h session combines a lecture with hands-on computer practice. Practice files for each session are provided and no prior installation of Lean is required.
+    本工作坊的目标是提供一个 8 小时的、使用 Lean 进行形式化数学的入门介绍。每次 2 小时的课程都将讲座与上机实践相结合。每次课程都提供实践文件，无需预先安装 Lean。
   website: https://matematiflo.github.io/LeanCompactCourse/
   year: 2025
 - name: Interactive Theorem Proving in Lean
@@ -212,7 +212,7 @@
   lean_version: 4
   tags: ['mathematics', 'dependent type theory', 'beginner']
   summary: >
-    The goal of this tutorial is to provide a 3h introduction to formalization using Lean. The emphasis is on hands-on computer practice. Exercise files are provided and no prior installation of Lean is required.
+    本教程的目标是提供一个 3 小时的、使用 Lean 进行形式化的入门介绍。重点在于上机实践。课程提供练习文件，无需预先安装 Lean。
   website: https://matematiflo.github.io/CICM2025LeanTutorial/
   year: 2025
 - name: Computer-assisted Mathematics
@@ -221,7 +221,7 @@
   lean_version: 4
   tags: ['mathematics', 'logic', 'beginner']
   summary: >
-    In this seminar, we focus on the formalisation of university-level mathematics in Lean. Our goal is to teach Bachelor students what it means to write a formal proof and have the computer validate it, or even assist us with it.
+    在本研讨课中，我们聚焦于在 Lean 中对大学层次的数学进行形式化。我们的目标是让学士学生了解撰写形式化证明并让计算机加以验证（甚至辅助我们完成证明）意味着什么。
   website: https://matematiflo.github.io/CompAssistedMath2025/
   year: 2025
 - name: Semantics and Verification of Software
@@ -230,9 +230,9 @@
   lean_version: 4
   tags: ['computer science', 'beginner']
   summary: >
-    This course teaches foundations for verification of programs using operational, denotational and axiomatic semantics.
-    Its target group compromises mainly of computer science master students.
-    Participants are tought in the accompaning exercise classes to formalize verification proofs in Lean 4.
+    本课程讲授使用操作语义、指称语义与公理语义对程序进行验证的基础。
+    其目标群体主要为计算机科学专业的硕士生。
+    在配套的习题课中，学员将学习在 Lean 4 中形式化验证证明。
   website: https://moves.rwth-aachen.de/teaching/ws-2024-25/savos/
   year: 2024
 - name: "Formalization of Mathematics: Seminar on the proof assistant Lean"
@@ -241,9 +241,9 @@
   year: 2024
   lean_version: 4
   summary: >
-    Students learn to formalize mathematics in Lean, including: implementation of definitions,
-    encoding propositions, using tactics, and developing mathematics formally.  The seminar follows
-    the first six chapters of MIL, and culminates in a project.
+    学生学习在 Lean 中形式化数学，包括：实现定义、
+    编码命题、使用策略，以及形式化地开展数学。本研讨课遵循
+    MIL 的前六章，并以一个项目作为收尾。
   tags: ['mathematics', 'beginner']
   material: https://github.com/leanprover-community/mathematics_in_lean
 - name: "Seminar: Mathematical Information Retrieval (MathIR)"
@@ -252,8 +252,8 @@
   lean_version: 4
   tags: ['mathematics', 'beginner', 'computer science']
   summary: >
-    In this seminar, students will contribute to an open-source system to solve applied real-world problems. Since 2024, we have offered projects related to [mathlib](https://github.com/leanprover-community/mathlib4).
-    We recommend choosing one of the ["good first issues"](https://github.com/leanprover-community/mathlib4/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22) from GitHub.
+    在本研讨课中，学生将为一个解决实际现实问题的开源系统作出贡献。自 2024 年以来，我们提供了与 [mathlib](https://github.com/leanprover-community/mathlib4) 相关的项目。
+    我们建议从 GitHub 上选择一个 ["good first issues"](https://github.com/leanprover-community/mathlib4/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22)。
   website: https://gipplab.org/teaching/mathir/
   year: 2024
 - name: Formalizing Mathematics 2024
@@ -262,10 +262,10 @@
   lean_version: 4
   tags: ['mathematics', 'English', 'beginner']
   summary: >
-    A course for final year undergraduates, examined by projects. The course repo contains
-    many examples of how to do basic undergraduate mathematics. Note that the
-    [2025 version](https://github.com/b-mehta/formalising-mathematics-notes)
-    of the course uses a more up-to-date version of mathlib!
+    一门面向本科最后一年学生的课程，以项目作为考核。课程仓库包含
+    许多如何开展基础本科数学的示例。请注意，
+    该课程的 [2025 版本](https://github.com/b-mehta/formalising-mathematics-notes)
+    使用了更为新近的 mathlib 版本！
   website: https://www.ma.imperial.ac.uk/~buzzard/xena/formalising-mathematics-2024/
   repo: https://github.com/ImperialCollegeLondon/formalising-mathematics-2024
   year: 2024
@@ -275,11 +275,10 @@
   lean_version: 4
   tags: ['mathematics']
   summary: >
-    These two courses (one in term 1, the other in term 1) are part of the program "Higher Algebra
-    and formalized mathematics" of the
-    [M2 program of ENS-Lyon](http://mathematiques.ens-lyon.fr/master-2-234092.kjsp).
-    The courses introduces the basis of mathematical formalization in Lean, followed by more
-    advanced topics about specifics of mathlib.
+    这两门课程（一门在第一学期，另一门也在第一学期）是
+    [里昂高师 M2 项目](http://mathematiques.ens-lyon.fr/master-2-234092.kjsp)中
+    "Higher Algebra and formalized mathematics"（高等代数与形式化数学）项目的一部分。
+    课程介绍 Lean 中数学形式化的基础，随后讲授关于 mathlib 具体细节的更进阶主题。
   website: https://faenuccio-teaching.github.io/M2Lyon2425/
   repo : https://github.com/faenuccio-teaching/M2Lyon2425/
   year: 2024
@@ -288,7 +287,7 @@
   institution: University of Maryland, Baltimore County
   year: 2024
   lean_version: 4
-  summary:  "Introducing to Lean proofs and programming for scientists and engineers. Prerequisite: Calculus II. Students learn basic proofs (including some calculus examples) and basic programming techniques (I/O, functional programming, lists) to inspire and enable development of scientific computing software connected to formalized scientific derivations in Lean. Recorded lectures are on YouTube at https://www.youtube.com/playlist?list=PLX21uJ4UfpF43NExUcPcAEgnzV58x_26l"
+  summary:  "向科学家和工程师介绍 Lean 的证明与编程。先修要求：微积分 II。学生学习基础证明（包括一些微积分示例）和基础编程技巧（输入/输出、函数式编程、列表），以激发并支持在 Lean 中开发与形式化科学推导相关联的科学计算软件。讲座录像见 YouTube：https://www.youtube.com/playlist?list=PLX21uJ4UfpF43NExUcPcAEgnzV58x_26l"
   tags: ['beginner', 'functional programming', 'intro to proof']
   website: https://github.com/ATOMSLab/LFSE2024/
 - name: Introduction to Mathematical Formalization
@@ -296,19 +295,19 @@
   institution: University of Washington
   year: 2024
   lean_version: 4
-  summary: Project-based course aimed at undergrads and early grad students. The focus of the class was purely on the practical aspect of using Lean to state and prove mathematical statements. The intended outcome was not a deep understanding of how Lean works but having the practical skills of breaking down the problem, debugging it, asking for help on Zulip in a productive way, etc. The students spend the first 3 weeks doing exercises in MiL, and the other 7 weeks doing a project.
+  summary: 面向本科生与低年级研究生的、以项目为导向的课程。本课程的重点纯粹在于使用 Lean 来陈述并证明数学命题的实践层面。预期成果并非对 Lean 工作原理的深入理解，而是掌握诸如拆解问题、调试、以高效方式在 Zulip 上寻求帮助等实践技能。学生在前 3 周做 MiL 中的习题，其余 7 周开展一个项目。
   tags: ['English', 'mathematics', 'beginner']
-  experiences: Students felt that the pace is too fast. No one completed more than 4-5 chapters of MiL. Projects mostly went well. Each team had two people -- a team leader, who proposed the project (grad student or student with previous Lean experience). This worked well in that the team leader moved the project forward but, on the other hand, the other team member struggled to keep up.
+  experiences: 学生们觉得进度太快。没有人完成超过 MiL 的 4-5 章。项目大多进行得不错。每个小组有两人——一名组长，由其提出项目（研究生或有 Lean 经验的学生）。这种做法很有效，组长推动了项目的进展，但另一方面，另一名组员则难以跟上进度。
 - name: Computergestütztes mathematisches Beweisen
   instructor: Ralf Gerkmann
   institution: Ludwig-Maximilians-Universität München
   lean_version: 4
   tags: ['German', 'mathematics']
   summary: >
-    This is taught as a second-year mathematics undergraduate course.
-    It introduces Lean 4 as well as Mathlib and demonstrates how to construct and do proofs
-    on both basic mathematical objects, such as real numbers, as well as more advanced ones
-    like p-adic numbers.
+    本课程作为数学专业二年级本科课程讲授。
+    它介绍 Lean 4 以及 Mathlib，并演示如何在
+    诸如实数等基础数学对象，以及诸如 p 进数等更进阶的对象上
+    构造并完成证明。
   website: https://www.mathematik.uni-muenchen.de/~gerkmann/ank_lean.pdf
   year: 2024
 - name: Interactive Theorem Proving
@@ -317,9 +316,9 @@
   lean_version: 4
   tags: ['computer science']
   summary: >
-    This course introduces the proof assistant Lean 4, its type-theoretic foundations,
-    and its applications to computer science and mathematics. It is taught using the Lean 4
-    version of The Hitchhiker’s Guide to Logical Verification.
+    本课程介绍证明助手 Lean 4、其类型论基础，
+    以及它在计算机科学与数学中的应用。课程使用
+    《The Hitchhiker's Guide to Logical Verification》的 Lean 4 版本进行讲授。
   website: https://www.tcs.ifi.lmu.de/lehre/ss-2024/itp_de.html
   year: 2024
 - name: Introduction to formal verification of mathematics
@@ -328,16 +327,14 @@
   lean_version: 3
   tags: ['mathematics']
   summary: >
-    This course was aimed at undergraduates who had taken at least 2 previous
-    proof-based courses in mathematics.  We worked through the current version
-    (at the time) of the book Mathematics in Lean by Jeremy Avigad and Patrick
-    Massot.  The course was closely modeled on a course taught by Jeremy Avigad
-    at CMU in 2022.  Student did weekly homework implementing or completing the
-    implementation for small example results, and they also produced a midterm
-    and a final project where they implemented any mathematics result they
-    chose.  Some example final projects were implementing the definitions and
-    results of elementary group theory through Legrange’s Theorem and a proof
-    of the Euler product formula for the Riemann zeta function.
+    本课程面向至少修过 2 门基于证明的数学课程的本科生。
+    我们研读了 Jeremy Avigad 和 Patrick Massot 所著《Mathematics in Lean》
+    （当时的）最新版本。本课程紧密参照了 Jeremy Avigad
+    于 2022 年在 CMU 讲授的一门课程。学生每周完成家庭作业，实现或补全
+    若干小型示例结果的实现，他们还完成了一个期中项目和一个期末项目，
+    其中实现了他们自选的任意数学结果。一些期末项目的示例包括：实现
+    初等群论直至拉格朗日定理的定义与结果，以及黎曼 zeta 函数的
+    欧拉乘积公式的证明。
 - name: Topics in formal mathematics
   instructor: Patrick Massot
   institution: Carnegie Mellon University
@@ -346,10 +343,10 @@
   repo: https://github.com/leanprover-community/mathematics_in_lean
   material: https://leanprover-community.github.io/mathematics_in_lean/mathematics_in_lean.pdf
   summary: >
-    This is taught as a third-year undergraduate course.
-    We spent a little more than half the semester working through most of
-    Mathematics in Lean with weekly homework assignments.
-    Students have to do a small independent project at the halfway point, and a larger one at the end.
+    本课程作为三年级本科课程讲授。
+    我们用了略多于半个学期的时间，配以每周的家庭作业，
+    研读了《Mathematics in Lean》的大部分内容。
+    学生须在学期中点完成一个小型独立项目，并在学期末完成一个更大的项目。
   year: 2023
 - name: Set Theory and Logic with Lean
   instructor: Jun Li
@@ -358,8 +355,8 @@
   lean_version: 3
   tags: ['English', 'intro to proof', 'logic']
   summary: >
-    The aim of the course is to learn some set theory and logic with Lean 3.   We met twice a week, discussed upcoming topics and
-    started to work on   exercises in class. There is also a project done with LEAN together with a poster session in Stander Symposium.
+    本课程的目标是借助 Lean 3 学习一些集合论与逻辑。我们每周见面两次，讨论即将学习的主题，并
+    开始在课堂上完成习题。课程还包含一个使用 LEAN 完成的项目，以及在 Stander Symposium 上的海报展示环节。
   year: 2023
 - name: Démontrer avec un ordinateur
   instructor: Riccardo Brasca and Antoine Chambert-Loir
@@ -368,7 +365,7 @@
   lean_version: 4
   tags: ['French', 'intro to proof', 'mathematics']
   summary: >
-    The goal of the course is to teach the basics of Lean to first year undergraduate students in a double major program in mathematics and computer science.
+    本课程的目标是向数学与计算机科学双主修项目的一年级本科生讲授 Lean 的基础知识。
   year: 2023
 - name: Some high-school mathematics in Lean
   instructor: Peter Pfaffelhuber
@@ -378,13 +375,13 @@
   lean_version: 3
   tags: ['German', 'intro to proof', 'mathematics']
   summary: >
-    The aim of the course is to learn some Lean 3 using easy mathemtics (such as divisibility, \sqrt 2 \notin \Q, and the
-    pigeonwhole principle). The course is in German and was taught in summer 2023 for one full semester with weekly homeworks. We met once a week, discussed upcoming topics and
-    started to work on the next exercises in class. The manuscript contains an extended cheat sheet for Lean tactics.
+    本课程的目标是借助简单的数学（例如整除性、\sqrt 2 \notin \Q 和
+    鸽笼原理）学习一些 Lean 3。本课程以德语讲授，于 2023 年夏季学期讲授，为期一整个学期，配有每周作业。我们每周见面一次，讨论即将学习的主题，并
+    在课堂上开始完成下一批习题。讲义包含一份扩展版的 Lean 策略速查表。
   experiences: >
-    The course was intended for students in mathematics who want to become teachers, but was also taken by other math
-    students. Only using Prop-types in the first few lessons was a good idea, in my opinion. The students liked the interactive feeling even of the simple proofs. Weekly
-    homeworks were made quite consistently, the dropout-rate (among ~15 students) was low.
+    本课程原本面向有意成为教师的数学专业学生，但也有其他数学
+    学生选修。在我看来，在最初几节课中只使用 Prop 类型是一个好主意。学生们喜欢即便是简单证明所带来的交互感。每周
+    作业完成得相当稳定，（约 15 名学生中的）退课率很低。
   year: 2023
 - name: Formalising Mathematics 2023
   instructor: Kevin Buzzard
@@ -394,9 +391,9 @@
   lean_version: 3
   tags: ['mathematics', 'advanced']
   summary: >
-    The course is project-based; the students must write three projects on undergraduate mathematics.
-    The lectures are me live Lean coding, solving the sorrys in the repo.
-    I'm teaching the course again in 2024 and then it will be in Lean 4.
+    本课程以项目为导向；学生须就本科数学撰写三个项目。
+    讲座是我现场的 Lean 编程，解决仓库中的 sorry。
+    我将在 2024 年再次讲授本课程，届时将使用 Lean 4。
   year: 2023
 - name: Interactive Theorem Proving
   instructor: Jeremy Avigad
@@ -406,10 +403,10 @@
   lean_version: 3
   tags: ['mathematics']
   summary: >
-    This was taught as a third-year undergraduate course.
-    We spent a little more than half the semester working through the first 6 chapters of
-    Mathematics in Lean with weekly homework assignments.
-    Students did a small independent project at the halfway point, and a larger one at the end.
+    本课程作为三年级本科课程讲授。
+    我们用了略多于半个学期的时间，配以每周的家庭作业，研读了
+    《Mathematics in Lean》的前 6 章。
+    学生在学期中点完成了一个小型独立项目，并在学期末完成了一个更大的项目。
   year: 2022
 - name: Logic and Mechanized Reasoning
   instructor: Jeremy Avigad
@@ -420,7 +417,7 @@
   lean_version: 4
   tags: ['logic', 'automated reasoning', 'advanced']
   summary: >
-    This course introduces students to the theory of propositional and first-order logic, shows them how to implement fundamental logical algorithms in Lean 4, and shows them how to use automated reasoning tools.
+    本课程向学生介绍命题逻辑与一阶逻辑的理论，展示如何在 Lean 4 中实现基础的逻辑算法，并展示如何使用自动推理工具。
   year: 2021
 - name: Logic and Proof
   instructor: Jeremy Avigad
@@ -428,7 +425,7 @@
   material: https://lean-lang.org/logic_and_proof/
   lean_version: 3
   tags: ['logic', 'intro to proof']
-  summary: This is an introduction to logic and mathematical reasoning for a general audience. It was taught in the philosophy department at CMU twice.
+  summary: 这是一门面向一般受众的逻辑与数学推理入门课程。它曾在 CMU 哲学系讲授过两次。
   year: 2017
 - name: Introdução às lógica, provas e suas assistentes
   instructor: Sergey Galkin
@@ -437,24 +434,24 @@
   lean_version: 3
   tags: ['logic', 'intro to proof', 'Portuguese']
   summary: >
-    I instructed this course online (via Zoom + Telegram + GitHub)
-    during the pandemic (Aug-Dec 2021)
-    for a selected group of undergraduate students of Mathematics Department
-    of PUC-Rio, Brazil (de Moura's alma mater).
-    It included practical part in LEAN, such as
-    'Natural Number Game' by Buzzard
-      (students had to finish all levels, then learn tactics mode in LEAN proper),
-    and a text-book "Logic and proofs" by Avigad, Lewis and van Doorn
-      (students had to submit solutions to all problems via GitHub, and also learn normal mode),
-      also doing live-coding and screen-sharing in classes,
-    and comparable theoretical / oral part: propositional logic, sets, types, categories, Curry-Howard-Lambek, plus some original material.
+    我在疫情期间（2021 年 8 月至 12 月）
+    为巴西里约热内卢天主教大学（PUC-Rio，de Moura 的母校）数学系
+    一组精选的本科生
+    在线讲授了本课程（通过 Zoom + Telegram + GitHub）。
+    课程包含 LEAN 的实践部分，例如
+    Buzzard 的 'Natural Number Game'
+      （学生必须完成所有关卡，然后在 LEAN 本体中学习策略模式），
+    以及 Avigad、Lewis 和 van Doorn 所著教科书《Logic and proofs》
+      （学生须通过 GitHub 提交所有问题的解答，并学习普通模式），
+      课堂上还进行现场编程与屏幕共享，
+    以及相当分量的理论/口头部分：命题逻辑、集合、类型、范畴、Curry-Howard-Lambek 对应，外加一些原创材料。
   experiences: >
-    The course was a tribute to the memories of Vladimir Uspensky and Vladimir Voevodsky.
-    I tried to keep it at least as fun and thought-provoking as their courses and popularization were.
-    Various concepts have been repeated from different points of view and interpretations,
-    so, a bit unexpectedly for me, sometimes some students knew a proof by their fingers, being able to solve the problem in LEAN,
-    but not in their head, taking extra time to digest a mathematical abstraction.
-    For a scaled version of such course one has to synthesize more problems.
+    本课程是对 Vladimir Uspensky 和 Vladimir Voevodsky 的纪念。
+    我努力让它至少像他们的课程和科普工作那样有趣且发人深省。
+    各种概念从不同的视角和诠释反复呈现，
+    因此，有些出乎我意料的是，有时一些学生凭手指就记得某个证明，能够在 LEAN 中解出问题，
+    但在脑海中却不行，需要额外的时间来消化某个数学抽象。
+    若要扩大此类课程的规模，则必须合成更多的问题。
   year: 2021
 - name: Proofs and Programs
   instructor: Siddhartha Gadgil
@@ -463,16 +460,16 @@
   repo: https://github.com/siddhartha-gadgil/proofs-and-programs-2023
   material: http://math.iisc.ac.in/~gadgil/proofs-and-programs-2023/doc/PnP2023.html
   summary: >
-    This was an introduction to proving, programming and proving programs in Lean, and also the Dependent Type Theory foundations of Lean.
-    The evaluation was based mainly on projects but also on labs.
+    这是一门关于在 Lean 中进行证明、编程和证明程序，以及 Lean 的依值类型论基础的入门课程。
+    考核主要基于项目，但也包含实验。
   experiences: >
-    My plan was to live code, then clean-up and add documentation and generate notes with DocGen4.
-    This worked very well for a month, with a lot of questions and my adapting explanations.
-    Once the projects started the decoupling of lectures and evaluation led to a sharp drop in attendance.
-    I course corrected and made lectures into project demo/help/live-coding.
-    Advanced students explaining what they had done and less advanced explained what they had,
-    where they were stuck, what they needed etc and I (and their fellow students) helped them get unstuck.
-    This is working well. Next time I teach I will transition earlier and in a more planned way to this mode.
+    我的计划是先现场编程，然后清理、补充文档并用 DocGen4 生成讲义。
+    在头一个月里，这一做法效果非常好，伴有大量提问以及我对解释的随机调整。
+    一旦项目开始，讲座与考核的脱钩导致出勤率急剧下降。
+    我作出了调整，将讲座变为项目演示/答疑/现场编程。
+    进度较快的学生讲解他们已完成的工作，进度较慢的则讲解他们已有的内容、
+    卡在何处、需要什么等等，而我（以及他们的同学）帮助他们摆脱困境。
+    这一做法效果良好。下次我讲授时，会更早且更有计划地过渡到这种模式。
   year: 2023
   tags: ['intro to proof', 'computer science']
   lean_version: 4
@@ -483,23 +480,23 @@
   lean_version: 3
   tags: ['intro to proof', 'logic', 'mathematics']
   summary: >
-    This is a game-based introduction to undergraduate pure mathematics, starting with equations, natural numbers, logic,
-    sets, function, real numbers and sequences with draft sections on groups. A book is being written to accompany the
-    game. The next iteration of the game will be in Lean 4.
+    这是一门以游戏为基础的本科纯数学入门课程，从方程、自然数、逻辑、
+    集合、函数、实数和序列开始，并附有关于群的草稿章节。一本配套该游戏的书正在
+    撰写中。该游戏的下一代将使用 Lean 4。
   year: 2022
 - name: Theorem Prover Lab -- Applications in Programming Languages
   instructor: Jakob von Raumer
   institution: Karlsruhe Institute of Technology
   repo: https://github.com/IPDSnelting/tba-2022
   website: https://pp.ipd.kit.edu/lehre/SS2022/tba/?lang=de
-  notes: The website is partially German, includes more slides and the project descriptions.
+  notes: 该网站部分内容为德语，包含更多幻灯片以及项目说明。
   summary: >
-    Masters course for computer science students with the first half of the term consisting of a hands-on introduction to Lean 4 and type theory
-    and the second half consisting of the students working on either a semantics/compiler project or a formalisation of a graph theory problem.
+    面向计算机科学专业学生的硕士课程，学期上半部分由 Lean 4 与类型论的上机入门构成，
+    下半部分则由学生从事一个语义/编译器项目或一个图论问题的形式化构成。
   experiences: >
-    This was already the second year we used Lean 4 and it was good to do it in person again after teaching exclusively online due to Covid the year before.
-    We had different levels of learning speed among the students but in the end everybody go the point where they intuitively could use Lean.
-    Some students were really eager to golf every proof.
+    这已是我们使用 Lean 4 的第二年，在前一年因新冠疫情完全在线授课之后，能够再次面对面授课很好。
+    学生们的学习速度参差不齐，但最终每个人都达到了能够凭直觉使用 Lean 的程度。
+    一些学生非常热衷于精简（golf）每一个证明。
   lean_version: 4
   tags: ['German', 'computer science', 'advanced']
   year: 2022
@@ -511,35 +508,35 @@
   tags: ['intro to proof', 'mathematics']
   lean_version: 4
   summary: >
-    This course is completely bilingual between English and Lean,
-    with every example presented both ways (students also have to solve every homework problem both ways).
-    It's the standard syllabus of a US "intro to proofs" course for first/second-year undergraduates,
-    covering "proof techniques", good style in proof writing,
-    elementary number theory, "sufficiently large", recurrence relations,
-    functions, relations, and set operations.
-    The textbook "The Mechanics of Proof" (link above) was written for this course.
+    本课程在英语与 Lean 之间完全双语，
+    每个示例都以两种方式呈现（学生也必须以两种方式解答每一道家庭作业题）。
+    这是美国为一/二年级本科生开设的标准 "intro to proofs"（证明入门）课程大纲，
+    涵盖 "证明技巧"、证明撰写的良好风格、
+    初等数论、"充分大"、递推关系、
+    函数、关系与集合运算。
+    教科书《The Mechanics of Proof》（链接见上文）正是为本课程而撰写。
   experiences: >
-    The course has been taught since 2023 and is now on its fourth iteration.
-    The students like using Lean and are able to learn it at the pace required.
-    I invested a lot of energy in writing custom tactics which perform exactly one step of reasoning that I would permit on paper,
-    and deliberately never mentioned several more powerful tactics.
-    This is very useful if the course is explicitly supposed to teach good style in proof writing.
-    It lets you off the hook in grading -- you can just say "that's not enough detail -- Lean wouldn't accept it!"
+    本课程自 2023 年起讲授，如今已是第四次开设。
+    学生喜欢使用 Lean，并能够以所需的进度学会它。
+    我投入了大量精力编写自定义策略，它们恰好执行我会在纸上允许的一步推理，
+    并刻意从不提及若干更强大的策略。
+    若课程明确旨在教授证明撰写的良好风格，这一点非常有用。
+    它让你在评分时得以解脱——你可以直接说 "细节不够——Lean 不会接受它！"
   year: 2024
 - name: Complement to general Analysis/Algebra 1st year undergraduate course
   instructor: Frédéric Tran Minh
   institution: Esisar, Grenoble Institute of Technology
-  notes: 1st year students, 6 x 1,5h
+  notes: 一年级学生，6 × 1.5 小时
   repo: https://github.com/ftranminh/Esisar_MA121_HA_lean_2023
   summary: >
-    Short module introducing proof to 1st year undergraduates using Lean3 - in French.
-    We used proof-term style in Lean.
+    一个使用 Lean 3 向一年级本科生介绍证明的简短模块——以法语进行。
+    我们在 Lean 中采用了证明项风格。
   experiences:
-    - 1st time we use a proof assistant to teach maths
-    - students globally appreciated it (feedback, autonomy, playful)
-    - some of them think it helped them with maths
-    - most of them found the Lean syntax difficult (they also tended to attribute their shortcomings in maths to a programming difficulties)
-    - many of them found the Lean error messages helpless
+    - 这是我们第一次使用证明助手来教数学
+    - 学生总体上很欣赏它（反馈、自主性、趣味性）
+    - 他们中的一些人认为它对学习数学有帮助
+    - 他们中的大多数人觉得 Lean 语法很难（他们也倾向于将自己在数学上的不足归咎于编程上的困难）
+    - 他们中的许多人觉得 Lean 的错误信息毫无帮助
   tags: ['French', 'mathematics', 'intro to proof']
   lean_version: 3
   year: 2023
@@ -549,27 +546,27 @@
   website: https://www.imo.universite-paris-saclay.fr/~patrick.massot/enseignement/
   repo: https://github.com/PatrickMassot/MDD154/
   notes:
-    - Of course there is also a private repo with solutions, and I can give solutions to interested teachers
-    - no single pdf but lecture notes at https://www.imo.universite-paris-saclay.fr/~patrick.massot/mdd154/,
-    - tactic cheat sheets at https://www.imo.universite-paris-saclay.fr/~patrick.massot/mdd154/aide-memoire.pdf,
-    - full tactic reference at https://www.imo.universite-paris-saclay.fr/~patrick.massot/mdd154/reference.pdf
+    - 当然还有一个包含解答的私有仓库，我可以将解答提供给感兴趣的教师
+    - 没有单一的 pdf，但有讲义见 https://www.imo.universite-paris-saclay.fr/~patrick.massot/mdd154/,
+    - 策略速查表见 https://www.imo.universite-paris-saclay.fr/~patrick.massot/mdd154/aide-memoire.pdf,
+    - 完整的策略参考见 https://www.imo.universite-paris-saclay.fr/~patrick.massot/mdd154/reference.pdf
   tags: ['French', 'intro to proof', 'natural language input']
   lean_version: 3
   summary: >
-    Since January 2019, I am using Lean to teach first year undergrad double major maths/CS students how to find and write mathematical proofs.
-    I first did it alone and then with Frédéric Bourgeois and Christine Paulin.
-    The main mathematical topic of this course is elementary real analysis, especially the theory of convergent sequences and continuous functions.
-    Since 2021 I use a controlled natural language for input in order to facilitate transferring Lean proofs to pen and paper proofs.
+    自 2019 年 1 月起，我一直使用 Lean 向一年级数学/计算机科学双主修本科生讲授如何寻找并撰写数学证明。
+    我起初独自讲授，后来与 Frédéric Bourgeois 和 Christine Paulin 一起讲授。
+    本课程的主要数学主题是初等实分析，尤其是收敛序列与连续函数的理论。
+    自 2021 年起，我在输入时使用一种受控自然语言，以便于将 Lean 证明转写为纸笔证明。
   experiences: >
-    This course really works well, and it will probably continue for a long time.
-    The idea to use controlled natural language tactics seems a lot more efficient than the native syntax to ensure students improve at pen and paper proofs.
+    本课程效果确实很好，并很可能会长期持续下去。
+    使用受控自然语言策略的想法，在确保学生提升纸笔证明能力方面，似乎比原生语法高效得多。
   year: 2023
 - name: Introduction to Proofs with Lean Proof Assistant
   instructor: Sina Hazratpour
   institution: Johns Hopkins University
   website: https://sinhp.github.io/teaching/2022-introduction-to-proofs-with-Lean
   repo: https://github.com/sinhp/ProofLab
-  summary: An Introduction To Proofs course at Johns Hopkins in Fall 2022 entirely in Lean (teaching and assessment) culminating in the proof of Yoneda Lemma.
+  summary: 2022 年秋季在约翰斯·霍普金斯大学开设的一门证明入门课程，完全在 Lean 中进行（教学与考核），并以米田引理（Yoneda Lemma）的证明作为收尾。
   tags: ['intro to proof', 'mathematics']
   lean_version: 3
   year: 2022
@@ -577,7 +574,7 @@
   instructor: Matthew Ballard
   institution: University of South Carolina
   website: https://300.f22.matthewrobertballard.com/
-  summary: Our intro to proofs course. (Fall 2020) Lean was about 1/3 of the course. (Fall 2022) A second iteration using Lean 4.
+  summary: 我们的证明入门课程。（2020 年秋季）Lean 约占课程的 1/3。（2022 年秋季）使用 Lean 4 的第二次开设。
   tags: [ 'intro to proof', 'mathematics']
   lean_version: 4
   year: 2022
@@ -585,7 +582,7 @@
   instructor: Matthew Ballard
   institution: University of South Carolina
   website: https://411.s23.matthewrobertballard.com
-  summary: Spring 2023. More a hybrid math-CS course that was focused on building ability with Lean and expanding students perspectives on math and programming.
+  summary: 2023 年春季。更像是一门数学-计算机科学混合课程，聚焦于培养使用 Lean 的能力，并拓展学生对数学与编程的视野。
   tags: ['mathematics', 'computer science', 'advanced']
   year: 2023
   lean_version: 4
@@ -593,7 +590,7 @@
   instructor: Matthew Ballard
   institution: University of South Carolina
   website: https://github.com/UofSC-Spring-2023-Math-768-001
-  summary: Spring 2023. A graduate course where we spent about 2/3's of the course working through exercises from one of Kevin's classes in Lean 3 and then switched to bounding the edge chromatic number of graphs in Lean 4.
+  summary: 2023 年春季。一门研究生课程，我们用了大约 2/3 的课时在 Lean 3 中研读 Kevin 某门课程的习题，然后转而在 Lean 4 中对图的边色数进行界估计。
   tags: ['mathematics', 'advanced']
   lean_version: 4
   year: 2023
@@ -602,19 +599,19 @@
   institution: Glasgow-Maxwell School
   website: https://www.maths.ed.ac.uk/~pkinnear/leancourse/
   summary: >
-    A 1-semester course aimed at graduate students in algebra and related topics at Edinburgh, Heriot-Watt and Glasgow universities.
-    Aimed to approach Lean as mathematicians and future formalisers, establishing proficiency in tactic mode.
-    For the first part of the course we learned the basics of first-order logic in Lean using the tutorials project,
-    before discussing some basics of types and type classes to talk about formalising algebra. Also made use of lftcm2020 exercise sheets, and MiL.
-    Concluded with a hackathon working on some group projects.
+    一门为期一学期的课程，面向爱丁堡、赫瑞-瓦特（Heriot-Watt）和格拉斯哥大学代数及相关主题的研究生。
+    旨在以数学家和未来形式化者的身份接触 Lean，确立对策略模式的熟练掌握。
+    在课程的第一部分，我们使用 tutorials 项目学习 Lean 中一阶逻辑的基础，
+    随后讨论一些类型与类型类的基础知识，以谈论代数的形式化。课程还使用了 lftcm2020 练习单和 MiL。
+    课程以一场黑客松（hackathon）作结，开展若干小组项目。
   experiences: >
-    We tried to avoid touching on too much type theory early on to get people confidently interacting with Lean quickly.
-    In retrospect, it would have been good to cover this in more depth (albeit only later in the course, after establishing confidence interacting with Lean)
-    to aid in dealing with the inevitable issues that arise when formalising an interesting piece of mathematics.
-    Also, we originally aimed for the outcome of the course to be group projects working on mathlib contributions,
-    but would now say that re-framing the goal as formalising something new in a format that is useful to you as a learner
-    (e.g. as a worksheet/interactive part of a textbook) is a better goal pedagogically
-    (and could still lead to, e.g., a mathlib contribution in the process even if that isn't the explicit goal).
+    我们尝试避免在早期过多涉及类型论，以让人们快速、自信地与 Lean 交互。
+    现在回头看，更深入地涵盖这部分内容本会更好（尽管只在课程后期、在确立了与 Lean 交互的信心之后），
+    这有助于应对在形式化一段有趣的数学时不可避免会出现的问题。
+    此外，我们最初将课程成果设定为开展贡献 mathlib 的小组项目，
+    但现在会说，将目标重新定位为以一种对你作为学习者有用的格式（例如作为一份练习单/教科书的交互部分）
+    形式化某些新内容，在教学上是一个更好的目标
+    （并且在此过程中仍可能促成，例如，一项 mathlib 贡献，即便那并非明确目标）。
   tags: ['mathematics', 'advanced']
   lean_version: 3
   year: 2023
@@ -626,8 +623,8 @@
   tags: ['intro to proof', 'logic', 'computer science']
   lean_version: 3
   summary: >
-    This course introduces computer science students to propositional logic, predicate logic and modal logic.
-    The course uses two formal proof systems: natural deduction (exam) and Lean (homework assignments).
+    本课程向计算机科学专业的学生介绍命题逻辑、谓词逻辑与模态逻辑。
+    课程使用两套形式化证明系统：自然演绎（考试）与 Lean（家庭作业）。
   year: 2023
 - name: Formal Proof and Verification
   instructor: Robert Y. Lewis
@@ -638,15 +635,15 @@
   tags: ['logic', 'computer science', 'advanced']
   lean_version: 4
   summary: >
-    This is an upper level undergraduate/graduate course that teaches the theory and practice of proof assistants using Lean.
-    Topics covered include verification of functional programs, PL semantics, mathematical structures, metaprogramming,
-    and logical foundations. The course is based on Jasmin Blanchette's course Logical Verification and uses the
-    Hitchhiker's Guide to Logical Verification as a reference.
+    这是一门高年级本科生/研究生课程，使用 Lean 讲授证明助手的理论与实践。
+    所涵盖的主题包括函数式程序的验证、程序语言语义、数学结构、元编程，
+    以及逻辑基础。本课程基于 Jasmin Blanchette 的课程 Logical Verification，并以
+    《Hitchhiker's Guide to Logical Verification》作为参考。
   experiences: >
-    I have taught this course four times at Brown and it has proven to be quite popular, attracting a mixed audience
-    of people interested in math/logic, PL research, and functional programming. Final projects have included a verified
-    executable DPLL SAT solver; the mathlib tactic `linear_combination` and initial work toward `polyrith` explorations
-    of axiomatic ZFC, linear algebra, and other mathematical topics; formalization of domain theory; and more.
+    我在布朗大学讲授本课程四次，事实证明它相当受欢迎，吸引了
+    对数学/逻辑、程序语言研究和函数式编程感兴趣的混合受众。期末项目包括：一个经验证的
+    可执行 DPLL SAT 求解器；mathlib 策略 `linear_combination` 以及朝向 `polyrith` 的初步工作；对
+    公理化 ZFC、线性代数及其他数学主题的探索；定义域理论的形式化；等等。
   year: 2024
 - name: Discrete Structures and Probability
   instructor: Robert Y. Lewis
@@ -656,15 +653,15 @@
   lean_version: 4
   tags: ['intro to proof', 'computer science']
   summary: >
-    This is a large introductory course that is taken by most computer science students at Brown.
-    It teaches logic, combinatorics, number theory, and probability, focusing on concepts that are important in computer science.
-    In spring 2023 we introduced a Lean component to the course, to emphasize the concepts of proof and deduction.
-    The goal is not to achieve Lean proficiency, but rather to bolster students' understanding of the traditional material.
+    这是一门规模较大的入门课程，布朗大学大多数计算机科学专业的学生都会选修。
+    它讲授逻辑、组合学、数论和概率，聚焦于在计算机科学中重要的概念。
+    在 2023 年春季，我们为课程引入了一个 Lean 组成部分，以强调证明与演绎的概念。
+    其目标并非达到 Lean 的熟练程度，而是巩固学生对传统材料的理解。
   experiences: >
-    Given the size of the course and the momentum of the large TA staff, a full Lean integration is a multi-year effort.
-    Students' ability to translate between formal and informal statements was significantly improved over the year before.
-    I leaned heavily on the terminology "context," "hypothesis," and "goal" (inspired by the Lean infoview) and there
-    were clear signs that this structure was influencing students' approaches to informal proofs.
+    考虑到课程的规模以及庞大的助教团队的惯性，全面整合 Lean 是一项跨多年的工作。
+    学生在形式化与非形式化陈述之间转换的能力相比前一年有了显著提升。
+    我大量依赖了 "上下文"、"假设" 和 "目标" 这些术语（受 Lean infoview 启发），并且
+    有明确迹象表明这种结构正在影响学生处理非形式化证明的方式。
   year: 2024
 - name: Graduate Introduction to Logic
   instructor: Bjørn Kjos-Hanssen
@@ -674,15 +671,15 @@
   tags: ['logic', 'mathematics', 'advanced']
   lean_version: 3
   summary: >
-    A graduate course in mathematical logic taken mostly by MA and PhD students in mathematics and offered every other year (Fall 2016+2n, n=0,1,2,3,4).
-    Model theory, computability theory, set theory. In particular syntax and semantics of first order logic; incompleteness, completeness, and compactness theorems;
-    Loewenheim-Skolem theorems; computable and computably enumerable sets; axioms of set theory; ordinals and cardinals.
-    Since 2020 I include Lean exercises and projects, and some discussion of type theory.
-    For example, formalization of part of Gödel's theorems is included at https://github.com/bjoernkjoshanssen/math654/blob/main/g%C3%B6del-beta-homework.lean
+    一门数理逻辑的研究生课程，主要由数学专业的硕士和博士生选修，每隔一年开设一次（2016 年秋季 + 2n，n=0,1,2,3,4）。
+    模型论、可计算性理论、集合论。特别是一阶逻辑的语法与语义；不完备性、完备性和紧致性定理；
+    Löwenheim-Skolem 定理；可计算集与可计算可枚举集；集合论公理；序数与基数。
+    自 2020 年起，我加入了 Lean 习题与项目，以及一些关于类型论的讨论。
+    例如，哥德尔定理一部分的形式化包含在 https://github.com/bjoernkjoshanssen/math654/blob/main/g%C3%B6del-beta-homework.lean
   experiences: >
-    The students are willing and able to learn Lean. Including Lean showcases logic as a vibrant rather than dormant area of study.
-    As projects in 2022 students created formalizations of exercise solutions for my book "Automatic complexity",
-    some of which are included at https://github.com/bjoernkjoshanssen/diophantine-lemma
+    学生们愿意且有能力学习 Lean。引入 Lean 展示了逻辑作为一个充满活力而非停滞的研究领域。
+    作为 2022 年的项目，学生为我的书《Automatic complexity》创建了习题解答的形式化，
+    其中一些包含在 https://github.com/bjoernkjoshanssen/diophantine-lemma
 - name: Programování a dokazování v Leanu
   instructor: Martin Dvorak
   institution: online
@@ -691,14 +688,13 @@
   lean_version: 4
   tags: ['Czech', 'functional programming', 'intro to proof']
   summary: >
-    We are a [korespondenční seminář](https://cs.wikipedia.org/wiki/Koresponden%C4%8Dn%C3%AD_semin%C3%A1%C5%99) (lit. "correspondence seminar" in the sense of
-    a seminar arranged by exchanging letters and emails) called [M\&M](https://cs.wikipedia.org/wiki/M%26M_\(%C4%8Dasopis\)), which is something like
-    an online course for math-olympiad highschoolers, under the hood of the Faculty of Mathematics and Physics of Charles University in Prague.
-    Lean is one of our three topics for the school year 2023/2024. There will be five volumes with Lean assignments, six volumes in total.
-    Syllabus: (1) the very basics of functional programming; (2) lists; (3) elementary algebraic manipulations; (4) logic; (5) induction.
+    我们是一个名为 [M\&M](https://cs.wikipedia.org/wiki/M%26M_\(%C4%8Dasopis\)) 的 [korespondenční seminář](https://cs.wikipedia.org/wiki/Koresponden%C4%8Dn%C3%AD_semin%C3%A1%C5%99)（字面意思是「函授研讨班」，即通过交换信件和电子邮件来组织的研讨班），
+    它有点类似于面向数学奥林匹克高中生的线上课程，隶属于布拉格查理大学数学与物理学院。
+    Lean 是我们 2023/2024 学年三个主题之一。将有五卷包含 Lean 作业，总共六卷。
+    大纲：(1) 函数式编程的最基础知识；(2) 列表；(3) 初等代数运算；(4) 逻辑；(5) 归纳法。
   experiences: >
-    We have 41 active participants (counting students who solved at least three Lean exercises).
-    Grading solutions doesn't take much time. Creating materials does.
+    我们有 41 名活跃参与者（计入至少解出三道 Lean 习题的学生）。
+    批改解答花费不了多少时间，制作材料才花时间。
   year: 2024
 - name: Formal Proof
   instructor: Jim Fowler
@@ -708,14 +704,14 @@
   lean_version: 4
   tags: ['mathematics', 'advanced']
   summary: >
-    This course provides an introduction to formal proof in mathematics. It is designed for math
-    majors who seek a comprehensive understanding of how to use proof assistants and how to encode
-    a mathematical proof in such a way that one can formally verify its correctness.
+    本课程提供对数学中形式化证明的入门介绍。它专为
+    希望全面理解如何使用证明助手、以及如何以一种可对其正确性进行形式化验证的方式
+    编码数学证明的数学专业学生而设计。
   experiences: >
-    This 3-credit course ran for the first time in August 2023 and used Lean 4.
-    Lecture time was spent live-coding together.
-    The student population was upper-division math majors at Ohio State.
-    Assessment was build around weekly problem sets, a midterm project, and a final project.
+    这门 3 学分的课程于 2023 年 8 月首次开设，使用 Lean 4。
+    讲座时间用于一起现场编程。
+    学生群体是俄亥俄州立大学的高年级数学专业学生。
+    考核围绕每周的习题集、一个期中项目和一个期末项目展开。
   year: 2023
 - name: Topología general
   instructor: Miguel Marco
@@ -725,13 +721,13 @@
   lean_version: 3
   tags: ['Spanish', 'mathematics']
   summary: >
-    It is a standard course on general topology in the Mathematics degree. It is taught in spanish, so the material in the repo uses spanish too.
-    It is not a course about Lean: Lean is only used as a complement, to help students grab the steps of rigourous proofs. The usage of Lean is totally
-    optional for the students.
+    这是数学学位中一门标准的一般拓扑课程。它以西班牙语讲授，因此仓库中的材料也使用西班牙语。
+    这并不是一门关于 Lean 的课程：Lean 仅用作补充，以帮助学生把握严格证明的步骤。学生使用 Lean 完全是
+    自愿的。
   experiences: >
-    The course is still ongoing, so we still don't have evidence of success. We decided to use Lean3 instead of Lean4 because of the easyness to install
-    the `trylean` bundle, but will reconsider this decision next year. Students seem to be uninterested and/or scared at the beginning, but as i had shown
-    how to use it to prove some example exercises, some have shown more interest. We plan to do an introductory seminar for those that want to learn how to use it.
+    课程仍在进行中，因此我们尚无成功的证据。我们决定使用 Lean 3 而非 Lean 4，是因为安装
+    `trylean` 套件较为容易，但明年会重新考虑这一决定。学生在开始时似乎不感兴趣和/或感到害怕，但当我展示了
+    如何用它来证明一些示例习题之后，一些人表现出了更大的兴趣。我们计划为想要学习如何使用它的人开设一个入门研讨班。
   year: 2023
 - name: Formalized Mathematics in Lean
   instructor: Floris van Doorn
@@ -741,7 +737,7 @@
   year: 2023
   lean_version: 4
   summary: >
-    This course is for bachelor and master math students that want to learn formalization and Lean. In the first half of the course I will go through the book Mathematics in Lean, and in the second half each student will choose a formalization project to work on and give a presentation about the formalization.
+    本课程面向想要学习形式化与 Lean 的数学专业学士和硕士学生。在课程的前半部分，我将研读《Mathematics in Lean》一书，后半部分则由每位学生选择一个形式化项目开展工作，并就该形式化作一场报告。
 - name: Collaborative Formalization in Analysis
   instructor: Floris van Doorn
   institution: University of Bonn
@@ -750,7 +746,7 @@
   year: 2024
   lean_version: 4
   summary: >
-    This is a small seminar for master math students that took the previous Lean course and want to continue. It is a collaborative project where the students formalize some new results in analysis, this the aim to PR this to Mathlib, or make it somewhat Mathlib-ready. The topic is fourier analysis, in particular Plancherel's theorem, the interpolation theorems and their applications.
+    这是一个面向修过前述 Lean 课程并想要继续学习的数学硕士生的小型研讨课。它是一个协作项目，学生形式化分析中的一些新结果，目标是将其作为 PR 提交至 Mathlib，或使其在某种程度上达到可纳入 Mathlib 的状态。主题是傅里叶分析，特别是 Plancherel 定理、插值定理及其应用。
 - name: Formalized Mathematics in Lean
   instructor: Floris van Doorn
   institution: University of Bonn
@@ -759,7 +755,7 @@
   year: 2024
   lean_version: 4
   summary: >
-    Very similar to the course a year before, and in both cases roughly 20 students attended. Using the material from Mathematics in Lean, but mostly using my own exercises, hosted in the GitHub repository. Students will again choose a formalization project and give a presentation about the formalization.
+    与一年前的课程非常相似，两次都大约有 20 名学生参加。使用《Mathematics in Lean》的材料，但大多使用我自己的习题，托管于 GitHub 仓库中。学生将再次选择一个形式化项目，并就该形式化作一场报告。
 - name: Taller de Lean 4
   instructor: Enric Cosme Llópez
   institution: Universitat de València
@@ -768,12 +764,12 @@
   lean_version: 4
   tags: ['Catalan', 'mathematics']
   summary: >
-    This is an informal workshop designed for both teachers and students. Its purpose is to explore the fundamentals of Lean language,
-    with a specific focus on introducing the common structures found in an advanced course on set theory and formal logic.
+    这是一个面向教师和学生的非正式工作坊。其目的是探索 Lean 语言的基础，
+    特别侧重于介绍在集合论与形式逻辑高级课程中常见的常用结构。
   experiences: >
-    This is our third workshop at the Faculty of Mathematics. Unlike previous sessions using Lean 3, this is the first time we're using Lean 4.
-    The first semester focuses on laying down foundations, and the second semester involves formalizing results within a specific specialty.
-    Last year, we concentrated on basic topological results, and in the current course, our goal is to formalize fundamental results in category theory.
+    这是我们在数学学院举办的第三个工作坊。与之前使用 Lean 3 的几次不同，这是我们第一次使用 Lean 4。
+    第一学期侧重于打好基础，第二学期则涉及在某一具体专业方向内形式化结果。
+    去年，我们集中于基础的拓扑结果，而在本次课程中，我们的目标是形式化范畴论中的基础结果。
   year: 2023
 - name: Poden els ordinadors entendre les matemàtiques? De la geometria axiomàtica als theorem provers
   instructor: Marc Masdeu, Roberto Rubio
@@ -784,12 +780,13 @@
   year: 2023
   lean_version: 3
   summary: >
-    This was a week-long (20h) summer course introducing motivated high school students to formal mathematics. Half of the time was spent teaching on a blackboard Hilbert's axioms for plane geometry,
-    while the other half was spent on a computer lab playing through several levels of a Lean game whose ultimate goal was to proof the plane separation theorem. This was the first
-    experience for the students with both axiomatic mathematics and theorem provers. While the course was taught in Catalan, the game is written in English.
+    这是一个为期一周（20 小时）的暑期课程，向有志向的高中生介绍形式化数学。一半时间用于在黑板上讲授希尔伯特的平面几何公理，
+    另一半时间则在计算机实验室中通关一个 Lean 游戏的若干关卡，其最终目标是证明平面分离定理。这是
+    学生们第一次接触公理化数学与定理证明器。虽然课程以加泰罗尼亚语讲授，但游戏是用英语编写的。
   experiences: >
-    The students found the Lean part the most challenging part of the course. The students would happily seat through the traditional-style lecture, but struggled when they had to code in Lean the proofs that they had
-    previously discussed. This is in part because of Lean's unforgiveness, but we believe it is also due to the fact that they were unaware of some misunderstandings about the proofs, and Lean made those emerge.
+    学生们觉得 Lean 部分是课程中最具挑战性的部分。学生们很乐意听完传统风格的讲座，但当他们必须在 Lean 中编写
+    之前讨论过的证明时却感到吃力。这一方面是因为 Lean 的不留情面，但我们认为也是由于他们对证明存在一些未曾察觉的
+    误解，而 Lean 让这些误解浮现了出来。
 - name: Theorem Proving with Lean
   instructor: Damiano Testa
   institution: University of Warwick
@@ -799,7 +796,7 @@
   year: 2025
   lean_version: 4
   summary: >
-    This course is for master math students that want to learn formalization and Lean.  The students work in groups of 3-5 on a formalization project of their choice.  The lectures and support classes cover material that is relevant for the chosen projects.
+    本课程面向想要学习形式化与 Lean 的数学硕士生。学生以 3-5 人为一组，开展一个自选的形式化项目。讲座和辅导课涵盖与所选项目相关的材料。
 - name: Theorem Proving with Lean
   instructor: Damiano Testa
   institution: University of Warwick
@@ -809,7 +806,7 @@
   year: 2023
   lean_version: 4
   summary: >
-    This course is for master math students that want to learn formalization and Lean.  The students work in groups of 3-5 on a formalization project of their choice.  The lectures and support classes cover material that is relevant for the chosen projects.
+    本课程面向想要学习形式化与 Lean 的数学硕士生。学生以 3-5 人为一组，开展一个自选的形式化项目。讲座和辅导课涵盖与所选项目相关的材料。
 - name: Theorem Proving with Lean
   instructor: Damiano Testa
   institution: University of Warwick
@@ -819,7 +816,7 @@
   year: 2024
   lean_version: 4
   summary: >
-    This course is for master math students that want to learn formalization and Lean.  The students work in groups of 3-5 on a formalization project of their choice.  The lectures and support classes cover material that is relevant for the chosen projects.
+    本课程面向想要学习形式化与 Lean 的数学硕士生。学生以 3-5 人为一组，开展一个自选的形式化项目。讲座和辅导课涵盖与所选项目相关的材料。
 - name: Computergestützte Beweisführung
   instructor: Alexander Bentkamp, Jon Eugster
   institution: Heinrich-Heine-Universität Düsseldorf
@@ -830,9 +827,9 @@
   year: 2023
   lean_version: 4
   summary: >
-    This lecture on proof assistants brought together students of computer science, mathematics and computational linguistics. The course is about the calculus of inductive constructions with exercises both in Lean and on paper. In the end, we looked at examples of how proof assistants and type theory can be used in computer science, mathematics and computational linguistics. We used only term mode proofs (with the exception of rw/calc).
+    这门关于证明助手的讲座汇聚了计算机科学、数学和计算语言学专业的学生。本课程关于归纳构造演算，配有 Lean 中和纸上的习题。最后，我们考察了证明助手与类型论如何在计算机科学、数学和计算语言学中应用的示例。我们只使用项模式证明（rw/calc 除外）。
   experiences: >
-    I was surprised how far one can get with essentially term-mode-only proofs. Term mode makes it easier to devise a reasonable paper exam. Bringing the students from the three different subjects together was a challenge. We lost all pure computational linguists during the course of the semester. The students of mathematics seemed to enjoy the course, even though we had little mathematical content.
+    我惊讶于基本上仅用项模式证明能走多远。项模式使得设计一份合理的纸面考试更为容易。将来自三个不同专业的学生汇聚在一起是一项挑战。在整个学期中，我们流失了所有纯计算语言学的学生。数学专业的学生似乎很喜欢这门课，尽管我们涉及的数学内容很少。
 - name: Formalisms Every Computer Scientist Should Know
   instructor: Thomas Henzinger, Stefanie Muroya Lei, Martin Dvořák
   institution: Institute of Science and Technology, Austria
@@ -842,11 +839,11 @@
   year: 2024
   lean_version: 4
   summary: >
-    Advanced class for Ph.D. students in Computer science, most of them working in formal methods.  It consists mostly of pen-and-paper exercises; only four classes are done in Lean.
-    (1) Lean syntax, basic tactics, Cantor's theorem, Schröder-Bernstein theorem
-    (2) partially ordered sets, complete lattices, pre/pos/fixpoints, Knaster-Tarski theorem
-    (3) Kleene fixpoint theorem, induction and co-induction
-    (4) concatenating lists, reversing lists, sorting lists (formally verify mergesort)
+    面向计算机科学博士生的高级课程，其中大多数从事形式化方法的研究。课程主要由纸笔习题组成；只有四节课在 Lean 中进行。
+    (1) Lean 语法、基础策略、康托尔定理、Schröder-Bernstein 定理
+    (2) 偏序集、完备格、前不动点/后不动点/不动点、Knaster-Tarski 定理
+    (3) Kleene 不动点定理、归纳与余归纳
+    (4) 拼接列表、反转列表、排序列表（形式化验证归并排序）
 - name: Combinatoric Structures
   instructor: Assaf Kfoury
   institution: Boston University
@@ -855,14 +852,14 @@
   year: 2025
   lean_version: 4
   summary: >
-    This course will be taught in the Spring 2025 semester for the first time. It will cover topics in a standard discrete-math course at entry undergraduate level (freshman and sophomore in the US).
-    (The course name is therefore a bit of a misnomer, chosen in order to avoid a few turf issues at Boston University.)
-    The reference textbook is Heather Macbeth's "The Mechanics of Proof".
-    Most of the enrolled students are majoring in computer science, with the remaining few majoring in mathematics or computer engineering.
-    The course is intended to teach the rigor of mathematical proofs as well as various proof methods commonly encountered in the mathematical sciences.
-    Students are assigned weekly homework exercises which they have to solve in one of two ways, or in both ways:
-    (a) with Lean 4 and (b) in longhand "paper-and-pen" style.
-    Lean 4 will also be used as a functional programming language, in particular, in homework exercises involving the implementation of standard algorithms and some of their variations on finite graphs.
+    本课程将于 2025 年春季学期首次开设。它将涵盖入门本科层次（美国的大一和大二）一门标准离散数学课程中的主题。
+    （因此课程名称有些名不副实，之所以如此选择是为了避免波士顿大学的一些「地盘」问题。）
+    参考教科书是 Heather Macbeth 的《The Mechanics of Proof》。
+    大多数选课学生主修计算机科学，其余少数主修数学或计算机工程。
+    本课程旨在教授数学证明的严格性以及数学科学中常见的各种证明方法。
+    学生每周被布置家庭作业习题，他们必须以两种方式之一或同时以两种方式解答：
+    (a) 用 Lean 4 以及 (b) 以手写「纸笔」风格。
+    Lean 4 还将被用作一门函数式编程语言，特别是用于涉及标准算法及其在有限图上若干变体实现的家庭作业习题。
 - name: Formal Methods for High-Assurance Software Engineering
   instructor: Assaf Kfoury
   institution: Boston University
@@ -872,10 +869,10 @@
   year: 2025
   lean_version: 4
   summary: >
-    This course will be taught in the Fall 2025 semester, a slight modification of the same title taught in the Fall 2024 semester.
-    About half of the course will cover standard material of mathematical logic, with an emphasis on model theory, as taught in a first-year graduate course.
-    The course will be limited to graduate students in computer science and mathematics.
-    The material for the course will combine sections in the book "Theorem Proving in Lean 4" and the book "The Hitchhiker's Guide to Logical Verification", in addition to lecture notes by the instructor on model theory.
+    本课程将于 2025 年秋季学期开设，是对 2024 年秋季学期同名课程的略微修改。
+    课程约一半将涵盖数理逻辑的标准材料，侧重于模型论，如在一年级研究生课程中所讲授的那样。
+    本课程将仅限计算机科学与数学专业的研究生选修。
+    本课程的材料将结合《Theorem Proving in Lean 4》一书和《The Hitchhiker's Guide to Logical Verification》一书中的章节，外加讲师本人关于模型论的讲义。
 - name: Logique et démonstrations assistées par ordinateur
   instructor: Patrick Massot, Valérie de Clippel, Christine Paulin
   institution: Université Paris-Saclay
@@ -883,11 +880,11 @@
   tags: ['French', 'intro to proof', 'natural language input']
   lean_version: 4
   summary: >
-    The main mathematical topic of this course is elementary real analysis, especially the theory of convergent sequences and continuous functions.
-    Since 2021 I use a controlled natural language for input in order to facilitate transferring Lean proofs to pen and paper proofs: the Verbose Lean library that can be found on GitHub.
+    本课程的主要数学主题是初等实分析，尤其是收敛序列与连续函数的理论。
+    自 2021 年起，我在输入时使用一种受控自然语言，以便于将 Lean 证明转写为纸笔证明：即可在 GitHub 上找到的 Verbose Lean 库。
   experiences: >
-    This course really works well, and it will probably continue for a long time.
-    The idea to use controlled natural language tactics seems a lot more efficient than the native syntax to ensure students improve at pen and paper proofs.
+    本课程效果确实很好，并很可能会长期持续下去。
+    使用受控自然语言策略的想法，在确保学生提升纸笔证明能力方面，似乎比原生语法高效得多。
   year: 2025
 - name: Functional Programming and Theorem Proving in Lean 4
   instructor: Leni Aniva, Abdalrhman Mohamed
@@ -897,15 +894,15 @@
   year: 2025
   lean_version: 4
   summary: >
-    This course gives a systematic introduction to Lean 4, first as a functional
-    programming language, and then a theorem prover. We explain the type
-    theoretic foundations of Lean and show examples of theorem proving and
-    tactics. The last part of the course covers Lean's compiler and
-    metaprogramming system. The course is intended for both mathematicians and
-    computer scientists. The contents covered include: Type Polymorphism,
-    Monads, CIC, Subtyping, Tactics, Logic, Sets, Computability, Termination,
-    Metaprogramming, Macros, Elaboration, Type Unification, and relevant works
-    in other proof assistants.
+    本课程系统地介绍 Lean 4，首先将其作为一门函数式
+    编程语言，然后作为一个定理证明器。我们解释 Lean 的类型论
+    基础，并展示定理证明与
+    策略的示例。课程的最后一部分涵盖 Lean 的编译器和
+    元编程系统。本课程面向数学家和
+    计算机科学家。所涵盖的内容包括：类型多态、
+    Monad、CIC、子类型、策略、逻辑、集合、可计算性、停机性、
+    元编程、宏、繁释（elaboration）、类型合一，以及
+    其他证明助手中的相关工作。
 - name: Introduction to Cryptography
   instructor: Matthew Robert Ballard
   institution: University of South Carolina
@@ -914,18 +911,18 @@
   year: 2024
   lean_version: 4
   summary: >
-    Since the advent of human communication, people have wanted to communicate
-    privately. And others have wanted to listen in on those ostensibly private
-    communication. Our modern situation where a large portion of our interactions
-    occur online presents a special need for such security and an attractive
-    target.
+    自人类交流出现以来，人们就一直希望能够私密地
+    交流。而另一些人则一直想要窃听那些表面上私密的
+    交流。我们当今大量互动
+    在线进行的现状，为这种安全性带来了特殊的需求，也使其成为一个诱人的
+    攻击目标。
 
-    In this course, we cover the basics of cryptography starting from ciphers
-    used in ancient times up to modern encryption and signature protocols. We
-    focus on the mathematical foundations of both cryptography and cryptanalysis.
+    在本课程中，我们涵盖密码学的基础，从古代
+    使用的密码一直到现代的加密与签名协议。我们
+    聚焦于密码学与密码分析二者的数学基础。
 
-    We employ Lean as our implementation language for the course and get a small
-    glipmse of formal verification.
+    我们采用 Lean 作为本课程的实现语言，并对形式化验证
+    一窥端倪。
 - name: Proofs and Programs
   instructor: Siddhartha Gadgil
   institution: Indian Institute of Science, Bangalore
@@ -936,14 +933,14 @@
   year: 2025
   lean_version: 4
   summary: >
-    This was an introduction to proving, programming and proving correctness (and termination) of programs in Lean. 
-    The foundations of Lean were also discussed, as were more advanced topics like TypeClasses, Monads and Indexed Inductive Types.
-    Students were also introduced to basics of meta-programming.
+    这是一门关于在 Lean 中进行证明、编程以及证明程序正确性（与停机性）的入门课程。
+    课程还讨论了 Lean 的基础，以及诸如类型类、Monad 和带索引归纳类型等更进阶的主题。
+    学生还接触了元编程的基础知识。
   experiences: >
-    The course worked very well, though such a course requires students to be motivated and capable (which fortunately my students were). 
-    A little over half the course consisted of live coding to explain various aspects of proofs, programs, proofs of termination and correctness etc.
-    The last part was devoted to projects, with lectures a mixture of things students needed for their specific projects and 
-    advanced topics like metaprogramming.
+    本课程效果非常好，尽管这样一门课程要求学生有动力且有能力（所幸我的学生正是如此）。
+    课程中略多于一半的内容由现场编程组成，以讲解证明、程序、停机性与正确性证明等的各个方面。
+    最后一部分专注于项目，讲座混合了学生各自项目所需的内容，以及
+    诸如元编程等进阶主题。
 - name: Interactive Theorem Proving
   instructor: Roberto Zunino
   institution: University of Trento, Italy
@@ -953,9 +950,9 @@
   year: 2026
   lean_version: 4
   summary: >
-    This course aims to introduce students to Lean 4 and formalized mathematics.
-    Our main focus is on the foundations of Lean and its underlying type theory.
-    Students will practice with both terms and tactics to prove simple statements and solve basic tasks.
-    In the last part of the course, we will select a few topics from Mathlib and demonstrate how to work with them.
+    本课程旨在向学生介绍 Lean 4 与形式化数学。
+    我们主要聚焦于 Lean 的基础及其底层的类型论。
+    学生将同时练习使用项与策略，以证明简单的命题并解决基础任务。
+    在课程的最后一部分，我们将从 Mathlib 中选取若干主题，并演示如何使用它们。
   experiences: >
-    This course will be offered to students for the first time starting in February 2026.
+    本课程将于 2026 年 2 月起首次向学生开设。

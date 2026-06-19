@@ -1,60 +1,55 @@
-# Community guidelines
+# 社区准则
 
-We are devoted to developing an open and accepting community
-that welcomes participation from everyone.
-Behavior that is offensive, discriminatory, or aggressive
-will not be tolerated in any form.
-We adopt the [Contributor Covenant Code of Conduct](https://www.contributor-covenant.org/version/2/0/code_of_conduct/).
-These guidelines apply to the
-[Lean Zulip chat](https://leanprover.zulipchat.com/)
-and the [leanprover-community GitHub organization](https://github.com/leanprover-community/).
+我们致力于建设一个开放和包容的社区，
+欢迎每个人的参与。
+任何形式的冒犯性、歧视性或攻击性行为
+都不会被容忍。
+我们采用[贡献者公约行为准则](https://www.contributor-covenant.org/version/2/0/code_of_conduct/)。
+本准则适用于
+[Lean Zulip 聊天](https://leanprover.zulipchat.com/)
+以及 [leanprover-community GitHub 组织](https://github.com/leanprover-community/)。
 
-To clarify the above: actions that can result in suspension or banning from the Lean community Zulip include harassment, discriminatory or disrespectful behavior, sustained off-topic or disruptive posts, repeated low effort posts, use of the community to complete coursework or work tasks, use of sock-puppet accounts, DM spam, unsolicited mass DMs to users, significant use of AI without attribution, unrequested posting of "slop" AI-generated code, making unjustified and incorrect claims about AI-generated code, and ignoring moderator guidance.
+为澄清上述内容：可能导致被暂停或封禁于 Lean 社区 Zulip 的行为包括：骚扰、歧视性或不尊重的行为、持续的离题或扰乱性帖子、反复发布低质量帖子、利用社区完成课程作业或工作任务、使用马甲账号、私信刷屏、向用户发送未经请求的群发私信、大量使用 AI 而不加以注明、未经请求地发布 AI 生成的"垃圾"代码、就 AI 生成的代码做出毫无根据且不正确的声明，以及无视版主的指导。
 
-This is not a free code review service. Posts that amount to 'look at my project' without a specific question or prior community involvement will be removed and the poster suspended.
+这里不是免费的代码审查服务。那些仅相当于"看看我的项目"而没有具体问题或先前社区参与的帖子将被移除，发帖者将被暂停。
 
-Please do not use an LLM when writing comments on github or Zulip. Don't worry if English is not your native language: this is true for most users; as long as you can be understood, you will be fine. Building community involves human connection; using an LLM to write for you removes this human element. Messages and comments that appear LLM-generated will be deleted, and can lead to suspension.
+请勿在 GitHub 或 Zulip 上撰写评论时使用大语言模型（LLM）。如果英语不是你的母语，请不必担心：对大多数用户而言都是如此；只要你能够被理解，就没有问题。建立社区涉及人与人之间的联系；使用 LLM 替你撰写内容会抹去这种人性的成分。看起来由 LLM 生成的消息和评论将被删除，并可能导致暂停。
 
-This list is not exhaustive and the maintainers retain broad discretion in user moderation.
+此列表并非详尽无遗，维护者在用户管理方面保留广泛的裁量权。
 
-Repeated violations will result in temporary suspensions, which will increase in length if the behavior continues. Egregious individual incidents will result in bans.
+反复违规将导致临时暂停，若行为持续，暂停时长将随之增加。情节严重的个别事件将导致封禁。
 
-The [code of conduct team](/teams/coc.html) serves as first point of contact
-for reporting any concerns. You can write to members of this team directly or 
-use an [anonymous form](https://docs.google.com/forms/d/e/1FAIpQLSdEjlFqJQV65F-yzRHl-lyWAt7TSUW1axPiQK3RyV67iu1h6Q/viewform)
-to report incidents that violate the community guidelines.
-Specifically on Zulip, you can also report problematic messages to the whole
-moderation team (made of Mathlib and CSLib maintainers and some Lean FRO
-members), see the [relevant Zulip documentation](https://zulip.com/help/report-a-message).
-Only the moderators can see that you reported a message, and what you wrote in your report.
+[行为准则团队](/teams/coc.html)是报告任何疑虑的首要联系点。你可以直接致信该团队的成员，或使用[匿名表单](https://docs.google.com/forms/d/e/1FAIpQLSdEjlFqJQV65F-yzRHl-lyWAt7TSUW1axPiQK3RyV67iu1h6Q/viewform)来报告违反社区准则的事件。
+具体而言，在 Zulip 上，你还可以向整个版主团队（由 Mathlib 和 CSLib 维护者以及部分 Lean FRO 成员组成）报告有问题的消息，参见[相关的 Zulip 文档](https://zulip.com/help/report-a-message)。
+只有版主可以看到你报告了某条消息，以及你在报告中所写的内容。
 
-We encourage a policy of de-escalation in the presence of unwelcome behavior.
-If you perceive someone acting in a way that violates our code of conduct,
-please do not respond in the same way; instead, take action to correct the behavior,
-such as reporting it to the moderators.
+我们鼓励在出现不受欢迎的行为时采取降温（de-escalation）的策略。
+如果你察觉到有人的行为违反了我们的行为准则，
+请不要以同样的方式回应；而应采取行动来纠正该行为，
+例如向版主报告。
 
-# Purview of the Moderation and Code of Conduct teams
-This section serves to distinguish the purposes and roles of the Code of Conduct and Moderator teams. In addition, this will serve to clarify some of responsibilities of those roles, and as such, is a public-facing document.
+# 版主团队与行为准则团队的职权范围
+本节旨在区分行为准则团队与版主团队的目的与角色。此外，本节还将阐明这些角色的一些职责，因此是一份面向公众的文件。
 
-The [Lean Zulip](https://leanprover.zulipchat.com) has nearly 16,000 subscribed users (as of June 2026) which is up from around 6,000 in 2022. Such a large user base requires substantial moderation effort, and we have a [Code of Conduct](https://www.contributor-covenant.org/version/2/0/code_of_conduct/) expanded with a [few extra guidelines](https://leanprover-community.github.io/meet.html#community-guidelines). The moderation effort is split into two teams, of which the latter is a subset of the former: the [Moderators](https://leanprover-community.github.io/teams/moderation.html) and the [Code of Conduct team](https://leanprover-community.github.io/teams/coc.html).
+[Lean Zulip](https://leanprover.zulipchat.com) 拥有近 16,000 名订阅用户（截至 2026 年 6 月），而在 2022 年约为 6,000 名。如此庞大的用户群需要大量的管理工作，我们有一份[行为准则](https://www.contributor-covenant.org/version/2/0/code_of_conduct/)，并附有[若干额外准则](https://leanprover-community.github.io/meet.html#community-guidelines)加以扩充。管理工作分为两个团队，后者是前者的子集：[版主](https://leanprover-community.github.io/teams/moderation.html)团队和[行为准则团队](https://leanprover-community.github.io/teams/coc.html)。
 
-## The Moderation team
+## 版主团队
 
-The Moderation team handles comments and messages on GitHub (within the `leanprover-community` organisation) and [Zulip](https://leanprover.zulipchat.com/). On Zulip, this includes creating new private or public channels, organising existing channels and moving messages to their proper topic, or alerting users when a thread goes off topic or becomes otherwise unproductive. On both platforms, it entails engaging in conversations with users when they are upset by actions of others, or hiding or deleting comments violating the code of conduct. In general, the Moderation team strives to help users interact positively with the community and resolve disputes amicably wherever possible.
+版主团队处理 GitHub（在 `leanprover-community` 组织内）和 [Zulip](https://leanprover.zulipchat.com/) 上的评论和消息。在 Zulip 上，这包括创建新的私有或公共频道、整理现有频道并将消息移至其恰当的主题，或在某个话题离题或变得无成效时提醒用户。在这两个平台上，这都意味着当用户因他人的行为而感到不快时与他们进行交流，或隐藏、删除违反行为准则的评论。总体而言，版主团队致力于帮助用户与社区进行积极的互动，并尽可能友好地解决争端。
 
-Users on Zulip can be *suspended* (temporary deactivation) by Moderators; outright *bans* (permanent deactivation) are implemented for *sockpuppet accounts* (additional accounts opened for a single individual to hide their usage). Bans for other infractions are under the purview of the Code of Conduct team. Suspension length starts at 1 day for the first violation, which may be enacted without prior warning but come with a stated reason, and doubles for successive violations. When users access the "Report message" feature on Zulip, the report, which contains the name of the reporter, is sent to the Moderators by means of a private channel, at which point the moderators may take any of the actions previously described. For a sense of scale, such actions are taken on a near-daily basis.
+Zulip 上的用户可被版主*暂停*（临时停用）；彻底的*封禁*（永久停用）针对*马甲账号*（个人为隐藏其使用而开设的额外账号）实施。因其他违规行为而封禁则属于行为准则团队的职权范围。首次违规的暂停时长从 1 天起算，可在无事先警告的情况下实施，但会附带说明理由，并对后续违规逐次翻倍。当用户使用 Zulip 上的"报告消息"功能时，包含报告者姓名的报告会通过私有频道发送给版主，此时版主可采取前述任何行动。从规模上看，此类行动几乎每天都会发生。
 
-Because of the frequency of moderation actions, and the desire to avoid retribution directed against individual Moderators, there are a few tools available to the Moderation team to help perform some of these actions. When actions are taken by Moderators using these tools, they become public to the rest of the Moderators (because a bot posts in the private channel); and hence there is a degree of oversight of any particular moderator by the remainder of the group. Note that all these tools are triggered manually by Moderators; there is always a human in the loop. Moderation focuses primarily on *clear* violations of the code of conduct and Zulip guidelines, and in conflicts between individuals when all of the parties can be assumed to act in good faith.
+由于管理行动的频繁性，以及为避免针对个别版主的报复，版主团队可使用若干工具来帮助执行其中的某些行动。当版主使用这些工具采取行动时，这些行动会对其余版主公开（因为有一个机器人在私有频道中发布消息）；因此，任何特定版主都会在一定程度上受到团队其余成员的监督。请注意，所有这些工具都由版主手动触发；过程中始终有人参与。管理工作主要聚焦于对行为准则和 Zulip 准则的*明显*违反，以及在可以假定各方均出于善意的个人之间的冲突。
 
-## The Code of Conduct team
+## 行为准则团队
 
-The Code of Conduct team serves a related, but slightly different purpose. While the Moderation team is large and handles the vast majority of moderation on Zulip, it is only intended for violations which are clear, or mostly clear after minor discussion amongst the remainder of the Moderation team. In contrast, the CoC team is intended to deal with situations displaying the following features:
+行为准则团队承担着相关但略有不同的职能。版主团队规模庞大，处理 Zulip 上绝大多数的管理工作，但它仅针对那些明显的违规，或经版主团队其余成员稍加讨论后大体明确的违规。相比之下，行为准则团队旨在处理具有以下特征的情形：
 
-1. Conflict between individuals which is unresolved by standard moderation.
-2. Persistent disruptive behavior whose level falls below that of an unambiguous violation of the Code of Conduct.
-3. Any behavior reported using the [anonymous reporting form](https://docs.google.com/forms/d/e/1FAIpQLSdEjlFqJQV65F-yzRHl-lyWAt7TSUW1axPiQK3RyV67iu1h6Q/viewform).
-4. Egregious conduct worthy of a permanent ban, not only a suspension.
+1. 标准管理无法解决的个人之间的冲突。
+2. 持续的扰乱性行为，其程度未达到对行为准则的明确违反。
+3. 任何通过[匿名报告表单](https://docs.google.com/forms/d/e/1FAIpQLSdEjlFqJQV65F-yzRHl-lyWAt7TSUW1axPiQK3RyV67iu1h6Q/viewform)报告的行为。
+4. 值得永久封禁而不仅仅是暂停的恶劣行为。
 
-In short, problems handled by the Code of Conduct team constitute those which are more serious, or more persistent, or more nuanced, or require greater privacy, than those addressed by standard moderation. The Code of Conduct team, while serving as the initial point of contact for these more complicated situations and conducting discussions amongst themselves, may reach out to the wider Moderation team for input and guidance while ensuring anonymity of the original complainant. Because of the more serious and / or persistent nature of the complaints, the Code of Conduct team may also institute permanent bans, or suspensions which exceed the default doubling schedule. Bans or extra suspensions will not be implemented prior to written warning by the Code of Conduct team. As with the Moderators, the Code of Conduct team strives to help users interact positively with the community, and resolve disputes amicably wherever possible.
+简而言之，行为准则团队处理的问题是那些比标准管理所应对的更严重、更持久、更微妙，或需要更高隐私保护的问题。行为准则团队在作为这些更复杂情形的首要联系点并在其内部展开讨论的同时，可在确保原始投诉人匿名的前提下，向更广泛的版主团队征求意见和指导。由于投诉具有更严重和／或更持久的性质，行为准则团队也可实施永久封禁，或超出默认翻倍周期的暂停。在行为准则团队发出书面警告之前，不会实施封禁或额外的暂停。与版主一样，行为准则团队致力于帮助用户与社区进行积极的互动，并尽可能友好地解决争端。
 
-The Code of Conduct team will share a limited report semi-annually with the public detailing the number of complaints received, the dates of receipt, action and resolution, as well the final outcome. Detailed reasons for actions and final outcomes will be shared with relevant parties, but are not included in the semi-annual report to protect privacy.
+行为准则团队将每半年向公众分享一份有限的报告，详细说明收到的投诉数量、收到、处理和解决的日期，以及最终结果。采取行动和最终结果的详细理由将与相关方分享，但为保护隐私，不会纳入半年度报告。

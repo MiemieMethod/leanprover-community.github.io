@@ -1,78 +1,56 @@
-# Contributing to mathlib
+# 为 mathlib 做贡献
 
-We're glad you are interested in contributing to mathlib. This project can use lots of help. On the other hand, it is also quite large: to usefully contribute, you need to follow a few principles.
+我们很高兴你有兴趣为 mathlib 做贡献。这个项目需要大量的帮助。另一方面，它也相当庞大：要做出有用的贡献，你需要遵循若干原则。
 
-This page explains what and why to contribute to mathlib, covering:
-* what kind of contributions are welcome
-* style-only contributions in particular
-* responsible usage of AI: only certain AI contributions are accepted to mathlib
+本页解释为 mathlib 贡献什么以及为什么贡献，涵盖：
+* 哪些类型的贡献是受欢迎的
+* 特别是仅涉及风格的贡献
+* 负责任地使用 AI：只有特定类型的 AI 贡献才会被 mathlib 接受
 
 
-## What to contribute to mathlib
+## 为 mathlib 贡献什么
 
-Small fixes (for example fixes in docstrings) and single-lemma additions in already-existing theories
-are almost always welcome as contributions to mathlib. Longer PRs which extend existing theories are also almost
-always welcome. 
+小的修复（例如对文档字符串的修复）以及在已有理论中添加单个引理，作为对 mathlib 的贡献几乎总是受欢迎的。扩展已有理论的较长 PR 也几乎总是受欢迎的。
 
-But what about adding completely new theories to `mathlib`? Here, things can be more nuanced. The first question 
-you will need to consider is whether the material you want to contribute is a good fit for `mathlib`. 
-Whilst there is currently no formal description of exactly what mathlib's remit is, here are some questions which you 
-can ask about your proposed contribution.
+但是，向 `mathlib` 添加全新的理论又如何呢？在这里，情况会更加微妙。你需要考虑的第一个问题是，你想要贡献的内容是否适合 `mathlib`。
+虽然目前对于 mathlib 的职责范围究竟为何还没有正式的描述，但以下是一些你可以就所提议的贡献加以思考的问题。
 
-* Is the material typically taught or studied in a mathematics department? Would it naturally be part 
-of an undergradute or graduate mathematics course, or research level mathematics study group? If not, then the material 
-may not be in scope for `mathlib`.
+* 这些内容通常会在数学系教授或研习吗？它会自然地成为本科或研究生数学课程的一部分，或研究层次数学研讨小组的一部分吗？如果不是，那么这些内容可能不在 `mathlib` 的范围之内。
 
-* Is the topic of the material contained within the 
-[mathematical interests of the `mathlib` maintainers](https://github.com/leanprover-community/mathlib4?tab=readme-ov-file#maintainers)? 
-If not, then the maintainers might find your code hard to maintain as lean and `mathlib` evolve over time, 
-which again may make it not a good fit for `mathlib`.
+* 这些内容的主题是否处于 [`mathlib` 维护者的数学兴趣](https://github.com/leanprover-community/mathlib4?tab=readme-ov-file#maintainers) 之内？
+如果不是，那么随着 lean 和 `mathlib` 随时间演进，维护者可能会发现你的代码难以维护，这同样可能使其不适合 `mathlib`。
 
-In particular the remit of mathlib should *not* be thought of as "all of mathematics and related areas". 
-As the number of open PRs increases, the maintainers will sometimes need to make some hard decisions.
+特别地，mathlib 的职责范围 *不* 应被理解为「全部数学及相关领域」。
+随着未关闭 PR 数量的增加，维护者有时需要做出一些艰难的决定。
 
-If you are not sure about whether your proposed topic is a good fit for mathlib, then please feel
-free to open a discussion in the [`#mathlib` channel](https://leanprover.zulipchat.com/#narrow/channel/287929-mathlib4/) on the Lean Zulip.
+如果你不确定你所提议的主题是否适合 mathlib，那么请随时在 Lean Zulip 的 [`#mathlib` 频道](https://leanprover.zulipchat.com/#narrow/channel/287929-mathlib4/) 开启一场讨论。
 
-An issue related to the fact that the expertise of the maintainers may not cover all of mathematics: 
-you may want to think about *who* is going to review your potential PR. Contributors are encouraged 
-to seek out reviewers for their PRs. A PR reviewer does *not* have to be a maintainer! This seems
-to be a common misconception by the community. Reviews of PRs, especially from new reviewers, 
-are essentially always welcome. 
+与维护者的专业知识可能无法覆盖全部数学这一事实相关的一个问题是：你或许需要思考 *谁* 将会评审你潜在的 PR。我们鼓励贡献者为自己的 PR 寻找评审者。PR 评审者 *不* 必是维护者！这似乎是社区中一个常见的误解。对 PR 的评审，尤其是来自新评审者的评审，本质上总是受欢迎的。
 
-Please also consider the possibility of creating a standalone repository, and adding `mathlib` as a dependency. 
-There are many Lean repositories on github, indexed by [reservoir](https://reservoir.lean-lang.org). 
-And [here](https://reservoir.lean-lang.org/@leanprover-community/mathlib/dependents) are those projects
-which have `mathlib` has a dependency. The solution of having a new project which depends on
-`mathlib` is a particularly good fit for projects in areas which do not align with the 
-expertise of the mathlib maintainers. One example of such a repository is the [combinatorial game
-theory repository](https://github.com/vihdzp/combinatorial-games). This solution is also a good fit
-for projects which would like to move quickly; at the time of writing (mid 2026), mathlib has over 2600 open PRs
-and it may take time for mathlib contributions to be reviewed and merged.
+也请考虑创建一个独立仓库、并将 `mathlib` 作为依赖项的可能性。
+github 上有许多 Lean 仓库，由 [reservoir](https://reservoir.lean-lang.org) 编入索引。
+而 [这里](https://reservoir.lean-lang.org/@leanprover-community/mathlib/dependents) 列出了那些以 `mathlib` 作为依赖项的项目。建立一个依赖于 `mathlib` 的新项目这一方案，特别适合那些与 mathlib 维护者专业知识不相吻合的领域中的项目。这样一个仓库的例子是 [组合博弈论仓库](https://github.com/vihdzp/combinatorial-games)。这一方案也适合那些希望快速推进的项目；在撰写本文时（2026 年中），mathlib 有超过 2600 个未关闭的 PR，对 mathlib 贡献的评审和合并可能需要一段时间。
 
-### Style changes
+### 风格更改
 
-`mathlib` has a [style guide](style.html) and PRs fixing
-style violations documented in this guide are welcome. Other stylistic PRs that don't have explicit
-approval by the authors of the affected files may be closed. We invite authors to instead discuss the proposed
-change on Zulip and, when significant consensus among reviewers is reached, to open a PR to the style guide.
+`mathlib` 有一份 [风格指南](style.html)，修复该指南所记录的风格违例的 PR 是受欢迎的。其他未经受影响文件作者明确批准的风格类 PR 可能会被关闭。我们邀请作者改为在 Zulip 上讨论所提议的更改，并在评审者之间达成显著共识后，向风格指南提交 PR。
 
-## Use of AI
+## AI 的使用
 
-Using artificial intelligence tools to generate code is becoming more and more common. While this can be practical, their use also poses ethical, ecological, legal and social concerns. We recognise that there are strong differences in opinion on this topic. That said, while individual action alone will not address these concerns, we ask you to consider the effects of your AI use. When reviewing PRs, we are particularly concerned that the pedagogical value of the reviewers work is wasted if there is not a human contributor actively learning.
+使用人工智能工具来生成代码正变得越来越普遍。尽管这可能很实用，但它们的使用也带来了伦理、生态、法律和社会方面的关切。我们认识到，在这一话题上存在着强烈的意见分歧。话虽如此，虽然单凭个人行动无法解决这些关切，但我们请你考虑你使用 AI 所带来的影响。在评审 PR 时，我们尤为担忧的是：如果没有一位人类贡献者在积极学习，那么评审者工作的教学价值就被白白浪费了。
 
-Using an LLM when writing comments on GitHub or Zulip is not allowed: use your own words.
+在 GitHub 或 Zulip 上撰写评论时不允许使用 LLM：请使用你自己的语言。
 
-Mathlib intentionally has very high standards (on generality, integration with the remaining library and maintainability, including code style). As of mid-2026, code written by an AI without the supervision of a Lean subject expert fails to meet that bar by a large margin. Members of the review team will summarily close without comment any low quality PR produced using LLMs, especially if the author has made little effort to directly engage in the community in a discussion about its merits before opening the PR.
-If we notice that you open several PRs without putting in this learning effort or without adhering to our community ethical standards, we will suspend (or permanently ban) you both from opening new PRs and from the Zulip chat.
+Mathlib 有意保持非常高的标准（在普遍性、与库其余部分的整合以及可维护性方面，包括代码风格）。截至 2026 年中，在没有 Lean 领域专家监督下由 AI 编写的代码，远远未能达到这一标准。评审团队的成员将不加评论地径直关闭任何使用 LLM 生成的低质量 PR，尤其当作者在提交 PR 之前几乎没有付出努力直接参与社区中关于其价值的讨论时。
+如果我们注意到你提交了多个 PR 却未付出这种学习努力，或未遵守我们社区的伦理标准，我们将暂停（或永久封禁）你提交新 PR 以及使用 Zulip 聊天的权限。
 
-Getting code to mathlib's standards requires understanding and writing Lean code by hand. If you just want to help and not put in the learning effort, making a PR to mathlib is counterproductive: the effort required from the mathlib maintainers is larger than the benefit, because the time used to improve the quality of the code will not result in a better quality in future PRs.
+让代码达到 mathlib 的标准，需要亲手理解和编写 Lean 代码。如果你只是想帮忙而不愿付出学习的努力，那么向 mathlib 提交 PR 是适得其反的：mathlib 维护者所需付出的努力大于所得的收益，因为用于提升代码质量的时间并不会在未来的 PR 中带来更高的质量。
 
-If you use artificial intelligence (such as, by using GitHub's copilot mode, asking an LLM like [ChatGPT](https://chatgpt.com/) or using an agent like [Codex](https://openai.com/codex/), [Claude](https://claude.ai/), [Gemini](https://gemini.google.com/app), or even Lean-dedicated agents like [Aristotle](https://aristotle.harmonic.fun/)), you must explain this in the PR description. Explain which tool(s) you used and how you used it.
-This provides useful context for reviewers: tools make different mistakes than humans, so knowing this makes it easier to spot common errors. If your PR contains a substantial amount of LLM-generated code, add the `LLM-generated` label by adding the comment `LLM-generated`.
+如果你使用了人工智能（例如，使用 GitHub 的 copilot 模式、向 [ChatGPT](https://chatgpt.com/) 这样的 LLM 提问，或使用 [Codex](https://openai.com/codex/)、[Claude](https://claude.ai/)、[Gemini](https://gemini.google.com/app) 这样的智能体，乃至 [Aristotle](https://aristotle.harmonic.fun/) 这样专门面向 Lean 的智能体），你必须在 PR 描述中说明这一点。请说明你使用了哪些工具以及你是如何使用的。
+这为评审者提供了有用的背景信息：工具所犯的错误与人类不同，因此了解这一点能更容易地发现常见错误。如果你的 PR 包含大量由 LLM 生成的代码，请通过添加 `LLM-generated` 评论来添加 `LLM-generated` 标签。
 
-It is essential that you understand all the content written by an AI. This includes understanding any design decisions made for the formalization and being able to justify each decision to reviewers without the use of an AI. If you don't, it is likely that the PR actually has negative value to the community.
+你务必理解 AI 所写的全部内容。这包括理解为形式化所做的任何设计决策，并能够在不借助 AI 的情况下向评审者论证每一项决策的合理性。如果你做不到这一点，那么这个 PR 很可能实际上对社区具有负价值。
 
-## How to contribute
+## 如何贡献
 
-If you have read and understood the contribution guidelines above, you are ready to [learn how to contribute](/contribute/how-to-contribute.html).
+如果你已经阅读并理解了上述贡献准则，那么你就可以 [学习如何贡献](/contribute/how-to-contribute.html) 了。

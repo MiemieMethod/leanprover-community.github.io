@@ -1,17 +1,17 @@
 {% extends '_base.html' %}
-{% block title %}Lean projects{% endblock %}
+{% block title %}Lean 项目{% endblock %}
 
 {% block content %}
 
-    <h1>Lean projects</h1>
+    <h1>Lean 项目</h1>
 
     <p>
-      <a href="https://reservoir.lean-lang.org/">Reservoir</a> is an up-to-date and thorough index of all public open-source Lean projects.
+      <a href="https://reservoir.lean-lang.org/">Reservoir</a> 是一个及时更新且内容详尽的索引，收录了所有公开的开源 Lean 项目。
     </p>
 
     <p>
-      On this page we list a representative sample of projects that depend on Mathlib.
-      To add a project to this list, you can add it to <a href="https://github.com/leanprover-community/mathlib4/blob/master/scripts/downstream_repos.yml">downstream-repos.yml</a> in Mathlib.
+      在本页面上，我们列出了一些依赖于 Mathlib 的代表性项目样本。
+      若要将某个项目加入此列表，你可以在 Mathlib 中将其添加到 <a href="https://github.com/leanprover-community/mathlib4/blob/master/scripts/downstream_repos.yml">downstream-repos.yml</a>。
     </p>
 
   <div class="row row-cols-1 row-cols-md-2">
@@ -21,7 +21,7 @@
         <div class="card-body">
           <h5 class="card-title">{{ project.name }}</h5>
         {% if project.maintainers %}
-          <h6 class="card-subtitle mb-2 text-muted">maintained by
+          <h6 class="card-subtitle mb-2 text-muted">维护者
             {% for maintainer in project.maintainers %}
               <a href="https://github.com/{{ maintainer }}">@{{ maintainer }}</a>
             {% endfor %}
@@ -30,17 +30,17 @@
         <p class="card-text">{{ project.description }}</p>
         </div>
             <div class="card-footer text-right bg-white">
-              <small><a href="{{ project.url }}" class="card-link">View on GitHub</a> (★ {{ project.stars }})</small>
+              <small><a href="{{ project.url }}" class="card-link">在 GitHub 上查看</a> (★ {{ project.stars }})</small>
             </div>
       </div>
       </div>
     {% endfor %}
     </div>
 
-    <h1>Lean 3 projects</h1>
+    <h1>Lean 3 项目</h1>
 
     <p>
-      The projects listed below were made for the outdated Lean 3, and today are of historical interest only.
+      下列项目是为已过时的 Lean 3 所开发的，如今仅具有历史意义。
     </p>
 
   <div class="row row-cols-1 row-cols-md-2">
@@ -49,7 +49,7 @@
       <div class="card h-100" >
         <div class="card-body">
           <h5 class="card-title">{{ project.name }}</h5>
-        <h6 class="card-subtitle mb-2 text-muted">maintained by
+        <h6 class="card-subtitle mb-2 text-muted">维护者
           {% for maintainer in project.maintainers %}
             <a href="https://github.com/{{ maintainer }}">@{{ maintainer }}</a>
           {% endfor %}
@@ -57,7 +57,7 @@
         <p class="card-text">{{ project.description }}</p>
         </div>
             <div class="card-footer text-right bg-white">
-              <small><a href="{{ project.url }}" class="card-link">View on GitHub</a> (★ {{ project.stars }})</small>
+              <small><a href="{{ project.url }}" class="card-link">在 GitHub 上查看</a> (★ {{ project.stars }})</small>
             </div>
       </div>
       </div>

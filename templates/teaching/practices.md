@@ -1,122 +1,120 @@
-# Tips and suggestions for teaching with Lean 
+# 使用 Lean 进行教学的技巧与建议
 
-In order to help people interested in teaching with Lean,
-we've collected some strategies and approaches here 
-that have worked well for people in the community. 
-Depending on the context of your course, these approaches may or may not make sense.
+为了帮助有意使用 Lean 进行教学的人，
+我们在此收集了一些在社区中行之有效的策略和方法。
+根据你课程的具体情况，这些方法可能适用，也可能并不适用。
 
-## Planning your course
+## 规划你的课程
 
-If you are thinking about introducing Lean into a course,
-or designing a course around Lean,
-there are some important questions you should ask yourself.
-Your answers to these questions can help find comparable courses that people have already taught,
-and can help you choose materials to use.
+如果你正在考虑将 Lean 引入某门课程，
+或者围绕 Lean 设计一门课程，
+那么你应该问自己一些重要的问题。
+你对这些问题的回答有助于找到他人已经讲授过的类似课程，
+也有助于你选择所使用的教学材料。
 
-* Do you want to teach Lean, or do you want to teach *using* Lean?
-  In other words, what are the learning objectives of your course?
-  Some courses try to teach math or CS topics with Lean as an "implementation language,"
-  without expecting that students develop strong Lean skills.
-  Others explicitly teach verification and formal proof.
+* 你是想教授 Lean，还是想*使用* Lean 进行教学？
+  换句话说，你这门课程的学习目标是什么？
+  有些课程尝试以 Lean 作为一种"实现语言"来讲授数学或计算机科学主题，
+  并不期望学生掌握扎实的 Lean 技能。
+  另一些课程则明确讲授验证与形式化证明。
 
-* How much Lean will your course actually use? 
-  Especially in courses that try to teach *using* Lean, the amount of formalization
-  can be minimal, e.g. optional exercises for extra credit or only instructor-produced demos.
+* 你的课程实际会用到多少 Lean？
+  尤其是在尝试*使用* Lean 进行教学的课程中，形式化的工作量
+  可以非常之少，例如仅作为加分的可选练习，或仅由教师制作演示。
 
-* What technological prerequisites will you assume from your students?
-  Should they have a GitHub account and understand `git`? 
-  Have they programmed in a functional language, or in any language?
-  Can they be expected to install Lean locally on their own computer?
+* 你会假定学生具备哪些技术先备知识？
+  他们应当拥有 GitHub 账号并理解 `git` 吗？
+  他们是否用函数式语言编过程，或用任何语言编过程？
+  能否期望他们在自己的电脑上本地安装 Lean？
 
-* Some courses start with an introduction to the type theory of Lean,
-  perhaps contrasting it with the set theory that mathematicians are used to.
-  Other courses assume that students will pick up the analogy on their own -- 
-  if they're familiar with set theory at all -- 
-  and don't focus on the differences.
-  Both approaches are reasonable, but it's a good idea to pick one early,
-  and stick to it in your teaching materials.
+* 有些课程以介绍 Lean 的类型论作为开端，
+  或许会将其与数学家所熟悉的集合论加以对比。
+  另一些课程则假定学生会自行领会其中的类比——
+  如果他们对集合论有所了解的话——
+  而不着重于二者的差异。
+  两种做法都合理，但最好尽早择其一，
+  并在你的教学材料中始终如一地坚持下去。
 
-* The syntax of Lean, and variety of options, can be overwhelming to students.
-  It's important to choose a "dialect" for your course, that may grow as the course progresses.
-  Limiting which tactics you introduce, avoiding library lemmas, 
-  and teaching tactic or term mode (but not both) 
-  are all ways in which people restrict the amount of language detail that students need to absorb at once.
+* Lean 的语法以及种类繁多的选项，可能会让学生不知所措。
+  为你的课程选择一种"方言"是很重要的，它可以随着课程的推进而扩展。
+  限制你所引入的策略、避免使用库中的引理，
+  以及只教策略模式或项模式（而非两者兼授），
+  都是人们用来限制学生一次需要吸收的语言细节量的方法。
 
 
-## Organizing course projects
+## 组织课程项目
 
-It is common to use a "course project" to distribute lecture notes, examples, assignments, etc. 
-while ensuring that students all remain on a fixed version of Lean and mathlib.
-Here are examples from [a course at Fordham](https://github.com/hrmacbeth/math2001/)
-and [a course at Brown](https://github.com/BrownCS1951x/fpv2023).
-The former includes detailed notes that get compiled to HTML; 
-the latter relies on an external textbook reference.
+人们常常使用一个"课程项目"来分发讲义、示例、作业等，
+同时确保学生都使用固定版本的 Lean 和 mathlib。
+这里有来自 [Fordham 的一门课程](https://github.com/hrmacbeth/math2001/)
+和 [Brown 的一门课程](https://github.com/BrownCS1951x/fpv2023) 的示例。
+前者包含可编译为 HTML 的详细讲义；
+后者则依赖于一本外部教科书作为参考。
 
-Without some kind of structure like this -- for example, if students receive bare .lean files -- 
-it is hard to ensure that they all use the same version of Lean.
-It is also a good way to provide a "library" file or files 
-containing basic definitions, tactics, and such that are useful for your course.
+如果没有某种类似的结构——例如，如果学生收到的是裸露的 .lean 文件——
+就很难确保他们都使用同一版本的 Lean。
+这也是提供一个或多个"库"文件的好办法，
+其中包含对你的课程有用的基本定义、策略等内容。
 
-These projects are often hosted on GitHub. 
-Students are asked to clone the project, or create a Codespace or Gitpod instance, 
-at the start of the course.
-They are instructed to pull updates periodically, for instance, when new homeworks are released.
-If students are not expected to be proficient with `git`, you can provide 
-[helper scripts](https://github.com/brown-cs22/CS22-Lean-2023/tree/main/scripts)
-that attempt to do this management automatically.
+这些项目通常托管在 GitHub 上。
+在课程开始时，学生需要克隆该项目，或创建一个 Codespace 或 Gitpod 实例。
+他们会被告知定期拉取更新，例如在新作业发布时。
+如果不要求学生熟练使用 `git`，你可以提供
+[辅助脚本](https://github.com/brown-cs22/CS22-Lean-2023/tree/main/scripts)
+来尝试自动完成这些管理工作。
 
-Some instructors recommend that students copy homework files before beginning an assignment,
-working on the copied version, 
-to avoid merge conflicts if the assignment should change.
+有些教师建议学生在开始作业之前先复制作业文件，
+在副本上进行作答，
+以避免在作业内容发生变更时出现合并冲突。
 
-Other instructors have used GitHub Classrooms for assignment releases.
-In this setup, each assignment must be its own standalone Lean project.
+另一些教师则使用 GitHub Classrooms 来发布作业。
+在这种设置下，每份作业都必须是其自身独立的 Lean 项目。
 
-## Lean-in-the-cloud setups 
+## 云端 Lean 配置
 
-Our [resources page](resources.html#lean-in-the-cloud-setups) has pointers to setting up GitHub Codespaces and Gitpod
-for use with a course project.
-Especially for large courses aimed at students who might struggle to install Lean locally,
-the use of cloud resources to run Lean can greatly simplify the beginning of a course.
+我们的[资源页面](resources.html#lean-in-the-cloud-setups)提供了为课程项目
+配置 GitHub Codespaces 和 Gitpod 的指引。
+尤其是对于面向可能难以在本地安装 Lean 的学生的大型课程，
+使用云端资源来运行 Lean 可以极大地简化课程的起步阶段。
 
-In both approaches, students will be able to use VSCode in a browser
-to edit Lean files with a Lean server running remotely.
-With Codespaces, a convenient [VSCode plugin](https://marketplace.visualstudio.com/items?itemName=GitHub.codespaces)
-makes it possible to work from a local VSCode installation too.
-The obvious upsides are that there is a uniform environment for all students,
-without installation headaches,
-and that no student is using an underpowered machine.
-Downsides include that student files are saved on the cloud, and students might struggle to 
-download and submit them; 
-these cloud services limit the number of free hours per student per month;
-and internet access is required to work on the course.
+在这两种方法中，学生都能够在浏览器中使用 VSCode
+来编辑 Lean 文件，而 Lean 服务器在远程运行。
+对于 Codespaces，一个便捷的 [VSCode 插件](https://marketplace.visualstudio.com/items?itemName=GitHub.codespaces)
+使得从本地 VSCode 安装环境进行工作也成为可能。
+显而易见的好处在于，所有学生都拥有统一的环境，
+而无需为安装而烦恼，
+并且没有学生会使用性能不足的机器。
+缺点则包括：学生的文件保存在云端，学生可能难以
+下载并提交它们；
+这些云服务限制了每位学生每月可使用的免费时长；
+而且进行课程作业需要联网。
 
-Some instructors have successfully run large courses using these resources,
-and many offer them as an option to students.
-For GitHub Codespaces, it is important to remind students to sign up for 
-GitHub's [student benefits](https://education.github.com/pack) 
-to take advantage of extra Codespaces hours.
+有些教师已经成功地利用这些资源开设了大型课程，
+还有许多教师将其作为一种选项提供给学生。
+对于 GitHub Codespaces，重要的是提醒学生注册
+GitHub 的[学生福利](https://education.github.com/pack)，
+以利用额外的 Codespaces 时长。
 
-To save students time when creating new codespaces, GitHub has a "prebuild" option.
-In your course repository, go to Settings -> Codespaces. 
-You likely want to prebuild on every push and store 1 version.
-There is a nominal cost to storing these images: 
-currently (Jan. 2025) the image for a course with a full mathlib build will cost about US $0.40 per month. 
+为了在创建新的 codespace 时为学生节省时间，GitHub 提供了"预构建"（prebuild）选项。
+在你的课程仓库中，进入 Settings -> Codespaces。
+你很可能希望在每次推送时进行预构建并存储 1 个版本。
+存储这些镜像会产生少量费用：
+目前（2025 年 1 月），一门包含完整 mathlib 构建的课程，其镜像每月费用约为 0.40 美元。
 
-## Renaming and redefining tactics 
+## 重命名与重新定义策略
 
-The Lean/mathlib names for tactics may not match how you present these topics in class.
-In Lean 4 it is easy to create [aliases for certain tactic calls](https://github.com/brown-cs22/CS22-Lean-2023/blob/0a0a8e168559462a39e33a7b2940b11bd5a59e90/BrownCs22/Library/Tactics.lean#L59)
-or [change the behavior of existing tactics](https://github.com/brown-cs22/CS22-Lean-2023/blob/0a0a8e168559462a39e33a7b2940b11bd5a59e90/BrownCs22/Library/Tactics.lean#L61)
-within a course project.
-(In the linked examples, in any course file importing `Tactics.lean`, the behavior of `linarith` will be redefined.)
+Lean/mathlib 为策略所取的名称，可能与你在课堂上呈现这些主题的方式不一致。
+在 Lean 4 中，可以很容易地在课程项目内
+为[某些策略调用创建别名](https://github.com/brown-cs22/CS22-Lean-2023/blob/0a0a8e168559462a39e33a7b2940b11bd5a59e90/BrownCs22/Library/Tactics.lean#L59)，
+或[改变现有策略的行为](https://github.com/brown-cs22/CS22-Lean-2023/blob/0a0a8e168559462a39e33a7b2940b11bd5a59e90/BrownCs22/Library/Tactics.lean#L61)。
+（在所链接的示例中，在任何导入了 `Tactics.lean` 的课程文件里，`linarith` 的行为都将被重新定义。）
 
-## Ending proofs with `done`
+## 用 `done` 结束证明
 
-It can sometimes be confusing to tell when a tactic proof is complete,
-since the error message appears at the top of the proof but not at the bottom.
-Some instructors have had success teaching students to begin writing a proof 
-with the tactic `done` at the end.
+有时很难判断一个策略证明何时完成，
+因为错误信息出现在证明的开头而不是末尾。
+有些教师成功地教学生在编写证明时，
+先在末尾写上策略 `done`。
 
 ```lean
 example (x : ℕ) : x = x := by 
@@ -124,10 +122,9 @@ example (x : ℕ) : x = x := by
   done
 ```
 
-An alternative is to use curly braces after `by`:
+另一种做法是在 `by` 之后使用花括号：
 ```lean
 example (x : ℕ) : x = x := by {
   -- fill in your proof here
 }
 ```
-

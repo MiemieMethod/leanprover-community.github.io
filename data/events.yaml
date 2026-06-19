@@ -2,53 +2,53 @@
   url: https://mathconf.eu/pil-fub-2026
   start_date: August 24 2026
   end_date: September 4 2026
-  location: Freie Universität Berlin, Germany
+  location: 柏林自由大学，德国
   type: workshop
 
 - title: "Building the Mathematical Library of the Future"
   url: https://www.slmath.org/axiom/412
   start_date: March 15 2027
   end_date: April 9 2027
-  location: Berkeley, CA, USA
+  location: 美国加利福尼亚州伯克利
   type: workshop
 
 - title: "Formal Mathematics and Proof Systems Interoperability (FMPSI'26)"
   url: https://deducteam.gitlabpages.inria.fr/FMPSI26/
   start_date: June 22 2026
   end_date: July 3 2026
-  location: Orsay, France
+  location: 法国奥赛
   type: workshop
 
 - title: "Software Verification in Lean 2026"
   url: https://beneficial-ai-foundation.github.io/SVIL2026/
   start_date: April 20 2026
   end_date: April 20 2026
-  location: Paris, France
+  location: 法国巴黎
   type: workshop
   
 - title: "TYPES 2026: Types for Proofs and Programs"
   url: https://types2026.cse.chalmers.se/
   start_date: May 4 2026
   end_date: May 8 2026
-  location: Gothenburg, Sweden
+  location: 瑞典哥德堡
   type: conference
 
 - title: "Summer School on Formalization in Lean"
   url: https://icarm.io/project/summer_school_formalization/
   start_date: July 7 2026
   end_date: July 18 2026
-  location: Pittsburgh, USA
+  location: 美国匹兹堡
   type: tutorial
 
 - title: "ItaLean 2025: Bridging Formal Mathematics and AI"
   url: https://pitmonticone.github.io/ItaLean2025/
   start_date: December 9 2025
   end_date: December 12 2025
-  location: Bologna, Italy
+  location: 意大利博洛尼亚
   type: conference
 
 - title: "Lean Together 2026"
-  location: virtual
+  location: 线上
   type: workshop
   url: https://leanprover-community.github.io/lt2026/ 
   start_date: January 19 2026
@@ -58,179 +58,179 @@
   url: https://leaning.in/2026/
   start_date: March 12 2026
   end_date: March 12 2026
-  location: Spielfeld, Berlin, Germany
+  location: 德国柏林，Spielfeld
   type: conference
 
 - title: "Formalization and Proof Assistants (Swiss Math Soc Spring Meeting)"
   url: https://unidistance.ch/evenement/sms-spring-meeting-formalization-and-proof-assistants
   start_date: March 25 2026
   end_date: March 27 2026
-  location: UniDistance Suisse, Brig, Switzerland
+  location: UniDistance Suisse，瑞士布里格
   type: workshop
 
 - title: "Bridging Lean and the LMFDB"
   url: https://multramate.github.io/lean-lmfdb
   start_date: June 29 2026
   end_date: July 3 2026
-  location: University of East Anglia, Norwich, UK
+  location: 东英吉利大学，英国诺里奇
   type: workshop
 
 - title: "Techniques and Tools for the Formalization of Analysis"
   url: https://icerm.brown.edu/program/topical_workshop/tw-26-ttfa
   start_date: May 11 2026
   end_date: May 15 2026
-  location: ICERM, Providence, RI, USA
+  location: ICERM，美国罗德岛州普罗维登斯
   type: workshop
 
 - title: "Mathematics in Lean session at ICMS"
   url: https://icms-conference.org/2026/session5.html
   start_date: July 20 2026
   end_date: July 23 2026
-  location: Wilfrid Laurier University and University of Waterloo, Waterloo, Ontario, Canada
+  location: 劳里埃大学与滑铁卢大学，加拿大安大略省滑铁卢
   type: conference
 
 - title: Proof assistant users meetup in Ghent
   url: https://www.meetup.com/nl-NL/sysghent/events/311198787
   start_date: October 27 2025
   end_date: October 27 2025
-  location: Ghent, Belgium
+  location: 比利时根特
   type: workshop
 
 - title: Lean for the Curious Mathematician 2026 (Italy)
   url: https://amosturchet.github.io/lftcm26/index.html
   start_date: September 7 2026
   end_date: September 11 2026
-  location: SNS, Cortona, Italy
+  location: SNS，意大利科尔托纳
   type: tutorial
 
 - title: Formalising Algebraic Geometry in Lean
   url: https://judithludwig.github.io/LeanWorkshop2025
   start_date: November 19 2025
   end_date: November 21 2025
-  location: Heidelberg, Germany
+  location: 德国海德堡
   type: workshop
 
 - title: Lean for PDEs
   url: https://www.slmath.org/workshops/1180
   start_date: October 6 2025
   end_date: October 9 2025
-  location: Berkeley, CA, USA
+  location: 美国加利福尼亚州伯克利
   type: workshop
 
 - title: "VSTTE 2025: Conference on Verified Software: Theories, Tools, and Experiments"
   url: https://systemf.epfl.ch/etc/vstte2025/
   start_date: October 6 2025
   end_date: October 7 2025
-  location: Menlo Park, USA
+  location: 美国门洛帕克
   type: conference  
 
 - title: EuroProofNet final symposium
   url: https://europroofnet.github.io/Symposium/
   start_date: September 8 2025
   end_date: September 19 2025
-  location: Orsay, France
+  location: 法国奥赛
   type: conference
 
 - title: Mechanization and Mathematical Research
   url: https://www.lorentzcenter.nl/mechanization-and-mathematical-research.html
   start_date: September 15 2025
   end_date: September 19 2025
-  location: Leiden, the Netherlands
+  location: 荷兰莱顿
   type: workshop
 
 - title: Summer School on Formalizing Mathematics in Lean
   url: https://utrechtsummerschool.nl/courses/science/formalizing-mathematics-in-lean
   start_date: July 21 2025
   end_date: July 25 2025
-  location: Utrecht, the Netherlands
+  location: 荷兰乌得勒支
   type: tutorial
 
 - title: Lean for Mathematicians
   url: https://sites.google.com/view/simonsleanworkshop2025
   start_date: June 16 2025
   end_date: June 27 2025
-  location: New York, NY, USA
+  location: 美国纽约州纽约
   type: tutorial
 
 - title: Formalizing Class Field Theory
   url: https://www.claymath.org/events/formalizing-class-field-theory/
   start_date: July 21 2025
   end_date: July 25 2025
-  location: Oxford, England
+  location: 英格兰牛津
   type: workshop
 
 - title: Solving riddles with Lean
   url: https://sysghent.be/events/lean
   start_date: July 17 2025
   end_date: July 17 2025
-  location: Ghent, Belgium
+  location: 比利时根特
   type: workshop
 
 - title: Lean for the Curious Mathematician (India)
   url: https://www.icts.res.in/discussion-meeting/LCMaths
   start_date: April 24 2025
   end_date: April 27 2025
-  location: ICTS, Bengaluru, India
+  location: ICTS，印度班加罗尔
   type: workshop
 
 - title: Autoformalization for the Working Mathematician
   url: https://icerm.brown.edu/program/hot_topics_workshop/htw-25-aftwm
   start_date: April 24 2025
   end_date: April 27 2025
-  location: Providence, RI, USA
+  location: 美国罗德岛州普罗维登斯
   type: workshop
 
 - title: Interactive Theorem Proving 2025
   url: https://icetcs.github.io/frocos-itp-tableaux25/itp/
   start_date: September 27 2025
   end_date: October 3 2025
-  location: Reykjavik, Iceland
+  location: 冰岛雷克雅未克
   type: conference
 
 - title: AI for Mathematics and Theoretical Computer Science
   url: https://simons.berkeley.edu/workshops/simons-institute-theory-computing-slmath-joint-workshop-ai-mathematics-theoretical
   start_date: April 7 2025
   end_date: April 11 2025
-  location: Berkeley, CA, USA
+  location: 美国加利福尼亚州伯克利
   type: workshop
 
 - title: Computational Algebraic Geometry Workshop
   url: https://sites.google.com/view/durhamcompalggeom/home
   start_date: November 18 2024
   end_date: November 22 2024
-  location: Durham, UK
+  location: 英国杜伦
   type: workshop
 
 - title: Lean Tutorial
   url: https://www.dmg.tuwien.ac.at/lean2024/
   start_date: September 18 2024
   end_date: September 20 2024
-  location: Vienna, Austria
+  location: 奥地利维也纳
   type: tutorial
 
 - title: Interactive Theorem Proving 2024
   url: https://www.viam.science.tsu.ge/itp2024/
   start_date: September 9 2024
   end_date: September 14 2024
-  location: Tblisi, Georgia
+  location: 格鲁吉亚第比利斯
   type: conference
 
 - title: "Interactions Between Proof Assistants and Mathematical Software, ICMS 2024"
-  location: Durham, UK
+  location: 英国杜伦
   type: conference
   url: https://proof-assistants-and-software-icms2024.github.io/
   start_date: July 22 2024
   end_date: July 25 2024
 
 - title: "Lean Together 2024"
-  location: virtual
+  location: 线上
   type: workshop
   url: https://leanprover-community.github.io/lt2024/ 
   start_date: January 9 2024
   end_date: January 12 2024
 
 - title: "Computer-verified proofs: 48 hours in Rome"
-  location: Rome, Italy
+  location: 意大利罗马
   url: https://www.mat.uniroma2.it/butterley/formalisation/
   start_date: January 24 2024
   end_date: January 26 2024
@@ -240,116 +240,116 @@
   url: https://mizar.uwb.edu.pl/ITP2023/
   start_date: July 31 2023
   end_date: August 4 2023
-  location: Bialystok, Poland
+  location: 波兰比亚韦斯托克
   type: conference
 
 - title: Conference on Intelligent Computer Mathematics 2023
   url: https://cicm-conference.org/2023/cicm.php
   start_date: September 4 2023
   end_date: September 8 2023
-  location: Cambridge, UK
+  location: 英国剑桥
   type: conference
 
 - title: Conference on Intelligent Computer Mathematics 2024
   url: https://cicm-conference.org/2024/cicm.php
   start_date: August 5 2024
   end_date: August 9 2024
-  location: Montréal, Québec, Canada
+  location: 加拿大魁北克省蒙特利尔
   type: conference
 
 - title: Conference on Intelligent Computer Mathematics 2025
   url: https://cicm-conference.org/2025/cicm.php
   start_date: October 6 2025
   end_date: October 11 2025
-  location: Brasilia, Brazil
+  location: 巴西巴西利亚
   type: conference
 
 - title: Certified Programs and Proofs 2023
   url: https://popl23.sigplan.org/home/CPP-2023
   start_date: January 16 2023
   end_date: January 17 2023
-  location: Boston, MA, USA
+  location: 美国马萨诸塞州波士顿
   type: conference
 
 - title: Certified Programs and Proofs 2024
   url: https://popl24.sigplan.org/home/CPP-2024
   start_date: January 15 2024
   end_date: January 16 2024
-  location: London, UK
+  location: 英国伦敦
   type: conference
 
 - title: Certified Programs and Proofs 2025
   url: https://popl25.sigplan.org/home/CPP-2025
   start_date: January 20 2025
   end_date: January 21 2025
-  location: Denver, CO, USA
+  location: 美国科罗拉多州丹佛
   type: conference
 
 - title: Certified Programs and Proofs 2026
   url: https://popl26.sigplan.org/home/CPP-2026
   start_date: January 12 2026
   end_date: January 13 2026
-  location: Rennes, France
+  location: 法国雷恩
   type: conference
 
 - title: Interactions of Proof Assistants and Mathematics
   url: https://itp-school-2023.github.io/
   start_date: September 18 2023
   end_date: September 29 2023
-  location: Regensburg, Germany
+  location: 德国雷根斯堡
   type: tutorial
 
 - title: Formal Mathematics and Computer-Assisted Proving
   url: https://www.hsm.uni-bonn.de/events/hsm-schools/formal2023/description/
   start_date: September 18 2023
   end_date: September 22 2023
-  location: Bonn, Germany
+  location: 德国波恩
   type: tutorial
 
 - title: Learning Mathematics with Lean - 2
   url: https://sites.google.com/view/learning-maths-with-lean2
   start_date: April 18 2023
   end_date: April 20 2023
-  location: virtual
+  location: 线上
   type: workshop
 
 - title: ILDS Coq and Lean Autumn School 2023
   url: https://events.ilds.ro/autumnschool2023/
   start_date: September 18 2023
   end_date: September 20 2023
-  location: Bucharest, Romania
+  location: 罗马尼亚布加勒斯特
   type: tutorial
 
 - title: Machine-Checked Mathematics
   url: https://www.lorentzcenter.nl/machine-checked-mathematics.html
   start_date: July 10 2023
   end_date: July 14 2023
-  location: Leiden, the Netherlands
+  location: 荷兰莱顿
   type: workshop
 
 - title: Formalising algebraic geometry
   url: https://aimath.org
-  location: AIM (virtual)
+  location: AIM（线上）
   start_date: June 24 2024
   end_date: June 28 2024
   type: workshop
 
 - title: Summer School about proof assistants for teaching proof and proving (PAT 2023)
   url: https://pat2023.icube.unistra.fr/
-  location: Val d'Ajol, France
+  location: 法国 Val d'Ajol
   start_date: June 18 2023
   end_date: June 23 2023
   type: tutorial
 
 - title: Lean for the Curious Mathematician 2023
   url: https://lftcm2023.github.io/tutorial
-  location: Düsseldorf, Germany
+  location: 德国杜塞尔多夫
   start_date: September 4 2023
   end_date: September 7 2023
   type: tutorial
 
 - title: Lean for the Curious Mathematician 2023 – Colloquium
-  location: Düsseldorf, Germany
+  location: 德国杜塞尔多夫
   url: https://lftcm2023.github.io/colloquium
   start_date: September 7 2023
   end_date: September 8 2023
@@ -357,49 +357,49 @@
 
 - title: Atelier Lean of the seventh mini symposium of the Roman Number Theory Association
   url: http://www.rnta.eu/7MSRNTA/registrationLEAN.html
-  location: Università Roma Tre, Rome, Italy
+  location: 罗马第三大学，意大利罗马
   start_date: May 2 2023
   end_date: May 3 2023
   type: tutorial
 
 - title: Lean for the Curious Mathematician 2024
   url: https://conferences.cirm-math.fr/2970.html
-  location: Centre international de rencontres mathématiques (CIRM), Luminy, France
+  location: 国际数学相遇中心（CIRM），法国吕米尼
   start_date: March 25 2024
   end_date: March 29 2024
   type: tutorial
 
 - title: "Formalisation of Mathematics: Workshop for Women and Mathematicians of Minority Gender"
   url: https://www.icms.org.uk/
-  location: International Centre for Mathematical Sciences (ICMS), Edinburgh, United Kingdom
+  location: 国际数学科学中心（ICMS），英国爱丁堡
   start_date: May 27 2024
   end_date: May 31 2024
   type: tutorial
 
 - title: Formalisation of mathematics
   url: https://www.math.ku.dk/english/calendar/events/formalisation-of-mathematics/
-  location: University of Copenhagen, Denmark
+  location: 哥本哈根大学，丹麦
   start_date: June 26 2023
   end_date: June 30 2023
   type: tutorial
 
 - title: Formalization of mathematics
   url: https://www.msri.org/summer_schools/1021
-  location: MSRI, Berkeley, USA
+  location: MSRI，美国伯克利
   start_date: June 5 2023
   end_date: June 16 2023
   type: tutorial
 
 - title: Formal Languages, AI and Mathematics
   url: https://www.ihp.fr/fr/agenda/conference-flaim-formal-languages-ai-and-mathematics
-  location: IHP, Paris, France
+  location: IHP，法国巴黎
   start_date: November 3 2022
   end_date: November 5 2022
   type: conference
 
 - title: Prospects of formal mathematics
   url: https://www.him.uni-bonn.de/programs/future-programs/future-trimester-programs/prospects-of-formal-mathematics/description/
-  location: HIM, Bonn, Germany
+  location: HIM，德国波恩
   start_date: May 6 2024
   end_date: August 16 2024
   type: conference
@@ -408,26 +408,26 @@
   url: https://www.birs.ca/events/2023/5-day-workshops/23w5124
   start_date: May 21 2023
   end_date: May 26 2023
-  location: BIRS, Banff, Alberta, Canada
+  location: BIRS，加拿大阿尔伯塔省班夫
   type: workshop
 
 - title: Machine Assisted Proofs
   url: http://www.ipam.ucla.edu/programs/workshops/machine-assisted-proofs/
-  location: IPAM. Los Angeles
+  location: IPAM，洛杉矶
   start_date: February 13 2023
   end_date: February 17 2023
   type: workshop
 
 - title: Conference on Intelligent Computer Mathematics 2022
   url: https://cicm-conference.org/2022/cicm.php
-  location: Tbilisi, Georgia
+  location: 格鲁吉亚第比利斯
   start_date: September 19 2022
   end_date: September 23 2022
   type: conference
 
 - title: Interactive Theorem Proving 2022
   url: https://itpconference.github.io/ITP22/
-  location: Haifa, Israel
+  location: 以色列海法
   start_date: August 7 2022
   end_date: August 10 2022
   type: conference
@@ -436,117 +436,117 @@
   url: https://icerm.brown.edu/topical_workshops/tw-22-lean/
   start_date: July 11 2022
   end_date: July 15 2022
-  location: ICERM, Providence, RI, USA
+  location: ICERM，美国罗德岛州普罗维登斯
   type: tutorial
 
 - title: LeaN in LyoN
   url: https://www.univ-st-etienne.fr/lean-in-lyon.html
   start_date: May 10 2022
   end_date: May 10 2022
-  location: Lyon, France
+  location: 法国里昂
   type: workshop
 
 - title: Learning Mathematics with Lean
   url: https://www.lboro.ac.uk/departments/mec/events/2022/learningmathematicswithlean/
   start_date: April 6 2022
   end_date: April 6 2022
-  location: Loughborough, UK and virtual
+  location: 英国拉夫堡及线上
   type: workshop
 
 - title: Fields Institute MathEd Forum
   url: http://www.fields.utoronto.ca/activities/21-22/meforum-Mar
   start_date: March 26 2022
   end_date: March 26 2022
-  location: virtual
+  location: 线上
   type: workshop
 
 - title: Machine-Checked Mathematics
   url: https://lean-forward.github.io/lorentz-center-meeting/
   start_date: March 2 2022
   end_date: March 4 2022
-  location: virtual
+  location: 线上
   type: workshop
 
 - title: Certified Programs and Proofs 2022
   url: https://popl22.sigplan.org/home/CPP-2022
-  location: Philadelphia, PA, USA
+  location: 美国宾夕法尼亚州费城
   start_date: January 17 2022
   end_date: January 18 2022
   type: conference
 
 - title: Conference on Intelligent Computer Mathematics 2021
   url: https://cicm-conference.org/2021/cicm.php
-  location: virtual
+  location: 线上
   start_date: July 26 2021
   end_date: July 31 2021
   type: conference
 
 - title: Interactive Theorem Proving 2021
   url: http://easyconferences.eu/itp2021/
-  location: virtual
+  location: 线上
   start_date: June 29 2021
   end_date: July 1 2021
   type: conference
 
 - title: Certified Programs and Proofs 2021
   url: https://popl21.sigplan.org/home/CPP-2021
-  location: virtual
+  location: 线上
   start_date: January 17 2021
   end_date: January 19 2021
   type: conference
 
 - title: Lean Together 2021
   url: https://leanprover-community.github.io/lt2021/
-  location: virtual
+  location: 线上
   start_date: January 4 2021
   end_date: January 7 2021
   type: workshop
 
 - title: Lean for the Curious Mathematician 2020
   url: https://leanprover-community.github.io/lftcm2020/
-  location: virtual
+  location: 线上
   start_date: July 13 2020
   end_date: July 17 2020
   type: tutorial
 
 - title: Formal Methods in Mathematics / Lean Together 2020
   url: https://www.andrew.cmu.edu/user/avigad/meetings/fomm2020/
-  location: Pittsburgh, PA, USA
+  location: 美国宾夕法尼亚州匹兹堡
   start_date: January 6 2020
   end_date: January 10 2020
   type: workshop
 
 - title: Lean Together 2019
   url: https://lean-forward.github.io/lean-together/2019/
-  location: Amsterdam, NL
+  location: 荷兰阿姆斯特丹
   start_date: January 7 2019
   end_date: January 11 2019
   type: workshop
 
 - title: Big Proof
   url: https://www.newton.ac.uk/event/bpr/
-  location: Cambridge, UK
+  location: 英国剑桥
   start_date: June 26 2017
   end_date: August 4 2017
   type: workshop
 
 - title: Big Proof
   url: https://www.newton.ac.uk/event/bprw03/
-  location: Cambridge, UK
+  location: 英国剑桥
   start_date: June 9 2025
   end_date: June 13 2025
   type: workshop
 
 - title: "Lean Together 2025"
-  location: virtual
+  location: 线上
   type: workshop
   url: https://leanprover-community.github.io/lt2025/
   start_date: January 14 2025
   end_date: January 17 2025
 
 - title: "Leaning In! 2025"
-  location: Berlin, DE
+  location: 德国柏林
   type: workshop
   url: https://leaning.in
   start_date: March 13 2025
-  end_date: March 13 2025  
+  end_date: March 13 2025

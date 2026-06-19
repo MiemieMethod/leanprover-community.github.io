@@ -1,125 +1,125 @@
-# Mathlib's values
+# Mathlib 的价值观
 
-## Our values
+## 我们的价值观
 
-To maximise its utility and to cope with the scale of the Mathlib library, we aspire to a number of values as described below.
+为了最大化 Mathlib 库的效用并应对其规模，我们追求以下若干价值观。
 
-### Trust
-Mathematical notions on paper are not always immediately transcribable to Lean code in a straightforward way. Indeed, subtleties about generality and questions about actual implementations in code can result in difficult questions that need to be answered if we demand the Lean code faithfully reflect the important ideas of modern research mathematics.
+### 可信赖性
+纸面上的数学概念并不总是能够直接地、简单明了地转写为 Lean 代码。事实上，关于一般性的微妙之处以及关于代码中实际实现的问题，可能引出一些难以回答的问题——如果我们要求 Lean 代码忠实地反映现代研究数学的重要思想，就必须回答这些问题。
 
-Code in Mathlib is reviewed with a careful eye by both experts in that domain of mathematics and by experts in Lean development so that users of the code can trust that definitions and theorem statements are what a mathematician would expect.
+Mathlib 中的代码会由该数学领域的专家以及 Lean 开发的专家以审慎的眼光进行审阅，从而使代码的使用者能够信赖：其中的定义和定理陈述正是数学家所期望的样子。
 
-### Open source
+### 开源
 
-Mathlib is free, open-source software.
+Mathlib 是免费的开源软件。
 
-### Maintainability
+### 可维护性
 
-When new code is added to Mathlib, the Mathlib Maintainers agree to "maintain" this code indefinitely. This means that if the code needs to be adjusted for any reason (e.g., to make it compatible with a new version of the Lean language or because of changes elsewhere in the library) the Maintainers accept responsibility for ensuring that this adjustment takes place. As a result, the Maintainers require that new code is written in such a way as to reduce the chance that such adjustments will be necessary. A slogan to bear in mind is "zero `sorry`s is a starting point, not an end point".
+当新代码被加入 Mathlib 时，Mathlib 维护者同意对该代码进行无限期的“维护”。这意味着，如果出于任何原因需要调整代码（例如为了使其与新版本的 Lean 语言兼容，或由于库中其他地方的改动），维护者接受确保该调整得以完成的责任。因此，维护者要求新代码以减少此类调整必要性的方式编写。需要牢记的一句口号是：“零 `sorry` 是起点，而非终点”。
 
-### General definitions
+### 一般化的定义
 
-Traditional mathematics literature tends to have a much more focussed scope than Mathlib and to have definitions that are tailored to this scope. For example, a text on calculus might develop the theory using definitions that are not valid over the p-adic numbers, or an algebraic geometry paper might assume the coefficients are complex numbers, or a treatise on manifolds might assume they are all finite-dimensional. However, in Mathlib we wish to support users in as many situations as reasonably possible and so we tend to take great care to ensure that definitions are very broadly applicable. (And indeed Mathlib's theory of calculus does support the p-adics, its algebraic geometry allows coefficients to be any commutative ring, and its manifolds can be infinite-dimensional.)
+传统数学文献往往比 Mathlib 具有更为聚焦的范围，并且其定义是为这一范围量身定制的。例如，一本微积分教材可能采用在 p-进数上无效的定义来展开理论，一篇代数几何论文可能假定系数为复数，或者一部关于流形的专著可能假定所有流形都是有限维的。然而，在 Mathlib 中，我们希望在尽可能多的合理情形下为用户提供支持，因此我们往往会极为审慎地确保定义具有非常广泛的适用性。（事实上，Mathlib 的微积分理论确实支持 p-进数，其代数几何允许系数为任意交换环，而其流形可以是无限维的。）
 
-### Weak hypotheses
+### 弱假设
 
-When proving theorems in Mathlib we try hard to make assumptions as weak as possible.
+在 Mathlib 中证明定理时，我们竭力使假设尽可能弱。
 
-As well as having the obvious benefit of making a theorem more widely applicable, this has the benefit of reducing the work for anyone invoking it. For example, if a theorem remains true when a compactness assumption is dropped, then even for users who are applying the theorem in a situation where compactness holds, it may save them significant work not to have to prove compactness when invoking the theorem. Given that a single theorem may be invoked a great many times, it is often worth the extra effort to weaken its hypotheses as much as possible.
+这除了具有使定理更具广泛适用性的明显好处之外，还能减少任何调用该定理者的工作量。例如，如果某个定理在去掉紧致性假设后仍然成立，那么即便对于在紧致性成立的情形中应用该定理的用户而言，在调用该定理时无需证明紧致性，也可能为他们省去大量工作。鉴于单个定理可能被调用许许多多次，付出额外努力将其假设尽可能削弱，往往是值得的。
 
-### Strong conclusions
+### 强结论
 
-Similar to the "weak hypotheses" value, we try to make theorem conclusions as strong as possible. For example if an existence argument can be upgraded to prove that a set of points has positive measure, then this is the form in which we will state the theorem. Even when this might require substantially more effort, we sometimes strive to provide the stronger conclusion.
+与“弱假设”这一价值观类似，我们力求使定理的结论尽可能强。例如，如果一个存在性论证可以被加强为证明某个点集具有正测度，那么我们便会以这种形式陈述定理。即便这可能需要付出相当多的额外努力，我们有时仍会力求给出更强的结论。
 
-### Classical not constructive
+### 经典而非构造
 
-Mathlib makes no effort to avoid using the law of excluded middle and almost no effort to have computable definitions. Here we will refer to both these practices as being "constructive".
+Mathlib 不做任何努力去避免使用排中律，也几乎不做任何努力去给出可计算的定义。在这里，我们将这两种做法都称为“构造性的”。
 
-There are three main reasons why Mathlib does not aim to be constructive:
-1. Most contemporary research is not constructive
-1. Many results are not true constructively
-1. Constructive proofs are often longer and harder
+Mathlib 不以构造性为目标，主要有三个原因：
+1. 大多数当代研究并非构造性的
+1. 许多结果在构造意义下并不成立
+1. 构造性证明往往更长、更难
 
-We do not claim this is a superior way to practice mathematics, merely that we have committed to this value for reasons of pragmatism.
+我们并不声称这是一种更优越的数学实践方式，而仅仅是出于实用主义的考虑而坚持这一价值观。
 
-Notwithstanding the above, certain corners of Mathlib are actually constructive. This is partly because some important early additions to the library were. However we do not require new material to be constructive and we even prefer non-constructive mathematics if it allows much shorter proofs or a more ergonomic experience for users (in technical terms, one might e.g. wish to avoid "decidability diamonds").
+尽管如此，Mathlib 的某些角落实际上是构造性的。这部分是因为库中一些重要的早期内容本就如此。然而，我们并不要求新材料是构造性的，甚至当非构造性数学能够带来更短的证明或为用户提供更符合人体工学的体验时，我们会更倾向于采用它（用技术术语来说，例如人们可能希望避免“可判定性菱形（decidability diamonds）”）。
 
-### Downstream projects
+### 下游项目
 
-A large and growing number of projects depend on Mathlib. Such projects are sensitive to any breaking changes we make in Mathlib (e.g., slightly changing a definition or lemma statement). One reason why we try hard to write our definitions and lemmas in great generality is to reduce the likelihood such changes will be necessary. We also insert migration hints (e.g., the `deprecated` annotation) to help downstream projects handle breaking changes.
+越来越多的项目依赖于 Mathlib。这类项目对我们在 Mathlib 中所做的任何破坏性改动（例如略微改变某个定义或引理陈述）都很敏感。我们竭力以高度一般化的方式编写定义和引理，原因之一便是减少此类改动成为必要的可能性。我们还会插入迁移提示（例如 `deprecated` 注解）以帮助下游项目应对破坏性改动。
 
-## Accessibility for non-formalists
+## 对非形式化工作者的可及性
 
-We desire for Mathlib to be accessible to people who do not have experience with computer code beyond LaTeX. Moreover we wish to achieve such accessibility without compromising on the values above. This is a difficult task and much work remains to be done.
+我们希望 Mathlib 对那些除 LaTeX 之外没有计算机代码经验的人也是可及的。此外，我们希望在实现这种可及性的同时不损害上述价值观。这是一项艰巨的任务，仍有大量工作有待完成。
 
-Partly for the sake of accessibility, we require human-readable comments (aka "doc strings") on all definitions and we encourage thoughtful code comments in general, especially in longer proofs. Such code comments are often most useful when they use natural language or LaTeX rather than Lean code. We also believe that key to accessibility is the creation of independent artifacts (tutorials, phrasebooks, teaching courses, journal papers, ...) which build on top of Mathlib and give side-by-side demonstrations of important concepts.
+部分出于可及性的考虑，我们要求所有定义都附带人类可读的注释（即“文档字符串”），并且我们总体上鼓励撰写经过深思熟虑的代码注释，尤其是在较长的证明中。这类代码注释在使用自然语言或 LaTeX 而非 Lean 代码时，往往最为有用。我们还相信，可及性的关键在于创建独立的产物（教程、术语对照手册、教学课程、期刊论文……），这些产物建立在 Mathlib 之上，并对重要概念给出并列对照的演示。
 
-## Implications for PR review
+## 对 PR 审阅的意义
 
-Mathlib changes by merging PRs (pull requests) from contributors. It is largely during review of such PRs that mission alignment is assessed and values are enacted. We provide some comments on this code review process below. In many cases, more detail is available in the [style guide](https://leanprover-community.github.io/contribute/style.html) and the [PR Review Guide](https://leanprover-community.github.io/contribute/pr-review.html).
+Mathlib 通过合并来自贡献者的 PR（拉取请求）而演进。正是在审阅这类 PR 的过程中，使命的一致性得到评估，价值观得以践行。我们在下文中就这一代码审阅流程给出一些说明。在许多情形下，[风格指南](https://leanprover-community.github.io/contribute/style.html)和 [PR 审阅指南](https://leanprover-community.github.io/contribute/pr-review.html)中提供了更多细节。
 
-### Please be courteous
+### 请保持礼貌
 
-Mathlib has a [Code of Conduct](https://github.com/leanprover-community/mathlib4/blob/master/CODE_OF_CONDUCT.md). Please bear this in mind when contributing and reviewing.
+Mathlib 有一份[行为准则](https://github.com/leanprover-community/mathlib4/blob/master/CODE_OF_CONDUCT.md)。在贡献和审阅时，请铭记这一点。
 
-### Is the subject matter appropriate?
+### 主题是否合适？
 
-The first question asked of every contribution is whether the subject matter is within the scope of Mathlib. This is usually easy to answer. See [the contribution guidelines](https://leanprover-community.github.io/contribute/index.html#what-to-contribute-to-mathlib) for further remarks.
+对每一项贡献提出的第一个问题是：其主题是否在 Mathlib 的范围之内。这通常很容易回答。更多说明请参见[贡献指南](https://leanprover-community.github.io/contribute/index.html#what-to-contribute-to-mathlib)。
 
-### Is the author a human?
+### 作者是人类吗？
 
-In addition to its other functions, code review is an educational tool. Mathlib has hundreds of contributors and most of whom probably learned their art during the review process. For newcomers, it is not uncommon for the educational aspect of review to be significantly more valuable than the actual contribution to the library. Because review bandwidth is constantly saturated, many reviewers are unwilling to perform their service unless the author is a human.
+除其他功能之外，代码审阅还是一种教育工具。Mathlib 有数百名贡献者，其中大多数人很可能是在审阅过程中习得其技艺的。对于新人而言，审阅的教育意义往往远比其对库的实际贡献更有价值，这并不罕见。由于审阅带宽长期处于饱和状态，许多审阅者不愿提供其服务，除非作者是人类。
 
-### Are the definitions "correct"?
+### 定义是否“正确”？
 
-This is perhaps the most important function of review as Lean can only tell you that you have defined *something*, but not that you have defined what you intended. Non-trivial definitions get the most attention during review.
+这或许是审阅最重要的功能，因为 Lean 只能告诉你你定义了*某个东西*，却无法告诉你你定义的正是你所意图的东西。非平凡的定义在审阅中会得到最多的关注。
 
-In addition there are non-mathematical reasons for giving definitions special attention. There often exist many mathematically-correct implementations of the same concept in Lean, and some of these may have distinct advantages over others.
+此外，给予定义特别关注还有非数学方面的原因。同一概念在 Lean 中往往存在许多数学上正确的实现，其中某些实现相对于其他实现可能具有明显的优势。
 
-### Is the code maintainable?
+### 代码是否可维护？
 
-Making a careful assessment of maintainability is a key part of review.
+对可维护性作出审慎的评估是审阅的关键部分。
 
-### Are the theorems appropriate?
+### 定理是否合适？
 
-After definitions, we study new theorems, checking that hypotheses are as weak as reasonably possible and that conclusions are strong. In addition, during review we often request contributors "modularise" theorems far more than in the informal literature by breaking a theorem down into many small lemmas.
+在定义之后，我们研究新的定理，检查其假设是否在合理范围内尽可能弱，以及其结论是否足够强。此外，在审阅过程中，我们常常要求贡献者将定理“模块化”，其程度远超非形式化文献，即把一个定理拆解为许多个小引理。
 
-### Is there API for new definitions?
+### 新定义是否配有 API？
 
-New definitions should come with lemmas that use them. In ideal situations, a definition can be completely characterised by a collection of lemmas but even when this is not possible, a partial characterisation is still very desirable. We call such a collection of lemmas the API and during review we encourage contributors to add such lemmas. Adding API also helps increase confidence that the definition means what is intended, and that it is ergonomic.
+新定义应当附带使用它们的引理。在理想情形下，一个定义可以被一组引理完全刻画；即便无法做到这一点，部分刻画仍然非常可取。我们将这样一组引理称为 API，在审阅过程中，我们鼓励贡献者添加此类引理。添加 API 还有助于增强信心：定义确实表达了其所意图的含义，并且符合人体工学。
 
-### Are things in the right files?
+### 各项内容是否放在了正确的文件中？
 
-Placing definitions, lemmas, and theorems in the right files is important. By keeping Mathlib's import tree wide, we reduce the memory footprint for people importing just a fragment of the library and we decrease wall-clock compile time by enabling easier compile parallelisation. Another reason for correct placement is discoverability: we want to make it easy to guess where a definition or lemma might be.
+将定义、引理和定理放置在正确的文件中是很重要的。通过保持 Mathlib 的导入树宽而扁平，我们减少了那些只导入库的某一片段的人的内存占用，并通过使编译更易于并行化来缩短挂钟编译时间。正确放置的另一个原因是可发现性：我们希望让人们能够轻松猜出某个定义或引理可能位于何处。
 
-### Are the proofs human-readable?
+### 证明是否人类可读？
 
-Longer proof scripts (50+ lines) should make an effort to sketch the shape of the argument, using code comments if necessary. This is of less importance than other items but is still desirable.
+较长的证明脚本（50 行以上）应当努力勾勒出论证的轮廓，必要时使用代码注释。这一点的重要性低于其他各项，但仍然是可取的。
 
-### Is the naming correct?
+### 命名是否正确？
 
-Mathlib follows a naming scheme described in the [naming conventions](https://leanprover-community.github.io/contribute/naming.html). We try to enforce this during review.
+Mathlib 遵循[命名约定](https://leanprover-community.github.io/contribute/naming.html)中所描述的命名方案。我们力求在审阅过程中贯彻这一方案。
 
-### Is the code performant?
+### 代码性能是否良好？
 
-We try hard to avoid adding code which is slow to elaborate or to typecheck. If code uses `set_option` to change the default settings of values like `maxHeartbeats` or `synthInstance.maxHeartbeats` then usually something is wrong. Moreover we wish for code to be sufficiently robust that we can expect future code, developed on top of it, will not encounter performance issues.
+我们竭力避免添加在繁释（elaborate）或类型检查时缓慢的代码。如果代码使用 `set_option` 来更改诸如 `maxHeartbeats` 或 `synthInstance.maxHeartbeats` 这类值的默认设置，那么通常意味着某处出了问题。此外，我们希望代码具有足够的鲁棒性，以便我们可以预期未来在其之上开发的代码不会遇到性能问题。
 
-Lean includes a suite of tools for profiling code. In addition, commenting with `!bench` on a PR provides valuable performance information.
+Lean 包含一套用于分析代码性能的工具。此外，在 PR 上用 `!bench` 进行评论可以提供有价值的性能信息。
 
-### Data-bearing typeclass instances creating diamonds?
+### 携带数据的类型类实例是否会造成菱形？
 
-Any new data-bearing typeclass `instance`s are studied during review to increase confidence that diamonds are not being created. These can be difficult to spot and careful thought is needed.
+任何携带数据的新类型类 `instance` 在审阅过程中都会受到研究，以增强对其不会造成菱形的信心。这些菱形可能难以发现，需要审慎的思考。
 
-### Are automation annotations in place?
+### 自动化注解是否就位？
 
-Ensuring that annotations for automation like [simp](https://lean-lang.org/doc/reference/latest/The-Simplifier/#the-simplifier), [gcongr](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Tactic/GCongr/Core.html), [fun_prop](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Tactic/FunProp.html), and [grind](https://lean-lang.org/doc/reference/latest/The--grind--tactic/) are added is an important part of review. Similarly, use of code generators like [to_additive](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Tactic/Translate/ToAdditive.html), [to_dual](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Tactic/Translate/ToDual.html) should also be checked during review.
+确保为自动化添加注解是审阅的一个重要部分，例如 [simp](https://lean-lang.org/doc/reference/latest/The-Simplifier/#the-simplifier)、[gcongr](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Tactic/GCongr/Core.html)、[fun_prop](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Tactic/FunProp.html) 和 [grind](https://lean-lang.org/doc/reference/latest/The--grind--tactic/)。类似地，对诸如 [to_additive](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Tactic/Translate/ToAdditive.html)、[to_dual](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Tactic/Translate/ToDual.html) 这类代码生成器的使用也应在审阅过程中加以检查。
 
-### Is the code style good?
+### 代码风格是否良好？
 
-During review we also check for minor points of style such as:
- * Use of `variable` where appropriate.
- * Use of `section` and `namespace` where appropriate.
- * Are the right `public` and `private` modifiers in place? (New files should avoid using `@[expose] public section` for everything.)
- * Proof golfing, but not overgolfing. Note that reducing character / line count is sometimes a side effect of a better proof but it is not a goal, and often a better proof can increase these values.
- * Whitespace.
- * Formatting of doc strings.
+在审阅过程中，我们还会检查一些次要的风格要点，例如：
+ * 在适当之处使用 `variable`。
+ * 在适当之处使用 `section` 和 `namespace`。
+ * 是否正确放置了 `public` 和 `private` 修饰符？（新文件应避免对所有内容使用 `@[expose] public section`。）
+ * 证明压缩（golfing），但不过度压缩。请注意，减少字符数／行数有时是更优证明的副产品，但它并非目标，而且一个更好的证明往往会增加这些数值。
+ * 空白字符。
+ * 文档字符串的格式。

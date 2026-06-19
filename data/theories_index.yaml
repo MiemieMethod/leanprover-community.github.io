@@ -1,14 +1,14 @@
-Numbers:
-    natural numbers: naturals
+"数":
+    "自然数": naturals
 
-Linear algebra:
-    linear algebra: linear_algebra
+"线性代数":
+    "线性代数": linear_algebra
 
-Topology:
-    topology: topology
+"拓扑":
+    "拓扑": topology
 
-Category theory:
-    category theory: category_theory
+"范畴论":
+    "范畴论": category_theory
 
-Combinatorics:
-    set-like objects: sets
+"组合学":
+    "类集合对象": sets

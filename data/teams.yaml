@@ -1,11 +1,11 @@
-- name: Admin team
-  short_description: The admin team oversees the activities of the Lean community organization and in particular the mathlib project. It is responsible for ensuring the mathlib project continues to reflect the general views and interests of the Lean/mathlib community.
+- name: 管理团队
+  short_description: 管理团队负责监督 Lean 社区组织的各项活动，尤其是 mathlib 项目。它负责确保 mathlib 项目持续反映 Lean/mathlib 社区的普遍观点与利益。
   description: |
-    The admin team oversees the activities of the Lean community organization and in particular the mathlib project. It is responsible for ensuring the mathlib project continues to reflect the general views and interests of the Lean/mathlib community.
+    管理团队负责监督 Lean 社区组织的各项活动，尤其是 mathlib 项目。它负责确保 mathlib 项目持续反映 Lean/mathlib 社区的普遍观点与利益。
 
-    The admin team is a central hub for coordination among other teams. It is responsible for procedural duties: when a decision needs to be made, what should the process be? In particular it is tasked with finding procedures to resolve conflicts when consensus cannot be reached. The admin team also the first point of contact for the community as a whole.
+    管理团队是各团队之间进行协调的核心枢纽。它负责程序性事务：当需要做出决策时，应当采用何种流程？特别地，它的任务是在无法达成共识时寻找解决冲突的程序。管理团队也是整个社区的首要联系窗口。
 
-    The members of all teams choose an admin team annually by an election, in a manner organized by the current admin team using a system that gives all members a vote of equal weight. Members of the admin team may be re-elected.
+    所有团队的成员每年通过选举推选出一个管理团队，选举由当届管理团队组织，采用使所有成员拥有同等权重投票权的制度。管理团队成员可连选连任。
   url: admin
   members:
     - Jeremy Avigad
@@ -18,12 +18,12 @@
     - Sebastian Ullrich
     - Eric Wieser
   use_biography: True
-- name: Mathlib maintainers
-  short_description: The mathlib maintainers have the power to approve changes and additions to mathlib. This team is responsible for the global design of mathlib, and it aims to maintain the library's coherence and keep its parts well integrated.
+- name: mathlib 维护者
+  short_description: mathlib 维护者有权批准对 mathlib 的更改与新增内容。该团队负责 mathlib 的整体设计，旨在维护库的连贯性，并使其各部分良好地整合在一起。
   description: |
-    The mathlib library is under active development, with hundreds of proposed changes and additions under discussion at any time, and dozens approved every week. These proposals are structured as ["pull requests" on the mathlib Github repository](https://github.com/leanprover-community/mathlib4/pulls). The mathlib maintainers are the people who have the power to give final approval to pull requests. They must ensure mathlib has a cohesive design with a high-quality implementation.
+    mathlib 库正处于活跃开发之中，任何时刻都有数百项提议中的更改与新增内容在讨论之中，每周有数十项获得批准。这些提议以 [mathlib Github 仓库上的"拉取请求"](https://github.com/leanprover-community/mathlib4/pulls)的形式组织。mathlib 维护者是有权对拉取请求给予最终批准的人。他们必须确保 mathlib 拥有连贯的设计与高质量的实现。
 
-    Mathlib maintainers usually have research-level knowledge in some field of mathematics or computer science. Community members become maintainers at the invitation of the current maintainers, and anyone may nominate a community member by sending a message to a current maintainer. Maintainers serve for a renewable two-year term, with the expectation that the term will be renewed unless the maintainer has become inactive or wishes to step down.
+    mathlib 维护者通常在某个数学或计算机科学领域拥有研究级别的知识。社区成员经由当届维护者邀请而成为维护者，任何人都可以通过向当届维护者发送消息来提名一位社区成员。维护者任期为两年，可续任，预期任期会得到续展，除非该维护者已不再活跃或希望卸任。
   url: maintainers
   members:
     - Anne Baanen
@@ -56,9 +56,9 @@
     - Eric Wieser
   use_biography: True
   url: maintainers
-- name: Mathlib reviewers
-  short_description: "The mathlib reviewer team helps the mathlib maintainers with the daily reviewing of PRs to mathlib. This team consists of experienced community members that have displayed quality in their contributions and reviews."
-  description: "The mathlib reviewer team helps the mathlib maintainers with the daily reviewing of PRs to mathlib. This team consists of experienced community members that have displayed quality in their contributions and reviews. During the review process of a PR, they leave comments and feedback. Once they deem a PR ready for merging, they place the PR on a queue for a final review and merge instruction by the mathlib maintainers."
+- name: mathlib 审阅者
+  short_description: "mathlib 审阅团队协助 mathlib 维护者进行 mathlib 拉取请求的日常审阅。该团队由在贡献与审阅中展现出高质量的资深社区成员组成。"
+  description: "mathlib 审阅团队协助 mathlib 维护者进行 mathlib 拉取请求的日常审阅。该团队由在贡献与审阅中展现出高质量的资深社区成员组成。在一项拉取请求的审阅过程中，他们会留下评论与反馈。一旦他们认为某项拉取请求已准备好合并，便会将其放入队列，等待 mathlib 维护者进行最终审阅并下达合并指令。"
   members:
     - Aaron Anderson
     - Dagur Asgeirsson
@@ -120,9 +120,9 @@
     - Monica Omar
   use_biography: False
   url: reviewers
-- name: Continuous integration
-  short_description: "In charge of Azure, bors administration, continuous integration virtual machines root access, GitHub actions on various projects of the Lean user community."
-  description: "In charge of Azure, bors administration, continuous integration virtual machines root access, GitHub actions on various projects of the Lean user community."
+- name: 持续集成
+  short_description: "负责 Azure、bors 管理、持续集成虚拟机的 root 访问权限，以及 Lean 用户社区各项目上的 GitHub actions。"
+  description: "负责 Azure、bors 管理、持续集成虚拟机的 root 访问权限，以及 Lean 用户社区各项目上的 GitHub actions。"
   use_biography: True
   url: ci
   members:
@@ -133,12 +133,12 @@
     - Wojciech Nawrocki
     - Damiano Testa
     - Eric Wieser
-- name: Moderation team
-  short_description: "The moderation term handles moderation of interactions [on GitHub](https://github.com/leanprover-community/) and [Zulip](https://leanprover.zulipchat.com/). This includes structural moderation (e.g., moving off-topic messages) and deleting messages violating community norms."
+- name: 监管团队
+  short_description: "监管团队负责处理 [GitHub 上](https://github.com/leanprover-community/)与 [Zulip 上](https://leanprover.zulipchat.com/)互动的监管事务。这包括结构性监管（例如移动离题消息）以及删除违反社区规范的消息。"
   description: |
-    The moderation team handles moderation of comments and messages on GitHub (within the `leanprover-community` organisation) and [Zulip](https://leanprover.zulipchat.com/). On Zulip, this includes creating new private or public channels, organising existing channels and moving messages to their proper topic. On both platforms, it entails hiding or deleting comments violating the code of conduct; users on Zulip can be suspended (temporary deactivation) or banned (permanently).
+    监管团队负责处理 GitHub 上（在 `leanprover-community` 组织内）与 [Zulip 上](https://leanprover.zulipchat.com/)评论与消息的监管事务。在 Zulip 上，这包括创建新的私有或公开频道、整理现有频道以及将消息移动到合适的话题之下。在两个平台上，它都涉及隐藏或删除违反行为准则的评论；Zulip 上的用户可被暂停（临时停用）或封禁（永久停用）。
 
-    The moderation team has members from Mathlib, CSLib and the broader Lean community. There's an informal distinction between Mathlib and CSLib domains: a Mathlib moderator will not moderate the CSLib channel on Zulip or the cslib repository on GitHub (and vice versa, CSLib moderators don't moderate Mathlib repositories or the mathlib channel on Zulip). The current members are the following.
+    监管团队的成员来自 Mathlib、CSLib 以及更广泛的 Lean 社区。Mathlib 与 CSLib 领域之间存在一种非正式的区分：Mathlib 监管员不会监管 Zulip 上的 CSLib 频道或 GitHub 上的 cslib 仓库（反之亦然，CSLib 监管员也不监管 Mathlib 仓库或 Zulip 上的 mathlib 频道）。当前成员如下。
   use_biography: False
   url: moderation
   members:
@@ -178,9 +178,9 @@
     - Sebastian Ullrich
     - Eric Wieser
     - Sorrachai Yingchareonthawornchai
-- name: Code of conduct
-  short_description: "This team handles incident reports and maintains community standards."
-  description: "This team handles incident reports and maintains community standards. See the [community web page](https://leanprover-community.github.io/meet.html#community-guidelines)."
+- name: 行为准则团队
+  short_description: "该团队负责处理事件报告并维护社区标准。"
+  description: "该团队负责处理事件报告并维护社区标准。详见[社区网页](https://leanprover-community.github.io/meet.html#community-guidelines)。"
   use_biography: True
   url: coc
   members:
@@ -188,9 +188,9 @@
     - Riccardo Brasca
     - Jireh Loreaux
     - Alexandre Rademaker
-- name: Website/blog
-  short_description: "The website/blog team is responsible for the technical infrastructure that keeps the community website running. This also includes the community blog and the auto-generated documentation of mathlib."
-  description: "The website/blog team is responsible for the technical infrastructure that keeps the community website running. This also includes the community blog and the auto-generated documentation of mathlib."
+- name: 网站/博客团队
+  short_description: "网站/博客团队负责维持社区网站运行的技术基础设施。这也包括社区博客以及 mathlib 自动生成的文档。"
+  description: "网站/博客团队负责维持社区网站运行的技术基础设施。这也包括社区博客以及 mathlib 自动生成的文档。"
   use_biography: True
   url: site
   members:

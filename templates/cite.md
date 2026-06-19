@@ -1,11 +1,11 @@
-# How do I cite mathlib?
+# 我该如何引用 mathlib？
 
-If you use mathlib in your work, please cite it using the following reference:
+如果你在工作中使用了 mathlib，请使用以下文献进行引用：
 
 > The mathlib Community. *The Lean Mathematical Library*. In Proceedings of the 9th ACM SIGPLAN International Conference on Certified Programs and Proofs (CPP '20), January 20–21, 2020, New Orleans, LA, USA. ACM, 2020. DOI: [10.1145/3372885.3373824](https://doi.org/10.1145/3372885.3373824)
 
-## Licence
-Both the mathlib library and this website are distributed under open-source licences: the [Apache 2.0](https://github.com/leanprover-community/mathlib4/blob/master/LICENSE) for mathlib and the [MIT licence](https://github.com/leanprover-community/leanprover-community.github.io/blob/lean4/LICENSE) for this website. 
+## 许可证
+mathlib 库与本网站均以开源许可证发布：mathlib 采用 [Apache 2.0](https://github.com/leanprover-community/mathlib4/blob/master/LICENSE) 许可证，本网站采用 [MIT 许可证](https://github.com/leanprover-community/leanprover-community.github.io/blob/lean4/LICENSE)。
 
 ## BibTeX
 
@@ -29,10 +29,10 @@ Both the mathlib library and this website are distributed under open-source lice
 ```
 {% endraw %}
 
-## arXiv preprint
+## arXiv 预印本
 
-The arXiv preprint is available at [arxiv.org/abs/1910.09336](https://arxiv.org/abs/1910.09336).
+arXiv 预印本可在 [arxiv.org/abs/1910.09336](https://arxiv.org/abs/1910.09336) 获取。
 
-## GitHub citation
+## GitHub 引用
 
-The [mathlib4 repository](https://github.com/leanprover-community/mathlib4) also contains a `CITATION.md` file, which GitHub recognizes. You can also click the "Cite this repository" link on the repository page to view the above BibTeX citation there.
+[mathlib4 仓库](https://github.com/leanprover-community/mathlib4) 中还包含一个 `CITATION.md` 文件，GitHub 能够识别该文件。你也可以点击仓库页面上的 “Cite this repository” 链接，在那里查看上述 BibTeX 引用。

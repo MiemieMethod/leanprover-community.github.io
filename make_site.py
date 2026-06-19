@@ -130,7 +130,20 @@ if maybe_token is not None:
     github_auth = Token(maybe_token)
 else:
     github_auth = None
-github = Github(auth=github_auth)
+github = Github(auth=github_auth, retry=0, timeout=15)
+USE_GITHUB_API = maybe_token is not None
+
+if not USE_GITHUB_API:
+    print('Warning: GITHUB_TOKEN not set; using static GitHub metadata where possible.', file=sys.stderr)
+
+def get_github_repo(full_name: str):
+    if not USE_GITHUB_API:
+        return None
+    try:
+        return github.get_repo(full_name)
+    except Exception as e:
+        print(f'Warning: could not fetch GitHub repository {full_name}: {e}', file=sys.stderr)
+        return None
 
 @dataclass
 class Formalization:
@@ -143,11 +156,11 @@ class Formalization:
 
     @cached_property
     def github_repo(self):
-        return github.get_repo(self.organization + '/' + self.repo)
+        return get_github_repo(self.organization + '/' + self.repo)
 
     @property
     def stars(self):
-        return self.github_repo.stargazers_count
+        return self.github_repo.stargazers_count if self.github_repo else 0
 
 with (DATA/'formalizations.yaml').open('r', encoding='utf-8') as f_file:
     formalizations = sorted([Formalization(**form) for form in yaml.safe_load(f_file)], key=lambda form: form.stars, reverse=True)
@@ -629,10 +642,12 @@ projects_3 = []
 if DOWNLOAD:
     for name, project in oprojects_3.items():
         if project.get('display', True):
-            github_repo = github.get_repo(project['organization'] + '/' + name)
-            stars = github_repo.stargazers_count
+            repo_full_name = project['organization'] + '/' + name
+            github_repo = get_github_repo(repo_full_name)
+            stars = github_repo.stargazers_count if github_repo else 0
             descr = render_markdown(project['description'])
-            projects_3.append(Project(name, project['organization'], descr, project['maintainers'], stars, github_repo.html_url))
+            url = github_repo.html_url if github_repo else f'https://github.com/{repo_full_name}'
+            projects_3.append(Project(name, project['organization'], descr, project['maintainers'], stars, url))
     projects_3.sort(key = lambda p: p.stars, reverse=True)
     pkl_dump('projects_3', projects_3)
 else:
@@ -653,11 +668,13 @@ projects_4 = []
 if DOWNLOAD:
     for project in oprojects_4:
         repo_path = urlparse(project['github']).path[1:] # Cut off first '/'
-        github_repo = github.get_repo(repo_path)
+        github_repo = get_github_repo(repo_path)
         name = project['name']
-        stars = github_repo.stargazers_count
-        descr = render_markdown(github_repo.description) if github_repo.description is not None else None
-        projects_4.append(Project(name, github_repo.owner.login, descr, None, stars, github_repo.html_url))
+        stars = github_repo.stargazers_count if github_repo else 0
+        descr = render_markdown(github_repo.description) if github_repo and github_repo.description is not None else None
+        organization = github_repo.owner.login if github_repo else repo_path.split('/', 1)[0]
+        url = github_repo.html_url if github_repo else project['github']
+        projects_4.append(Project(name, organization, descr, None, stars, url))
     projects_4.sort(key = lambda p: p.stars, reverse=True)
     pkl_dump('projects_4', projects_4)
 else:
@@ -902,6 +919,16 @@ def render_site(target: Path, base_url: str, reloader=False, only: Optional[str]
     def read_md(src: str) -> str:
         return (DATA/src).read_text(encoding='utf-8')
 
+    def copy_into_build(src: str) -> None:
+        src_path = Path(src)
+        dst_path = target / src_path.name
+        if src_path.resolve() == dst_path.resolve():
+            return
+        if src_path.is_dir():
+            shutil.copytree(src_path, dst_path, dirs_exist_ok=True)
+        else:
+            shutil.copy2(src_path, dst_path)
+
     if only:
         tpl_filter_re = re.compile(only)
         template_filter = tpl_filter_re.match
@@ -949,14 +976,14 @@ def render_site(target: Path, base_url: str, reloader=False, only: Optional[str]
     team_tpl = env.get_template('_team.html')
     for team in teams:
         extra = {'reviewer_data': reviewer_data} if team.url == 'reviewers' else {}
-        with (target/'teams'/(team.url + '.html')).open('w') as tgt_file:
+        with (target/'teams'/(team.url + '.html')).open('w', encoding='utf-8') as tgt_file:
             team_tpl.stream(team=team, menus=menus, base_url=base_url, **extra).dump(tgt_file)
 
 
     for folder in ['css', 'js', 'img', 'papers', str(target/'teams')]:
-        subprocess.call(['rsync', '-a', folder, str(target).rstrip('/')])
-    subprocess.call(['rsync', '-a', 'googlef0c00cb4d31b246f.html', str(target).rstrip('/')])
-    subprocess.call(['rsync', '-a', 'robots.txt', str(target).rstrip('/')])
+        copy_into_build(folder)
+    copy_into_build('googlef0c00cb4d31b246f.html')
+    copy_into_build('robots.txt')
 
     site.render(use_reloader=reloader)
 

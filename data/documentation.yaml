@@ -1,114 +1,114 @@
-# Usage instructions:
-# This list collects all the Mathlib documentation resources available on the Web.
-# If you know useful resources that meet the criteria, please add it to the list!
-# To check the criteria, answer for yourself if the resource is:
-# * Focussed on Mathlib?
-#   (As opposed to: it applies to any Lean project, or it only briefly mentions Mathlib.)
-# * Up to date?
-#   (As opposed to: it only works for Lean 3, and irrelevant for new Mathlib versions.)
-# * Published by the Mathlib community?
-#   (As opposed to: someone's blog post.)
-# * Commonly recommended as a resource by the community?
-#   (As opposed to: it only works for Lean 3.)
-# If you have a few "yes" answers, your resource probably qualifies.
+# 使用说明：
+# 本列表收集了网络上所有可用的 Mathlib 文档资源。
+# 如果你知道符合标准的有用资源，欢迎将其添加到列表中！
+# 检查标准时，请自问该资源是否：
+# * 聚焦于 Mathlib？
+#   （而非：它适用于任何 Lean 项目，或只是简短提及 Mathlib。）
+# * 保持最新？
+#   （而非：它只适用于 Lean 3，对新版 Mathlib 已无关紧要。）
+# * 由 Mathlib 社区发布？
+#   （而非：某人的博客文章。）
+# * 被社区普遍推荐为资源？
+#   （而非：它只适用于 Lean 3。）
+# 如果你有几个"是"的回答，那么你的资源很可能符合标准。
 #
-# We aim to follow the Divio (https://docs.divio.com/documentation-system/) classification of documentation into four categories:
-# * Tutorial for learning (for studying; practical steps).
-#   Tutorials are lessons that take the reader by the hand through a series of steps to complete a project of some kind.
-# * How-to for problem solving (for working; practical steps).
-#   How-to guides take the reader through the steps required to solve a real-world problem.
-# * Reference for information (for working; theoretical knowledge).
-#   Reference guides are technical descriptions of the machinery and how to operate it.
-# * Explanation for understanding (for studying; theoretical knowledge).
-#   Explanations, or discussions, clarify and illuminate a particular topic.
+# 我们力求遵循 Divio（https://docs.divio.com/documentation-system/）将文档分为四类的分类法：
+# * 用于学习的教程（用于研习；实践步骤）。
+#   教程是手把手带领读者完成一系列步骤，从而完成某种项目的课程。
+# * 用于解决问题的操作指南（用于工作；实践步骤）。
+#   操作指南带领读者完成解决现实问题所需的步骤。
+# * 用于查阅信息的参考（用于工作；理论知识）。
+#   参考指南是对机制及其操作方式的技术性描述。
+# * 用于理解的说明（用于研习；理论知识）。
+#   说明，或讨论，阐明并照亮某个特定主题。
 #
-# Canonical tag list:
+# 规范标签列表：
 tags:
-  # Mathematical topics:
+  # 数学主题：
   - name: analysis
-    description: Mathematical analysis (including calculus)
+    description: 数学分析（含微积分）
   - name: category theory
-    description: Category theory
+    description: 范畴论
   - name: differential geometry
-    description: Differential geometry
+    description: 微分几何
   - name: elementary
-    description: "Elementary mathematics: introductory logic, set theory, natural numbers and integers."
+    description: "初等数学：入门逻辑、集合论、自然数与整数。"
   - name: euclidean geometry
-    description: "Euclidean geometry"
+    description: "欧几里得几何"
   - name: group theory
-    description: Monoids and groups.
+    description: 幺半群与群。
   - name: linear algebra
-    description: Modules and vector spaces.
+    description: 模与向量空间。
   - name: logic
-    description: "Mathematical logic: foundations, classical and intuitionistic logic, set theory, type theory."
+    description: "数理逻辑：基础、经典与直觉主义逻辑、集合论、类型论。"
   - name: measure theory
-    description: "Measure theory. See also: probability."
+    description: "测度论。另见：probability。"
   - name: probability
-    description: "Probability theory. See also: measure theory."
+    description: "概率论。另见：measure theory。"
   - name: ring theory
-    description: Rings and fields.
+    description: 环与域。
   - name: topology
-    description: Topology and topological algebra.
-  # Technical topics:
+    description: 拓扑与拓扑代数。
+  # 技术主题：
   - name: declarations
-    description: Describes declarations (`def`s, `theorem`s, ...) and their types.
+    description: 描述声明（`def`、`theorem` 等）及其类型。
   - name: development
-    description: How to edit and build files on your computer, how to contribute your changes to Mathlib and how to run continuous integration.
+    description: 如何在你的计算机上编辑和构建文件，如何将你的修改贡献给 Mathlib，以及如何运行持续集成。
   - name: classes
-    description: Typeclasses, instances, and the instance hierarchy.
+    description: 类型类、实例以及实例层级。
   - name: linters
-    description: "Existing linters and how to use them. See also: metaprogramming."
+    description: "现有的 linter 及其使用方法。另见：metaprogramming。"
   - name: metaprogramming
-    description: "Developing new metaprograms. Not about the use of existing linters and tactics. See also: linters, tactics."
+    description: "开发新的元程序。并非关于现有 linter 和策略的使用。另见：linters、tactics。"
   - name: tactics
-    description: "Existing tactics and how to use them. See also: metaprogramming."
-# # Further topics:
+    description: "现有的策略及其使用方法。另见：metaprogramming。"
+# # 更多主题：
   - name: programming
-    description: Using Lean as a (verified) programming language.
+    description: 将 Lean 用作（经过验证的）编程语言。
   - name: teaching
-    description: Using Lean to teach mathematics students.
-# # Meta:
+    description: 使用 Lean 教授数学专业的学生。
+# # 元信息：
   - name: historical
-    description: "No longer useful due to language/style/design changes. This entry is included for completeness, may be a useful starting point for new documentation."
+    description: "由于语言/风格/设计的变化已不再有用。此条目为完整性而保留，可能是撰写新文档的有用起点。"
     display: false
   - name: incomplete
-    description: Reference work that (intentionally) only includes a subset of the available information.
+    description: 参考性作品，（有意地）仅包含可用信息的一部分。
   - name: Lean 3
-    description: "Aimed at Lean 3. See also: historical."
+    description: "面向 Lean 3。另见：historical。"
     display: false
   - name: nonmathlib
-    description: "Does not aim to match Mathlib conventions: using different style, or using its own definitions rather than Mathlib's."
+    description: "不以符合 Mathlib 约定为目标：使用不同的风格，或使用其自身的定义而非 Mathlib 的定义。"
   - name: normative
-    description: Defines standards for the Mathlib community to follow (rather than documenting standards set elsewhere).
+    description: 为 Mathlib 社区定义需遵循的标准（而非记录别处设定的标准）。
 
-# Example entry:
+# 示例条目：
 # - title: "Natural Numbers Game"
 #   url: "https://adam.math.hhu.de/#/g/hhu-adam/NNG4"
 #   description: "An online tutorial for everyone who wants to try out Lean. Proving elementary properties on natural numbers."
-#   # Please use commas to separate authors, no "and".
+#   # 请使用逗号分隔作者，不要使用 "and"。
 #   authors: Kevin Buzzard, Jon Eugster, Mohammad Pedramfar, Alexander Bentkamp, Patrick Massot
-#   # Useful for tracking down broken links.
+#   # 便于追踪失效的链接。
 #   accessed_at: 2025-10-01
-#   # Must be one of 'tutorial', 'how-to', 'reference', 'explanation'. See: https://docs.divio.com/documentation-system/
-#   # If it does not fit neatly into any category, please pick the closest. You can also try linking to individual sections.
+#   # 必须是 'tutorial'、'how-to'、'reference'、'explanation' 之一。参见：https://docs.divio.com/documentation-system/
+#   # 如果它无法明确地归入任何类别，请选择最接近的一个。你也可以尝试链接到各个具体小节。
 #   category: tutorial
-#   # Please see above for the canonical tag list.
+#   # 规范标签列表请参见上方。
 #   tags:
 #     - elementary
 #     - nonmathlib
 
 documentation:
-  - title: Tips and suggestions for teaching with Lean
+  - title: 使用 Lean 教学的提示与建议
     url: "https://leanprover-community.github.io/teaching/practices.html"
-    description: "Strategies and approaches for teaching with Lean"
-    authors: the Mathlib community
+    description: "使用 Lean 进行教学的策略与方法"
+    authors: Mathlib 社区
     accessed_at: 2025-10-01
     category: explanation
     tags:
       - teaching
   - title: Natural Numbers Game
     url: "https://adam.math.hhu.de/#/g/hhu-adam/NNG4"
-    description: "An online tutorial for everyone who wants to try out Lean. Proving elementary properties on natural numbers."
+    description: "面向所有想尝试 Lean 的人的在线教程。证明自然数的初等性质。"
     authors: Kevin Buzzard, Jon Eugster, Mohammad Pedramfar, Alexander Bentkamp, Patrick Massot
     accessed_at: 2025-10-01
     category: tutorial
@@ -117,7 +117,7 @@ documentation:
       - nonmathlib
   - title: Glimpse of Lean
     url: "https://github.com/PatrickMassot/GlimpseOfLean"
-    description: "An introduction to theorem proving in Lean for the impatient. Get a feel for proving real theorems in Lean in a few hours."
+    description: "面向急于上手者的 Lean 定理证明入门。在几个小时内体验在 Lean 中证明真实定理的感觉。"
     authors: Patrick Massot
     accessed_at: 2025-10-01
     category: tutorial
@@ -129,10 +129,10 @@ documentation:
       - measure theory
       - probability
       - ring theory
-  - title: Lean 4 tactic cheatsheet
+  - title: Lean 4 策略速查表
     url: "https://leanprover-community.github.io/papers/lean-tactics.pdf"
-    description: "Cheatsheet for the most common tactics."
-    authors: the Mathlib community
+    description: "最常用策略的速查表。"
+    authors: Mathlib 社区
     accessed_at: 2025-10-01
     category: reference
     tags:
@@ -140,7 +140,7 @@ documentation:
       - incomplete
   - title: Mathematics in Lean
     url: "https://github.com/leanprover-community/mathematics_in_lean"
-    description: "The standard textbook on getting started with formalizing maths in Lean."
+    description: "关于在 Lean 中开始形式化数学的标准教材。"
     authors: Jeremy Avigad, Patrick Massot
     accessed_at: 2025-10-01
     category: tutorial
@@ -155,7 +155,7 @@ documentation:
       - topology
   - title: Mechanics of Proof
     url: "https://hrmacbeth.github.io/math2001/"
-    description: "Textbook on writing careful, rigorous mathematical proof. Aimed at readers with less mathematical experience than Mathematics in Lean."
+    description: "关于撰写细致、严谨数学证明的教材。面向数学经验少于 Mathematics in Lean 读者的人群。"
     authors: Heather Macbeth
     accessed_at: 2025-10-01
     category: tutorial
@@ -164,7 +164,7 @@ documentation:
       - nonmathlib
   - title: Theorem Proving in Lean 4
     url: "https://lean-lang.org/theorem_proving_in_lean4/"
-    description: "Introductory textbook for Lean, more focussed on the foundations of type theory."
+    description: "Lean 的入门教材，更侧重于类型论的基础。"
     authors: Jeremy Avigad, Leonardo de Moura, Soonho Kong, Sebastian Ullrich
     accessed_at: 2025-10-01
     category: tutorial
@@ -174,7 +174,7 @@ documentation:
       - logic
   - title: The Hitchhiker's Guide to Logical Verification
     url: "https://github.com/blanchette/interactive_theorem_proving_2024/raw/main/hitchhikers_guide_2024_lmu_desktop.pdf"
-    description: "Textbook for computer science and program verification using Lean."
+    description: "使用 Lean 进行计算机科学与程序验证的教材。"
     authors: Anne Baanen, Alexander Bentkamp, Jasmin Blanchette, Johannes Hölzl, Jannis Limperg
     accessed_at: 2025-10-01
     category: tutorial
@@ -183,44 +183,44 @@ documentation:
       - logic
       - metaprogramming
       - programming
-  - title: Mathlib API documentation
+  - title: Mathlib API 文档
     url: "https://leanprover-community.github.io/mathlib4_docs/"
-    description: "A complete listing of all definitions and theorems included with Mathlib."
-    authors: the Mathlib community
+    description: "Mathlib 所含全部定义与定理的完整列表。"
+    authors: Mathlib 社区
     accessed_at: 2025-10-01
     category: reference
     tags:
       - declarations
   - title: Loogle
     url: "https://loogle.lean-lang.org/"
-    description: "Search tool for Lean/Mathlib declarations."
+    description: "Lean/Mathlib 声明的搜索工具。"
     authors: Joachim Breitner
     accessed_at: 2025-11-17
     category: reference
     tags:
       - declarations
-  - title: Foundational types
+  - title: 基础类型
     url: "https://leanprover-community.github.io/mathlib4_docs/foundational_types.html"
-    description: "Documents the types built into the foundations of Lean."
-    authors: the Mathlib community
+    description: "记录内置于 Lean 基础中的类型。"
+    authors: Mathlib 社区
     accessed_at: 2025-10-01
     category: reference
     tags:
       - logic
   - title: The Lean Language Reference
     url: "https://lean-lang.org/doc/reference/latest/"
-    description: "A complete description of the features included in core Lean."
-    authors: the Lean developers
+    description: "对核心 Lean 所含特性的完整描述。"
+    authors: Lean 开发者
     accessed_at: 2025-10-01
     category: reference
     tags:
       - logic
       - metaprogramming
       - programming
-  - title: Lean Glossary
+  - title: Lean 术语表
     url: "https://leanprover-community.github.io/glossary.html"
-    description: "Explanations of terminology one might encounter in the Lean community."
-    authors: the Mathlib community
+    description: "对在 Lean 社区中可能遇到的术语的解释。"
+    authors: Mathlib 社区
     accessed_at: 2025-11-05
     category: reference
     tags:
@@ -232,264 +232,264 @@ documentation:
       - tactics
   - title: Logic and Proof
     url: "https://leanprover-community.github.io/logic_and_proof/"
-    description: "Textbook on mathematical logic using Lean and natural deduction."
+    description: "使用 Lean 与自然演绎讲授数理逻辑的教材。"
     authors: Jeremy Avigad, Joseph Hua, Robert Y. Lewis, Floris van Doorn
     accessed_at: 2025-10-01
     category: tutorial
     tags:
       - elementary
       - logic
-  - title: "Mathlib Documentation: Tactics"
+  - title: "Mathlib 文档：策略"
     url: "https://leanprover-community.github.io/mathlib4_docs/tactics.html"
-    description: "Documentation on tactics included with Mathlib, including a complete index."
-    authors: the Mathlib community
+    description: "关于 Mathlib 所含策略的文档，包括完整的索引。"
+    authors: Mathlib 社区
     accessed_at: 2026-02-12
     category: reference
     tags:
       - tactics
-  - title: "Project setup: globally shared mathlib installation"
+  - title: "项目设置：全局共享的 mathlib 安装"
     url: "https://github.com/leanprover-community/mathlib4/wiki/Project-setup:-globally-shared-mathlib-installation"
-    description: "A trick to not download different Mathlib installations for each of your Lean projects."
+    description: "避免为每个 Lean 项目下载不同 Mathlib 安装的技巧。"
     authors: Jon Eugster
     accessed_at: 2026-02-12
     category: how-to
     tags:
       - development
-  - title: "Project setup: following stable releases"
+  - title: "项目设置：跟随稳定版本发布"
     url: "https://github.com/leanprover-community/mathlib4/wiki/Project-setup:-following-stable-releases"
-    description: "A trick to specify only stable releases of your dependencies in the Lakefile."
+    description: "在 Lakefile 中仅指定依赖项稳定版本的技巧。"
     authors: Jon Eugster
     accessed_at: 2026-02-12
     category: how-to
     tags:
       - development
-  - title: "Project setup: using local development version of a dependency"
+  - title: "项目设置：使用依赖项的本地开发版本"
     url: "https://github.com/leanprover-community/mathlib4/wiki/Project-setup:-using-local-development-version-of-a-dependency"
-    description: "A trick to use local copies of a repository for development."
+    description: "在开发中使用某仓库本地副本的技巧。"
     authors: Jon Eugster
     accessed_at: 2026-02-12
     category: how-to
     tags:
       - development
-  - title: "How to use calc"
+  - title: "如何使用 calc"
     url: "https://leanprover-community.github.io/extras/calc.html"
-    description: "A guide to writing computational proofs using the `calc` environment."
-    authors: the Mathlib community
+    description: "使用 `calc` 环境撰写计算式证明的指南。"
+    authors: Mathlib 社区
     accessed_at: 2025-10-01
     category: how-to
     tags:
       - tactics
-  - title: "The conversion tactic mode"
+  - title: "conversion 策略模式"
     url: "https://leanprover-community.github.io/extras/conv.html"
-    description: "A guide to writing calculation proofs using the `conv` environment."
-    authors: the Mathlib community
+    description: "使用 `conv` 环境撰写计算式证明的指南。"
+    authors: Mathlib 社区
     accessed_at: 2025-10-01
     category: explanation
     tags:
       - tactics
-  - title: "Simplifier"
+  - title: "简化器"
     url: "https://leanprover-community.github.io/extras/simp.html"
-    description: "Basic usage and pitfalls for the `simp` and `dsimp` tactics."
-    authors: the Mathlib community
+    description: "`simp` 与 `dsimp` 策略的基本用法及陷阱。"
+    authors: Mathlib 社区
     accessed_at: 2025-10-01
     category: explanation
     tags:
       - tactics
-  - title: "How to use congr()"
+  - title: "如何使用 congr()"
     url: "https://leanprover-community.github.io/extras/congr.html"
-    description: "A guide to writing equational proofs using the `congr()` elaborator."
-    authors: the Mathlib community
+    description: "使用 `congr()` 繁释器撰写等式证明的指南。"
+    authors: Mathlib 社区
     accessed_at: 2025-04-23
     category: how-to
     tags:
       - tactics
-  - title: "The equation compiler and WellFoundedRelation"
+  - title: "等式编译器与 WellFoundedRelation"
     url: "https://leanprover-community.github.io/extras/well_founded_recursion.html"
-    description: "A walkthrough on the use of well-founded recursion to show termination of the `gcd` algorithm."
-    authors: the Mathlib community
+    description: "演示如何使用良基递归来证明 `gcd` 算法的可终止性。"
+    authors: Mathlib 社区
     accessed_at: 2025-10-01
     category: tutorial
     tags:
       - declarations
       - tactics
-  - title: "How to speed up a Mathlib file"
+  - title: "如何加速 Mathlib 文件"
     url: "https://leanprover-community.github.io/extras/speedup.html"
-    description: "Tips and tricks to fix a file that compiles slowly."
-    authors: the Mathlib community
+    description: "修复编译缓慢文件的提示与技巧。"
+    authors: Mathlib 社区
     accessed_at: 2025-10-01
     category: how-to
     tags:
       - declarations
       - tactics
-  - title: "Common Lean Pitfalls"
+  - title: "常见的 Lean 陷阱"
     url: "https://leanprover-community.github.io/extras/pitfalls.html"
-    description: "How to avoid mistakes commonly made by Lean users."
-    authors: the Mathlib community
+    description: "如何避免 Lean 用户常犯的错误。"
+    authors: Mathlib 社区
     accessed_at: 2025-10-01
     category: explanation
     tags:
       - declarations
       - tactics
-  - title: "A mathlib overview"
+  - title: "mathlib 概览"
     url: "https://leanprover-community.github.io/mathlib-overview.html"
-    description: "A index of Mathlib organized by mathematical topic."
-    authors: the Mathlib community
+    description: "按数学主题组织的 Mathlib 索引。"
+    authors: Mathlib 社区
     accessed_at: 2025-10-01
     category: reference
     tags:
       - declarations
-  - title: "Undergraduate mathematics in Mathlib"
+  - title: "Mathlib 中的本科数学"
     url: "https://leanprover-community.github.io/undergrad.html"
-    description: "An index of undergraduate mathematical topics available in Mathlib."
-    authors: the Mathlib community
+    description: "Mathlib 中可用的本科数学主题索引。"
+    authors: Mathlib 社区
     accessed_at: 2025-10-01
     category: reference
     tags:
       - declarations
-  - title: "100 theorems"
+  - title: "100 条定理"
     url: "https://leanprover-community.github.io/100.html"
-    description: "Indexes which of Freek Wiedijk's 100 classical theorems have been formalized in Mathlib."
-    authors: the Mathlib community
+    description: "索引 Freek Wiedijk 的 100 条经典定理中哪些已在 Mathlib 中被形式化。"
+    authors: Mathlib 社区
     accessed_at: 2025-10-01
     category: reference
     tags:
       - declarations
-  - title: "1000+ theorems"
+  - title: "1000+ 条定理"
     url: "https://leanprover-community.github.io/1000.html"
-    description: "Indexes further famous theorems with formalization in Mathlib."
-    authors: the Mathlib community
+    description: "索引更多已在 Mathlib 中形式化的著名定理。"
+    authors: Mathlib 社区
     accessed_at: 2025-10-01
     category: reference
     tags:
       - declarations
-  - title: "Maths in Lean: the natural numbers"
+  - title: "Lean 中的数学：自然数"
     url: "https://leanprover-community.github.io/theories/naturals.html"
-    description: "Overview of the theory of natural numbers in Lean and Mathlib."
-    authors: the Mathlib community
+    description: "Lean 与 Mathlib 中自然数理论的概述。"
+    authors: Mathlib 社区
     accessed_at: 2025-10-01
     category: reference
     tags:
       - elementary
-  - title: "Maths in Lean: linear algebra"
+  - title: "Lean 中的数学：线性代数"
     url: "https://leanprover-community.github.io/theories/linear_algebra.html"
-    description: "Overview of the theory of linear algebra in Mathlib."
-    authors: the Mathlib community
+    description: "Mathlib 中线性代数理论的概述。"
+    authors: Mathlib 社区
     accessed_at: 2025-10-01
     category: reference
     tags:
       - linear algebra
-  - title: "Maths in Lean: Sets and set-like objects"
+  - title: "Lean 中的数学：集合及类集对象"
     url: "https://leanprover-community.github.io/theories/sets.html"
-    description: "Overview of the theory of sets, lists and more in Mathlib."
-    authors: the Mathlib community
+    description: "Mathlib 中集合、列表等理论的概述。"
+    authors: Mathlib 社区
     accessed_at: 2025-10-01
     category: reference
     tags:
       - elementary
-  - title: "Maths in Lean: Topological, uniform and metric spaces"
+  - title: "Lean 中的数学：拓扑空间、一致空间与度量空间"
     url: "https://leanprover-community.github.io/theories/topology.html"
-    description: "Overview of the theory of topology in Mathlib."
-    authors: the Mathlib community
+    description: "Mathlib 中拓扑理论的概述。"
+    authors: Mathlib 社区
     accessed_at: 2025-10-01
     category: reference
     tags:
       - topology
-  - title: "Maths in Lean: category theory"
+  - title: "Lean 中的数学：范畴论"
     url: "https://leanprover-community.github.io/theories/category_theory.html"
-    description: "Overview of category theory in Mathlib."
-    authors: the Mathlib community
+    description: "Mathlib 中范畴论的概述。"
+    authors: Mathlib 社区
     accessed_at: 2025-10-01
     category: reference
     tags:
       - category theory
-  - title: "Contributing to Mathlib"
+  - title: "为 Mathlib 做贡献"
     url: "https://leanprover-community.github.io/contribute/index.html"
-    description: "Guidelines for contributions to Mathlib."
-    authors: the Mathlib community
+    description: "向 Mathlib 贡献的指导方针。"
+    authors: Mathlib 社区
     accessed_at: 2026-05-22
     category: reference
     tags:
       - development
       - normative
-  - title: "How to contribute to Mathlib"
+  - title: "如何为 Mathlib 做贡献"
     url: "https://leanprover-community.github.io/contribute/how-to-contribute.html"
-    description: "How-to guide for contributors to Mathlib."
-    authors: the Mathlib community
+    description: "面向 Mathlib 贡献者的操作指南。"
+    authors: Mathlib 社区
     accessed_at: 2026-05-22
     category: how-to
     tags:
       - development
-  - title: "Git Guide for Mathlib4 Contributors"
+  - title: "面向 Mathlib4 贡献者的 Git 指南"
     url: "https://leanprover-community.github.io/contribute/git.html"
-    description: "How-to guide for making effective use of Git, focussed on contributing to Mathlib."
-    authors: the Mathlib community
+    description: "有效使用 Git 的操作指南，聚焦于向 Mathlib 做贡献。"
+    authors: Mathlib 社区
     accessed_at: 2025-10-01
     category: how-to
     tags:
       - development
-  - title: "Mathlib naming conventions"
+  - title: "Mathlib 命名约定"
     url: "https://leanprover-community.github.io/contribute/naming.html"
-    description: "Defines how Mathlib names declarations in a systematic way."
-    authors: the Mathlib community
+    description: "定义 Mathlib 如何系统化地命名声明。"
+    authors: Mathlib 社区
     accessed_at: 2025-10-01
     category: reference
     tags:
       - declarations
       - normative
-  - title: "Library style guidelines"
+  - title: "库风格指南"
     url: "https://leanprover-community.github.io/contribute/style.html"
-    description: "Defines how to format code to contribute to Mathlib."
-    authors: the Mathlib community
+    description: "定义如何格式化代码以向 Mathlib 做贡献。"
+    authors: Mathlib 社区
     accessed_at: 2025-10-01
     category: reference
     tags:
       - development
       - normative
-  - title: "Documentation style guidelines"
+  - title: "文档风格指南"
     url: "https://leanprover-community.github.io/contribute/doc.html"
-    description: "Defines how to write documentation for your contributions to Mathlib."
-    authors: the Mathlib community
+    description: "定义如何为你向 Mathlib 的贡献撰写文档。"
+    authors: Mathlib 社区
     accessed_at: 2025-10-01
     category: reference
     tags:
       - development
       - normative
-  - title: "Pull request title and description conventions"
+  - title: "拉取请求标题与描述约定"
     url: "https://leanprover-community.github.io/contribute/commit.html"
-    description: "Defines the writing style of text in a pull request for contributions to Mathlib."
-    authors: the Mathlib community
+    description: "定义向 Mathlib 贡献时拉取请求中文本的写作风格。"
+    authors: Mathlib 社区
     accessed_at: 2025-10-01
     category: reference
     tags:
       - development
       - normative
-  - title: "Pull Request Review Guide"
+  - title: "拉取请求评审指南"
     url: "https://leanprover-community.github.io/contribute/pr-review.html"
-    description: "How to write a good review for pull requests to Mathlib. For everyone, not just members of the maintainer team."
-    authors: the Mathlib community
+    description: "如何为 Mathlib 的拉取请求撰写良好的评审。面向所有人，不仅限于维护者团队成员。"
+    authors: Mathlib 社区
     accessed_at: 2025-10-01
     category: how-to
     tags:
       - development
-  - title: "The Lean Github ecosystem"
+  - title: "Lean 的 GitHub 生态系统"
     url: "https://leanprover-community.github.io/contribute/tags_and_branches.html"
-    description: "Overview of the development flow for branches in the Lean ecosystem."
-    authors: the Mathlib community
+    description: "Lean 生态系统中分支开发流程的概述。"
+    authors: Mathlib 社区
     accessed_at: 2025-10-01
     category: reference
     tags:
       - development
-  - title: "What is a quotient?"
+  - title: "什么是商（quotient）？"
     url: "https://xenaproject.wordpress.com/2025/02/09/what-is-a-quotient/"
-    description: "How quotients work in Lean, compared to quotients in (naïve) set theory."
+    description: "商在 Lean 中如何运作，并与（朴素）集合论中的商进行对比。"
     authors: Kevin Buzzard
     accessed_at: 2025-10-02
     category: explanation
     tags:
       - elementary
-  - title: "Division by zero in type theory: a FAQ"
+  - title: "类型论中的除以零：常见问题解答"
     url: "https://xenaproject.wordpress.com/2020/07/05/division-by-zero-in-type-theory-a-faq/"
-    description: "Explains why Lean chooses to define that `1 / 0 = 0`."
+    description: "解释为何 Lean 选择定义 `1 / 0 = 0`。"
     authors: Kevin Buzzard
     accessed_at: 2026-02-12
     category: explanation
@@ -497,48 +497,48 @@ documentation:
       - elementary
   - title: "library note [the algebraic hierarchy]"
     url: "https://leanprover-community.github.io/mathlib4_docs/find/?pattern=LibraryNote.the_algebraic_hierarchy#doc"
-    description: "Explains the structure of the algebraic hierarchy and how to add new elements to it."
-    authors: the Mathlib community
+    description: "解释代数层级的结构，以及如何向其中添加新元素。"
+    authors: Mathlib 社区
     accessed_at: 2026-02-12
     category: explanation
     tags:
       - classes
   - title: "library note [reducible non-instances]"
     url: "https://leanprover-community.github.io/mathlib4_docs/find/?pattern=LibraryNote.«reducible_non-instances»#doc"
-    description: "Definitions that cannot be instances should be made reducible."
-    authors: the Mathlib community
+    description: "不能作为实例的定义应当被标记为 reducible。"
+    authors: Mathlib 社区
     accessed_at: 2026-02-12
     category: explanation
     tags:
       - classes
   - title: "library note [implicit instance arguments]"
     url: "https://leanprover-community.github.io/mathlib4_docs/find/?pattern=LibraryNote.implicit_instance_arguments#doc"
-    description: "Some places prefer implicit `{}` brackets for typeclass arguments instead of typical instance `[]` brackets."
-    authors: the Mathlib community
+    description: "某些地方对类型类参数偏好使用隐式 `{}` 括号，而非典型的实例 `[]` 括号。"
+    authors: Mathlib 社区
     accessed_at: 2026-02-12
     category: explanation
     tags:
       - classes
   - title: "library note [lower instance priority]"
     url: "https://leanprover-community.github.io/mathlib4_docs/find/?pattern=LibraryNote.lower_instance_priority#doc"
-    description: "When creating an instance that always applies, give it a lower priority."
-    authors: the Mathlib community
+    description: "在创建一个始终适用的实例时，应赋予其较低的优先级。"
+    authors: Mathlib 社区
     accessed_at: 2026-02-12
     category: explanation
     tags:
       - classes
   - title: "library note [instance argument order]"
     url: "https://leanprover-community.github.io/mathlib4_docs/find/?pattern=LibraryNote.instance_argument_order#doc"
-    description: "A trick to speed up typeclass instance synthesis by putting more specific goals first."
-    authors: the Mathlib community
+    description: "通过将更具体的目标放在前面来加速类型类实例合成的技巧。"
+    authors: Mathlib 社区
     accessed_at: 2026-02-12
     category: explanation
     tags:
       - classes
   - title: "library note [SetLike Aesop ruleset]"
     url: "https://leanprover-community.github.io/mathlib4_docs/find/?pattern=LibraryNote.SetLike_Aesop_ruleset#doc"
-    description: "How to add rules about `SetLike` membership to Aesop."
-    authors: the Mathlib community
+    description: "如何向 Aesop 添加关于 `SetLike` 成员关系的规则。"
+    authors: Mathlib 社区
     accessed_at: 2026-02-12
     category: explanation
     tags:
@@ -546,24 +546,24 @@ documentation:
       - tactics
   - title: "library note [no_index around OfNat.ofNat]"
     url: "https://leanprover-community.github.io/mathlib4_docs/find/?pattern=LibraryNote.«no_index_around_OfNat.ofNat»#doc"
-    authors: the Mathlib community
-    description: "Write `ofNat(n)` in lemmas instead of `OfNat.ofNat n`."
+    authors: Mathlib 社区
+    description: "在引理中写 `ofNat(n)` 而非 `OfNat.ofNat n`。"
     accessed_at: 2026-02-12
     category: explanation
     tags:
       - elementary
   - title: "library note [coercion into rings]"
     url: "https://leanprover-community.github.io/mathlib4_docs/find/?pattern=LibraryNote.coercion_into_rings#doc"
-    description: "How to set up coercions from a concrete structure like `ℕ` to an arbitrary ring `R`."
-    authors: the Mathlib community
+    description: "如何设置从具体结构（如 `ℕ`）到任意环 `R` 的强制转换。"
+    authors: Mathlib 社区
     accessed_at: 2025-10-06
     category: explanation
     tags:
       - ring theory
   - title: "library note [RCLike instance]"
     url: "https://leanprover-community.github.io/mathlib4_docs/find/?pattern=LibraryNote.RCLike_instance#doc"
-    description: "An instance creating a goal `[RCLike ?m]` is okay since there are only two choices, `ℝ` or `ℂ`."
-    authors: the Mathlib community
+    description: "产生目标 `[RCLike ?m]` 的实例是可以接受的，因为只有 `ℝ` 或 `ℂ` 两种选择。"
+    authors: Mathlib 社区
     accessed_at: 2026-02-12
     category: explanation
     tags:
@@ -571,112 +571,112 @@ documentation:
       - classes
   - title: "library note [fact non-instances]"
     url: "https://leanprover-community.github.io/mathlib4_docs/find/?pattern=LibraryNote.«fact_non-instances»#doc"
-    description: "We do not declare any global instances of the `Fact` typeclass."
-    authors: the Mathlib community
+    description: "我们不声明 `Fact` 类型类的任何全局实例。"
+    authors: Mathlib 社区
     accessed_at: 2026-02-12
     category: explanation
     tags:
       - classes
   - title: "library note [decidable namespace]"
     url: "https://leanprover-community.github.io/mathlib4_docs/find/?pattern=LibraryNote.decidable_namespace#doc"
-    description: "The `Decidable` namespace contains theorems that avoid the use of the Law of Excluded Middle by using `Decidable` instances instead."
-    authors: the Mathlib community
+    description: "`Decidable` 命名空间包含通过使用 `Decidable` 实例来避免使用排中律的定理。"
+    authors: Mathlib 社区
     accessed_at: 2025-10-06
     category: explanation
     tags:
       - declarations
   - title: "library note [decidable arguments]"
     url: "https://leanprover-community.github.io/mathlib4_docs/find/?pattern=LibraryNote.decidable_arguments#doc"
-    description: "If a `Decidable` hypothesis is not needed for the type signature of a theorem or lemma, use `classical` instead."
-    authors: the Mathlib community
+    description: "如果定理或引理的类型签名不需要 `Decidable` 假设，则改用 `classical`。"
+    authors: Mathlib 社区
     accessed_at: 2025-10-06
     category: explanation
     tags:
       - declarations
   - title: "library note [slow-failing instance priority]"
     url: "https://leanprover-community.github.io/mathlib4_docs/find/?pattern=LibraryNote.«slow-failing_instance_priority»#doc"
-    description: "Instances that would be slow to fail to apply should have a lower priority."
-    authors: the Mathlib community
+    description: "应用失败速度缓慢的实例应当赋予较低的优先级。"
+    authors: Mathlib 社区
     accessed_at: 2026-02-12
     category: explanation
     tags:
       - classes
   - title: "library note [foundational algebra order theory]"
     url: "https://leanprover-community.github.io/mathlib4_docs/find/?pattern=LibraryNote.foundational_algebra_order_theory#doc"
-    description: "Batteries sets up the algebraic and order theoretic properties of `Nat` and `Int`; Mathlib replaces this with a typeclass-based system."
-    authors: the Mathlib community
+    description: "Batteries 设置了 `Nat` 与 `Int` 的代数与序理论性质；Mathlib 以基于类型类的系统取而代之。"
+    authors: Mathlib 社区
     accessed_at: 2026-02-12
     category: explanation
     tags:
       - elementary
   - title: "library note [continuity lemma statement]"
     url: "https://leanprover-community.github.io/mathlib4_docs/find/?pattern=LibraryNote.continuity_lemma_statement#doc"
-    description: "How to write more useful continuity lemmas."
-    authors: the Mathlib community
+    description: "如何撰写更有用的连续性引理。"
+    authors: Mathlib 社区
     accessed_at: 2026-02-12
     category: explanation
     tags:
       - topology
   - title: "library note [comp_of_eq lemmas]"
     url: "https://leanprover-community.github.io/mathlib4_docs/find/?pattern=LibraryNote.comp_of_eq_lemmas#doc"
-    description: "How to avoid elaboration problems when writing the continuity of a composition."
-    authors: the Mathlib community
+    description: "如何在撰写复合函数的连续性时避免繁释问题。"
+    authors: Mathlib 社区
     accessed_at: 2026-02-12
     category: explanation
     tags:
       - topology
   - title: "library note [IMO geometry formalization conventions]"
     url: "https://leanprover-community.github.io/mathlib4_docs/find/?pattern=LibraryNote.IMO_geometry_formalization_conventions#doc"
-    description: "Conventions for formalizing geometry problems from the IMO as part of Mathlib's Archive."
-    authors: the Mathlib community
+    description: "作为 Mathlib 的 Archive 一部分，形式化 IMO 几何问题的约定。"
+    authors: Mathlib 社区
     accessed_at: 2026-02-12
     category: explanation
     tags:
       - euclidean geometry
   - title: "library note [change elaboration strategy with `by apply`]"
     url: "https://leanprover-community.github.io/mathlib4_docs/find/?pattern=LibraryNote.«change_elaboration_strategy_with_`by_apply`»#doc"
-    description: "A trick to elaborate a term and its type in a different order."
-    authors: the Mathlib community
+    description: "以不同顺序繁释一个项及其类型的技巧。"
+    authors: Mathlib 社区
     accessed_at: 2026-02-12
     category: explanation
     tags:
       - tactics
   - title: "library note [pointwise nat action]"
     url: "https://leanprover-community.github.io/mathlib4_docs/find/?pattern=LibraryNote.pointwise_nat_action#doc"
-    description: "The action of natural numbers or integers on sets takes precedence over pointwise actions."
-    authors: the Mathlib community
+    description: "自然数或整数对集合的作用优先于逐点作用。"
+    authors: Mathlib 社区
     accessed_at: 2026-02-12
     category: explanation
     tags:
       - elementary
   - title: "library note [Design choices about smooth algebraic structures]"
     url: "https://leanprover-community.github.io/mathlib4_docs/find/?pattern=LibraryNote.Design_choices_about_smooth_algebraic_structures#doc"
-    description: "Mathlib's design choices about smooth algebraic structures"
-    authors: the Mathlib community
+    description: "Mathlib 关于光滑代数结构的设计选择"
+    authors: Mathlib 社区
     accessed_at: 2026-02-12
     category: explanation
     tags:
       - differential geometry
   - title: "library note [Manifold type tags]"
     url: "https://leanprover-community.github.io/mathlib4_docs/find/?pattern=LibraryNote.Manifold_type_tags#doc"
-    description: "Explains why `ModelProd` and `ModelPi` exist."
-    authors: the Mathlib community
+    description: "解释为何存在 `ModelProd` 与 `ModelPi`。"
+    authors: Mathlib 社区
     accessed_at: 2026-02-12
     category: explanation
     tags:
       - differential geometry
   - title: "library note [non-Archimedean non-instances]"
     url: "https://leanprover-community.github.io/mathlib4_docs/find/?pattern=LibraryNote.«non-Archimedean_non-instances»#doc"
-    description: "Why non-Archimedean subgroup basis lemmas cannot be instances."
-    authors: the Mathlib community
+    description: "为何非阿基米德子群基引理不能作为实例。"
+    authors: Mathlib 社区
     accessed_at: 2026-02-12
     category: explanation
     tags:
       - topology
   - title: "library note [range copy pattern]"
     url: "https://leanprover-community.github.io/mathlib4_docs/find/?pattern=LibraryNote.range_copy_pattern#doc"
-    description: "The image of a morphism `f` is defined using `Set.range` if possible, not `map ⊤ f`."
-    authors: the Mathlib community
+    description: "若可能，态射 `f` 的像使用 `Set.range` 定义，而非 `map ⊤ f`。"
+    authors: Mathlib 社区
     accessed_at: 2026-02-12
     category: explanation
     tags:
@@ -685,56 +685,56 @@ documentation:
       - ring theory
   - title: "library note [continuous functional calculus]"
     url: "https://leanprover-community.github.io/mathlib4_docs/find/?pattern=LibraryNote.continuous_functional_calculus#doc"
-    description: "Design overview of the continuous functional calculus in Mathlib."
-    authors: the Mathlib community
+    description: "Mathlib 中连续泛函演算的设计概述。"
+    authors: Mathlib 社区
     accessed_at: 2026-02-12
     category: explanation
     tags:
       - analysis
   - title: "library note [specialised high priority simp lemma]"
     url: "https://leanprover-community.github.io/mathlib4_docs/find/?pattern=LibraryNote.specialised_high_priority_simp_lemma#doc"
-    description: "When not to un-`@[simp]` a lemma in favour of a more powerful version."
-    authors: the Mathlib community
+    description: "何时不应为了更强大的版本而取消某引理的 `@[simp]`。"
+    authors: Mathlib 社区
     accessed_at: 2026-02-12
     category: explanation
     tags:
       - tactics
   - title: "library note [out-param inheritance]"
     url: "https://leanprover-community.github.io/mathlib4_docs/find/?pattern=LibraryNote.«out-param_inheritance»#doc"
-    description: "Limitations on the interaction of typeclass inheritance and `outParam`s."
-    authors: the Mathlib community
+    description: "类型类继承与 `outParam` 相互作用的局限性。"
+    authors: Mathlib 社区
     accessed_at: 2026-02-12
     category: explanation
     tags:
       - classes
   - title: "library note [lower cancel priority]"
     url: "https://leanprover-community.github.io/mathlib4_docs/find/?pattern=LibraryNote.lower_cancel_priority#doc"
-    description: "Inheritance from cancellative algebraic structures gets a lower priority."
-    authors: the Mathlib community
+    description: "从可消去代数结构继承应赋予较低的优先级。"
+    authors: Mathlib 社区
     accessed_at: 2026-02-12
     category: explanation
     tags:
       - classes
   - title: "library note [forgetful inheritance]"
     url: "https://leanprover-community.github.io/mathlib4_docs/find/?pattern=LibraryNote.forgetful_inheritance#doc"
-    description: "Design pattern for typeclass inheritance where we include all fields, even if they can be inferred."
-    authors: the Mathlib community
+    description: "类型类继承的设计模式，即使字段可以被推断，我们也包含所有字段。"
+    authors: Mathlib 社区
     accessed_at: 2025-10-06
     category: explanation
     tags:
       - classes
   - title: "library note [custom simps projection]"
     url: "https://leanprover-community.github.io/mathlib4_docs/find/?pattern=LibraryNote.custom_simps_projection#doc"
-    description: "How to register projections for the `@[simps]` attribute."
-    authors: the Mathlib community
+    description: "如何为 `@[simps]` 属性注册投影。"
+    authors: Mathlib 社区
     accessed_at: 2026-02-12
     category: how-to
     tags:
       - tactics
   - title: "library note [norm_num lemma function equality]"
     url: "https://leanprover-community.github.io/mathlib4_docs/find/?pattern=LibraryNote.norm_num_lemma_function_equality#doc"
-    description: "Why lemmas for the `norm_num` tactic use a parameter `f` and hypothesis `f = HAdd.add` instead of writing `+`."
-    authors: the Mathlib community
+    description: "为何 `norm_num` 策略的引理使用参数 `f` 与假设 `f = HAdd.add`，而非直接写 `+`。"
+    authors: Mathlib 社区
     accessed_at: 2026-02-12
     category: explanation
     tags:
@@ -742,8 +742,8 @@ documentation:
       - metaprogramming
   - title: "library note [hom simp lemma priority]"
     url: "https://leanprover-community.github.io/mathlib4_docs/find/?pattern=LibraryNote.hom_simp_lemma_priority#doc"
-    description: "Widely applicable `@[simp]` lemmas should receive `mid` priority."
-    authors: the Mathlib community
+    description: "广泛适用的 `@[simp]` 引理应赋予 `mid` 优先级。"
+    authors: Mathlib 社区
     accessed_at: 2026-02-12
     category: explanation
     tags:
@@ -751,8 +751,8 @@ documentation:
       - tactics
   - title: "library note [category theory universes]"
     url: "https://leanprover-community.github.io/mathlib4_docs/find/?pattern=LibraryNote.category_theory_universes#doc"
-    description: "Design patterns for ordering the universe levels in category theory declarations."
-    authors: the Mathlib community
+    description: "在范畴论声明中排列宇宙层级的设计模式。"
+    authors: Mathlib 社区
     accessed_at: 2026-02-12
     category: explanation
     tags:
@@ -760,230 +760,229 @@ documentation:
       - declarations
   - title: "library note [operator precedence of big operators]"
     url: "https://leanprover-community.github.io/mathlib4_docs/find/?pattern=LibraryNote.operator_precedence_of_big_operators#doc"
-    description: "The choice of operator precedence for `∏` and `∑` operators in Mathlib."
-    authors: the Mathlib community
+    description: "Mathlib 中 `∏` 与 `∑` 运算符的运算符优先级选择。"
+    authors: Mathlib 社区
     accessed_at: 2026-02-12
     category: explanation
     tags:
       - group theory
   - title: "library note [bundled maps over different rings]"
     url: "https://leanprover-community.github.io/mathlib4_docs/find/?pattern=LibraryNote.bundled_maps_over_different_rings»#doc"
-    description: "A design trick for when bundled maps have stronger properties if certain typeclass assumptions are satisfied."
-    authors: the Mathlib community
+    description: "当捆绑映射在满足某些类型类假设时具有更强性质时的一种设计技巧。"
+    authors: Mathlib 社区
     accessed_at: 2026-02-12
     category: explanation
     tags:
       - group theory
       - linear algebra
-  - title: "Computation models for polynomials and finitely supported functions"
+  - title: "多项式与有限支撑函数的计算模型"
     url: "https://github.com/leanprover-community/mathlib4/wiki/Computation-models-for-polynomials-and-finitely-supported-functions"
-    description: "An overview of potential (re)implementations for computable polynomials in Mathlib."
-    authors: the Mathlib community
+    description: "Mathlib 中可计算多项式潜在（重新）实现方式的概述。"
+    authors: Mathlib 社区
     accessed_at: 2025-10-08
     category: explanation
     tags:
       - logic
       - ring theory
-  - title: "Lean 4 survival guide for Lean 3 users"
+  - title: "面向 Lean 3 用户的 Lean 4 生存指南"
     url: "https://github.com/leanprover-community/mathlib4/wiki/Lean-4-survival-guide-for-Lean-3-users"
-    description: "Historical overview of differences between Lean 3 and Lean 4."
-    authors: the Mathlib community
+    description: "Lean 3 与 Lean 4 之间差异的历史性概述。"
+    authors: Mathlib 社区
     accessed_at: 2025-10-08
     category: how-to
     tags:
       - historical
-  - title: "Mathlib3 Synchronization"
+  - title: "Mathlib3 同步"
     url: "https://github.com/leanprover-community/mathlib4/wiki/Mathlib3-Synchronisation"
-    authors: the Mathlib community
-    description: "Outdated."
+    authors: Mathlib 社区
+    description: "已过时。"
     accessed_at: 2025-10-08
     category: how-to
     tags:
       - historical
-  - title: "Metaprogramming for dummies"
+  - title: "元编程入门"
     url: "https://github.com/leanprover-community/mathlib4/wiki/Metaprogramming-for-dummies"
-    description: "A basic introduction to metaprogramming in Lean."
-    authors: the Mathlib community
+    description: "Lean 中元编程的基础入门。"
+    authors: Mathlib 社区
     accessed_at: 2025-10-08
     category: how-to
     tags:
       - metaprogramming
-  - title: "Metaprogramming gotchas"
+  - title: "元编程的陷阱"
     url: "https://github.com/leanprover-community/mathlib4/wiki/Metaprogramming-gotchas"
-    description: "Lists common bugs in tactic writing for Lean."
-    authors: the Mathlib community
+    description: "列举 Lean 策略编写中的常见错误。"
+    authors: Mathlib 社区
     accessed_at: 2025-10-08
     category: how-to
     tags:
       - metaprogramming
-  - title: "Migration to PRs from forks"
+  - title: "迁移到从派生（fork）发起的拉取请求"
     url: "https://github.com/leanprover-community/mathlib4/wiki/Migration-to-PRs-from-forks"
-    description: "How to switch an old-style PR to a PR from a fork."
-    authors: the Mathlib community
+    description: "如何将旧式拉取请求转换为从派生发起的拉取请求。"
+    authors: Mathlib 社区
     accessed_at: 2025-10-08
     category: how-to
     tags:
       - historical
-  - title: "The monad map"
+  - title: "单子映射"
     url: "https://github.com/leanprover-community/mathlib4/wiki/Monad-map"
-    description: "Overview of the metaprogramming monads in Lean."
-    authors: the Mathlib community
+    description: "Lean 中元编程单子的概述。"
+    authors: Mathlib 社区
     accessed_at: 2025-10-08
     category: reference
     tags:
       - metaprogramming
-  - title: "Porting wiki"
+  - title: "移植 wiki"
     url: "https://github.com/leanprover-community/mathlib4/wiki/Porting-wiki"
-    authors: the Mathlib community
-    description: "Outdated."
+    authors: Mathlib 社区
+    description: "已过时。"
     accessed_at: 2025-10-08
     category: how-to
     tags:
       - historical
-  - title: "Setting up linting and testing for your Lean project"
+  - title: "为你的 Lean 项目设置 linting 与测试"
     url: "https://github.com/leanprover-community/mathlib4/wiki/Setting-up-linting-and-testing-for-your-Lean-project"
-    description: "How to add a linting and testing framework to a math project in Lean."
-    authors: the Mathlib community
+    description: "如何为 Lean 数学项目添加 linting 与测试框架。"
+    authors: Mathlib 社区
     accessed_at: 2025-10-08
     category: how-to
     tags:
       - development
       - linters
-  - title: "Tradeoffs of concrete types defined as subobjects"
+  - title: "将具体类型定义为子对象的权衡"
     url: "https://github.com/leanprover-community/mathlib4/wiki/Tradeoffs-of-concrete-types-defined-as-subobjects"
-    description: "Reasons to prefer defining something as a custom structure, a coercion to `Type`, or a subobject."
-    authors: the Mathlib community
+    description: "倾向于将某物定义为自定义结构、到 `Type` 的强制转换或子对象的理由。"
+    authors: Mathlib 社区
     accessed_at: 2025-10-08
     category: explanation
     tags:
       - declarations
       - classes
-  - title: "Formalizing mathematics: Types and terms"
+  - title: "形式化数学：类型与项"
     url: "https://b-mehta.github.io/formalising-mathematics-notes/Part_1/typesandterms.html"
-    description: "Lecture notes for a course on formalizing mathematics, focussing more on the design choices made when formalizing."
+    description: "一门关于形式化数学课程的讲义，更侧重于形式化时所做的设计选择。"
     authors: Kevin Buzzard, Bhavik Mehta
     accessed_at: 2025-10-08
     category: explanation
     tags:
       - logic
-  - title: "Formalizing mathematics: Equality"
+  - title: "形式化数学：相等"
     url: "https://b-mehta.github.io/formalising-mathematics-notes/Part_1/equality.html"
-    description: "Lecture notes for a course on formalizing mathematics, focussing more on the design choices made when formalizing."
+    description: "一门关于形式化数学课程的讲义，更侧重于形式化时所做的设计选择。"
     authors: Kevin Buzzard, Bhavik Mehta
     accessed_at: 2025-10-08
     category: explanation
     tags:
       - logic
-  - title: "Formalizing mathematics: The three kinds of types"
+  - title: "形式化数学：三种类型"
     url: "https://b-mehta.github.io/formalising-mathematics-notes/Part_1/threekindsoftypes.html"
-    description: "Lecture notes for a course on formalizing mathematics, focussing more on the design choices made when formalizing."
+    description: "一门关于形式化数学课程的讲义，更侧重于形式化时所做的设计选择。"
     authors: Kevin Buzzard, Bhavik Mehta
     accessed_at: 2025-10-08
     category: explanation
     tags:
       - logic
-  - title: "Formalizing mathematics: Brackets in function inputs"
+  - title: "形式化数学：函数输入中的括号"
     url: "https://b-mehta.github.io/formalising-mathematics-notes/Part_1/brackets.html"
-    description: "Lecture notes for a course on formalizing mathematics, focussing more on the design choices made when formalizing."
+    description: "一门关于形式化数学课程的讲义，更侧重于形式化时所做的设计选择。"
     authors: Kevin Buzzard, Bhavik Mehta
     accessed_at: 2025-10-08
     category: explanation
     tags:
       - declarations
-  - title: "Formalizing mathematics: Notation and precedence"
+  - title: "形式化数学：记号与优先级"
     url: "https://b-mehta.github.io/formalising-mathematics-notes/Part_1/precedence.html"
-    description: "Lecture notes for a course on formalizing mathematics, focussing more on the design choices made when formalizing."
+    description: "一门关于形式化数学课程的讲义，更侧重于形式化时所做的设计选择。"
     authors: Kevin Buzzard, Bhavik Mehta
     accessed_at: 2025-10-08
     category: explanation
     tags:
       - declarations
-  - title: "Formalizing mathematics: Structures"
+  - title: "形式化数学：结构"
     url: "https://b-mehta.github.io/formalising-mathematics-notes/Part_1/structures.html"
-    description: "Lecture notes for a course on formalizing mathematics, focussing more on the design choices made when formalizing."
+    description: "一门关于形式化数学课程的讲义，更侧重于形式化时所做的设计选择。"
     authors: Kevin Buzzard, Bhavik Mehta
     accessed_at: 2025-10-08
     category: explanation
     tags:
       - declarations
-  - title: "Formalizing mathematics: Classes"
+  - title: "形式化数学：类型类"
     url: "https://b-mehta.github.io/formalising-mathematics-notes/Part_1/classes.html"
-    description: "Lecture notes for a course on formalizing mathematics, focussing more on the design choices made when formalizing."
+    description: "一门关于形式化数学课程的讲义，更侧重于形式化时所做的设计选择。"
     authors: Kevin Buzzard, Bhavik Mehta
     accessed_at: 2025-10-08
     category: explanation
     tags:
       - classes
-  - title: "Formalizing mathematics: Dot notation"
+  - title: "形式化数学：点记号"
     url: "https://b-mehta.github.io/formalising-mathematics-notes/Part_1/dot_notation.html"
-    description: "Lecture notes for a course on formalizing mathematics, focussing more on the design choices made when formalizing."
+    description: "一门关于形式化数学课程的讲义，更侧重于形式化时所做的设计选择。"
     authors: Kevin Buzzard, Bhavik Mehta
     accessed_at: 2025-10-08
     category: explanation
     tags:
       - declarations
-  - title: "Formalizing mathematics: Coercions"
+  - title: "形式化数学：强制转换"
     url: "https://b-mehta.github.io/formalising-mathematics-notes/Part_1/coercions.html"
-    description: "Lecture notes for a course on formalizing mathematics, focussing more on the design choices made when formalizing."
+    description: "一门关于形式化数学课程的讲义，更侧重于形式化时所做的设计选择。"
     authors: Kevin Buzzard, Bhavik Mehta
     accessed_at: 2025-10-08
     category: explanation
     tags:
       - declarations
-  - title: "Formalizing mathematics: The axiom of choice"
+  - title: "形式化数学：选择公理"
     url: "https://b-mehta.github.io/formalising-mathematics-notes/Part_1/the_axiom_of_choice.html"
-    description: "Lecture notes for a course on formalizing mathematics, focussing more on the design choices made when formalizing."
+    description: "一门关于形式化数学课程的讲义，更侧重于形式化时所做的设计选择。"
     authors: Kevin Buzzard, Bhavik Mehta
     accessed_at: 2025-10-08
     category: explanation
     tags:
       - logic
-  - title: "Formalizing mathematics: How to format your code well"
+  - title: "形式化数学：如何良好地格式化你的代码"
     url: "https://b-mehta.github.io/formalising-mathematics-notes/Part_1/well_formatted_code.html"
-    description: "Guide to writing well-formatted Lean code according to the Mathlib style guidelines."
+    description: "按照 Mathlib 风格指南撰写格式良好的 Lean 代码的指南。"
     authors: Kevin Buzzard, Bhavik Mehta
     accessed_at: 2025-10-08
     category: how-to
     tags:
       - development
-  - title: "Formalizing mathematics: Tactics"
+  - title: "形式化数学：策略"
     url: "https://b-mehta.github.io/formalising-mathematics-notes/Part_2/Part_2.html"
-    description: "Overview of the most important tactics made available by Mathlib."
+    description: "Mathlib 提供的最重要策略的概述。"
     authors: Kevin Buzzard, Bhavik Mehta
     accessed_at: 2025-10-08
     category: reference
     tags:
       - tactics
-  - title: "Introduction to Tactic Writing in Lean"
+  - title: "Lean 策略编写入门"
     url: "https://github.com/mirefek/lean-tactic-programming-guide"
-    description: "Tutorials for tactic writing, in increasing level of difficulty."
+    description: "策略编写的教程，难度逐步递增。"
     authors: Mirek Olšák
     accessed_at: 2025-11-10
     category: tutorial
     tags:
       - metaprogramming
-  - title: "Video tutorials: Metaprogramming in Lean"
+  - title: "视频教程：Lean 中的元编程"
     url: "https://www.youtube.com/playlist?list=PL_bVGic_CrGtMw1QVFRLRsZjcymm56mRi"
-    description: "Some tutorials on Meta-programming, especially for writing tactics, in Lean 4."
+    description: "一些关于 Lean 4 中元编程，尤其是策略编写的教程。"
     authors: "Siddhartha Gadgil"
     accessed_at: 2026-02-21
     category: tutorial
     tags:
       - metaprogramming
-  - title: "Lean 4 (Meta)programming Cookbook"
+  - title: "Lean 4（元）编程手册"
     url: "https://leanprover-cookbook.github.io/lean-metaprogramming-recipes/"
-    description: "A collection of recipes for meta-programming and programming in Lean."
+    description: "Lean 中元编程与编程的诀窍合集。"
     authors: Anirudh Gupta, Ajay Kumar Nair, Siddhartha Gadgil, Swarnava Chakraborty
     accessed_at: 2026-04-10
     category: how-to
     tags:
       - metaprogramming
-  - title: A Lean companion to "Analysis I"
+  - title: 《Analysis I》的 Lean 配套版
     url: "https://github.com/teorth/analysis"
-    description: "A formalization of an undergraduate Analysis textbook, with many exercises."
+    description: "一本本科分析学教材的形式化，附有许多习题。"
     authors: Terence Tao
     accessed_at: 2026-04-13
     category: tutorial
     tags:
       - analysis
-

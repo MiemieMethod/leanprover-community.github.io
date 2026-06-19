@@ -1,5 +1,5 @@
 {% extends '_base.html' %}
-{% block title %}Mathlib documentation overview{% endblock %}
+{% block title %}Mathlib 文档总览{% endblock %}
 {% block extracss %}
 <style type="text/css">
 ul.taglist {
@@ -83,7 +83,7 @@ function toggle_tag(id) {
     <a href="{{ entry.url }}">{{ entry.title }}</a>
   </dt>
   <dd class="documentation-entry {% for tag in entry.tags %}documentation-tag-{{ tag_id(tag) }} {% endfor %}">
-    by {{ entry.authors }}<br />
+    作者：{{ entry.authors }}<br />
     {{ entry.description }}
     <ul class="taglist">
       {% for tag in entry.tags %}
@@ -95,40 +95,40 @@ function toggle_tag(id) {
 {% endmacro %}
 
 {% block content %}
-      <h1>Documentation overview</h1>
+      <h1>文档总览</h1>
 
-      <p>This page is intended to contain a complete overview of all documentation helpful for users of Mathlib and of Lean in general. We organize the documentation according to <a href="https://docs.divio.com/documentation-system/">the Divio documentation system</a> into four quadrants:</p>
+      <p>本页旨在完整收录所有对 Mathlib 用户以及 Lean 用户有所帮助的文档。我们依照 <a href="https://docs.divio.com/documentation-system/">Divio 文档体系</a>将文档分为四个象限来组织：</p>
 
       <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
 
         <a href="#tutorials">
-          <text x="180" y="100" style="text-anchor: end; fill: #004d99;" font-size: 16px;>Tutorial</text>
-          <text x="180" y="120" style="text-anchor: end; font-size: 12px;">Learning-oriented</text>
+          <text x="180" y="100" style="text-anchor: end; fill: #004d99;" font-size: 16px;>教程</text>
+          <text x="180" y="120" style="text-anchor: end; font-size: 12px;">面向学习</text>
         </a>
         <a href="#how-tos">
-          <text x="220" y="100" style="text-anchor: start; fill: #004d99; font-size: 16px;">How-to guide</text>
-          <text x="220" y="120" style="text-anchor: start; font-size: 12px;">Problem-oriented</text>
+          <text x="220" y="100" style="text-anchor: start; fill: #004d99; font-size: 16px;">操作指南</text>
+          <text x="220" y="120" style="text-anchor: start; font-size: 12px;">面向问题</text>
         </a>
         <a href="#explanations">
-          <text x="180" y="200" style="text-anchor: end; fill: #004d99; font-size: 16px;">Explanation</text>
-          <text x="180" y="180" style="text-anchor: end; font-size: 12px;">Understanding-oriented</text>
+          <text x="180" y="200" style="text-anchor: end; fill: #004d99; font-size: 16px;">阐释</text>
+          <text x="180" y="180" style="text-anchor: end; font-size: 12px;">面向理解</text>
         </a>
         <a href="#references">
-          <text x="220" y="200" style="text-anchor: start; fill: #004d99; font-size: 16px;">Reference</text>
-          <text x="220" y="180" style="text-anchor: start; font-size: 12px;">Information-oriented</text>
+          <text x="220" y="200" style="text-anchor: start; fill: #004d99; font-size: 16px;">参考</text>
+          <text x="220" y="180" style="text-anchor: start; font-size: 12px;">面向信息</text>
         </a>
 
-      <text x="20" y="150" style="text-anchor: start; font-size: 8px;">most useful when we're studying</text>
-      <text x="380" y="150" style="text-anchor: end; font-size: 8px;">most useful when we're working</text>
-      <text transform="translate(200, 20) rotate(90)" style="text-anchor: start; font-size: 8px;">practical steps</text>
-      <text transform="translate(200, 280) rotate(90)" style="text-anchor: end; font-size: 8px;">theoretical knowledge</text>
+      <text x="20" y="150" style="text-anchor: start; font-size: 8px;">在我们学习时最为有用</text>
+      <text x="380" y="150" style="text-anchor: end; font-size: 8px;">在我们工作时最为有用</text>
+      <text transform="translate(200, 20) rotate(90)" style="text-anchor: start; font-size: 8px;">实践步骤</text>
+      <text transform="translate(200, 280) rotate(90)" style="text-anchor: end; font-size: 8px;">理论知识</text>
 
       </svg>
 
-      <p>If you have some documentation and it is missing from the list, you can add it <a href="https://github.com/leanprover-community/leanprover-community.github.io/blob/lean4/data/documentation.yaml">to documentation.yaml in the website repository</a>. If you are missing documentation, you can <a href="https://leanprover.zulipchat.com/#narrow/channel/287929-mathlib4/topic/Mathlib.3A.20the.20Missing.20Manuals">request it on Zulip</a>.</p>
+      <p>如果你有某份文档而它未出现在列表中，你可以将其<a href="https://github.com/leanprover-community/leanprover-community.github.io/blob/lean4/data/documentation.yaml">添加到网站仓库中的 documentation.yaml</a>。如果你缺少某份文档，你可以<a href="https://leanprover.zulipchat.com/#narrow/channel/287929-mathlib4/topic/Mathlib.3A.20the.20Missing.20Manuals">在 Zulip 上提出请求</a>。</p>
 
       <details class="tag-selection">
-        <summary>Filter by all tags:</summary>
+        <summary>按所有标签筛选：</summary>
         {% for tag in documentation_tags.values() %}
           {% if tag.count > 0 and tag.display %}
           <span class="documentation-tag-{{ tag_id(tag.name) }}-label tag-label-unselected" title="{{ tag.description }}">
@@ -139,9 +139,9 @@ function toggle_tag(id) {
         {% endfor %}
       </details>
 
-      <h2 id="tutorials">Tutorials</h2>
+      <h2 id="tutorials">教程</h2>
       <details class="category">
-        <summary>Tutorials are lessons that take you by the hand through a series of steps to complete a project of some kind.</summary>
+        <summary>教程是带领你一步步完成某类项目的课程。</summary>
         <dl>
           {% for entry in documentation_lists["tutorial"] %}
           {{ render_entry(entry) }}
@@ -149,9 +149,9 @@ function toggle_tag(id) {
         </dl>
       </details>
 
-      <h2 id="how-tos">How-to guides</h2>
+      <h2 id="how-tos">操作指南</h2>
       <details class="category">
-        <summary>How-to guides take you through the steps required to solve a real-world problem.</summary>
+        <summary>操作指南带领你完成解决某个实际问题所需的步骤。</summary>
         <dl>
           {% for entry in documentation_lists["how-to"] %}
           {{ render_entry(entry) }}
@@ -159,9 +159,9 @@ function toggle_tag(id) {
         </dl>
       </details>
 
-      <h2 id="references">Reference guides</h2>
+      <h2 id="references">参考指南</h2>
       <details class="category">
-        <summary>Reference guides are complete technical descriptions of the machinery and how to operate it.</summary>
+        <summary>参考指南是对相关机制及其操作方式的完整技术描述。</summary>
         <dl>
           {% for entry in documentation_lists["reference"] %}
           {{ render_entry(entry) }}
@@ -169,9 +169,9 @@ function toggle_tag(id) {
         </dl>
       </details>
 
-      <h2 id="explanations">Explanations</h2>
+      <h2 id="explanations">阐释</h2>
       <details class="category">
-        <summary>Explanations clarify and illuminate a particular topic.</summary>
+        <summary>阐释对某个特定主题加以澄清和阐明。</summary>
         <dl>
           {% for entry in documentation_lists["explanation"] %}
           {{ render_entry(entry) }}
@@ -180,4 +180,3 @@ function toggle_tag(id) {
       </details>
 
 {% endblock %}
-

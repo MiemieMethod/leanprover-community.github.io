@@ -1,22 +1,19 @@
-# Maths in Lean: the natural numbers
+# Lean 中的数学：自然数
 
-The natural numbers begin with zero as is standard in computer
-science. You can call them `Nat` or `ℕ` (you get the latter
-symbol by typing `\N` in VS Code).
+自然数从零开始，这与计算机科学中的标准约定一致。你可以称之为
+`Nat` 或 `ℕ`（在 VS Code 中输入 `\N` 即可得到后一个符号）。
 
-The naturals are what is called an inductive type, with two
-constructors. The first is `Nat.zero`, usually written `0` or `(0 : ℕ)` in
-practice, which is zero. The other constructor is `Nat.succ`, which
-takes a natural as input and outputs the next one.
+自然数是所谓的归纳类型，具有两个构造子。第一个是 `Nat.zero`，
+在实践中通常写作 `0` 或 `(0 : ℕ)`，即零。另一个构造子是 `Nat.succ`，
+它以一个自然数作为输入，并输出下一个自然数。
 
-Addition and multiplication are defined by recursion on the second
-variable and many proofs of basic stuff in the core library are by
-induction on the second variable. The notations `+`, `-`, `*` are shorthand
-for the functions `Nat.add`, `Nat.sub` and `Nat.mul`, and other notations
-(`≤`, `<`, `|`) mean the usual things (get the "divides" symbol with `\|`).
-The `%` symbol denotes modulus (remainder after division).
+加法和乘法是对第二个变量作递归来定义的，核心库中许多基本结论的
+证明也是对第二个变量作归纳得到的。记号 `+`、`-`、`*` 是函数
+`Nat.add`、`Nat.sub` 和 `Nat.mul` 的简写，而其他记号
+（`≤`、`<`、`|`）表示通常的含义（用 `\|` 输入“整除”符号）。
+符号 `%` 表示取模（除法后的余数）。
 
-Here are some of core Lean's functions for working with `Nat`.
+下面是核心 Lean 中用于处理 `Nat` 的一些函数。
 
 ```lean
 open nat
@@ -40,9 +37,8 @@ example (m n : ℕ) : succ m ≤ succ n → m ≤ n := Nat.le_of_succ_le_succ
 example (a b: ℕ) : a < b → ∀ n, 0 < n → a ^ n < b ^ n := pow_lt_pow_of_lt_left
 ```
 
-In mathlib there are more basic functions on the naturals, for example
-factorials, lowest common multiples, primes, square roots, and some
-modular arithmetic.
+在 mathlib 中还有更多关于自然数的基本函数，例如阶乘、最小公倍数、
+素数、平方根，以及一些模运算。
 
 ```lean
 import Mathlib.Data.Nat.Dist -- distance function

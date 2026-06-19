@@ -1,3 +1,3 @@
-# Community teams
+# 社区团队
 
-Several teams of community members have designated responsibilities.
+若干由社区成员组成的团队各自承担着指定的职责。

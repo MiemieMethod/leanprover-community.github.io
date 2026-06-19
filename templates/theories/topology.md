@@ -1,52 +1,30 @@
-# Maths in Lean: Topological, uniform and metric spaces
+# Lean 中的数学：拓扑空间、一致空间与度量空间
 
-The `TopologicalSpace` typeclass is defined in mathlib,
-in `Mathlib.Topology.Defs.Basic`. There a lot of
-lines of code in `topology`,covering the basics of topological spaces, continuous functions,
-topological groups and rings, and infinite sums. These docs
-are just concerned with the contents of the `Mathlib.Topology`
-folder.
+`TopologicalSpace` 类型类定义于 mathlib 中的 `Mathlib.Topology.Defs.Basic`。`topology` 中有大量代码，涵盖了拓扑空间、连续函数、拓扑群与拓扑环以及无穷求和的基础内容。本文档仅关注 `Mathlib.Topology` 文件夹中的内容。
 
-### The basic typeclass
+### 基本类型类
 
-The `TopologicalSpace` typeclass is an inductive type, defined
-as a structure on a type `α` in the obvious way: there is an `IsOpen`
-predicate, telling us when `U : Set α` is open, and then the axioms
-for a topology (pedantic note: the axiom that the empty set is open
-is omitted, as it follows from the fact that a union of open sets
-is open, applied to the empty union!).
+`TopologicalSpace` 类型类是一个归纳类型，它以显然的方式定义为类型 `α` 上的一个结构：其中有一个 `IsOpen` 谓词，用以判断 `U : Set α` 何时为开集，随后是拓扑的诸公理（细致的说明：关于空集为开集的公理被省略了，因为它可由开集之并为开集这一事实应用于空并得出！）。
 
-Note that there are two ways of formalizing the axiom that an arbitrary
-union of open sets is open: one could either ask that given a set
-of open sets, their union is open, or one could ask that given
-a function from some index set `I` to the set of open sets, the union
-of the values of the function is open. Mathlib goes for the first
-one, so the axiom is
+注意，将任意开集之并为开集这一公理形式化有两种方式：可以要求给定一族开集，其并为开集；也可以要求给定从某指标集 `I` 到开集集合的函数，该函数取值之并为开集。Mathlib 采用了前者，因此该公理为
 
 ```lean
 isOpen_sUnion : ∀ (s : Set (set α)), (∀ t ∈ s, IsOpen t) → IsOpen (⋃₀ s)
 ```
 
-and then the index set version is a lemma:
+而指标集版本则作为一条引理：
 
 ```lean
 lemma isOpen_biUnion {f : ι → Set α} {s : Set ι} (h : ∀ i ∈ s, IsOpen (f i)) : IsOpen (⋃ i ∈ s, f i)
 ```
 
-Note the naming conventions, standard across mathlib, that `sUnion`
-is a union over sets and `biUnion` is a union over
-the image of a function on an indexing set. The capital U's are
-to indicate a union of arbitrary size, as opposed to `union`, which
-indicates a union of two sets:
+注意 mathlib 中通行的命名约定：`sUnion` 是对一族集合取并，而 `biUnion` 是对一个指标集上的函数像取并。大写的 U 用以表示任意大小的并，与 `union` 相区别，后者表示两个集合之并：
 
 ```lean
 lemma IsOpen.union (h₁ : is_open s₁) (h₂ : is_open s₂) : is_open (s₁ ∪ s₂)
 ```
 
-The predicate `IsClosed`, and functions `interior`, `closure`, and
-`frontier` (closure minus interior,
-sometimes called boundary in mathematics) are defined, and basic
-properties about them are proved. For example
+文档中定义了谓词 `IsClosed`，以及函数 `interior`、`closure` 和 `frontier`（闭包减去内部，在数学中有时称为边界），并证明了它们的基本性质。例如
 
 ```lean
 import Mathlib.Topology.Basic
@@ -72,27 +50,22 @@ example : closure Y = Y ↔ IsClosed Y := closure_eq_iff_isClosed
 example : closure Y = (interior Yᶜ)ᶜ := closure_eq_compl_interior_compl
 ```
 
-### Filters
+### 滤子
 
-In mathlib, unlike the typical approach in a mathematics textbook, extensive
-use is made of filters as a tool in the theory of topological spaces. Let
-us briefly review the notion of a filter in mathematics. A filter on a set
-`X` is a non-empty collection `F` of subsets of `X` satisfying the following
-two axioms:
+在 mathlib 中，不同于数学教科书中典型的处理方式，滤子被广泛用作拓扑空间理论中的工具。让我们简要回顾一下数学中滤子的概念。集合 `X` 上的滤子是 `X` 的子集所构成的一个非空族 `F`，满足以下两条公理：
 
-1) if `U ∈ F` and `U ⊆ V`, then `V ∈ F`; and
-2) if `U, V ∈ F` then there exists `W ∈ F` with `W ⊆ U ∩ V`.
+1) 若 `U ∈ F` 且 `U ⊆ V`，则 `V ∈ F`；以及
+2) 若 `U, V ∈ F`，则存在 `W ∈ F` 使得 `W ⊆ U ∩ V`。
 
-Informally, one can think of `F` as the set of "big" subsets of `X`. For example, if `X` is a set and `F` is the set of subsets `Y` of `X` such that `X \ Y` is finite, then `F` is a filter. This is called the _cofinite filter_ on `X`.
+非正式地说，可以将 `F` 看作 `X` 的"大"子集的集合。例如，若 `X` 是一个集合，`F` 是 `X` 的满足 `X \ Y` 有限的所有子集 `Y` 的集合，则 `F` 是一个滤子。它称为 `X` 上的_有限余滤子_（cofinite filter）。
 
-Note that if `F` is a filter that contains the empty set, then it contains all subsets of `X` by the first axiom. This filter is sometimes called "bottom" (we will see why a little later on). Some references demand that the empty set is not allowed to be in a filter -- Lean does not have this restriction. A filter not containing the empty set is sometimes called a "proper filter".
+注意，若滤子 `F` 包含空集，则由第一条公理它包含 `X` 的所有子集。这个滤子有时称为"底"（bottom，稍后我们会看到原因）。某些文献要求滤子中不允许含有空集——Lean 并无此限制。不含空集的滤子有时称为"真滤子"（proper filter）。
 
-If `X` is a topological space, and `x ∈ X`, then the _neighborhood filter_ `𝓝 x` of `x` is the set of subsets `Y` of `X` such that `x` is in the interior of `Y`. One checks easily that this is a filter (technical point: to see that this is actually the definition of `𝓝 x` in mathlib, it helps to know that the set of all filters on a type is a complete lattice, partially ordered using `F ≤ G` iff `G ⊆ F`, so the definition, which involves an inf, is actually a union; also, the definition I give is not literally the definition in mathlib, but `lemma mem_nhds_iff` says that their definition is the one here. Note also that this is why the filter with the most sets is called bottom!).
+若 `X` 是拓扑空间，且 `x ∈ X`，则 `x` 的_邻域滤子_ `𝓝 x` 是 `X` 的满足 `x` 属于 `Y` 内部的所有子集 `Y` 的集合。容易验证这是一个滤子（技术性说明：要看出这确实是 mathlib 中 `𝓝 x` 的定义，了解以下一点会有帮助：一个类型上的所有滤子构成一个完备格，其偏序为 `F ≤ G` 当且仅当 `G ⊆ F`，因此那个涉及下确界的定义实际上是一个并；此外，我这里给出的定义并非 mathlib 中字面上的定义，但 `lemma mem_nhds_iff` 表明它们的定义与此处的定义一致。还需注意，这正是为什么含集合最多的滤子被称为底！）。
 
-Why are we interested in these filters? Well, given a map `f` from `ℕ` to a topological space `X`, one can check that the resulting sequence `f 0`, `f 1`, `f 2`... tends to `x ∈ X` if and only if the pre-image of any element in the filter `𝓝 x` is in the cofinite filter on `ℕ` -- this is just another way of saying that given any open set `U` containing `x`, there exists `N` such that for all `n ≥ N`, `f n ∈ U`. So filters provide a way of thinking about limits.
+我们为何对这些滤子感兴趣？这是因为，给定从 `ℕ` 到拓扑空间 `X` 的映射 `f`，可以验证所得序列 `f 0`、`f 1`、`f 2`…… 趋于 `x ∈ X`，当且仅当滤子 `𝓝 x` 中任一元素的原像属于 `ℕ` 上的有限余滤子——这不过是以另一种方式表述：给定任意包含 `x` 的开集 `U`，存在 `N` 使得对所有 `n ≥ N` 有 `f n ∈ U`。因此滤子提供了一种思考极限的方式。
 
-As an example, below are three limits formulated in Lean.
-The example uses the filters `atTop` and `atBot` that represent "tends to `∞`" and "tends to `-∞`" in a type equipped with an order.
+作为例子，下面用 Lean 表述了三个极限。该例使用了滤子 `atTop` 和 `atBot`，它们在配有序结构的类型中表示"趋于 `∞`"和"趋于 `-∞`"。
 
 ```lean
 open Filter Topology
@@ -105,7 +78,7 @@ example : Tendsto (fun x : ℝ ↦ 1 / x) atTop (𝓝 0) := sorry
 example : Tendsto (fun x : ℝ ↦ x ^ 2) atBot atTop := sorry
 ```
 
-The _principal filter_ `Filter.principal Y` attached to a subset `Y` of a set `X` is the collection of all subsets of `X` that contain `Y`. So it's not difficult to convince yourself that the following results should be true:
+附属于集合 `X` 的子集 `Y` 的_主滤子_ `Filter.principal Y` 是 `X` 的所有包含 `Y` 的子集所构成的族。因此不难说服自己，以下结果应当成立：
 
 ```lean
 variable (X : Type) [TopologicalSpace X] (Y : Set X)
@@ -115,13 +88,9 @@ example : interior Y = {x | 𝓝 x ≤ Filter.principal Y} := interior_eq_nhds
 example : IsOpen Y ↔ ∀ y ∈ Y, Y ∈ (𝓝 y).sets := isOpen_iff_eventually
 ```
 
-### Compactness with filters
+### 用滤子刻画紧性
 
-As a consequence of the filter-centric approach, some definitions in mathlib
-look rather strange to a mathematician who is not used to this approach.
-We have already seen a definition using filters
-for what it means for a sequence to tend to a limit. The definition
-of compactness is also written in filter-theoretic terms:
+作为以滤子为核心的处理方式的一个后果，mathlib 中某些定义对于不习惯这一方式的数学家而言会显得相当奇怪。我们已经见过用滤子给出的关于序列趋于极限的定义。紧性的定义也以滤子论的术语写出：
 
 ```lean
 /-- A set `s` is compact if for every nontrivial filter `f` that contains `s`,
@@ -130,9 +99,9 @@ def IsCompact (s : Set X) :=
   ∀ ⦃f⦄ [NeBot f], f ≤ 𝓟 s → ∃ x ∈ s, ClusterPt x f
 ```
 
-Translated, this says that a subset `Y` of a topological space `X` is compact if for every proper filter `F` on `X`, if `Y` is an element of `F` then there's an element `y` of `Y` such that the smallest filter containing both F and the neighborhood filter of `y` is not the filter of all subsets of `X` either. This should be thought of as being the correct general analogue of the Bolzano-Weierstrass theorem, that in a compact subspace of `ℝ^n`, any sequence has a convergent subsequence.
+翻译过来，这是说：拓扑空间 `X` 的子集 `Y` 是紧的，如果对 `X` 上的每个真滤子 `F`，若 `Y` 是 `F` 的元素，则存在 `Y` 中的元素 `y`，使得同时包含 `F` 与 `y` 的邻域滤子的最小滤子也不是 `X` 的所有子集所构成的滤子。这应当被看作 Bolzano-Weierstrass 定理（即在 `ℝ^n` 的紧子空间中任一序列都有收敛子列）的恰当的一般类比。
 
-One might ask why this definition of compactness has been chosen, rather than the standard one about open covers having finite subcovers. The reasons for this are in some sense computer-scientific rather than mathematical -- the issue should not be what definition is ultimately chosen (indeed the developers should feel free to choose whatever definition they like as long as it is logically equivalent to the usual one, and they might have reasons related to non-mathematical points such as running times), the issue should be how to prove that the inbuilt definition is equivalent to the one you want to use in practice. And fortunately, we have
+人们或许会问，为何选择这一紧性定义，而非关于开覆盖有有限子覆盖的标准定义。其原因在某种意义上是计算机科学的而非数学的——问题不应在于最终选择何种定义（事实上，开发者尽可以选择他们喜欢的任意定义，只要它在逻辑上与通常的定义等价即可，且他们可能基于运行时间等非数学因素而有所考量），问题应在于如何证明所内置的定义与你在实践中想用的定义等价。所幸我们有
 
 ```lean
 example : IsCompact Y ↔ ∀ {ι : Type} (U : ι → Set X),
@@ -140,11 +109,11 @@ example : IsCompact Y ↔ ∀ {ι : Type} (U : ι → Set X),
     isCompact_iff_finite_subcover
 ```
 
-so the Lean definition is equivalent to the standard one.
+因此 Lean 中的定义与标准定义等价。
 
-### Hausdorff spaces
+### Hausdorff 空间
 
-In Lean they chose the terminology `T2Space` to mean Hausdorff (perhaps because it is shorter!).
+在 Lean 中，他们选用术语 `T2Space` 来表示 Hausdorff（也许是因为它更短！）。
 
 ```lean
 class T2Space (X : Type u) [TopologicalSpace X] : Prop where
@@ -152,32 +121,20 @@ class T2Space (X : Type u) [TopologicalSpace X] : Prop where
   t2 : Pairwise fun x y => ∃ u v : Set X, IsOpen u ∧ IsOpen v ∧ x ∈ u ∧ y ∈ v ∧ Disjoint u v
 ```
 
-Of course Hausdorffness is what we need to ensure that limits are unique, but because limits are defined using filters this statements ends up reading as follows:
+当然，Hausdorff 性正是确保极限唯一所需的条件，但由于极限是用滤子定义的，这一陈述最终读起来如下：
 
 ```lean
 lemma tendsto_nhds_unique [T2Space X] {f : β → X} {l : Filter β} {x y : X}
   [l.NeBot] (hx : Tendsto f l (𝓝 x)) (hb : Tendsto f l (𝓝 y)) : x = y
 ```
 
-Note that actually this statement is more general than the classical statement that if a sequence tends to two limits in a Hausdorff space then the limits are the same, because it applies to any non-trivial filter on any set rather than just the cofinite filter on the natural numbers.
+注意，这一陈述实际上比经典陈述"在 Hausdorff 空间中若一序列趋于两个极限则这两个极限相同"更为一般，因为它适用于任意集合上的任意非平凡滤子，而不仅限于自然数上的有限余滤子。
 
-### Bases for topologies.
+### 拓扑的基。
 
-If `X` is a _set_, and `S` is a collection of subsets of `X`, then one can
-consider the topology "generated by" `S`, which (as is typical in these
-situations) can be defined in two ways: firstly as the intersection
-of all the topologies on `X` containing `S` (where we are here identifying
-a topology with the underlying collection of open sets), or more constructively
-as the sets "generated by" `S` using the axioms of a topological space.
-Unsurprisingly, it is this latter definition which is used in Lean, as the
-open sets are naturally an inductive type; the open sets are called
-`generate_open S` and the topology is `generate_from S`.
+若 `X` 是一个_集合_，`S` 是 `X` 的子集所构成的一个族，则可以考虑由 `S`"生成"的拓扑，它（如在此类情形中常见的那样）可以用两种方式定义：其一是 `X` 上所有包含 `S` 的拓扑之交（这里我们将拓扑等同于其底层的开集族），其二则更具构造性，即用拓扑空间的诸公理由 `S`"生成"的集合。不出所料，Lean 中采用的正是后一种定义，因为开集自然构成一个归纳类型；这些开集称为 `generate_open S`，而该拓扑为 `generate_from S`。
 
-The definition of a basis for a topology in mathlib includes an axiom
-that the topology is generated from the basis in the sense above, which may make
-it hard to prove for an end user that a given set satisfies the definition
-directly. However again we have a theorem which reduces us to checking
-the two usual axioms for a basis:
+mathlib 中关于拓扑基的定义包含一条公理，即该拓扑按上述意义由该基生成，这可能使得终端用户难以直接证明某给定集合满足该定义。不过我们再次有一条定理，将问题归约为验证拓扑基通常的两条公理：
 
 ```lean
 example (B : Set (Set X)) (h_open : ∀ V ∈ B, IsOpen V)
@@ -186,55 +143,52 @@ IsTopologicalBasis B :=
 isTopologicalBasis_of_isOpen_of_nhds h_open h_nhds
 ```
 
-### Other things
+### 其他内容
 
-There are other things involving filters, there are separable, first-countable
-and second-countable spaces, product spaces, subspace and quotient
-topologies (and more generally pull-back and push-forward of a topology)
-and things like t1 and t3 spaces.
+还有其他涉及滤子的内容，有可分空间、第一可数空间和第二可数空间、积空间、子空间拓扑与商拓扑（以及更一般的拓扑的拉回与推前），还有诸如 t1 与 t3 空间之类的内容。
 
-## File organization
+## 文件组织
 
-The following "core" modules form a linear chain of imports. A theorem involving concepts defined in several of these files should be found in the last such file in this ordering.
+以下"核心"模块构成一条线性的导入链。涉及这几个文件中所定义概念的定理，应当在此顺序中最后那个相关文件里找到。
 
 * `Mathlib.Topology.Basic`
-  Topological spaces. Open and closed subsets, interior, closure and frontier (boundary). Neighborhood filters. Limit of a filter. Locally finite families. Continuity and continuity at a point.
+  拓扑空间。开子集与闭子集、内部、闭包与边界（frontier）。邻域滤子。滤子的极限。局部有限族。连续性与某点处的连续性。
 * `Mathlib.Topology.Order.Basic`
-  The complete lattice structure on topologies on a fixed set. Induced and coinduced topologies.
+  固定集合上的拓扑所构成的完备格结构。诱导拓扑与共诱导拓扑。
 * `maps`
-  Open and closed maps. "Inducing" maps. Embeddings, open embeddings and closed embeddings. Quotient maps.
+  开映射与闭映射。"诱导"（inducing）映射。嵌入、开嵌入与闭嵌入。商映射。
 * `Mathlib.Topology.Constructions`
-  Building new topological spaces from old ones: products, sums, subspaces and quotients.
+  由旧拓扑空间构造新拓扑空间：积、和、子空间与商。
 * `Mathlib.Topology.Separation`
-  Separation axioms T₀ through T₄, also known as Kolmogorov, Tychonoff or Fréchet, Hausdorff, regular, and normal spaces respectively.
+  分离公理 T₀ 至 T₄，分别也称为 Kolmogorov、Tychonoff 或 Fréchet、Hausdorff、正则与正规空间。
 
-Some of the remaining directories and files, in no particular order:
+其余的一些目录与文件，排列不分先后：
 
 * `Mathlib.Topology.Algebra`
-  Topological spaces with compatible algebraic or ordered structure.
+  配有相容的代数结构或序结构的拓扑空间。
 * `Mathlib.Topology.Category`
-  The categories of topological spaces, uniform spaces, etc.
+  拓扑空间、一致空间等所构成的范畴。
 * `Mathlib.Topology.Instances`
-  Specific topological spaces such as the real numbers and the complex numbers.
+  具体的拓扑空间，如实数与复数。
 * `Mathlib.Topology.MetricSpace`
-  The theory of metric spaces; but some notions one might expect to find here are instead generalized to uniform spaces.
+  度量空间理论；但其中某些人们可能预期会出现于此的概念，实际上被推广到了一致空间。
 * `Mathlib.Topology.Sheaves`
-  Presheaves on a topological space.
+  拓扑空间上的预层。
 * `Mathlib.Topology.UniformSpace`
-  The theory of uniform spaces, including notions such as completeness, uniform continuity and totally bounded sets.
+  一致空间理论，包括完备性、一致连续性与全有界集等概念。
 * `Mathlib.Topology.Bases`
-  Bases for filters and topological spaces. Separable, first countable and second countable spaces.
+  滤子与拓扑空间的基。可分空间、第一可数空间与第二可数空间。
 * `Mathlib.Topology.CompactOpen`
-  The compact-open topology on the space of continuous maps between two topological spaces.
+  两个拓扑空间之间连续映射所构成空间上的紧开拓扑。
 * `Mathlib.Topology.ContinuousOn`
-  Neighborhoods within a subset. Continuity on a subset, and continuity within a subset at a point.
+  相对于某子集的邻域。某子集上的连续性，以及某子集内某点处的连续性。
 * `Mathlib.Topology.DenseEmbedding`
-  Embeddings and other functions with dense image.
+  嵌入及其他具有稠密像的函数。
 * `Mathlib.Topology.Homeomorph`
-  Homeomorphisms between topological spaces.
+  拓扑空间之间的同胚。
 * `Mathlib.Topology.List`
-  Topologies on lists and vectors.
+  列表与向量上的拓扑。
 * `Mathlib.Topology.Sequences`
-  Sequential closure and sequential spaces. Sequentially continuous functions.
+  序列闭包与序列空间。序列连续函数。
 * `Mathlib.Topology.StoneCech`
-  The Stone-Čech compactification of a topological space.
+  拓扑空间的 Stone-Čech 紧化。

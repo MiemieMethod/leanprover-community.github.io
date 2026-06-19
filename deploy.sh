@@ -1,15 +1,19 @@
 set -e
 set -x
 
-git clone --branch master "https://$DEPLOY_GITHUB_USER:$DEPLOY_GITHUB_TOKEN@github.com/leanprover-community/leanprover-community.github.io.git" ./build
-
 ./make_site.py
+./build_pdf.py
+cp leanprover-community-zh.pdf build/
 
-if [ "$github_repo" = "leanprover-community/leanprover-community.github.io" -a "$github_ref" = "refs/heads/lean4" ]; then
-  cd build/
-  git config user.email "leanprover.community@gmail.com"
-  git config user.name "leanprover-community-bot"
+if [ "$github_ref" = "refs/heads/lean4" ]; then
+  git fetch origin gh-pages || true
+  git worktree add -B gh-pages gh-pages-worktree origin/gh-pages || git worktree add -B gh-pages gh-pages-worktree
+  find gh-pages-worktree -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+  cp -a build/. gh-pages-worktree/
+  touch gh-pages-worktree/.nojekyll
+  cd gh-pages-worktree/
+  git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+  git config user.name "github-actions[bot]"
   git add -A .
-  git diff-index HEAD
-  git diff-index --quiet HEAD || { git commit -m "deploy site from $git_hash" && git push; }
+  git diff-index --quiet HEAD || { git commit -m "Deploy Chinese documentation from $git_hash" && git push origin gh-pages; }
 fi

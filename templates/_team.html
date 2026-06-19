@@ -6,13 +6,13 @@
        {{ team.description | md }}
        </div>
 
-       <h3>Members</h3>
+       <h3>成员</h3>
        {% if team.use_biography %}
          <div class="row mt-5">
          {% for member in team.members %}
 		<div class="col-md-6">
 			<div class="media mb-3">
-				<img src="/img/{{ member.img }}" class="mr-3" alt="{{member.name}} picture" style="width: 100px; height: 100px;">
+				<img src="/img/{{ member.img }}" class="mr-3" alt="{{member.name}} 照片" style="width: 100px; height: 100px;">
 				<div class="media-body">
 					<h5 class="mt-0">{{ member.name }}</h5>
 					<p>{{ member.descr }}</p>

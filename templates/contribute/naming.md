@@ -1,34 +1,34 @@
-# Mathlib naming conventions
+# Mathlib 命名约定
 
-This guide is written for Lean 4.
+本指南针对 Lean 4 编写。
 
-## File names
+## 文件名
 
-`.lean` files in mathlib should generally be named in `UpperCamelCase`.
-A (very rare) exception are files named after some specifically lower-cased object, e.g. `lp.lean` for a file specifically about the space $\ell_p$ (and not $L^p$).
-Such exceptions should be discussed on Zulip first.
+mathlib 中的 `.lean` 文件一般应采用 `UpperCamelCased` 命名。
+一个（极为罕见的）例外是以某个特定小写对象命名的文件，例如 `lp.lean` 用于专门讨论空间 $\ell_p$（而非 $L^p$）的文件。
+此类例外应先在 Zulip 上讨论。
 
-## General conventions
+## 一般约定
 
-### Capitalization
+### 大小写
 
-Unlike Lean 3, in which the convention was that all declarations used `snake_case`,
-in mathlib under Lean 4 we use a combination of `snake_case`, `lowerCamelCase` and
-`UpperCamelCase` according to the following naming scheme.
+与 Lean 3 不同（在 Lean 3 中约定所有声明都使用 `snake_case`），
+在 Lean 4 下的 mathlib 中，我们根据以下命名方案，混合使用 `snake_case`、`lowerCamelCase` 和
+`UpperCamelCase`。
 
-1. Terms of `Prop`s (e.g. proofs, theorem names) use `snake_case`.
-2. `Prop`s and `Type`s (or `Sort`) (inductive types, structures, classes) are in `UpperCamelCase`.
-There are some rare exceptions: some fields of structures are currently wrongly lower-cased (see the example for the class `LT` below).
-3. Functions are named the same way as their return values (e.g. a function of type `A → B → C` is named as though it is a term of type `C`).
-4. All other terms of `Type`s (basically anything else) are in `lowerCamelCase`.
-5. When something named with `UpperCamelCase` is part of something named with `snake_case`, it is referenced in `lowerCamelCase`.
-6. Acronyms like `LE` are written upper-/lowercase as a group, depending on what the first character would be.
-7. Rules 1-6 apply to fields of a structure or constructors of an inductive type in the same way.
+1. `Prop` 的项（例如证明、定理名）使用 `snake_case`。
+2. `Prop` 与 `Type`（或 `Sort`）（归纳类型、结构、类）使用 `UpperCamelCase`。
+存在一些罕见的例外：某些结构的字段目前被错误地小写化了（见下面关于类 `LT` 的示例）。
+3. 函数的命名方式与其返回值相同（例如，类型为 `A → B → C` 的函数，其命名方式如同它是类型 `C` 的一个项）。
+4. 所有其他 `Type` 的项（基本上就是其余的一切）使用 `lowerCamelCase`。
+5. 当一个以 `UpperCamelCase` 命名的事物作为某个以 `snake_case` 命名的事物的一部分时，它以 `lowerCamelCase` 引用。
+6. 像 `LE` 这样的首字母缩写词作为一个整体写成全大写或全小写，取决于其首字符本应是什么。
+7. 规则 1-6 以同样的方式适用于结构的字段或归纳类型的构造子。
 
-There are some rare exceptions to preserve local naming symmetry: e.g., we use `Ne` rather than `NE` to follow the example of `Eq`; `outParam` has a `Sort` output but is not `UpperCamelCase`. Some other exceptions include intervals (`Set.Icc`, `Set.Iic`, etc.), where the `I`
-is capitalized despite the fact that it should be `lowerCamelCase` according to the convention. Any such exceptions should be discussed on Zulip.
+为保持局部命名的对称性，存在一些罕见的例外：例如，我们使用 `Ne` 而非 `NE`，以遵循 `Eq` 的范例；`outParam` 的输出是 `Sort` 但并不采用 `UpperCamelCase`。其他一些例外包括区间（`Set.Icc`、`Set.Iic` 等），其中 `I`
+被大写，尽管按照约定它本应是 `lowerCamelCase`。任何此类例外都应在 Zulip 上讨论。
 
-#### Examples
+#### 示例
 
 ```lean
 -- follows rule 2
@@ -69,36 +69,35 @@ class NeZero : Prop := sorry
 theorem neZero_iff {R : Type _} [Zero R] {n : R} : NeZero n ↔ n ≠ 0 := sorry
 ```
 
-### Spelling
+### 拼写
 
-Declaration names use American English spelling. So e.g. we use
-`factorization`, `Localization` and `FiberBundle` and not
-`factorisation`, `Localisation` or `FibreBundle`.
-Contrast this with the rule for [documentation](doc.html#language),
-which is allowed to use other common English spellings.
+声明名使用美式英语拼写。因此，例如我们使用
+`factorization`、`Localization` 和 `FiberBundle`，而不使用
+`factorisation`、`Localisation` 或 `FibreBundle`。
+这与[文档](doc.html#language)的规则形成对比，文档允许使用其他常见的英语拼写。
 
-### Names of symbols
+### 符号的名称
 
-When translating the statements of theorems into words, the following dictionary is often used.
+在将定理的陈述翻译成文字时，常使用下面的对照表。
 
-#### Logic
+#### 逻辑
 
 | symbol | shortcut | name                      | notes                                                               |
 |--------|----------|---------------------------|---------------------------------------------------------------------|
 | `∨`    | `\or`    | `or`                      |                                                                     |
 | `∧`    | `\and`   | `and`                     |                                                                     |
-| `→`    | `\r`     | `of` / `imp`              | the conclusion is stated first and the hypotheses are often omitted |
-| `↔`    | `\iff`   | `iff`                     | sometimes omitted along with the right hand side of the iff         |
+| `→`    | `\r`     | `of` / `imp`              | 结论先陈述，假设常常省略 |
+| `↔`    | `\iff`   | `iff`                     | 有时连同 iff 的右侧一并省略 |
 | `¬`    | `\n`     | `not`                     |                                                                     |
-| `∃`    | `\ex`    | `exists` / `bex`          | `bex` stands for "bounded exists"                                   |
-| `∀`    | `\fo`    | `all` / `forall` / `ball` | `ball` stands for "bounded forall"                                  |
-| `=`    |          | `eq`                      | often omitted                                                       |
+| `∃`    | `\ex`    | `exists` / `bex`          | `bex` 表示 "bounded exists"（有界存在） |
+| `∀`    | `\fo`    | `all` / `forall` / `ball` | `ball` 表示 "bounded forall"（有界全称） |
+| `=`    |          | `eq`                      | 常常省略 |
 | `≠`    | `\ne`    | `ne`                      |                                                                     |
 | `∘`    | `\o`     | `comp`                    |                                                                     |
 
-`ball` and `bex` are still used in Lean core, but should not be used in mathlib.
+`ball` 与 `bex` 仍在 Lean core 中使用，但不应在 mathlib 中使用。
 
-#### Set
+#### 集合
 
 | symbol                      | shortcut    | name                 | notes                                         |
 |-----------------------------|-------------|----------------------|-----------------------------------------------|
@@ -106,23 +105,23 @@ When translating the statements of theorems into words, the following dictionary
 | `∉`                         | `\notin`    | `notMem`             |                                               |
 | `∪`                         | `\cup`      | `union`              |                                               |
 | `∩`                         | `\cap`      | `inter`              |                                               |
-| `⋃`                         | `\bigcup`   | `iUnion` / `biUnion` | `i` for "indexed", `bi` for "bounded indexed" |
-| `⋂`                         | `\bigcap`   | `iInter` / `biInter` | `i` for "indexed", `bi` for "bounded indexed" |
-| `⋃₀`                        | `\bigcup\0` | `sUnion`             | `s` for "set"                                 |
-| `⋂₀`                        | `\bigcap\0` | `sInter`             | `s` for "set"                                 |
+| `⋃`                         | `\bigcup`   | `iUnion` / `biUnion` | `i` 表示 "indexed"（带索引），`bi` 表示 "bounded indexed"（有界带索引） |
+| `⋂`                         | `\bigcap`   | `iInter` / `biInter` | `i` 表示 "indexed"（带索引），`bi` 表示 "bounded indexed"（有界带索引） |
+| `⋃₀`                        | `\bigcup\0` | `sUnion`             | `s` 表示 "set"（集合） |
+| `⋂₀`                        | `\bigcap\0` | `sInter`             | `s` 表示 "set"（集合） |
 | `\`                         | `\\`        | `sdiff`              |                                               |
 | `ᶜ`                         | `\^c`       | `compl`              |                                               |
 | <code>{x &#124; p x}</code> |             | `setOf`              |                                               |
 | `{x}`                       |             | `singleton`          |                                               |
 | `{x, y}`                    |             | `pair`               |                                               |
 
-#### Algebra
+#### 代数
 
 | symbol | shortcut              | name          | notes                                                       |
 | ------ | --------------------- | ------------- | ----------------------------------------------------------- |
 | `0`    |                       | `zero`        |                                                             |
 | `+`    |                       | `add`         |                                                             |
-| `-`    |                       | `neg` / `sub` | `neg` for the unary function, `sub` for the binary function |
+| `-`    |                       | `neg` / `sub` | `neg` 用于一元函数，`sub` 用于二元函数 |
 | `1`    |                       | `one`         |                                                             |
 | `*`    |                       | `mul`         |                                                             |
 | `^`    |                       | `pow`         |                                                             |
@@ -134,29 +133,29 @@ When translating the statements of theorems into words, the following dictionary
 | `∑`    | `\sum`                | `sum`         |                                                             |
 | `∏`    | `\prod`               | `prod`        |                                                             |
 
-#### Lattices
+#### 格
 
 | symbol | shortcut | name                       | notes                            |
 |--------|----------|----------------------------|----------------------------------|
 | `<`    |          | `lt` / `gt`                |                                  |
 | `≤`    | `\le`    | `le` / `ge`                |                                  |
-| `⊔`    | `\sup`   | `sup`                      | a binary operator                |
-| `⊓`    | `\inf`   | `inf`                      | a binary operator                |
-| `⨆`    | `\supr`  | `iSup` / `biSup` / `ciSup` | `c` for "conditionally complete" |
-| `⨅`    | `\infi`  | `iInf` / `biInf` / `ciInf` | `c` for "conditionally complete" |
+| `⊔`    | `\sup`   | `sup`                      | 二元运算符 |
+| `⊓`    | `\inf`   | `inf`                      | 二元运算符 |
+| `⨆`    | `\supr`  | `iSup` / `biSup` / `ciSup` | `c` 表示 "conditionally complete"（条件完备） |
+| `⨅`    | `\infi`  | `iInf` / `biInf` / `ciInf` | `c` 表示 "conditionally complete"（条件完备） |
 | `⊥`    | `\bot`   | `bot`                      |                                  |
 | `⊤`    | `\top`   | `top`                      |                                  |
 
-The symbols `≤` and `<` have a special naming convention.
-In mathlib, we almost always use `≤` and `<` instead of `≥` and `>`, so we can use both `le`/`lt` and `ge`/`gt` for naming `≤` and `<`.
-There are a few reasons to use `ge`/`gt`:
+符号 `≤` 与 `<` 有一个特殊的命名约定。
+在 mathlib 中，我们几乎总是使用 `≤` 与 `<` 而非 `≥` 与 `>`，因此我们可以用 `le`/`lt` 和 `ge`/`gt` 来为 `≤` 与 `<` 命名。
+使用 `ge`/`gt` 有几个理由：
 
-1. We use `ge`/`gt` if the arguments to `≤` or `<` appear in different orders.
-  We use `le`/`lt` for the first occurrence of `≤`/`<` in the theorem name,
-  and then `ge`/`gt` indicates that the arguments are swapped.
-2. We use `ge`/`gt` to match the argument order of another relation, such as `=` or `≠`.
-3. We use `ge`/`gt` to describe the `≤` or `<` relation with its arguments swapped.
-4. We use `ge`/`gt` if the second argument to `≤` or `<` is 'more variable'.
+1. 当 `≤` 或 `<` 的参数以不同顺序出现时，我们使用 `ge`/`gt`。
+  对于定理名中第一次出现的 `≤`/`<`，我们使用 `le`/`lt`，
+  随后用 `ge`/`gt` 来表示参数被交换了。
+2. 我们使用 `ge`/`gt` 以匹配另一个关系（如 `=` 或 `≠`）的参数顺序。
+3. 我们使用 `ge`/`gt` 来描述参数被交换后的 `≤` 或 `<` 关系。
+4. 当 `≤` 或 `<` 的第二个参数“更具变动性”时，我们使用 `ge`/`gt`。
 ```lean
 -- follows rule 1
 theorem lt_iff_le_not_ge [Preorder α] {a b : α} : a < b ↔ a ≤ b ∧ ¬b ≤ a := sorry
@@ -174,9 +173,9 @@ theorem ge_trans [Preorder α] {a b : α} : b ≤ a → c ≤ b → c ≤ a := s
 theorem le_of_forall_gt [LinearOrder α] {a b : α} (H : ∀ (c : α), a < c → b < c) : b ≤ a := sorry
 ```
 
-### Coercions
+### 强制转换
 
-Coercions are named after the underlying function.
+强制转换（coercion）以其底层函数命名。
 ```lean
 -- Named after `Subtype.val`
 theorem Subtype.val_injective {p : α → Prop} : ((↑) : {a : α // p a} → α).Injective := sorry
@@ -192,26 +191,25 @@ theorem DFunLike.coe_injective {F α : Sort*} {β : α → Sort*} [DFunLike F α
 theorem SetLike.coe_injective {α β : Type*} [SetLike α β] :
     ((↑) : α → Set β).Injective := sorry
 ```
-This helps to disambiguate when types support several natural coercions,
-and is motivated by the fact that coercions are reducible.
-This wasn't the case in Lean 3, and therefore many names are wrong still.
+当类型支持多种自然的强制转换时，这有助于消歧义，
+其动机在于强制转换是可约的（reducible）。
+在 Lean 3 中并非如此，因此许多名称仍然是错误的。
 
-### Dots
+### 点号
 
-Dots are used for namespaces, and also for automatically generated names
-like recursors, eliminators and structure projections. They can also be
-introduced manually, for example, where projector notation is
-useful. Thus they are used in all of the following situations.
+点号用于命名空间，也用于自动生成的名称，
+例如递归子（recursor）、消去子（eliminator）和结构投影。它们也可以
+手动引入，例如在投影记法很有用的场合。因此，它们用于以下所有情形。
 
-Note: since `And` is a (binary function into) `Prop`, it is `UpperCamelCased`
-according to the naming conventions, and so its namespace is `And.*`.
-This may seem at odds with the dictionary `∧` --> `and` but because
-upper camel case types get lower camel cased when they appear in names
-of theorems, the dictionary is still valid in general. The same applies to
-`Or`, `Iff`, `Not`, `Eq`, `HEq`, `Ne`, etc.
+注意：由于 `And` 是一个（值为 `Prop` 的二元函数），按照命名约定它采用 `UpperCamelCase`，
+因此其命名空间为 `And.*`。
+这看起来似乎与对照表中 `∧` --> `and` 相矛盾，但因为
+大驼峰式的类型在定理名中出现时会被转为小驼峰式，
+所以该对照表整体上仍然有效。同样的情形适用于
+`Or`、`Iff`、`Not`、`Eq`、`HEq`、`Ne` 等。
 
-Intro, elim, and destruct rules for logical connectives, whether they
-are automatically generated or not:
+逻辑联结词的引入（intro）、消去（elim）和析构（destruct）规则，
+无论它们是否自动生成：
 
 - `And.intro`
 - `And.elim`
@@ -238,7 +236,7 @@ are automatically generated or not:
 - `True.intro`
 - `False.elim`
 
-Places where projection notation is useful, for example:
+投影记法有用的场合，例如：
 
 - `And.symm`
 - `Or.symm`
@@ -251,19 +249,18 @@ Places where projection notation is useful, for example:
 - `Iff.symm`
 - `Iff.refl`
 
-It is useful to use dot notation even for types which are not
-inductive types. For instance, we use:
+即使对于并非归纳类型的类型，使用点号记法也是有益的。例如，我们使用：
 
 - `LE.trans`
 - `LT.trans_le`
 - `LE.trans_lt`
 
-### Axiomatic descriptions
+### 公理化描述
 
-Some theorems are described using axiomatic names, rather than
-describing their conclusions.
+某些定理使用公理化名称来描述，而非
+描述其结论。
 
-- `def`  (for unfolding a definition)
+- `def`（用于展开定义）
 - `refl`
 - `irrefl`
 - `symm`
@@ -277,34 +274,33 @@ describing their conclusions.
 - `right_comm`
 - `mul_left_cancel`
 - `mul_right_cancel`
-- `inj`  (injective)
+- `inj`（injective，单射）
 
-### Variable conventions
+### 变量约定
 
-- `u`, `v`, `w`, ... for universes
-- `α`, `β`, `γ`, ... for generic types
-- `a`, `b`, `c`, ... for propositions
-- `x`, `y`, `z`, ... for elements of a generic type
-- `h`, `h₁`, ...     for assumptions
-- `p`, `q`, `r`, ... for predicates and relations
-- `s`, `t`, ...      for lists
-- `s`, `t`, ...      for sets
-- `m`, `n`, `k`, ... for natural numbers
-- `i`, `j`, `k`, ... for integers
+- `u`、`v`、`w`、…… 用于宇宙
+- `α`、`β`、`γ`、…… 用于一般类型
+- `a`、`b`、`c`、…… 用于命题
+- `x`、`y`、`z`、…… 用于一般类型的元素
+- `h`、`h₁`、…… 用于假设
+- `p`、`q`、`r`、…… 用于谓词和关系
+- `s`、`t`、…… 用于列表
+- `s`、`t`、…… 用于集合
+- `m`、`n`、`k`、…… 用于自然数
+- `i`、`j`、`k`、…… 用于整数
 
-Types with a mathematical content are expressed with the usual
-mathematical notation, often with an upper case letter
-(`G` for a group, `R` for a ring, `K` or `𝕜` for a field, `E` for a vector space, ...).
-This convention is not followed in older files, where greek letters are used
-for all types. Pull requests renaming type variables in these files are welcome.
+具有数学内涵的类型用通常的数学记法表示，
+常常使用大写字母
+（`G` 表示群，`R` 表示环，`K` 或 `𝕜` 表示域，`E` 表示向量空间，……）。
+在较旧的文件中并未遵循这一约定，那里所有类型都使用希腊字母。
+欢迎提交重命名这些文件中类型变量的拉取请求。
 
-## Identifiers and theorem names
+## 标识符与定理名
 
-We adopt the following naming guidelines to make it easier for users
-to guess the name of a theorem or find it using tab completion. Common
-"axiomatic" properties of an operation like conjunction or
-disjunction are put in a namespace that begins with the name of the
-operation:
+我们采用以下命名准则，以便用户
+更容易猜出定理的名称，或借助 tab 补全找到它。诸如合取或
+析取这样的运算的常见“公理化”性质，被放在以该
+运算名称开头的命名空间中：
 
 ```lean
 import Mathlib.Logic.Basic
@@ -313,8 +309,7 @@ import Mathlib.Logic.Basic
 #check Or.comm
 ```
 
-In particular, this includes `intro` and `elim` operations for logical
-connectives, and properties of relations:
+特别地，这包括逻辑联结词的 `intro` 和 `elim` 运算，以及关系的性质：
 
 ```lean
 import Mathlib.Logic.Basic
@@ -330,7 +325,7 @@ import Mathlib.Logic.Basic
 #check Eq.trans
 ```
 
-Note however we do not do this for axiomatic logical and arithmetic operations.
+然而请注意，对于公理化的逻辑和算术运算，我们并不这样做。
 
 ```lean
 import Mathlib.Algebra.Group.Basic
@@ -341,8 +336,8 @@ import Mathlib.Algebra.Group.Basic
 #check @mul_left_cancel  -- multiplication is left cancelative
 ```
 
-For the most part, however, we rely on descriptive names. Often the
-name of theorem simply describes the conclusion:
+不过在大多数情况下，我们依赖描述性名称。定理的名称
+往往直接描述其结论：
 
 ```lean
 import Mathlib.Algebra.Ring.Basic
@@ -354,8 +349,8 @@ open Nat
 #check @le_iff_lt_or_eq
 ```
 
-If only a prefix of the description is enough to convey the meaning,
-the name may be made even shorter:
+如果描述的一个前缀就足以传达含义，
+名称可以变得更短：
 
 ```lean
 import Mathlib.Algebra.Ring.Basic
@@ -364,13 +359,13 @@ import Mathlib.Algebra.Ring.Basic
 #check Nat.pred_succ
 ```
 
-When an operation is written as infix, the theorem names follow
-suit. For example, we write `neg_mul_neg` rather than `mul_neg_neg` to
-describe the pattern `-a * -b`.
+当一个运算以中缀形式书写时，定理名也随之而行。例如，
+我们写 `neg_mul_neg` 而非 `mul_neg_neg`，
+以描述模式 `-a * -b`。
 
-Sometimes, to disambiguate the name of theorem or better convey the
-intended reference, it is necessary to describe some of the
-hypotheses. The word "of" is used to separate these hypotheses:
+有时，为消除定理名称的歧义或更好地传达
+其意图，有必要描述某些
+假设。词 "of" 用于分隔这些假设：
 
 ```lean
 import Mathlib.Algebra.Order.Monoid.Lemmas
@@ -383,13 +378,12 @@ open Nat
 #check add_lt_add_of_lt_of_le
 ```
 
-The hypotheses are listed in the order they appear, _not_ reverse
-order. For example, the theorem `A → B → C` would be named
-`C_of_A_of_B`.
+这些假设按它们出现的顺序列出，_而非_ 逆序。
+例如，定理 `A → B → C` 将被命名为
+`C_of_A_of_B`。
 
-Sometimes abbreviations or alternative descriptions are easier to work
-with. For example, we use `pos`, `neg`, `nonpos`, `nonneg` rather than
-`zero_lt`, `lt_zero`, `le_zero`, and `zero_le`.
+有时缩写或替代描述更便于使用。例如，我们使用 `pos`、`neg`、`nonpos`、`nonneg` 而非
+`zero_lt`、`lt_zero`、`le_zero` 和 `zero_le`。
 
 ```lean
 import Mathlib.Algebra.Order.Monoid.Lemmas
@@ -403,13 +397,12 @@ open Nat
 #check add_lt_of_nonpos_of_lt
 ```
 
-These conventions are not perfect. They cannot distinguish compound
-expressions up to associativity, or repeated occurrences in a
-pattern. For that, we make do as best we can. For example, `a + b - b = a`
-could be named either `add_sub_self` or `add_sub_cancel`.
+这些约定并不完美。它们无法区分仅在结合性上不同的
+复合表达式，也无法区分某个模式中重复出现的部分。对此，我们只能尽力而为。例如，`a + b - b = a`
+既可命名为 `add_sub_self`，也可命名为 `add_sub_cancel`。
 
-Sometimes the word "left" or "right" is helpful to describe variants
-of a theorem.
+有时词 "left" 或 "right" 有助于描述一个定理的
+不同变体。
 
 ```lean
 import Mathlib.Algebra.Order.Monoid.Lemmas
@@ -423,12 +416,12 @@ open Nat
 #check le_of_mul_le_mul_right
 ```
 
-When referring to a namespaced definition in a lemma name not in the
-same namespace, the definition should have its namespace removed. If
-the definition name is unambiguous without its namespace, it can be
-used as is. Else, the namespace is prepended back to it in
-`lowerCamelCase`. This is to ensure that `_`-separated strings in a
-lemma name correspond to a definition name or connective.
+当在某个引理名中引用一个不在同一命名空间下的、带命名空间的定义时，
+应去掉该定义的命名空间。如果
+去掉命名空间后定义名仍无歧义，则可直接
+使用。否则，将命名空间以
+`lowerCamelCase` 形式重新加回。这是为了确保引理名中
+由 `_` 分隔的字符串对应于某个定义名或联结词。
 ```lean
 import Mathlib.Data.Int.Cast.Basic
 import Mathlib.Data.Nat.Cast.Basic
@@ -442,115 +435,111 @@ import Mathlib.Topology.Constructions
 #check Int.cast_natCast
 ```
 
-## Naming of structural lemmas
+## 结构性引理的命名
 
-We are trying to standardize certain naming patterns for structural lemmas.
+我们正力图为某些结构性引理标准化特定的命名模式。
 
-### Extensionality
+### 外延性
 
-A lemma of the form `(∀ x, f x = g x) → f = g` should be named `.ext`,
-and labelled with the `@[ext]` attribute.
-Often this type of lemma can be generated automatically by putting the
-`@[ext]` attribute on a structure.
-(However an automatically generated lemma will always be written in terms
-of the structure projections, and often there is a better statement,
-e.g. using coercions, that should be written by hand then marked with `@[ext]`.)
+形如 `(∀ x, f x = g x) → f = g` 的引理应命名为 `.ext`，
+并标注 `@[ext]` 属性。
+这类引理常常可以通过在某个结构上标注
+`@[ext]` 属性来自动生成。
+（不过，自动生成的引理总是以结构投影来表述，
+而往往存在一个更好的陈述，
+例如使用强制转换的陈述，此时应手动书写并标注 `@[ext]`。）
 
-A lemma of the form `f = g ↔ ∀ x, f x = g x` should be named `.ext_iff`.
+形如 `f = g ↔ ∀ x, f x = g x` 的引理应命名为 `.ext_iff`。
 
-### Injectivity
+### 单射性
 
-Where possible, injectivity lemmas should be written in terms of an
-`Function.Injective f` conclusion which use the full word `injective`, typically as `f_injective`.
-The form `injective_f` still appears often in mathlib.
+在可能的情况下，单射性引理应以
+`Function.Injective f` 作为结论来表述，并使用完整单词 `injective`，通常形如 `f_injective`。
+形式 `injective_f` 在 mathlib 中仍频繁出现。
 
-In addition to these, a variant should usually be provided as a bidirectional implication,
-e.g. as `f x = f y ↔ x = y`, which can be obtained from `Function.Injective.eq_iff`.
-Such lemmas should be named `f_inj`
-(although if they are in an appropriate namespace `.inj` is good too).
-Bidirectional injectivity lemmas are often good candidates for `@[simp]`.
-There are still many unidirectional implications named `inj` in mathlib,
-and it is reasonable to update and replace these as you come across them.
+除此之外，通常还应提供一个双向蕴含的变体，
+例如形如 `f x = f y ↔ x = y`，它可由 `Function.Injective.eq_iff` 得到。
+此类引理应命名为 `f_inj`
+（不过若它们位于合适的命名空间中，`.inj` 也很好）。
+双向单射性引理常常是适合标注 `@[simp]` 的候选。
+mathlib 中仍有许多名为 `inj` 的单向蕴含，
+在遇到它们时予以更新和替换是合理的。
 
-Note however that constructors for inductive types have
-automatically generated unidirectional implications, named `.inj`,
-and there is no intention to change this.
-When such an automatically generated lemma already exists,
-and a bidirectional lemma is needed, it may be named `.inj_iff`.
+不过请注意，归纳类型的构造子有
+自动生成的单向蕴含，命名为 `.inj`，
+并且无意更改这一点。
+当这样一个自动生成的引理已经存在，
+而又需要一个双向引理时，可将其命名为 `.inj_iff`。
 
-An injectivity lemma that uses "left" or "right" should refer to the
-argument that "changes". For example, a lemma with the statement
-`a - b = a - c ↔ b = c` could be called `sub_right_inj`.
+使用 "left" 或 "right" 的单射性引理应指向那个“发生变化”的
+参数。例如，陈述为
+`a - b = a - c ↔ b = c` 的引理可命名为 `sub_right_inj`。
 
-### Induction and recursion principles
+### 归纳与递归原理
 
-Induction/recursion principles are ways to construct data or proofs for all elements of some type `T`,
-by providing ways to construct this data or proof in more constrained specific contexts.
-These principles should be phrased to accept a `motive` argument,
-which declares what property we are proving or what data we are constructing for all `T`.
-When the motive eliminates into `Prop`, it is an induction principle, and the name should contain
-`induction`. On the other hand, when the motive eliminates into `Sort u` or `Type u`,
-it is a recursive principle, and the name should contain `rec` instead.
+归纳/递归原理是为某个类型 `T` 的所有元素构造数据或证明的方式，
+其途径是提供在更受约束的特定情形下构造此数据或证明的方法。
+这些原理应被表述为接受一个 `motive` 参数，
+它声明了我们要对所有 `T` 证明什么性质或构造什么数据。
+当 motive 消去到 `Prop` 时，它是一个归纳原理，名称中应包含
+`induction`。另一方面，当 motive 消去到 `Sort u` 或 `Type u` 时，
+它是一个递归原理，名称中应改为包含 `rec`。
 
-Additionally, the name should contain `on` iff in the argument order, the value comes before the constructions.
+此外，当且仅当在参数顺序中值先于构造出现时，名称中才应包含 `on`。
 
-The following table summarizes these naming conventions:
+下表概括了这些命名约定：
 
-| motive eliminates into: | `Prop`           | `Sort u` or `Type u` |
+| motive 消去到： | `Prop`           | `Sort u` 或 `Type u` |
 |-------------------------|------------------|----------------------|
-| value first             | `T.induction_on` | `T.recOn`            |
-| constructions first     | `T.induction`    | `T.rec`              |
+| 值在先             | `T.induction_on` | `T.recOn`            |
+| 构造在先     | `T.induction`    | `T.rec`              |
 
-Variation on these names are acceptable when necessary (e.g. for disambiguation).
+必要时（例如为消歧义）可对这些名称做变体。
 
-### Predicates as suffixes
+### 作为后缀的谓词
 
-Most predicates should be added as prefixes. Eg `IsClosed (Icc a b)` should be called `isClosed_Icc`, not `Icc_isClosed`.
+大多数谓词应作为前缀添加。例如 `IsClosed (Icc a b)` 应命名为 `isClosed_Icc`，而非 `Icc_isClosed`。
 
-Some widely used predicates don't follow this rule. Those are the predicates that are analogous to an atom already suffixed by the naming convention. Here is a non-exhaustive list:
-* We use `_inj` for `f a = f b ↔ a = b`, so we also use `_injective` for `Injective f`, `_surjective` for `Surjective f`, `_bijective` for `Bijective f`...
-* We use `_mono` for `a ≤ b → f a ≤ f b` and `_anti` for `a ≤ b → f b ≤ f a`, so we also use `_monotone` for `Monotone f`, `_antitone` for `Antitone f`, `_strictMono` for `StrictMono f`, `_strictAnti` for `StrictAnti f`, etc...
+某些广泛使用的谓词不遵循这一规则。它们是那些与某个已按命名约定加上后缀的原子相类似的谓词。以下是一个非穷尽的列表：
+* 我们用 `_inj` 表示 `f a = f b ↔ a = b`，因此也用 `_injective` 表示 `Injective f`、`_surjective` 表示 `Surjective f`、`_bijective` 表示 `Bijective f`……
+* 我们用 `_mono` 表示 `a ≤ b → f a ≤ f b`、`_anti` 表示 `a ≤ b → f b ≤ f a`，因此也用 `_monotone` 表示 `Monotone f`、`_antitone` 表示 `Antitone f`、`_strictMono` 表示 `StrictMono f`、`_strictAnti` 表示 `StrictAnti f` 等等……
 
-Predicates as suffixes can be preceded by either `_left` or `_right` to signify
-that a binary operation is left- or right-monotone.
-For example, `mul_left_monotone : Monotone (· * a)` proves left-monotonicity of multiplication
-and not monotonicity of left-multiplication.
+作为后缀的谓词之前可以加上 `_left` 或 `_right`，以表明
+一个二元运算是左单调或右单调的。
+例如，`mul_left_monotone : Monotone (· * a)` 证明的是乘法的左单调性，
+而非左乘的单调性。
 
-### Prop-valued classes
+### 取值为 Prop 的类
 
-Mathlib has many `Prop`-valued classes and other definitions. For example "let $R$ be a
-topological ring" is written `variable (R : Type*) [Ring R] [TopologicalSpace R] [IsTopologicalRing R]`
-and "let $G$ be a group and let $H$ be a normal subgroup" is written
-`variable (G : Type*) [Group G] (H : Subgroup G) [Normal H]`. Here `IsTopologicalRing R`
-and `Normal H` are not extra data, but are extra assumptions on data we have already.
+mathlib 有许多取值为 `Prop` 的类以及其他定义。例如“设 $R$ 为一个
+拓扑环”写作 `variable (R : Type*) [Ring R] [TopologicalSpace R] [IsTopologicalRing R]`，
+而“设 $G$ 为一个群，$H$ 为一个正规子群”写作
+`variable (G : Type*) [Group G] (H : Subgroup G) [Normal H]`。这里 `IsTopologicalRing R`
+与 `Normal H` 并非额外的数据，而是对我们已有数据所施加的额外假设。
 
-Mathlib currently strives towards the following naming convention for these `Prop`-valued
-classes. If the class is a noun then its name should begin with `Is`. If however is it an adjective
-then its name does not need to begin with an `Is`. So for example `IsNormal` would be acceptable
-for the "normal subgroup" typeclass, but `Normal` is also fine; we might say "assume the subgroup
-`H` is normal" in informal language. However `IsTopologicalRing` is
-preferred for the "topological ring" typeclass, as we do not say "assume the ring `R` is
-topological" informally.
+对于这些取值为 `Prop` 的类，mathlib 目前力图遵循以下命名约定。如果该类是一个名词，则其名称应以 `Is` 开头。然而如果它是一个形容词，则其名称无需以 `Is` 开头。例如，对于“正规子群”类型类，`IsNormal` 是可接受的，但 `Normal` 也可以；在非正式语言中我们会说“假设子群
+`H` 是正规的”。然而对于“拓扑环”类型类，`IsTopologicalRing` 更
+受青睐，因为我们在非正式语言中不会说“假设环 `R` 是
+拓扑的”。
 
-### Unexpanded and expanded forms of functions
+### 函数的未展开形式与展开形式
 
-The multiplication of two functions `f` and `g` can be denoted equivalently as
-`f * g` or `fun x ↦ f x * g x`. These expressions are definitionally equal, but not syntactically (and they don't
-share the same key in indexing trees), which means that tools like `rw`, `fun_prop` or `apply?`
-will not use a theorem with one form on an expression with the other form. Therefore, it is
-sometimes convenient to have variants of the statements using the two forms. If one needs to
-distinguish between them, statements involving the first unexpanded form are written using just `mul`,
-while statements using the second expanded form should instead use `fun_mul`. If there is no need to
-disambiguate because a lemma is given using only the expanded form, the prefix `fun_` is not required.
+两个函数 `f` 与 `g` 的乘法可以等价地记作
+`f * g` 或 `fun x ↦ f x * g x`。这两个表达式在定义上相等，但在语法上不相等（且它们在索引树中不共享同一键），这意味着诸如 `rw`、`fun_prop` 或 `apply?`
+之类的工具不会将一种形式的定理用于另一种形式的表达式。因此，
+有时同时提供使用这两种形式的陈述变体是方便的。如果需要
+区分它们，涉及第一种未展开形式的陈述仅用 `mul` 来书写，
+而使用第二种展开形式的陈述则应改用 `fun_mul`。如果由于某个引理只以展开形式给出而无需
+消歧义，则前缀 `fun_` 不是必需的。
 
-For instance, the fact that the multiplication of two continuous functions is continuous is
+例如，两个连续函数的乘法是连续的这一事实为
 ```lean
 theorem Continuous.fun_mul (hf : Continuous f) (hg : Continuous g) : Continuous fun x ↦ f x * g x
 ```
-and
+以及
 ```lean
 theorem Continuous.mul (hf : Continuous f) (hg : Continuous g) : Continuous (f * g)
 ```
-Both theorems deserve tagging with the `fun_prop` attribute.
+这两个定理都值得标注 `fun_prop` 属性。
 
-The same goes for addition, subtraction, negation, powers and compositions of functions.
+加法、减法、取负、幂以及函数的复合也是如此。

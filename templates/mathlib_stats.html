@@ -1,17 +1,17 @@
 {% extends '_base.html' %}
-{% block title %}Mathlib statistics{% endblock %}
+{% block title %}Mathlib 统计数据{% endblock %}
 
 {% block content %}
 
-<h1>Mathlib statistics</h1>
+<h1>Mathlib 统计数据</h1>
 
-<h2>Counts</h2>
+<h2>计数</h2>
 
 <table class="table table-borderless table-sm mt-4 ml-5" style="font-size: 1.25rem">
   <tr>
-    <th>Definitions</th>
-    <th>Theorems</th>
-    <th>Contributors</th>
+    <th>定义</th>
+    <th>定理</th>
+    <th>贡献者</th>
   </tr>
   <tr>
     <td>{{ num_defns }}</td>
@@ -21,29 +21,28 @@
 </table>
 <p id="stats-updated-at" class="ml-5 text-muted"></p>
 
-<h2>Code growth</h2>
+<h2>代码增长</h2>
 
 <canvas id="files_by_date"></canvas>
 
 <canvas id="lines_by_date"></canvas>
 
-<h2>Temporal distribution</h2>
+<h2>时间分布</h2>
 
 <canvas id="by_year_month"></canvas>
 
 <canvas id="by_year"></canvas>
 
-<h3>Temporal distribution of commits by type (<code>feat</code>, <code>chore</code>, etc.)</h3>
+<h3>按类型（<code>feat</code>、<code>chore</code> 等）划分的提交的时间分布</h3>
 
   <canvas id="by_labels_by_year_month"></canvas>
 
   <canvas id="by_labels_by_year"></canvas>
 
-<h2>Dependency graph</h2>
+<h2>依赖关系图</h2>
 
 <p>
-  A visualization showing how the various topics in mathlib interact and their
-  relative sizes can be found <a href="{{ base_url }}/mathlib4_docs/mathlib.html">here</a>.
+  一个展示 mathlib 中各个主题如何相互关联及其相对规模的可视化图表，可以在<a href="{{ base_url }}/mathlib4_docs/mathlib.html">此处</a>找到。
 </p>
 
 {% endblock %}
@@ -87,9 +86,9 @@
   const updatedAtEl = document.getElementById('stats-updated-at');
   if (updatedAtEl) {
     if (genDateLatest.isValid()) {
-      updatedAtEl.textContent = `Updated at: ${genDateLatest.format('YYYY-MM-DD HH:mm:ss')} UTC`;
+      updatedAtEl.textContent = `更新于：${genDateLatest.format('YYYY-MM-DD HH:mm:ss')} UTC`;
     } else {
-      updatedAtEl.textContent = 'Updated at: unavailable';
+      updatedAtEl.textContent = '更新于：不可用';
     }
   }
 
@@ -477,17 +476,17 @@
 
     // makeLineChart('lines_by_authors', 'Number of lines by author', stamps, lines_by_authors);
     // makeLineChart('commits_by_authors', 'Number of commits by author', stamps, commits_by_authors);
-    makeLineChart('files_by_date', 'Number of files', files_data.mergedTimestamps,
+    makeLineChart('files_by_date', '文件数', files_data.mergedTimestamps,
       { 'Number of files': files_data.mergedMathlib3Vals }, { 'Number of files': files_data.mergedMathlib4Vals }, true);
-    makeLineChart('lines_by_date', 'Number of lines', lines_data.mergedTimestamps,
+    makeLineChart('lines_by_date', '行数', lines_data.mergedTimestamps,
       { 'Number of lines': lines_data.mergedMathlib3Vals }, { 'Number of lines': lines_data.mergedMathlib4Vals }, true);
 
     // Temporal distribution: bar charts for "Commits by month" and "Commits by year"
     pad_data(by_year_month, by_year_month4);
     pad_data(by_year, by_year4);
 
-    makeBarChart('by_year_month', 'Commits by month', by_year_month, by_year_month4);
-    makeBarChart('by_year', 'Commits by year', by_year, by_year4);
+    makeBarChart('by_year_month', '按月统计的提交数', by_year_month, by_year_month4);
+    makeBarChart('by_year', '按年统计的提交数', by_year, by_year4);
 
     // stacked bar charts for "Commits by labels by month" and "Commits by label by year"
     const by_labels_by_year_month_merged = merge_commit_type_data(by_labels_by_year_month);
@@ -499,8 +498,8 @@
     const by_labels_by_year_month_padded = pad_labels_data(by_labels_by_year_month_merged, by_labels_by_year_month_merged4);
     const by_labels_by_year_padded = pad_labels_data(by_labels_by_year_merged, by_labels_by_year_merged4);
 
-    makeStackedBarChart('by_labels_by_year_month', 'Commits by month', by_labels_by_year_month_padded);
-    makeStackedBarChart('by_labels_by_year', 'Commits by year', by_labels_by_year_padded);
+    makeStackedBarChart('by_labels_by_year_month', '按月统计的提交数', by_labels_by_year_month_padded);
+    makeStackedBarChart('by_labels_by_year', '按年统计的提交数', by_labels_by_year_padded);
   };
 </script>
 {% endblock %}

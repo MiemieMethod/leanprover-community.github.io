@@ -1,12 +1,12 @@
-## What is a proof assistant?
+## 什么是证明助手？
 
-A *proof assistant* is a piece of software that provides a language
-for defining objects, specifying properties of these objects, 
-and proving that these specifications hold.
-The system checks that these proofs are correct down to their logical foundation.
+*证明助手*是一种软件，它提供了一种语言，
+用于定义对象、指定这些对象的性质，
+并证明这些规约成立。
+系统会一直检查这些证明的正确性，直至其逻辑基础。
 
-These tools are often used to verify the correctness of programs.
-But they can also be used for abstract mathematics,
-which is something of interest to the mathlib community.
-In a formalization, all definitions are precisely specified,
-and all proofs are virtually guaranteed to be correct.
+这些工具常被用于验证程序的正确性。
+但它们也可用于抽象数学，
+这正是 mathlib 社区所关注的内容。
+在形式化中，所有定义都被精确地指定，
+所有证明的正确性都几乎得到保证。

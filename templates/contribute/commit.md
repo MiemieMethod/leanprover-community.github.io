@@ -1,10 +1,10 @@
-# Pull request title and description conventions
+# 拉取请求标题与描述规范
 
-We are using the following convention for writing pull request titles and descriptions.
+我们采用以下规范来撰写拉取请求的标题与描述。
 
-## Format
+## 格式
 
-Note: "Title:" and "Description:" do not actually appear
+注意:"Title:" 与 "Description:" 并不会实际出现
 
 ```markdown
   Title:
@@ -18,53 +18,51 @@ Note: "Title:" and "Description:" do not actually appear
   <dependencies>
 ```
 
-`<type>` is:
+`<type>` 为:
 
- - feat (feature)
- - fix (bug fix)
- - doc (documentation)
- - style (formatting, missing semicolons, ...)
- - refactor
- - test (when adding missing tests)
- - chore (maintain)
- - perf (performance improvement, optimization, ...)
- - ci (for changes to github workflows, other automation)
+ - feat (feature,新功能)
+ - fix (bug fix,缺陷修复)
+ - doc (documentation,文档)
+ - style (formatting, missing semicolons, ...,格式调整、缺失的分号等)
+ - refactor (重构)
+ - test (when adding missing tests,补充缺失的测试时)
+ - chore (maintain,维护)
+ - perf (performance improvement, optimization, ...,性能改进、优化等)
+ - ci (for changes to github workflows, other automation,对 github workflows 及其他自动化的修改)
 
-`<optional-scope>` is a name of module or a directory which contains changed modules.
-This is not necessary to include, but may be useful if the `<subject>` is insufficient.
-The `Mathlib` directory prefix is always omitted.
-For instance, it could be
+`<optional-scope>` 是包含所修改模块的某个模块名或目录名。
+它并非必须包含,但当 `<subject>` 不足以说明时可能会有用。
+`Mathlib` 目录前缀总是省略。
+例如,它可以是
 
 - Data/Nat/Basic
 - Algebra/Group/Defs
 - Topology/Constructions
 
-`<subject>` has the following constraints:
+`<subject>` 有以下约束:
 
-- use imperative, present tense: "change" not "changed" nor "changes"
-- do not capitalize the first letter
-- no dot(.) at the end
+- 使用祈使语气、现在时态:用 "change" 而非 "changed" 或 "changes"
+- 首字母不大写
+- 结尾不加句点(.)
 
-`<body>` has the following constraints:
+`<body>` 有以下约束:
 
-- just as in ``<subject>``, use imperative, present tense
-- include motivation for the change and contrast with previous
-  behavior
+- 与 ``<subject>`` 一样,使用祈使语气、现在时态
+- 包含本次修改的动机,并与之前的行为作对比
 
-`<footer>` is optional and may contain two items:
+`<footer>` 是可选的,可能包含两项内容:
 
-- Breaking changes: All breaking changes have to be mentioned in
-  footer with the description of the change, justification and
-  migration notes
-- Referencing issues: Closed bugs should be listed on a separate line
-  in the footer prefixed with "Closes" keyword like this: Closes #123, #456
+- 破坏性变更(Breaking changes):所有破坏性变更都必须在 footer
+  中提及,并附上变更的描述、理由以及迁移说明
+- 引用 issue(Referencing issues):已关闭的缺陷应在 footer 中单独
+  成行列出,并以 "Closes" 关键字为前缀,例如:Closes #123, #456
 
-`<dependencies>` if this PR depends on others, they should be listed 
-in checkbox format, i.e., `- [ ] depends on: #XXXX`
+`<dependencies>` 如果本 PR 依赖于其他 PR,则应以复选框格式列出,
+即 `- [ ] depends on: #XXXX`
 
-## Examples
+## 示例
 
-An example where `<scope>` is not necessary might be:
+一个无需 `<scope>` 的示例可能是:
 
 ```markdown
 feat: have library search use the whole range for replacement
@@ -74,7 +72,7 @@ previously `apply? using h` would replace to `refine blah using h` rather than `
 This also changes the diagnostic message to be on the whole syntax `apply? using h` rather than just the `apply?` bit, which seems fine to me.
 ```
 
-And an example where including `<scope>` does add value:
+而一个包含 `<scope>` 确实能增加价值的示例:
 
 ```markdown
 doc(CategoryTheory/EssentialImage): typo and punctuation
@@ -82,7 +80,7 @@ doc(CategoryTheory/EssentialImage): typo and punctuation
 Fix a typo, add two periods.
 ```
 
-An example with dependent PRs:
+一个带有依赖 PR 的示例:
 
 ```markdown
 feat: the norm on `Unitization` is a C⋆-norm
