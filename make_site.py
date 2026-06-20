@@ -991,6 +991,18 @@ def render_site(target: Path, base_url: str, reloader=False, only: Optional[str]
 
     site.render(use_reloader=reloader)
 
+def github_pages_base_url() -> str:
+    site_url = os.environ.get('SITE_URL')
+    if site_url:
+        return site_url.rstrip('/') + '/'
+    repo = os.environ.get('github_repo') or os.environ.get('GITHUB_REPOSITORY')
+    if repo:
+        owner, name = repo.split('/', 1)
+        if name == f'{owner}.github.io':
+            return f'https://{name}/'
+        return f'https://{owner}.github.io/{name}/'
+    return 'https://leanprover-community.github.io/'
+
 if __name__ == '__main__':
     try:
         only = sys.argv[sys.argv.index('--only')+1]
@@ -999,5 +1011,5 @@ if __name__ == '__main__':
     if '--local' in sys.argv:
         base_url = f"file://{(Path(__file__).parent/'build').absolute()}/"
     else:
-        base_url = 'https://leanprover-community.github.io/'
+        base_url = github_pages_base_url()
     render_site(ROOT/'build', base_url, reloader='--reload' in sys.argv, only=only)
