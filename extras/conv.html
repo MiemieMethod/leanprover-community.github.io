@@ -80,7 +80,7 @@
 </div>
 
 <p>使用转换模式的第二个主要理由是在绑定子下进行重写。假设我们想证明 <code>example (fun x : ℕ ↦ 0 + x) = (fun x ↦ x)</code>。最朴素的初次尝试是进入策略模式并尝试 <code>rw [zero_add]</code>。但这会令人沮丧地失败：</p>
-<div class="codehilite"><div class="codehilite"><pre><span></span><code>tactic &#39;rewrite&#39; failed, did not find instance of the pattern in the target expression
+<div class="codehilite"><div class="codehilite"><pre><span></span><code>tactic 'rewrite' failed, did not find instance of the pattern in the target expression
   0 + ?a
 ⊢ (fun x ↦ 0 + x) = fun x ↦ x
 </code></pre></div>

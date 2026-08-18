@@ -125,7 +125,7 @@ Lean 3 的网站已被<a href="https://leanprover-community.github.io/lean3/">�
 它们仅用于“求值目的”，这会禁用
 非 <code>meta</code> 声明必须通过的某些检查。
 有了这些知识，就足以编写第一个策略了。</p>
-<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">meta</span><span class="w"> </span><span class="kd">def</span><span class="w"> </span><span class="n">my_first_tactic</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">tactic</span><span class="w"> </span><span class="n">unit</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">tactic.trace</span><span class="w"> </span><span class="s2">&quot;Hello, World.&quot;</span>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">meta</span><span class="w"> </span><span class="kd">def</span><span class="w"> </span><span class="n">my_first_tactic</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">tactic</span><span class="w"> </span><span class="n">unit</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">tactic.trace</span><span class="w"> </span><span class="s2">"Hello, World."</span>
 
 <span class="kd">example</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">true</span><span class="w"> </span><span class="o">:=</span>
 <span class="kd">begin</span>
@@ -143,17 +143,17 @@ Lean 3 的网站已被<a href="https://leanprover-community.github.io/lean3/">�
 并模拟命令式编程。我们需要使用 <code>and_then</code>
 组合子。第一种方式是使用中缀记号 <code>&gt;&gt;</code>，如下：</p>
 <div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">meta</span><span class="w"> </span><span class="kd">def</span><span class="w"> </span><span class="n">my_second_tactic</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">tactic</span><span class="w"> </span><span class="n">unit</span><span class="w"> </span><span class="o">:=</span>
-<span class="n">tactic.trace</span><span class="w"> </span><span class="s2">&quot;Hello,&quot;</span><span class="w"> </span><span class="bp">&gt;&gt;</span><span class="w"> </span><span class="n">tactic.trace</span><span class="w"> </span><span class="s2">&quot;World.&quot;</span>
+<span class="n">tactic.trace</span><span class="w"> </span><span class="s2">"Hello,"</span><span class="w"> </span><span class="bp">&gt;&gt;</span><span class="w"> </span><span class="n">tactic.trace</span><span class="w"> </span><span class="s2">"World."</span>
 </code></pre></div>
 </div>
 
 <p>现在这会分两段打印我们的消息。或者，可以使用
 <code>do</code> 语法，它还有其他好处。它引入了一个
 以逗号分隔的指令列表，按顺序依次执行。</p>
-<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">meta</span><span class="w"> </span><span class="kd">def</span><span class="w"> </span><span class="n">my_second_tactic&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">tactic</span><span class="w"> </span><span class="n">unit</span><span class="w"> </span><span class="o">:=</span>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">meta</span><span class="w"> </span><span class="kd">def</span><span class="w"> </span><span class="n">my_second_tactic'</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">tactic</span><span class="w"> </span><span class="n">unit</span><span class="w"> </span><span class="o">:=</span>
 <span class="k">do</span>
-<span class="w">  </span><span class="n">tactic.trace</span><span class="w"> </span><span class="s2">&quot;Hello,&quot;</span><span class="o">,</span>
-<span class="w">  </span><span class="n">tactic.trace</span><span class="w"> </span><span class="s2">&quot;World.&quot;</span>
+<span class="w">  </span><span class="n">tactic.trace</span><span class="w"> </span><span class="s2">"Hello,"</span><span class="o">,</span>
+<span class="w">  </span><span class="n">tactic.trace</span><span class="w"> </span><span class="s2">"World."</span>
 </code></pre></div>
 </div>
 
@@ -161,8 +161,8 @@ Lean 3 的网站已被<a href="https://leanprover-community.github.io/lean3/">�
 并可能附带一些说明。</p>
 <div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">meta</span><span class="w"> </span><span class="kd">def</span><span class="w"> </span><span class="n">my_failing_tactic</span><span class="w">  </span><span class="o">:</span><span class="w"> </span><span class="n">tactic</span><span class="w"> </span><span class="n">unit</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">tactic.failed</span>
 
-<span class="kd">meta</span><span class="w"> </span><span class="kd">def</span><span class="w"> </span><span class="n">my_failing_tactic&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">tactic</span><span class="w"> </span><span class="n">unit</span><span class="w"> </span><span class="o">:=</span>
-<span class="n">tactic.fail</span><span class="w"> </span><span class="s2">&quot;This tactic failed, we apologize for the inconvenience.&quot;</span>
+<span class="kd">meta</span><span class="w"> </span><span class="kd">def</span><span class="w"> </span><span class="n">my_failing_tactic'</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">tactic</span><span class="w"> </span><span class="n">unit</span><span class="w"> </span><span class="o">:=</span>
+<span class="n">tactic.fail</span><span class="w"> </span><span class="s2">"This tactic failed, we apologize for the inconvenience."</span>
 </code></pre></div>
 </div>
 
@@ -199,7 +199,7 @@ Lean 3 的网站已被<a href="https://leanprover-community.github.io/lean3/">�
 使用时，可以在 <code>do</code> 块中使用 <code>←</code> 进行赋值（与重写
 语法中的箭头相同）。当然，如果赋值右侧失败，这种对命令式
 变量赋值的模拟也会失败（就像上面那些失败的策略一样）。</p>
-<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">meta</span><span class="w"> </span><span class="kd">def</span><span class="w"> </span><span class="n">trace_goal&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">tactic</span><span class="w"> </span><span class="n">unit</span><span class="w"> </span><span class="o">:=</span>
+<div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">meta</span><span class="w"> </span><span class="kd">def</span><span class="w"> </span><span class="n">trace_goal'</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">tactic</span><span class="w"> </span><span class="n">unit</span><span class="w"> </span><span class="o">:=</span>
 <span class="k">do</span>
 <span class="w"> </span><span class="n">goal</span><span class="w"> </span><span class="bp">←</span><span class="w"> </span><span class="n">tactic.target</span><span class="o">,</span>
 <span class="w"> </span><span class="n">tactic.trace</span><span class="w"> </span><span class="n">goal</span>
@@ -211,7 +211,7 @@ Lean 3 的网站已被<a href="https://leanprover-community.github.io/lean3/">�
 普通的东西。下面这段代码无法工作。</p>
 <div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">meta</span><span class="w"> </span><span class="kd">def</span><span class="w"> </span><span class="n">broken_assignment</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">tactic</span><span class="w"> </span><span class="n">unit</span><span class="w"> </span><span class="o">:=</span>
 <span class="k">do</span>
-<span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="bp">←</span><span class="w"> </span><span class="s2">&quot;Hello, World.&quot;</span><span class="o">,</span><span class="w">  </span><span class="c1">-- WRONG!</span>
+<span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="bp">←</span><span class="w"> </span><span class="s2">"Hello, World."</span><span class="o">,</span><span class="w">  </span><span class="c1">-- WRONG!</span>
 <span class="w"> </span><span class="n">tactic.trace</span><span class="w"> </span><span class="n">message</span>
 </code></pre></div>
 </div>
@@ -219,7 +219,7 @@ Lean 3 的网站已被<a href="https://leanprover-community.github.io/lean3/">�
 <p>不过，可以在 <code>do</code> 块中使用 <code>let</code>，如下：</p>
 <div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">meta</span><span class="w"> </span><span class="kd">def</span><span class="w"> </span><span class="n">let_example</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">tactic</span><span class="w"> </span><span class="n">unit</span><span class="w"> </span><span class="o">:=</span>
 <span class="k">do</span>
-<span class="w"> </span><span class="k">let</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s2">&quot;Hello, World.&quot;</span><span class="o">,</span>
+<span class="w"> </span><span class="k">let</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s2">"Hello, World."</span><span class="o">,</span>
 <span class="w"> </span><span class="n">tactic.trace</span><span class="w"> </span><span class="n">message</span>
 </code></pre></div>
 </div>
@@ -246,8 +246,8 @@ Lean 3 的网站已被<a href="https://leanprover-community.github.io/lean3/">�
 <div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">meta</span><span class="w"> </span><span class="kd">def</span><span class="w"> </span><span class="n">trace_goal_is_eq</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">tactic</span><span class="w"> </span><span class="n">unit</span><span class="w"> </span><span class="o">:=</span>
 <span class="k">do</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="bp">←</span><span class="w"> </span><span class="n">tactic.target</span><span class="o">,</span>
 <span class="w">   </span><span class="k">match</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="k">with</span>
-<span class="w">   </span><span class="bp">|</span><span class="w"> </span><span class="bp">`</span><span class="o">(</span><span class="bp">%%</span><span class="n">l</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="bp">%%</span><span class="n">r</span><span class="o">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">tactic.trace</span><span class="w"> </span><span class="bp">$</span><span class="w"> </span><span class="s2">&quot;Goal is equality between &quot;</span><span class="w"> </span><span class="bp">++</span><span class="w"> </span><span class="o">(</span><span class="n">to_string</span><span class="w"> </span><span class="n">l</span><span class="o">)</span><span class="w"> </span><span class="bp">++</span><span class="w"> </span><span class="s2">&quot; and &quot;</span><span class="w"> </span><span class="bp">++</span><span class="w"> </span><span class="o">(</span><span class="n">to_string</span><span class="w"> </span><span class="n">r</span><span class="o">)</span>
-<span class="w">   </span><span class="bp">|</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">tactic.trace</span><span class="w"> </span><span class="s2">&quot;Goal is not an equality&quot;</span>
+<span class="w">   </span><span class="bp">|</span><span class="w"> </span><span class="bp">`</span><span class="o">(</span><span class="bp">%%</span><span class="n">l</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="bp">%%</span><span class="n">r</span><span class="o">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">tactic.trace</span><span class="w"> </span><span class="bp">$</span><span class="w"> </span><span class="s2">"Goal is equality between "</span><span class="w"> </span><span class="bp">++</span><span class="w"> </span><span class="o">(</span><span class="n">to_string</span><span class="w"> </span><span class="n">l</span><span class="o">)</span><span class="w"> </span><span class="bp">++</span><span class="w"> </span><span class="s2">" and "</span><span class="w"> </span><span class="bp">++</span><span class="w"> </span><span class="o">(</span><span class="n">to_string</span><span class="w"> </span><span class="n">r</span><span class="o">)</span>
+<span class="w">   </span><span class="bp">|</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">tactic.trace</span><span class="w"> </span><span class="s2">"Goal is not an equality"</span>
 <span class="w">   </span><span class="kd">end</span>
 </code></pre></div>
 </div>
@@ -256,8 +256,8 @@ Lean 3 的网站已被<a href="https://leanprover-community.github.io/lean3/">�
 其中只有在模式匹配成功时执行才会继续到 <code>do</code> 块的下一行，否则
 执行 <code>|</code> 之后的表达式：</p>
 <div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">meta</span><span class="w"> </span><span class="kd">def</span><span class="w"> </span><span class="n">trace_goal_is_eq</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">tactic</span><span class="w"> </span><span class="n">unit</span><span class="w"> </span><span class="o">:=</span>
-<span class="k">do</span><span class="w"> </span><span class="bp">`</span><span class="o">(</span><span class="bp">%%</span><span class="n">l</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="bp">%%</span><span class="n">r</span><span class="o">)</span><span class="w"> </span><span class="bp">←</span><span class="w"> </span><span class="n">tactic.target</span><span class="w"> </span><span class="bp">|</span><span class="w"> </span><span class="n">tactic.trace</span><span class="w"> </span><span class="s2">&quot;Goal is not an equality&quot;</span><span class="o">,</span>
-<span class="w">   </span><span class="n">tactic.trace</span><span class="w"> </span><span class="bp">$</span><span class="w"> </span><span class="s2">&quot;Goal is equality between &quot;</span><span class="w"> </span><span class="bp">++</span><span class="w"> </span><span class="o">(</span><span class="n">to_string</span><span class="w"> </span><span class="n">l</span><span class="o">)</span><span class="w"> </span><span class="bp">++</span><span class="w"> </span><span class="s2">&quot; and &quot;</span><span class="w"> </span><span class="bp">++</span><span class="w"> </span><span class="o">(</span><span class="n">to_string</span><span class="w"> </span><span class="n">r</span><span class="o">)</span>
+<span class="k">do</span><span class="w"> </span><span class="bp">`</span><span class="o">(</span><span class="bp">%%</span><span class="n">l</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="bp">%%</span><span class="n">r</span><span class="o">)</span><span class="w"> </span><span class="bp">←</span><span class="w"> </span><span class="n">tactic.target</span><span class="w"> </span><span class="bp">|</span><span class="w"> </span><span class="n">tactic.trace</span><span class="w"> </span><span class="s2">"Goal is not an equality"</span><span class="o">,</span>
+<span class="w">   </span><span class="n">tactic.trace</span><span class="w"> </span><span class="bp">$</span><span class="w"> </span><span class="s2">"Goal is equality between "</span><span class="w"> </span><span class="bp">++</span><span class="w"> </span><span class="o">(</span><span class="n">to_string</span><span class="w"> </span><span class="n">l</span><span class="o">)</span><span class="w"> </span><span class="bp">++</span><span class="w"> </span><span class="s2">" and "</span><span class="w"> </span><span class="bp">++</span><span class="w"> </span><span class="o">(</span><span class="n">to_string</span><span class="w"> </span><span class="n">r</span><span class="o">)</span>
 </code></pre></div>
 </div>
 
@@ -266,9 +266,9 @@ Lean 3 的网站已被<a href="https://leanprover-community.github.io/lean3/">�
 这样做会比前面捕获更多类型的失败：</p>
 <div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">meta</span><span class="w"> </span><span class="kd">def</span><span class="w"> </span><span class="n">trace_goal_is_eq</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">tactic</span><span class="w"> </span><span class="n">unit</span><span class="w"> </span><span class="o">:=</span>
 <span class="o">(</span><span class="k">do</span><span class="w">  </span><span class="bp">`</span><span class="o">(</span><span class="bp">%%</span><span class="n">l</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="bp">%%</span><span class="n">r</span><span class="o">)</span><span class="w"> </span><span class="bp">←</span><span class="w"> </span><span class="n">tactic.target</span><span class="o">,</span>
-<span class="w">     </span><span class="n">tactic.trace</span><span class="w"> </span><span class="bp">$</span><span class="w"> </span><span class="s2">&quot;Goal is equality between &quot;</span><span class="w"> </span><span class="bp">++</span><span class="w"> </span><span class="o">(</span><span class="n">to_string</span><span class="w"> </span><span class="n">l</span><span class="o">)</span><span class="w"> </span><span class="bp">++</span><span class="w"> </span><span class="s2">&quot; and &quot;</span><span class="w"> </span><span class="bp">++</span><span class="w"> </span><span class="o">(</span><span class="n">to_string</span><span class="w"> </span><span class="n">r</span><span class="o">),</span>
+<span class="w">     </span><span class="n">tactic.trace</span><span class="w"> </span><span class="bp">$</span><span class="w"> </span><span class="s2">"Goal is equality between "</span><span class="w"> </span><span class="bp">++</span><span class="w"> </span><span class="o">(</span><span class="n">to_string</span><span class="w"> </span><span class="n">l</span><span class="o">)</span><span class="w"> </span><span class="bp">++</span><span class="w"> </span><span class="s2">" and "</span><span class="w"> </span><span class="bp">++</span><span class="w"> </span><span class="o">(</span><span class="n">to_string</span><span class="w"> </span><span class="n">r</span><span class="o">),</span>
 <span class="w">     </span><span class="n">some_other_tactic</span><span class="o">)</span>
-<span class="w">   </span><span class="bp">&lt;|&gt;</span><span class="w"> </span><span class="n">tactic.trace</span><span class="w"> </span><span class="s2">&quot;Goal is not an equality, or `some_other_tactic` failed&quot;</span>
+<span class="w">   </span><span class="bp">&lt;|&gt;</span><span class="w"> </span><span class="n">tactic.trace</span><span class="w"> </span><span class="s2">"Goal is not an equality, or `some_other_tactic` failed"</span>
 </code></pre></div>
 </div>
 
@@ -276,8 +276,8 @@ Lean 3 的网站已被<a href="https://leanprover-community.github.io/lean3/">�
 花括号，它允许界定一个 <code>do</code> 块，如下：</p>
 <div class="codehilite"><div class="codehilite"><pre><span></span><code><span class="kd">meta</span><span class="w"> </span><span class="kd">def</span><span class="w"> </span><span class="n">trace_goal_is_eq</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">tactic</span><span class="w"> </span><span class="n">unit</span><span class="w"> </span><span class="o">:=</span>
 <span class="k">do</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="bp">`</span><span class="o">(</span><span class="bp">%%</span><span class="n">l</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="bp">%%</span><span class="n">r</span><span class="o">)</span><span class="w"> </span><span class="bp">←</span><span class="w"> </span><span class="n">tactic.target</span><span class="o">,</span>
-<span class="w">     </span><span class="n">tactic.trace</span><span class="w"> </span><span class="bp">$</span><span class="w"> </span><span class="s2">&quot;Goal is equality between &quot;</span><span class="w"> </span><span class="bp">++</span><span class="w"> </span><span class="o">(</span><span class="n">to_string</span><span class="w"> </span><span class="n">l</span><span class="o">)</span><span class="w"> </span><span class="bp">++</span><span class="w"> </span><span class="s2">&quot; and &quot;</span><span class="w"> </span><span class="bp">++</span><span class="w"> </span><span class="o">(</span><span class="n">to_string</span><span class="w"> </span><span class="n">r</span><span class="o">)</span><span class="w"> </span><span class="o">}</span>
-<span class="w">   </span><span class="bp">&lt;|&gt;</span><span class="w"> </span><span class="n">tactic.trace</span><span class="w"> </span><span class="s2">&quot;Goal is not an equality&quot;</span>
+<span class="w">     </span><span class="n">tactic.trace</span><span class="w"> </span><span class="bp">$</span><span class="w"> </span><span class="s2">"Goal is equality between "</span><span class="w"> </span><span class="bp">++</span><span class="w"> </span><span class="o">(</span><span class="n">to_string</span><span class="w"> </span><span class="n">l</span><span class="o">)</span><span class="w"> </span><span class="bp">++</span><span class="w"> </span><span class="s2">" and "</span><span class="w"> </span><span class="bp">++</span><span class="w"> </span><span class="o">(</span><span class="n">to_string</span><span class="w"> </span><span class="n">r</span><span class="o">)</span><span class="w"> </span><span class="o">}</span>
+<span class="w">   </span><span class="bp">&lt;|&gt;</span><span class="w"> </span><span class="n">tactic.trace</span><span class="w"> </span><span class="s2">"Goal is not an equality"</span>
 </code></pre></div>
 </div>
 
@@ -327,7 +327,7 @@ assumption 策略的第一部分是一个辅助函数，它在一个
 <span class="k">do</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="n">ctx</span><span class="w"> </span><span class="bp">←</span><span class="w"> </span><span class="n">tactic.local_context</span><span class="o">,</span>
 <span class="w">     </span><span class="n">t</span><span class="w">   </span><span class="bp">←</span><span class="w"> </span><span class="n">tactic.target</span><span class="o">,</span>
 <span class="w">     </span><span class="n">find_matching_type</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="n">ctx</span><span class="w"> </span><span class="bp">&gt;&gt;=</span><span class="w"> </span><span class="n">tactic.exact</span><span class="w"> </span><span class="o">}</span>
-<span class="bp">&lt;|&gt;</span><span class="w"> </span><span class="n">tactic.fail</span><span class="w"> </span><span class="s2">&quot;my_assumption tactic failed&quot;</span>
+<span class="bp">&lt;|&gt;</span><span class="w"> </span><span class="n">tactic.fail</span><span class="w"> </span><span class="s2">"my_assumption tactic failed"</span>
 </code></pre></div>
 </div>
 
@@ -590,7 +590,7 @@ See <a href="https://github.com/leanprover-community/lean/blob/master/library/in
 <span class="bp">*</span><span class="w"> </span><span class="ss">`pure</span><span class="bp">`：等同于</span><span class="w"> </span><span class="ss">`return</span><span class="bp">`。同样是历史原因。</span>
 <span class="bp">*</span><span class="w"> </span><span class="ss">`failure</span><span class="bp">`：失败值（具体的单子通常有更有用的形式，例如策略的</span><span class="w"> </span><span class="ss">`fail</span><span class="bp">`</span><span class="w"> </span><span class="bp">和</span>
 <span class="w">  </span><span class="ss">`failed</span><span class="bp">`）。</span>
-<span class="bp">*</span><span class="w"> </span><span class="ss">`ma</span><span class="w"> </span><span class="bp">&lt;|&gt;</span><span class="w"> </span><span class="n">ma&#39;</span><span class="bp">`</span><span class="w"> </span><span class="bp">从失败中恢复：运行</span><span class="w"> </span><span class="ss">`ma</span><span class="bp">`，如果它失败则运行</span><span class="w"> </span><span class="ss">`ma&#39;</span><span class="bp">`。</span>
+<span class="bp">*</span><span class="w"> </span><span class="ss">`ma</span><span class="w"> </span><span class="bp">&lt;|&gt;</span><span class="w"> </span><span class="n">ma'</span><span class="bp">`</span><span class="w"> </span><span class="bp">从失败中恢复：运行</span><span class="w"> </span><span class="ss">`ma</span><span class="bp">`，如果它失败则运行</span><span class="w"> </span><span class="ss">`ma'</span><span class="bp">`。</span>
 <span class="bp">*</span><span class="w"> </span><span class="ss">`a</span><span class="w"> </span><span class="bp">$&gt;</span><span class="w"> </span><span class="n">mb</span><span class="bp">`：等同于</span><span class="w"> </span><span class="ss">`do</span><span class="w"> </span><span class="n">mb</span><span class="o">,</span><span class="w"> </span><span class="n">return</span><span class="w"> </span><span class="n">a</span><span class="bp">`</span>
 <span class="bp">*</span><span class="w"> </span><span class="ss">`ma</span><span class="w"> </span><span class="bp">&lt;$</span><span class="w"> </span><span class="n">b</span><span class="bp">`：等同于</span><span class="w"> </span><span class="ss">`do</span><span class="w"> </span><span class="n">ma</span><span class="o">,</span><span class="w"> </span><span class="n">return</span><span class="w"> </span><span class="n">b</span><span class="bp">`</span>
 </code></pre></div>
